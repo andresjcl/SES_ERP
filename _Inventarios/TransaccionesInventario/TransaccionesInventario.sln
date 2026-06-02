@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RepTransaccionesInventario", "RepTransaccionesInventario.vbproj", "{9D9B17BB-6D1C-4CB1-9A4E-4FC0530B78E8}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RepMaxiMini", "..\RepMaxMinimos\RepMaxiMini.vbproj", "{0EA2BBFD-1646-4EC6-ABCF-9257598A0ECA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D9B17BB-6D1C-4CB1-9A4E-4FC0530B78E8}.Debug|x86.ActiveCfg = Debug|x86
+		{9D9B17BB-6D1C-4CB1-9A4E-4FC0530B78E8}.Debug|x86.Build.0 = Debug|x86
+		{9D9B17BB-6D1C-4CB1-9A4E-4FC0530B78E8}.Release|x86.ActiveCfg = Release|x86
+		{9D9B17BB-6D1C-4CB1-9A4E-4FC0530B78E8}.Release|x86.Build.0 = Release|x86
+		{0EA2BBFD-1646-4EC6-ABCF-9257598A0ECA}.Debug|x86.ActiveCfg = Debug|x86
+		{0EA2BBFD-1646-4EC6-ABCF-9257598A0ECA}.Debug|x86.Build.0 = Debug|x86
+		{0EA2BBFD-1646-4EC6-ABCF-9257598A0ECA}.Release|x86.ActiveCfg = Release|x86
+		{0EA2BBFD-1646-4EC6-ABCF-9257598A0ECA}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

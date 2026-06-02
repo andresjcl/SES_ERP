@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2C194AE3-4116-4A13-ACD4-7ED644841FB4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DaxEnvDocElec</RootNamespace>
+    <AssemblyName>DaxEnvDocElec</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adcFeutil, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DesarrolloAdcomDx_11\Librerias\adcFeutil.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxEnvMail">
+      <HintPath>..\..\EnlaceAdcomDax\DaxEnvMail.dll</HintPath>
+    </Reference>
+    <Reference Include="generaDocPdf, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DesarrolloAdcomDx_11\Librerias\generaDocPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="registraEvntos">
+      <HintPath>..\..\EnlaceAdcomDax\registraEvntos.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="conexionDatos.cs" />
+    <Compile Include="frmEvioDocElectr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEvioDocElectr.Designer.cs">
+      <DependentUpon>frmEvioDocElectr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Procesos.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DesarrolloAdcomDx_11\__ClasesBasesDatos\adcClassDoc\ClassDoc\ClassDoc.csproj">
+      <Project>{5a5b64a4-7f44-4d1f-b986-f749c3eebdfd}</Project>
+      <Name>ClassDoc</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ClaseDatosEmpresa\SysEmpDat\SysEmpDat.csproj">
+      <Project>{fc9ab375-cc2d-4558-9d97-1bad9907e13c}</Project>
+      <Name>SysEmpDat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DaxValDocEle\DaxValDocEle.csproj">
+      <Project>{e7a7fc78-9568-4ae6-b4cc-0228305d0dfa}</Project>
+      <Name>DaxValDocEle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\enviarDocumentoSri\enviarDocumentoSri.csproj">
+      <Project>{9d25fbc7-46b1-43df-9c66-071f115857dc}</Project>
+      <Name>enviarDocumentoSri</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\firmaElectronica\AdcFirelec.csproj">
+      <Project>{a3491fc8-d7c6-4f00-9a61-e24daec2e7dc}</Project>
+      <Name>AdcFirelec</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeneralXML\AdcGenxml.csproj">
+      <Project>{85b3a1c7-8c52-494c-8ae6-6fd093c3c897}</Project>
+      <Name>AdcGenxml</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmEvioDocElectr.resx">
+      <DependentUpon>frmEvioDocElectr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

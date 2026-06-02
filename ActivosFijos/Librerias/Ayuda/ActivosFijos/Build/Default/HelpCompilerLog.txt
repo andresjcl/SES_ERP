@@ -1,0 +1,127 @@
+-- Compile started at lunes, 18 de octubre de 2010 11:24:49
+Microsoft HTML Help Compiler 4.74.8702
+
+Compiling f:\DesarrolloNET\Ayuda\ActivosFijos\Build\ActivosFijos.chm
+
+images\collapse.gif
+images\copycode.gif
+images\copycodeHighlight.gif
+images\drpdown.gif
+images\drpdown_orange.gif
+images\expand.gif
+images\gradient.gif
+images\toolbar\addtofavorites.gif
+images\toolbar\addtofavoriteshot.gif
+images\toolbar\deletesm.gif
+images\toolbar\favorites.gif
+images\toolbar\favoriteshot.gif
+images\toolbar\index.gif
+images\toolbar\indexhot.gif
+images\toolbar\navback.gif
+images\toolbar\navbackhot.gif
+images\toolbar\navforward.gif
+images\toolbar\navforwardhot.gif
+images\toolbar\navhome.gif
+images\toolbar\navhomehot.gif
+images\toolbar\navrefresh.gif
+images\toolbar\navrefreshhot.gif
+images\toolbar\print.gif
+images\toolbar\printhot.gif
+images\toolbar\resetsearch.gif
+images\toolbar\resetsearchhot.gif
+images\toolbar\search.gif
+images\toolbar\searchhot.gif
+images\toolbar\seperator.gif
+images\toolbar\tabfavorites.gif
+images\toolbar\tabindex.gif
+images\toolbar\tabsearch.gif
+images\toolbar\tabtoc.gif
+images\toolbar\toc.gif
+images\toolbar\tochot.gif
+images\toolbar\togglenav.gif
+images\toolbar\togglenavhot.gif
+script\fts.js
+script\helpstudio.js
+script\languagefilter.js
+script\webfavorites.js
+script\webhighlight.js
+script\webindex.js
+script\webnav.js
+script\webutility.js
+stylesheets\help2.css
+stylesheets\helpstudio.css
+stylesheets\languagefilter.css
+stylesheets\webnav.css
+_index_entry_not_found.html
+_topic_not_found.html
+HHC3004: Warning: ActivosFijos.html : The HTML tag "?xml:namespace prefix = o ns = "urn:schemas-micros..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+ActivosFijos.html
+EsatdosFinancieros.html
+HHC3004: Warning: ManetnimientoMovimientos.html : The HTML tag "?xml:namespace prefix = o /" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: ManetnimientoMovimientos.html : The HTML tag "?xml:namespace prefix = o ns = "urn:schemas-micros..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+ManetnimientoMovimientos.html
+HHC3004: Warning: MantenimientoActivos.html : The HTML tag "?xml:namespace prefix = o ns = "urn:schemas-micros..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+MantenimientoActivos.html
+MantenimientoMovimientos.html
+Notas.html
+Notas2.html
+RevalorizacionDeterioro.html
+glossary.html
+stopwordlist.txt
+stylesheets\customstyles.css
+images\ScreenCap1.png
+images\ScreenCap.png
+images\ScreenCap2.png
+images\ScreenCap3.png
+images\ScreenCap4.png
+images\ScreenCap5.png
+images\ScreenCap6.png
+images\ScreenCap7.png
+images\ScreenCap8.png
+images\ScreenCap9.png
+images\ScreenCap10.png
+images\ScreenCap11.png
+images\ScreenCap12.png
+images\ScreenCap13.png
+images\ScreenCap14.png
+images\ScreenCap15.png
+images\ScreenCap16.png
+images\ScreenCap17.png
+images\ScreenCap18.png
+images\ScreenCap19.png
+images\ScreenCap20.png
+images\ScreenCap21.png
+images\ScreenCap22.png
+images\ScreenCap23.png
+images\ScreenCap24.png
+images\ScreenCap25.png
+images\ScreenCap28.png
+images\ScreenCap29.png
+images\ScreenCap26.png
+images\ScreenCap27.png
+images\ScreenCap30.png
+images\ScreenCap31.png
+images\ScreenCap32.png
+images\ScreenCap33.png
+script\hs-enlargeimage.js
+images\hs-enlarge.gif
+images\hs-shrink.gif
+images\ScreenCap34.png
+images\ScreenCap34_thumb.png
+images\ScreenCap35.png
+images\ScreenCap35_thumb.png
+images\ScreenCap36.png
+images\ScreenCap36_thumb.png
+ActivosFijos.hhc
+ActivosFijos.hhk
+
+Compile time: 0 minutes, 3 seconds
+19	Topics
+42	Local links
+0	Internet links
+0	Graphics
+
+
+Created f:\DesarrolloNET\Ayuda\ActivosFijos\Build\ActivosFijos.chm, 1,314,911 bytes
+Compression decreased file by 202,072 bytes.
+

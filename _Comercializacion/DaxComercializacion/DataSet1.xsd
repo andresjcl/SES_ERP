@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BdAdcomDx14ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BdAdcomDx14ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.comercP.Properties.Settings.GlobalReference.Default.BdAdcomDx14ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ArticulosGruposTableAdapter" GeneratorDataComponentClassName="ArticulosGruposTableAdapter" Name="ArticulosGrupos" UserDataComponentName="ArticulosGruposTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BdAdcomDx14ConnectionString (Settings)" DbObjectName="BdAdcomDx14.dbo.ArticulosGrupos" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Codigo, nombre, NomCategoria, NomCLase, NomGrupo, Art_precvta1, Art_precvta1_inc, Art_precvta2, Art_precvta2_inc, Art_precvta3, Art_precvta3_inc, Art_precvta4, Art_precvta4_inc, Art_precvta5, Art_precvta5_inc, Art_descuen, art_limDescuento FROM dbo.ArticulosGrupos</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Codigo" DataSetColumn="Codigo" />
+              <Mapping SourceColumn="nombre" DataSetColumn="nombre" />
+              <Mapping SourceColumn="NomCategoria" DataSetColumn="NomCategoria" />
+              <Mapping SourceColumn="NomCLase" DataSetColumn="NomCLase" />
+              <Mapping SourceColumn="NomGrupo" DataSetColumn="NomGrupo" />
+              <Mapping SourceColumn="Art_precvta1" DataSetColumn="Art_precvta1" />
+              <Mapping SourceColumn="Art_precvta1_inc" DataSetColumn="Art_precvta1_inc" />
+              <Mapping SourceColumn="Art_precvta2" DataSetColumn="Art_precvta2" />
+              <Mapping SourceColumn="Art_precvta2_inc" DataSetColumn="Art_precvta2_inc" />
+              <Mapping SourceColumn="Art_precvta3" DataSetColumn="Art_precvta3" />
+              <Mapping SourceColumn="Art_precvta3_inc" DataSetColumn="Art_precvta3_inc" />
+              <Mapping SourceColumn="Art_precvta4" DataSetColumn="Art_precvta4" />
+              <Mapping SourceColumn="Art_precvta4_inc" DataSetColumn="Art_precvta4_inc" />
+              <Mapping SourceColumn="Art_precvta5" DataSetColumn="Art_precvta5" />
+              <Mapping SourceColumn="Art_precvta5_inc" DataSetColumn="Art_precvta5_inc" />
+              <Mapping SourceColumn="Art_descuen" DataSetColumn="Art_descuen" />
+              <Mapping SourceColumn="art_limDescuento" DataSetColumn="art_limDescuento" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ArticulosGrupos" msprop:Generator_TableClassName="ArticulosGruposDataTable" msprop:Generator_TableVarName="tableArticulosGrupos" msprop:Generator_TablePropName="ArticulosGrupos" msprop:Generator_RowDeletingName="ArticulosGruposRowDeleting" msprop:Generator_RowChangingName="ArticulosGruposRowChanging" msprop:Generator_RowEvHandlerName="ArticulosGruposRowChangeEventHandler" msprop:Generator_RowDeletedName="ArticulosGruposRowDeleted" msprop:Generator_UserTableName="ArticulosGrupos" msprop:Generator_RowChangedName="ArticulosGruposRowChanged" msprop:Generator_RowEvArgName="ArticulosGruposRowChangeEvent" msprop:Generator_RowClassName="ArticulosGruposRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Codigo" msprop:Generator_ColumnVarNameInTable="columnCodigo" msprop:Generator_ColumnPropNameInRow="Codigo" msprop:Generator_ColumnPropNameInTable="CodigoColumn" msprop:Generator_UserColumnName="Codigo">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="nombre" msprop:Generator_ColumnVarNameInTable="columnnombre" msprop:Generator_ColumnPropNameInRow="nombre" msprop:Generator_ColumnPropNameInTable="nombreColumn" msprop:Generator_UserColumnName="nombre" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="128" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NomCategoria" msprop:Generator_ColumnVarNameInTable="columnNomCategoria" msprop:Generator_ColumnPropNameInRow="NomCategoria" msprop:Generator_ColumnPropNameInTable="NomCategoriaColumn" msprop:Generator_UserColumnName="NomCategoria" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NomCLase" msprop:Generator_ColumnVarNameInTable="columnNomCLase" msprop:Generator_ColumnPropNameInRow="NomCLase" msprop:Generator_ColumnPropNameInTable="NomCLaseColumn" msprop:Generator_UserColumnName="NomCLase" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NomGrupo" msprop:Generator_ColumnVarNameInTable="columnNomGrupo" msprop:Generator_ColumnPropNameInRow="NomGrupo" msprop:Generator_ColumnPropNameInTable="NomGrupoColumn" msprop:Generator_UserColumnName="NomGrupo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Art_precvta1" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta1" msprop:Generator_ColumnPropNameInRow="Art_precvta1" msprop:Generator_ColumnPropNameInTable="Art_precvta1Column" msprop:Generator_UserColumnName="Art_precvta1" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta1_inc" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta1_inc" msprop:Generator_ColumnPropNameInRow="Art_precvta1_inc" msprop:Generator_ColumnPropNameInTable="Art_precvta1_incColumn" msprop:Generator_UserColumnName="Art_precvta1_inc" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta2" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta2" msprop:Generator_ColumnPropNameInRow="Art_precvta2" msprop:Generator_ColumnPropNameInTable="Art_precvta2Column" msprop:Generator_UserColumnName="Art_precvta2" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta2_inc" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta2_inc" msprop:Generator_ColumnPropNameInRow="Art_precvta2_inc" msprop:Generator_ColumnPropNameInTable="Art_precvta2_incColumn" msprop:Generator_UserColumnName="Art_precvta2_inc" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta3" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta3" msprop:Generator_ColumnPropNameInRow="Art_precvta3" msprop:Generator_ColumnPropNameInTable="Art_precvta3Column" msprop:Generator_UserColumnName="Art_precvta3" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta3_inc" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta3_inc" msprop:Generator_ColumnPropNameInRow="Art_precvta3_inc" msprop:Generator_ColumnPropNameInTable="Art_precvta3_incColumn" msprop:Generator_UserColumnName="Art_precvta3_inc" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta4" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta4" msprop:Generator_ColumnPropNameInRow="Art_precvta4" msprop:Generator_ColumnPropNameInTable="Art_precvta4Column" msprop:Generator_UserColumnName="Art_precvta4" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta4_inc" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta4_inc" msprop:Generator_ColumnPropNameInRow="Art_precvta4_inc" msprop:Generator_ColumnPropNameInTable="Art_precvta4_incColumn" msprop:Generator_UserColumnName="Art_precvta4_inc" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta5" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta5" msprop:Generator_ColumnPropNameInRow="Art_precvta5" msprop:Generator_ColumnPropNameInTable="Art_precvta5Column" msprop:Generator_UserColumnName="Art_precvta5" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_precvta5_inc" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnArt_precvta5_inc" msprop:Generator_ColumnPropNameInRow="Art_precvta5_inc" msprop:Generator_ColumnPropNameInTable="Art_precvta5_incColumn" msprop:Generator_UserColumnName="Art_precvta5_inc" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Art_descuen" msprop:Generator_ColumnVarNameInTable="columnArt_descuen" msprop:Generator_ColumnPropNameInRow="Art_descuen" msprop:Generator_ColumnPropNameInTable="Art_descuenColumn" msprop:Generator_UserColumnName="Art_descuen" type="xs:decimal" minOccurs="0" />
+              <xs:element name="art_limDescuento" msprop:Generator_ColumnVarNameInTable="columnart_limDescuento" msprop:Generator_ColumnPropNameInRow="art_limDescuento" msprop:Generator_ColumnPropNameInTable="art_limDescuentoColumn" msprop:Generator_UserColumnName="art_limDescuento" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ArticulosGrupos" />
+      <xs:field xpath="mstns:Codigo" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

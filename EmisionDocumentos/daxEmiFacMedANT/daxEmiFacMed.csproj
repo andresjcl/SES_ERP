@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FFEC6520-6CD7-402C-99BA-43069FF894A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>adcDocumentos</RootNamespace>
+    <AssemblyName>daxEmiFacMed</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adcClassart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\BasesDeDatos\adcClassart.dll</HintPath>
+    </Reference>
+    <Reference Include="AdcClassDir, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\BasesDeDatos\AdcClassDir.dll</HintPath>
+    </Reference>
+    <Reference Include="adcConsldDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\adcConsldDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="analisisIndCar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\analisisIndCar.dll</HintPath>
+    </Reference>
+    <Reference Include="BuscadorDocDax, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\BuscadorDocDax.dll</HintPath>
+    </Reference>
+    <Reference Include="Buscar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\Buscar.dll</HintPath>
+    </Reference>
+    <Reference Include="Ciercaja, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\Ciercaja.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\BasesDeDatos\ClassDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassFelec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desarrollo_FacturacionElectronica\Librerias\ClassFelec.dll</HintPath>
+    </Reference>
+    <Reference Include="classMenSistem, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\classMenSistem.dll</HintPath>
+    </Reference>
+    <Reference Include="ctrlReferencia, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ctrlReferencia.dll</HintPath>
+    </Reference>
+    <Reference Include="daaxLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasGenerales\Librerias\daaxLib.dll</HintPath>
+    </Reference>
+    <Reference Include="daxAccs, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\daxAccs.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxCombo, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\DaxCombo.dll</HintPath>
+    </Reference>
+    <Reference Include="daxConceptos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxConceptos.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxManDirct, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DaxManDirct.dll</HintPath>
+    </Reference>
+    <Reference Include="docUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\docUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="FormasPagoDAX, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\FormasPagoDAX.dll</HintPath>
+    </Reference>
+    <Reference Include="ImprDoct, Version=10.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\ImprDoct.dll</HintPath>
+    </Reference>
+    <Reference Include="inputDialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\inputDialog.dll</HintPath>
+    </Reference>
+    <Reference Include="MantCtb, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\MantCtb.dll</HintPath>
+    </Reference>
+    <Reference Include="Medclass, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\Medclass.dll</HintPath>
+    </Reference>
+    <Reference Include="Mntmed, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\Mntmed.dll</HintPath>
+    </Reference>
+    <Reference Include="PrySysp13, Version=12.0.6571.36892, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\PrySysp13.dll</HintPath>
+    </Reference>
+    <Reference Include="PVArt, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Adcomdx\PVArt.dll</HintPath>
+    </Reference>
+    <Reference Include="registraEvntos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasGenerales\Librerias\registraEvntos.dll</HintPath>
+    </Reference>
+    <Reference Include="Syscod, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\Syscod.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TablasSRI, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Ivaret\TablasSRI.dll</HintPath>
+    </Reference>
+    <Reference Include="utilBasDatos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\utilBasDatos.dll</HintPath>
+    </Reference>
+    <Reference Include="varbleComun">
+      <HintPath>..\..\..\LibreriasGenerales\Librerias\varbleComun.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="armaItemsMed.cs" />
+    <Compile Include="FormFacMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFacMed.Designer.cs">
+      <DependentUpon>FormFacMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionesEspeciales.cs" />
+    <Compile Include="MoverDatosClases.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormFacMed.resx">
+      <DependentUpon>FormFacMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\daxContaDoc\daxContaDoc.csproj">
+      <Project>{6edc2704-6999-4eb1-942a-090ba63788aa}</Project>
+      <Name>daxContaDoc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MantenimientoDescuentos\adcDescto\adcDocDescto.csproj">
+      <Project>{f18d90c0-e3f1-4263-a70f-c897b749a119}</Project>
+      <Name>adcDocDescto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pagosDocumento\pagosDocumentoDAX.csproj">
+      <Project>{c50db52d-95c0-42b6-a5c4-2e6251fe51ec}</Project>
+      <Name>pagosDocumentoDAX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daxDocDupl\daxDocDupl.csproj">
+      <Project>{7e5b5532-0391-40ce-afe7-3185129df54e}</Project>
+      <Name>daxDocDupl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\daxMalla\daxMallaDatos.csproj">
+      <Project>{d66db437-814b-4c42-a609-24456a28d0da}</Project>
+      <Name>daxMallaDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\porEntregar\porEntregar.csproj">
+      <Project>{ef4e9ef4-2ca7-4120-b146-06280bc99358}</Project>
+      <Name>porEntregar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValidacionDocumentos\ValidacionDocumentos.csproj">
+      <Project>{9e992a18-0a52-49d3-b47a-ffd3e758519b}</Project>
+      <Name>ValidacionDocumentos</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AdcDax">
+      <Guid>{937B4926-D99E-4795-AADD-979EC6594D05}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </COMReference>
+    <COMReference Include="DaxUsr">
+      <Guid>{FDB7F1CB-50E2-4A17-9902-AC671BACFF0D}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

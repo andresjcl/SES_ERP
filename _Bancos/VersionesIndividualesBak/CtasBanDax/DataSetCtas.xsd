@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetCtas" targetNamespace="http://tempuri.org/DataSetCtas.xsd" xmlns:mstns="http://tempuri.org/DataSetCtas.xsd" xmlns="http://tempuri.org/DataSetCtas.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetCtas" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetCtas" msprop:Generator_UserDSName="DataSetCtas">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTableCtas" msprop:Generator_TableClassName="DataTableCtasDataTable" msprop:Generator_TableVarName="tableDataTableCtas" msprop:Generator_TablePropName="DataTableCtas" msprop:Generator_RowDeletingName="DataTableCtasRowDeleting" msprop:Generator_RowChangingName="DataTableCtasRowChanging" msprop:Generator_RowEvHandlerName="DataTableCtasRowChangeEventHandler" msprop:Generator_RowDeletedName="DataTableCtasRowDeleted" msprop:Generator_UserTableName="DataTableCtas" msprop:Generator_RowChangedName="DataTableCtasRowChanged" msprop:Generator_RowEvArgName="DataTableCtasRowChangeEvent" msprop:Generator_RowClassName="DataTableCtasRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Cta_Codigo" msprop:Generator_ColumnVarNameInTable="columnCta_Codigo" msprop:Generator_ColumnPropNameInRow="Cta_Codigo" msprop:Generator_ColumnPropNameInTable="Cta_CodigoColumn" msprop:Generator_UserColumnName="Cta_Codigo" type="xs:string" minOccurs="0" />
+              <xs:element name="Bco_Codigo" msprop:Generator_ColumnVarNameInTable="columnBco_Codigo" msprop:Generator_ColumnPropNameInRow="Bco_Codigo" msprop:Generator_ColumnPropNameInTable="Bco_CodigoColumn" msprop:Generator_UserColumnName="Bco_Codigo" type="xs:string" minOccurs="0" />
+              <xs:element name="Bco_CodAlex" msprop:Generator_ColumnVarNameInTable="columnBco_CodAlex" msprop:Generator_ColumnPropNameInRow="Bco_CodAlex" msprop:Generator_ColumnPropNameInTable="Bco_CodAlexColumn" msprop:Generator_UserColumnName="Bco_CodAlex" type="xs:string" minOccurs="0" />
+              <xs:element name="Bco_Nombre" msprop:Generator_ColumnVarNameInTable="columnBco_Nombre" msprop:Generator_ColumnPropNameInRow="Bco_Nombre" msprop:Generator_ColumnPropNameInTable="Bco_NombreColumn" msprop:Generator_UserColumnName="Bco_Nombre" type="xs:string" minOccurs="0" />
+              <xs:element name="Bco_NumCta" msprop:Generator_ColumnVarNameInTable="columnBco_NumCta" msprop:Generator_ColumnPropNameInRow="Bco_NumCta" msprop:Generator_ColumnPropNameInTable="Bco_NumCtaColumn" msprop:Generator_UserColumnName="Bco_NumCta" type="xs:string" minOccurs="0" />
+              <xs:element name="Bco_TipoCta" msprop:Generator_ColumnVarNameInTable="columnBco_TipoCta" msprop:Generator_ColumnPropNameInRow="Bco_TipoCta" msprop:Generator_ColumnPropNameInTable="Bco_TipoCtaColumn" msprop:Generator_UserColumnName="Bco_TipoCta" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

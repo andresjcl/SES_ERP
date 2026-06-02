@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{F6B0C0A3-AEA6-4C8F-898F-192EFF04F891}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>directMnt</RootNamespace>
+    <AssemblyName>directMnt</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DocumentationFile>directMnt.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <PlatformTarget>x86</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DocumentationFile>directMnt.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClassBeeDat">
+      <HintPath>..\..\..\BeeDaxRH\Librerias\ClassBeeDat.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassDir, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ClassDir.dll</HintPath>
+    </Reference>
+    <Reference Include="cmbSes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\cmbSes.dll</HintPath>
+    </Reference>
+    <Reference Include="codSist, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\codSist.dll</HintPath>
+    </Reference>
+    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\CtaMtnS.dll</HintPath>
+    </Reference>
+    <Reference Include="DataGridViewPrinterApplication1">
+      <HintPath>..\..\Librerias\DataGridViewPrinterApplication1.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="daxNota, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxNota.dll</HintPath>
+    </Reference>
+    <Reference Include="DctoClase, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DctoClase.dll</HintPath>
+    </Reference>
+    <Reference Include="EmpNomR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\EmpNomR.dll</HintPath>
+    </Reference>
+    <Reference Include="impreDctos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\impreDctos.dll</HintPath>
+    </Reference>
+    <Reference Include="LibDaxDat">
+      <HintPath>..\..\..\LibreriasGenerales\Librerias\LibDaxDat.dll</HintPath>
+    </Reference>
+    <Reference Include="mallExpS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\mallExpS.dll</HintPath>
+    </Reference>
+    <Reference Include="MntUsers, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\MntUsers.dll</HintPath>
+    </Reference>
+    <Reference Include="sesLook, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesLook.dll</HintPath>
+    </Reference>
+    <Reference Include="sesSysp, Version=1.0.9013.39170, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesSysp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="valIdcedru, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\valIdcedru.dll</HintPath>
+    </Reference>
+    <Reference Include="WaitMensaje, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\WaitMensaje.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActualizaDirectorio.Designer.vb">
+      <DependentUpon>ActualizaDirectorio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ActualizaDirectorio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdcDir.Designer.vb">
+      <DependentUpon>AdcDir.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AdcDir.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaAlias.Designer.vb">
+      <DependentUpon>BuscaAlias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaAlias.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaClien.Designer.vb">
+      <DependentUpon>BuscaClien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaClien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaClientFin.Designer.vb">
+      <DependentUpon>BuscaClientFin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaClientFin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BusDirectorio.vb" />
+    <Compile Include="ClassCambios.vb" />
+    <Compile Include="CreaCliAlex.Designer.vb">
+      <DependentUpon>CreaCliAlex.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CreaCliAlex.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="datosIng.vb" />
+    <Compile Include="DEEPPCTE.Designer.vb">
+      <DependentUpon>DEEPPCTE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DEEPPCTE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DEEPCLI.Designer.vb">
+      <DependentUpon>DEEPCLI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DEEPCLI.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emp.vb" />
+    <Compile Include="DEEP01.Designer.vb">
+      <DependentUpon>DEEP01.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DEEP01.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DelUsuario.vb" />
+    <Compile Include="Directorio.vb" />
+    <Compile Include="DirectorioAlex.vb" />
+    <Compile Include="EscojeCamposDir.Designer.vb">
+      <DependentUpon>EscojeCamposDir.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EscojeCamposDir.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmActualDat.Designer.vb">
+      <DependentUpon>frmActualDat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmActualDat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapacitacion.Designer.vb">
+      <DependentUpon>frmCapacitacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCapacitacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LeerEmpleado.vb" />
+    <Compile Include="lisDir.vb" />
+    <Compile Include="Module1.vb" />
+    <Compile Include="MoverDatosEmpleado.vb" />
+    <Compile Include="moverDatosIdentificacion.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Valores.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ActualizaDirectorio.resx">
+      <DependentUpon>ActualizaDirectorio.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdcDir.resx">
+      <DependentUpon>AdcDir.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaAlias.resx">
+      <DependentUpon>BuscaAlias.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaClien.resx">
+      <DependentUpon>BuscaClien.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaClientFin.resx">
+      <DependentUpon>BuscaClientFin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreaCliAlex.resx">
+      <DependentUpon>CreaCliAlex.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DEEPPCTE.resx">
+      <DependentUpon>DEEPPCTE.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DEEP01.resx">
+      <DependentUpon>DEEP01.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DEEPCLI.resx">
+      <DependentUpon>DEEPCLI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EscojeCamposDir.resx">
+      <DependentUpon>EscojeCamposDir.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmActualDat.resx">
+      <DependentUpon>frmActualDat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapacitacion.resx">
+      <DependentUpon>frmCapacitacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Buscar_16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buscar_16derecha.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\025.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

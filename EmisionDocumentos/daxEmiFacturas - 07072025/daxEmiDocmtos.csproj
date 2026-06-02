@@ -1,0 +1,388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83B0CFE2-09B6-48ED-BE92-6BFC316A5A38}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DctosEmi</RootNamespace>
+    <AssemblyName>sesDctoEmi</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adcDescto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\adcDescto.dll</HintPath>
+    </Reference>
+    <Reference Include="adcFeutil, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\adcFeutil.dll</HintPath>
+    </Reference>
+    <Reference Include="analisisIndCar">
+      <HintPath>..\..\CtasCorrientes\Librerias\analisisIndCar.dll</HintPath>
+    </Reference>
+    <Reference Include="artInvent, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\artInvent.dll</HintPath>
+    </Reference>
+    <Reference Include="AuditSis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\AuditSis.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassDaxMail, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ClassDaxMail.dll</HintPath>
+    </Reference>
+    <Reference Include="classMenSistem, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\classMenSistem.dll</HintPath>
+    </Reference>
+    <Reference Include="cmbSes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\cmbSes.dll</HintPath>
+    </Reference>
+    <Reference Include="codSist, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\codSist.dll</HintPath>
+    </Reference>
+    <Reference Include="comercP, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\comercP.dll</HintPath>
+    </Reference>
+    <Reference Include="ConsolidaDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ConsolidaDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\CtaMtnS.dll</HintPath>
+    </Reference>
+    <Reference Include="CtbSes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\CtbSes.dll</HintPath>
+    </Reference>
+    <Reference Include="DataGridViewPrinterApplication1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DataGridViewPrinterApplication1.dll</HintPath>
+    </Reference>
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxClassDir, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_ClassBasesDatos\Librerias\DaxClassDir.dll</HintPath>
+    </Reference>
+    <Reference Include="daxDocDupl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxDocDupl.dll</HintPath>
+    </Reference>
+    <Reference Include="DctoClase, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DctoClase.dll</HintPath>
+    </Reference>
+    <Reference Include="directMnt, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\directMnt.dll</HintPath>
+    </Reference>
+    <Reference Include="docContable, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\docContable.dll</HintPath>
+    </Reference>
+    <Reference Include="docPagos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\docPagos.dll</HintPath>
+    </Reference>
+    <Reference Include="DtosMall, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DtosMall.dll</HintPath>
+    </Reference>
+    <Reference Include="EmpNomR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\EmpNomR.dll</HintPath>
+    </Reference>
+    <Reference Include="frmaPgo, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\frmaPgo.dll</HintPath>
+    </Reference>
+    <Reference Include="genEgr, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\genEgr.dll</HintPath>
+    </Reference>
+    <Reference Include="genPdfDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\genPdfDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="impreDctos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\impreDctos.dll</HintPath>
+    </Reference>
+    <Reference Include="inputDialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\inputDialog.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Andrés\source\repos\031_ProyectoPdfSharp\ProyectoPDF\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>C:\Users\Andrés\source\repos\031_ProyectoPdfSharp\ProyectoPDF\packages\itextsharp.xmlworker.5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="mallExpS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\mallExpS.dll</HintPath>
+    </Reference>
+    <Reference Include="mntUsrsDax, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\mntUsrsDax.dll</HintPath>
+    </Reference>
+    <Reference Include="pendiDcmto, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\pendiDcmto.dll</HintPath>
+    </Reference>
+    <Reference Include="ptoDefHor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ptoDefHor.dll</HintPath>
+    </Reference>
+    <Reference Include="refctrl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\refctrl.dll</HintPath>
+    </Reference>
+    <Reference Include="retFuente, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\retFuente.dll</HintPath>
+    </Reference>
+    <Reference Include="searchDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\searchDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="sesAcces, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesAcces.dll</HintPath>
+    </Reference>
+    <Reference Include="sesClasProd, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesClasProd.dll</HintPath>
+    </Reference>
+    <Reference Include="sesConcto, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesConcto.dll</HintPath>
+    </Reference>
+    <Reference Include="sesLook, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesLook.dll</HintPath>
+    </Reference>
+    <Reference Include="sesMall, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesMall.dll</HintPath>
+    </Reference>
+    <Reference Include="sesSrv, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesSrv.dll</HintPath>
+    </Reference>
+    <Reference Include="sesSysp, Version=12.0.8958.42699, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesSysp.dll</HintPath>
+    </Reference>
+    <Reference Include="sysClass, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\BasesDeDatos\sysClass.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="utilidadDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\utilidadDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="valDtos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\valDtos.dll</HintPath>
+    </Reference>
+    <Reference Include="ValiDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ValiDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="WaitMensaje, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\WaitMensaje.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutorizacionesFac.cs" />
+    <Compile Include="ClassMovPto.cs" />
+    <Compile Include="CopiarDocumento.cs" />
+    <Compile Include="CorreoElectronico.cs" />
+    <Compile Include="DatosFacturacion.cs" />
+    <Compile Include="EnviarAimpresora.cs" />
+    <Compile Include="FormDevProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDevProveedor.Designer.cs">
+      <DependentUpon>FormDevProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormVerificarIng.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVerificarIng.Designer.cs">
+      <DependentUpon>FormVerificarIng.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTransferenciaInv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTransferenciaInv.Designer.cs">
+      <DependentUpon>FormTransferenciaInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDocInventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDocInventario.Designer.cs">
+      <DependentUpon>FormDocInventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDevolucion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDevolucion.Designer.cs">
+      <DependentUpon>FormDevolucion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProforma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProforma.Designer.cs">
+      <DependentUpon>FormProforma.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFactProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFactProveedor.Designer.cs">
+      <DependentUpon>FormFactProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFactCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFactCliente.Designer.cs">
+      <DependentUpon>FormFactCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFacturaMasiva.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFacturaMasiva.Designer.cs">
+      <DependentUpon>FormFacturaMasiva.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="FormRemision.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRemision.Designer.cs">
+      <DependentUpon>FormRemision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionesEspeciales.cs" />
+    <Compile Include="GenerarDocDeBancos.cs" />
+    <Compile Include="GenerarDocumentoInventarios.cs" />
+    <Compile Include="ModelaMalla.cs" />
+    <Compile Include="FacturacionMasiva.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormDevProveedor.resx">
+      <DependentUpon>FormDevProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVerificarIng.resx">
+      <DependentUpon>FormVerificarIng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTransferenciaInv.resx">
+      <DependentUpon>FormTransferenciaInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDocInventario.resx">
+      <DependentUpon>FormDocInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDevolucion.resx">
+      <DependentUpon>FormDevolucion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProforma.resx">
+      <DependentUpon>FormProforma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFactProveedor.resx">
+      <DependentUpon>FormFactProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFactCliente.resx">
+      <DependentUpon>FormFactCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFacturaMasiva.resx">
+      <DependentUpon>FormFacturaMasiva.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRemision.resx">
+      <DependentUpon>FormRemision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\utilBasDatos\utilBasDatos.csproj">
+      <Project>{b59101ce-a306-4820-8f1e-a057012048c7}</Project>
+      <Name>utilBasDatos</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buscar_16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnSalir.Image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file-explore_48x48-32.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plantilla.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shop.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9AC4DA06-C8B0-4B5B-AE45-22842A9313CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArtInvent</RootNamespace>
+    <AssemblyName>artInvent</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="activNivv, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\activNivv.dll</HintPath>
+    </Reference>
+    <Reference Include="antInvtRp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\antInvtRp.dll</HintPath>
+    </Reference>
+    <Reference Include="AuditSis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\AuditSis.dll</HintPath>
+    </Reference>
+    <Reference Include="BarcodeLib, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\CodigoDeBarras\ejecutable\BarcodeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="classMenSistem">
+      <HintPath>..\..\Librerias\classMenSistem.dll</HintPath>
+    </Reference>
+    <Reference Include="cmbSes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\cmbSes.dll</HintPath>
+    </Reference>
+    <Reference Include="codSist, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\codSist.dll</HintPath>
+    </Reference>
+    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\CtaMtnS.dll</HintPath>
+    </Reference>
+    <Reference Include="ctogoInvRp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ctogoInvRp.dll</HintPath>
+    </Reference>
+    <Reference Include="DataGridViewPrinterApplication1, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\Generales\DataGridViewPrinterApplication1.dll</HintPath>
+    </Reference>
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="DctoClase, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DctoClase.dll</HintPath>
+    </Reference>
+    <Reference Include="directMnt, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\directMnt.dll</HintPath>
+    </Reference>
+    <Reference Include="docContable, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\docContable.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="editDocto, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\editDocto.dll</HintPath>
+    </Reference>
+    <Reference Include="EnviarMalla, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\EnviarMalla.dll</HintPath>
+    </Reference>
+    <Reference Include="krdRp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\krdRp.dll</HintPath>
+    </Reference>
+    <Reference Include="mallExpS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\mallExpS.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\Librerias\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="minmaxRp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\minmaxRp.dll</HintPath>
+    </Reference>
+    <Reference Include="movRp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\movRp.dll</HintPath>
+    </Reference>
+    <Reference Include="sesClasProd, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesClasProd.dll</HintPath>
+    </Reference>
+    <Reference Include="sesLook, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesLook.dll</HintPath>
+    </Reference>
+    <Reference Include="sesSysp, Version=1.0.9013.39170, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesSysp.dll</HintPath>
+    </Reference>
+    <Reference Include="SpreadsheetLight, Version=3.4.5.0, Culture=neutral, PublicKeyToken=32fbb46dc1730c57, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SpreadsheetLight.3.4.5.1\lib\SpreadsheetLight.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tranInvRp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\tranInvRp.dll</HintPath>
+    </Reference>
+    <Reference Include="WaitMensaje, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\WaitMensaje.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="classChekDatos.cs" />
+    <Compile Include="Conversion.cs" />
+    <Compile Include="ExportarExcel.cs" />
+    <Compile Include="frmBuscarPreferenciaPlato.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBuscarPreferenciaPlato.Designer.cs">
+      <DependentUpon>frmBuscarPreferenciaPlato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmExistenciaBod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmExistenciaBod.Designer.cs">
+      <DependentUpon>frmExistenciaBod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPlato.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlato.Designer.cs">
+      <DependentUpon>frmPlato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListaEntregasPendientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListaEntregasPendientes.Designer.cs">
+      <DependentUpon>ListaEntregasPendientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMantMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMantMed.Designer.cs">
+      <DependentUpon>FrmMantMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRepInv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRepInv.Designer.cs">
+      <DependentUpon>FrmRepInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LibRecosteo.cs" />
+    <Compile Include="LibTallasColores.cs" />
+    <Compile Include="MallaSaldosBodegas.cs" />
+    <Compile Include="DaxInventarios.cs" />
+    <Compile Include="EntregasRealizadasClienteProv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntregasRealizadasClienteProv.Designer.cs">
+      <DependentUpon>EntregasRealizadasClienteProv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBuscaArticuloSimple.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBuscaArticuloSimple.Designer.cs">
+      <DependentUpon>frmBuscaArticuloSimple.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBuscaArticuloDet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBuscaArticuloDet.Designer.cs">
+      <DependentUpon>frmBuscaArticuloDet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCodBarr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCodBarr.Designer.cs">
+      <DependentUpon>frmCodBarr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmComponte.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmComponte.Designer.cs">
+      <DependentUpon>frmComponte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDatosComerciales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDatosComerciales.Designer.cs">
+      <DependentUpon>frmDatosComerciales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntregasPendientesClienteProv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntregasPendientesClienteProv.Designer.cs">
+      <DependentUpon>EntregasPendientesClienteProv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmExistBods.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmExistBods.Designer.cs">
+      <DependentUpon>frmExistBods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMovArt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMovArt.Designer.cs">
+      <DependentUpon>frmMovArt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRecosteo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRecosteo.Designer.cs">
+      <DependentUpon>FrmRecosteo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTallasColore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTallasColore.Designer.cs">
+      <DependentUpon>frmTallasColore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="classArticulo.cs" />
+    <Compile Include="frmMantArticulo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMantArticulo.Designer.cs">
+      <DependentUpon>frmMantArticulo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="medidasArticulos.cs" />
+    <Compile Include="MultMedida.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SaldoPrecioCostoArt.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmBuscarPreferenciaPlato.resx">
+      <DependentUpon>frmBuscarPreferenciaPlato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExistenciaBod.resx">
+      <DependentUpon>frmExistenciaBod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlato.resx">
+      <DependentUpon>frmPlato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListaEntregasPendientes.resx">
+      <DependentUpon>ListaEntregasPendientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntregasRealizadasClienteProv.resx">
+      <DependentUpon>EntregasRealizadasClienteProv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBuscaArticuloSimple.resx">
+      <DependentUpon>frmBuscaArticuloSimple.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBuscaArticuloDet.resx">
+      <DependentUpon>frmBuscaArticuloDet.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCodBarr.resx">
+      <DependentUpon>frmCodBarr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmComponte.resx">
+      <DependentUpon>frmComponte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDatosComerciales.resx">
+      <DependentUpon>frmDatosComerciales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntregasPendientesClienteProv.resx">
+      <DependentUpon>EntregasPendientesClienteProv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExistBods.resx">
+      <DependentUpon>frmExistBods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMantMed.resx">
+      <DependentUpon>FrmMantMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMovArt.resx">
+      <DependentUpon>frmMovArt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRecosteo.resx">
+      <DependentUpon>FrmRecosteo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRepInv.resx">
+      <DependentUpon>FrmRepInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTallasColore.resx">
+      <DependentUpon>frmTallasColore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMantArticulo.resx">
+      <DependentUpon>frmMantArticulo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\icon-stocks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\list [#1497].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon-stocks1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListTransacc2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListKardex.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListaSimple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Transacciones2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\catalogo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\catalogo1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transacciones3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kardex2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\maximosMinimos.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tiempoAntiguedad.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Salir.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SpreadsheetLight.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

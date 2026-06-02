@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FFEC6520-6CD7-402C-99BA-43069FF894A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>adcDocumentos</RootNamespace>
+    <AssemblyName>daxEmiFacMed</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\DesarrolloSistema_Medico\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adcClassart, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasDx\BasesDeDatos\adcClassart.dll</HintPath>
+    </Reference>
+    <Reference Include="adcConsolidaDax">
+      <HintPath>..\..\..\DaxDocumentos\Librerias\adcConsolidaDax.dll</HintPath>
+    </Reference>
+    <Reference Include="adcDescto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\adcDescto.dll</HintPath>
+    </Reference>
+    <Reference Include="analisisIndCar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\CtasCorrientes\Librerias\analisisIndCar.dll</HintPath>
+    </Reference>
+    <Reference Include="BuscadorDocDax, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\BuscadorDocDax.dll</HintPath>
+    </Reference>
+    <Reference Include="CierrCajaDax, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\CierrCajaDax.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassDocDax">
+      <HintPath>..\..\..\_ClassBasesDatos\Librerias\ClassDocDax.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassFelec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desarrollo_FacturacionElectronica\Librerias\ClassFelec.dll</HintPath>
+    </Reference>
+    <Reference Include="classMenSistem, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\classMenSistem.dll</HintPath>
+    </Reference>
+    <Reference Include="ctrlReferencia, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ctrlReferencia.dll</HintPath>
+    </Reference>
+    <Reference Include="daxAccsDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxAccsDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxBuscar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\DaxBuscar.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxClassDir, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_ClassBasesDatos\Librerias\DaxClassDir.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxCombo, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\DaxCombo.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxComercia, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DaxComercia.dll</HintPath>
+    </Reference>
+    <Reference Include="daxConceptos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxConceptos.dll</HintPath>
+    </Reference>
+    <Reference Include="daxDocDupl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxDocDupl.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxImpDctos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\libreriasGenerales\DaxImpDctos.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxInventarios, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DaxInventarios.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="daxMalla, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\daxMalla.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DaxMallaLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\DaxMallaLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxManDirct, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\DaxManDirct.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxMovCajas, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\DaxMovCajas.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxSyscod, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\DaxSyscod.dll</HintPath>
+    </Reference>
+    <Reference Include="docUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\docUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="FormasPagoDAX, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\FormasPagoDAX.dll</HintPath>
+    </Reference>
+    <Reference Include="inputDialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilitariosGenerales\Librerias\inputDialog.dll</HintPath>
+    </Reference>
+    <Reference Include="IvaRett, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSRI\Librerias\IvaRett.dll</HintPath>
+    </Reference>
+    <Reference Include="LibDaxDat, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LibreriasGenerales\Librerias\LibDaxDat.dll</HintPath>
+    </Reference>
+    <Reference Include="Medclass, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\Medclass.dll</HintPath>
+    </Reference>
+    <Reference Include="pagosDcmto, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\pagosDcmto.dll</HintPath>
+    </Reference>
+    <Reference Include="PrySysp13Dax, Version=12.0.7366.21365, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\PrySysp13Dax.dll</HintPath>
+    </Reference>
+    <Reference Include="registraEvntosDax, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\RegistoDeEventos\registraEvntos\obj\Debug\registraEvntosDax.dll</HintPath>
+    </Reference>
+    <Reference Include="SysEmpDatt, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DesarrolloSistema_Medico\Librerias\SysEmpDatt.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="utilBasDatos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\utilBasDatos.dll</HintPath>
+    </Reference>
+    <Reference Include="ValidacionDatos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ValidacionDatos.dll</HintPath>
+    </Reference>
+    <Reference Include="ValidacionDocumentos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DaxDocumentos\Librerias\ValidacionDocumentos.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DatosdaxFadMed.cs" />
+    <Compile Include="FormFacMed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFacMed.Designer.cs">
+      <DependentUpon>FormFacMed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionesEspeciales.cs" />
+    <Compile Include="ImportarFacturaMedica.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormFacMed.resx">
+      <DependentUpon>FormFacMed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_right [#1507].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XRay.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

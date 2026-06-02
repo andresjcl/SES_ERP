@@ -1,0 +1,854 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DaxsysModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Emp_Arch">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Arch_Tipo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="int" Nullable="false" />
+          <Property Name="Arch_Tipo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Arch_Nom" Type="nvarchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="Emp_Bod">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Suc_Codigo" />
+            <PropertyRef Name="Bod_codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="int" Nullable="false" />
+          <Property Name="Suc_Codigo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Bod_codigo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Bod_nombre" Type="nvarchar" MaxLength="40" />
+          <Property Name="Bod_IdCta" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Emp_Datos">
+          <Key>
+            <PropertyRef Name="Emp_codigo" />
+          </Key>
+          <Property Name="Emp_codigo" Type="int" Nullable="false" />
+          <Property Name="Emp_Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Emp_Pais" Type="nvarchar" MaxLength="25" />
+          <Property Name="Emp_Provincia" Type="nvarchar" MaxLength="25" />
+          <Property Name="Emp_Ciudad" Type="nvarchar" MaxLength="25" />
+          <Property Name="Emp_Cantón" Type="nvarchar" MaxLength="25" />
+          <Property Name="Emp_Dirección" Type="nvarchar" MaxLength="80" />
+          <Property Name="Emp_Telefono_1" Type="nvarchar" MaxLength="15" />
+          <Property Name="Emp_Telefono_2" Type="nvarchar" MaxLength="15" />
+          <Property Name="Emp_Fax" Type="nvarchar" MaxLength="15" />
+          <Property Name="Emp_Casilla" Type="nvarchar" MaxLength="15" />
+          <Property Name="Emp_Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Emp_RUC" Type="nvarchar" MaxLength="20" />
+          <Property Name="Emp_SegSocial" Type="nvarchar" MaxLength="50" />
+          <Property Name="Emp_Presidente" Type="nvarchar" MaxLength="40" />
+          <Property Name="Emp_Gerente" Type="nvarchar" MaxLength="50" />
+          <Property Name="Emp_RepLegal" Type="nvarchar" MaxLength="40" />
+          <Property Name="Emp_Contador" Type="nvarchar" MaxLength="50" />
+          <Property Name="Emp_Logotipo" Type="nvarchar" MaxLength="80" />
+          <Property Name="Emp_Defecto" Type="bit" Nullable="false" />
+          <Property Name="Emp_Lic1" Type="nvarchar" MaxLength="128" />
+          <Property Name="Emp_Lic2" Type="nvarchar" MaxLength="128" />
+          <Property Name="Emp_Lic3" Type="nvarchar" MaxLength="128" />
+          <Property Name="Emp_TipoBase" Type="varchar" MaxLength="3" />
+          <Property Name="Emp_Lic4" Type="varchar" MaxLength="128" />
+          <Property Name="Emp_Lic5" Type="varchar" MaxLength="128" />
+          <Property Name="Emp_Lic6" Type="varchar" MaxLength="128" />
+          <Property Name="Emp_PathImagenes" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Emp_Par">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="int" Nullable="false" />
+          <Property Name="DefCta_NumNiveles" Type="int" />
+          <Property Name="DefCta_NumGrupos" Type="int" />
+          <Property Name="DefCta_NumDigNivel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Par_ConTipCierre" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Par_InvTipCierre" Type="nvarchar" MaxLength="1" />
+          <Property Name="Par_VenIVA" Type="varchar" MaxLength="50" />
+          <Property Name="Par_VenSNEmp" Type="bit" Nullable="false" />
+          <Property Name="Par_VenSNAcuDoc" Type="bit" Nullable="false" />
+          <Property Name="Par_ComIVA" Type="varchar" MaxLength="12" />
+          <Property Name="Par_ComSNEmp" Type="bit" Nullable="false" />
+          <Property Name="Par_ComSNAcuDoc" Type="bit" Nullable="false" />
+          <Property Name="Par_AcfNumNiv" Type="int" />
+          <Property Name="Par_RolCodMay" Type="nvarchar" MaxLength="10" />
+          <Property Name="Par_RolTur" Type="int" />
+          <Property Name="Par_SucPri" Type="nvarchar" MaxLength="3" />
+          <Property Name="Par_ClvDsc" Type="nvarchar" MaxLength="8" />
+          <Property Name="Par_ClvIVA" Type="nvarchar" MaxLength="8" />
+          <Property Name="Par_AcumHis" Type="bit" Nullable="false" />
+          <Property Name="Par_FecDes" Type="int" />
+          <Property Name="Par_Numerodigitos" Type="int" />
+          <Property Name="Par_LimAtrasoEntrada" Type="int" />
+          <Property Name="Par_LimExtraSalida" Type="int" />
+          <Property Name="Par_LimExtraEntrada" Type="int" />
+          <Property Name="Par_DocPrincipalVta" Type="nvarchar" MaxLength="5" />
+          <Property Name="Par_Cheques" Type="tinyint" />
+          <Property Name="Par_PagoCompras" Type="varchar" MaxLength="3" />
+          <Property Name="DefCta_NumNiveles1" Type="int" />
+          <Property Name="DefCta_NumGrupos1" Type="int" />
+          <Property Name="DefCta_NumDigNivel1" Type="nvarchar" MaxLength="50" />
+          <Property Name="DefCtaV" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Par_DigitosCostos" Type="int" />
+          <Property Name="Par_DigitosPrecios" Type="int" />
+          <Property Name="Par_CruceDocSucursal" Type="tinyint" />
+          <Property Name="par_PathImagenes" Type="varchar" MaxLength="512" />
+          <Property Name="par_DiasMensualesAcf" Type="int" />
+          <Property Name="Emp_PathImagenes" Type="varchar" MaxLength="512" />
+          <Property Name="Emp_DiasMensualesAcf" Type="int" />
+          <Property Name="Prspto_NumNiveles" Type="int" />
+          <Property Name="Prspto_NumGrupos" Type="int" />
+          <Property Name="Prspto_NumDigNivel" Type="varchar" MaxLength="50" />
+          <Property Name="path_tmpServer" Type="varchar" MaxLength="200" />
+          <Property Name="CtaLocalEmail" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Daxsys.dbo.Emp_Periodos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Emp_Periodos">
+          <Key>
+            <PropertyRef Name="Idclave" />
+          </Key>
+          <Property Name="CodEmpresa" Type="int" />
+          <Property Name="Tipo" Type="varchar" MaxLength="15" />
+          <Property Name="Periodo1" Type="datetime" />
+          <Property Name="Periodo2" Type="datetime" />
+          <Property Name="Idclave" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Emp_PtoVta">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Suc_Codigo" />
+            <PropertyRef Name="Pto_codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="int" Nullable="false" />
+          <Property Name="Suc_Codigo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Pto_codigo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Pto_nombre" Type="nvarchar" MaxLength="40" />
+          <Property Name="Pto_IDTributario" Type="varchar" MaxLength="10" />
+          <Property Name="Pto_IdCta" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Emp_Suc">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Suc_Codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="int" Nullable="false" />
+          <Property Name="Suc_Codigo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Suc_Nombre" Type="nvarchar" MaxLength="40" />
+          <Property Name="Suc_Direccion" Type="nvarchar" MaxLength="80" />
+          <Property Name="Suc_RUC" Type="nvarchar" MaxLength="20" />
+          <Property Name="Suc_SegSocial" Type="nvarchar" MaxLength="20" />
+          <Property Name="Suc_IdCta" Type="nvarchar" MaxLength="15" />
+          <Property Name="Bod_Codigo" Type="nvarchar" MaxLength="3" />
+          <Property Name="Suc_IdTributario" Type="varchar" MaxLength="10" />
+          <Property Name="precioVta" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="sys_Accesos">
+          <Key>
+            <PropertyRef Name="idclavedoc" />
+          </Key>
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="20" />
+          <Property Name="IdEmpresa" Type="real" Nullable="false" />
+          <Property Name="IdSistema" Type="nvarchar" MaxLength="3" />
+          <Property Name="IdOpcion" Type="nvarchar" MaxLength="255" />
+          <Property Name="IdNomOpcion" Type="nvarchar" MaxLength="512" />
+          <Property Name="Accesos" Type="nvarchar" MaxLength="512" />
+          <Property Name="idclavedoc" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="accnvo" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="sys_Bodegas">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdEmpresa" />
+            <PropertyRef Name="CodSucursal" />
+            <PropertyRef Name="CodBodega" />
+          </Key>
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="IdEmpresa" Type="tinyint" Nullable="false" />
+          <Property Name="CodSucursal" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="CodBodega" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="AutorizaBod" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Daxsys.dbo.sys_ptoVta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="sys_ptoVta">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+            <PropertyRef Name="CodSucursal" />
+            <PropertyRef Name="CodptoVta" />
+          </Key>
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="20" />
+          <Property Name="IdEmpresa" Type="tinyint" Nullable="false" />
+          <Property Name="CodSucursal" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="CodptoVta" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="AutorizaPtoVta" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="sys_Sucursales">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdEmpresa" />
+            <PropertyRef Name="CodSucursal" />
+          </Key>
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="IdEmpresa" Type="tinyint" Nullable="false" />
+          <Property Name="CodSucursal" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="AutorizaSuc" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <Association Name="FK_Emp_Arch_Emp_Datos">
+          <End Role="Emp_Datos" Type="Self.Emp_Datos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Arch" Type="Self.Emp_Arch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Datos">
+              <PropertyRef Name="Emp_codigo" />
+            </Principal>
+            <Dependent Role="Emp_Arch">
+              <PropertyRef Name="Emp_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_Bod_Emp_Suc">
+          <End Role="Emp_Suc" Type="Self.Emp_Suc" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Bod" Type="Self.Emp_Bod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Suc">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Principal>
+            <Dependent Role="Emp_Bod">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_Par_Emp_Datos">
+          <End Role="Emp_Datos" Type="Self.Emp_Datos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Par" Type="Self.Emp_Par" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Datos">
+              <PropertyRef Name="Emp_codigo" />
+            </Principal>
+            <Dependent Role="Emp_Par">
+              <PropertyRef Name="Emp_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_PtoVta_Emp_Suc">
+          <End Role="Emp_Suc" Type="Self.Emp_Suc" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_PtoVta" Type="Self.Emp_PtoVta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Suc">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Principal>
+            <Dependent Role="Emp_PtoVta">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_Suc_Emp_Datos">
+          <End Role="Emp_Datos" Type="Self.Emp_Datos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Suc" Type="Self.Emp_Suc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Datos">
+              <PropertyRef Name="Emp_codigo" />
+            </Principal>
+            <Dependent Role="Emp_Suc">
+              <PropertyRef Name="Emp_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DaxsysModelStoreContainer">
+          <EntitySet Name="Emp_Arch" EntityType="Self.Emp_Arch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp_Bod" EntityType="Self.Emp_Bod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp_Datos" EntityType="Self.Emp_Datos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp_Par" EntityType="Self.Emp_Par" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp_PtoVta" EntityType="Self.Emp_PtoVta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp_Suc" EntityType="Self.Emp_Suc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sys_Accesos" EntityType="Self.sys_Accesos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sys_Bodegas" EntityType="Self.sys_Bodegas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sys_Sucursales" EntityType="Self.sys_Sucursales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emp_Periodos" EntityType="Self.Emp_Periodos" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Emp_Periodos].[CodEmpresa] AS [CodEmpresa], 
+    [Emp_Periodos].[Tipo] AS [Tipo], 
+    [Emp_Periodos].[Periodo1] AS [Periodo1], 
+    [Emp_Periodos].[Periodo2] AS [Periodo2], 
+    [Emp_Periodos].[Idclave] AS [Idclave]
+    FROM [dbo].[Emp_Periodos] AS [Emp_Periodos]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="sys_ptoVta" EntityType="Self.sys_ptoVta" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [sys_ptoVta].[IdUsuario] AS [IdUsuario], 
+    [sys_ptoVta].[IdEmpresa] AS [IdEmpresa], 
+    [sys_ptoVta].[CodSucursal] AS [CodSucursal], 
+    [sys_ptoVta].[CodptoVta] AS [CodptoVta], 
+    [sys_ptoVta].[AutorizaPtoVta] AS [AutorizaPtoVta]
+    FROM [dbo].[sys_ptoVta] AS [sys_ptoVta]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Emp_Arch_Emp_Datos" Association="Self.FK_Emp_Arch_Emp_Datos">
+            <End Role="Emp_Datos" EntitySet="Emp_Datos" />
+            <End Role="Emp_Arch" EntitySet="Emp_Arch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_Bod_Emp_Suc" Association="Self.FK_Emp_Bod_Emp_Suc">
+            <End Role="Emp_Suc" EntitySet="Emp_Suc" />
+            <End Role="Emp_Bod" EntitySet="Emp_Bod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_Par_Emp_Datos" Association="Self.FK_Emp_Par_Emp_Datos">
+            <End Role="Emp_Datos" EntitySet="Emp_Datos" />
+            <End Role="Emp_Par" EntitySet="Emp_Par" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_PtoVta_Emp_Suc" Association="Self.FK_Emp_PtoVta_Emp_Suc">
+            <End Role="Emp_Suc" EntitySet="Emp_Suc" />
+            <End Role="Emp_PtoVta" EntitySet="Emp_PtoVta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_Suc_Emp_Datos" Association="Self.FK_Emp_Suc_Emp_Datos">
+            <End Role="Emp_Datos" EntitySet="Emp_Datos" />
+            <End Role="Emp_Suc" EntitySet="Emp_Suc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DaxsysModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Emp_Arch">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Arch_Tipo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Arch_Tipo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Arch_Nom" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Emp_Datos" Relationship="Self.FK_Emp_Arch_Emp_Datos" FromRole="Emp_Arch" ToRole="Emp_Datos" />
+        </EntityType>
+        <EntityType Name="Emp_Bod">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Suc_Codigo" />
+            <PropertyRef Name="Bod_codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Suc_Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Bod_codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Bod_nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Bod_IdCta" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Emp_Suc" Relationship="Self.FK_Emp_Bod_Emp_Suc" FromRole="Emp_Bod" ToRole="Emp_Suc" />
+        </EntityType>
+        <EntityType Name="Emp_Datos">
+          <Key>
+            <PropertyRef Name="Emp_codigo" />
+          </Key>
+          <Property Name="Emp_codigo" Type="Int32" Nullable="false" />
+          <Property Name="Emp_Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Pais" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Provincia" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Ciudad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Cantón" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Dirección" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Telefono_1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Telefono_2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Fax" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Casilla" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_SegSocial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Presidente" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Gerente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_RepLegal" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Contador" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Logotipo" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Defecto" Type="Boolean" Nullable="false" />
+          <Property Name="Emp_Lic1" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Lic2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Lic3" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_TipoBase" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Lic4" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Lic5" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Lic6" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_PathImagenes" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Emp_Arch" Relationship="Self.FK_Emp_Arch_Emp_Datos" FromRole="Emp_Datos" ToRole="Emp_Arch" />
+          <NavigationProperty Name="Emp_Par" Relationship="Self.FK_Emp_Par_Emp_Datos" FromRole="Emp_Datos" ToRole="Emp_Par" />
+          <NavigationProperty Name="Emp_Suc" Relationship="Self.FK_Emp_Suc_Emp_Datos" FromRole="Emp_Datos" ToRole="Emp_Suc" />
+        </EntityType>
+        <EntityType Name="Emp_Par">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="Int32" Nullable="false" />
+          <Property Name="DefCta_NumNiveles" Type="Int32" />
+          <Property Name="DefCta_NumGrupos" Type="Int32" />
+          <Property Name="DefCta_NumDigNivel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Par_ConTipCierre" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Par_InvTipCierre" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Par_VenIVA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Par_VenSNEmp" Type="Boolean" Nullable="false" />
+          <Property Name="Par_VenSNAcuDoc" Type="Boolean" Nullable="false" />
+          <Property Name="Par_ComIVA" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Par_ComSNEmp" Type="Boolean" Nullable="false" />
+          <Property Name="Par_ComSNAcuDoc" Type="Boolean" Nullable="false" />
+          <Property Name="Par_AcfNumNiv" Type="Int32" />
+          <Property Name="Par_RolCodMay" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Par_RolTur" Type="Int32" />
+          <Property Name="Par_SucPri" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Par_ClvDsc" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Par_ClvIVA" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Par_AcumHis" Type="Boolean" Nullable="false" />
+          <Property Name="Par_FecDes" Type="Int32" />
+          <Property Name="Par_Numerodigitos" Type="Int32" />
+          <Property Name="Par_LimAtrasoEntrada" Type="Int32" />
+          <Property Name="Par_LimExtraSalida" Type="Int32" />
+          <Property Name="Par_LimExtraEntrada" Type="Int32" />
+          <Property Name="Par_DocPrincipalVta" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Par_Cheques" Type="Byte" />
+          <Property Name="Par_PagoCompras" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="DefCta_NumNiveles1" Type="Int32" />
+          <Property Name="DefCta_NumGrupos1" Type="Int32" />
+          <Property Name="DefCta_NumDigNivel1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DefCtaV" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Par_DigitosCostos" Type="Int32" />
+          <Property Name="Par_DigitosPrecios" Type="Int32" />
+          <Property Name="Par_CruceDocSucursal" Type="Byte" />
+          <Property Name="par_PathImagenes" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="par_DiasMensualesAcf" Type="Int32" />
+          <Property Name="Emp_PathImagenes" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_DiasMensualesAcf" Type="Int32" />
+          <Property Name="Prspto_NumNiveles" Type="Int32" />
+          <Property Name="Prspto_NumGrupos" Type="Int32" />
+          <Property Name="Prspto_NumDigNivel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="path_tmpServer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CtaLocalEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Emp_Datos" Relationship="Self.FK_Emp_Par_Emp_Datos" FromRole="Emp_Par" ToRole="Emp_Datos" />
+        </EntityType>
+        <EntityType Name="Emp_PtoVta">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Suc_Codigo" />
+            <PropertyRef Name="Pto_codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Suc_Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pto_codigo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pto_nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Pto_IDTributario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Pto_IdCta" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Emp_Suc" Relationship="Self.FK_Emp_PtoVta_Emp_Suc" FromRole="Emp_PtoVta" ToRole="Emp_Suc" />
+        </EntityType>
+        <EntityType Name="Emp_Suc">
+          <Key>
+            <PropertyRef Name="Emp_Codigo" />
+            <PropertyRef Name="Suc_Codigo" />
+          </Key>
+          <Property Name="Emp_Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Suc_Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Suc_Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Suc_Direccion" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Suc_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Suc_SegSocial" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Suc_IdCta" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Bod_Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Suc_IdTributario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="precioVta" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Emp_Bod" Relationship="Self.FK_Emp_Bod_Emp_Suc" FromRole="Emp_Suc" ToRole="Emp_Bod" />
+          <NavigationProperty Name="Emp_Datos" Relationship="Self.FK_Emp_Suc_Emp_Datos" FromRole="Emp_Suc" ToRole="Emp_Datos" />
+          <NavigationProperty Name="Emp_PtoVta" Relationship="Self.FK_Emp_PtoVta_Emp_Suc" FromRole="Emp_Suc" ToRole="Emp_PtoVta" />
+        </EntityType>
+        <EntityType Name="sys_Accesos">
+          <Key>
+            <PropertyRef Name="idclavedoc" />
+          </Key>
+          <Property Name="IdUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IdEmpresa" Type="Single" Nullable="false" />
+          <Property Name="IdSistema" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="IdOpcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IdNomOpcion" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Accesos" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="idclavedoc" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="accnvo" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sys_Bodegas">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdEmpresa" />
+            <PropertyRef Name="CodSucursal" />
+            <PropertyRef Name="CodBodega" />
+          </Key>
+          <Property Name="IdUsuario" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Byte" Nullable="false" />
+          <Property Name="CodSucursal" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodBodega" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AutorizaBod" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="sys_Sucursales">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdEmpresa" />
+            <PropertyRef Name="CodSucursal" />
+          </Key>
+          <Property Name="IdUsuario" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Byte" Nullable="false" />
+          <Property Name="CodSucursal" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AutorizaSuc" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Emp_Periodos">
+          <Key>
+            <PropertyRef Name="Idclave" />
+          </Key>
+          <Property Name="CodEmpresa" Type="Int32" />
+          <Property Name="Tipo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Periodo1" Type="DateTime" Precision="3" />
+          <Property Name="Periodo2" Type="DateTime" Precision="3" />
+          <Property Name="Idclave" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="sys_ptoVta">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+            <PropertyRef Name="CodSucursal" />
+            <PropertyRef Name="CodptoVta" />
+          </Key>
+          <Property Name="IdUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IdEmpresa" Type="Byte" Nullable="false" />
+          <Property Name="CodSucursal" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodptoVta" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AutorizaPtoVta" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Emp_Arch_Emp_Datos">
+          <End Role="Emp_Datos" Type="Self.Emp_Datos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Arch" Type="Self.Emp_Arch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Datos">
+              <PropertyRef Name="Emp_codigo" />
+            </Principal>
+            <Dependent Role="Emp_Arch">
+              <PropertyRef Name="Emp_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_Bod_Emp_Suc">
+          <End Role="Emp_Suc" Type="Self.Emp_Suc" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Bod" Type="Self.Emp_Bod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Suc">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Principal>
+            <Dependent Role="Emp_Bod">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_Par_Emp_Datos">
+          <End Role="Emp_Datos" Type="Self.Emp_Datos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Par" Type="Self.Emp_Par" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Datos">
+              <PropertyRef Name="Emp_codigo" />
+            </Principal>
+            <Dependent Role="Emp_Par">
+              <PropertyRef Name="Emp_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_Suc_Emp_Datos">
+          <End Role="Emp_Datos" Type="Self.Emp_Datos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_Suc" Type="Self.Emp_Suc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Datos">
+              <PropertyRef Name="Emp_codigo" />
+            </Principal>
+            <Dependent Role="Emp_Suc">
+              <PropertyRef Name="Emp_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emp_PtoVta_Emp_Suc">
+          <End Role="Emp_Suc" Type="Self.Emp_Suc" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Emp_PtoVta" Type="Self.Emp_PtoVta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emp_Suc">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Principal>
+            <Dependent Role="Emp_PtoVta">
+              <PropertyRef Name="Emp_Codigo" />
+              <PropertyRef Name="Suc_Codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DaxsysEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Emp_Arch" EntityType="Self.Emp_Arch" />
+          <EntitySet Name="Emp_Bod" EntityType="Self.Emp_Bod" />
+          <EntitySet Name="Emp_Datos" EntityType="Self.Emp_Datos" />
+          <EntitySet Name="Emp_Par" EntityType="Self.Emp_Par" />
+          <EntitySet Name="Emp_PtoVta" EntityType="Self.Emp_PtoVta" />
+          <EntitySet Name="Emp_Suc" EntityType="Self.Emp_Suc" />
+          <EntitySet Name="sys_Accesos" EntityType="Self.sys_Accesos" />
+          <EntitySet Name="sys_Bodegas" EntityType="Self.sys_Bodegas" />
+          <EntitySet Name="sys_Sucursales" EntityType="Self.sys_Sucursales" />
+          <EntitySet Name="Emp_Periodos" EntityType="Self.Emp_Periodos" />
+          <EntitySet Name="sys_ptoVta" EntityType="Self.sys_ptoVta" />
+          <AssociationSet Name="FK_Emp_Arch_Emp_Datos" Association="Self.FK_Emp_Arch_Emp_Datos">
+            <End Role="Emp_Datos" EntitySet="Emp_Datos" />
+            <End Role="Emp_Arch" EntitySet="Emp_Arch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_Bod_Emp_Suc" Association="Self.FK_Emp_Bod_Emp_Suc">
+            <End Role="Emp_Suc" EntitySet="Emp_Suc" />
+            <End Role="Emp_Bod" EntitySet="Emp_Bod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_Par_Emp_Datos" Association="Self.FK_Emp_Par_Emp_Datos">
+            <End Role="Emp_Datos" EntitySet="Emp_Datos" />
+            <End Role="Emp_Par" EntitySet="Emp_Par" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_Suc_Emp_Datos" Association="Self.FK_Emp_Suc_Emp_Datos">
+            <End Role="Emp_Datos" EntitySet="Emp_Datos" />
+            <End Role="Emp_Suc" EntitySet="Emp_Suc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emp_PtoVta_Emp_Suc" Association="Self.FK_Emp_PtoVta_Emp_Suc">
+            <End Role="Emp_Suc" EntitySet="Emp_Suc" />
+            <End Role="Emp_PtoVta" EntitySet="Emp_PtoVta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DaxsysModelStoreContainer" CdmEntityContainer="DaxsysEntities">
+          <EntitySetMapping Name="Emp_Arch">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_Arch">
+              <MappingFragment StoreEntitySet="Emp_Arch">
+                <ScalarProperty Name="Emp_Codigo" ColumnName="Emp_Codigo" />
+                <ScalarProperty Name="Arch_Tipo" ColumnName="Arch_Tipo" />
+                <ScalarProperty Name="Arch_Nom" ColumnName="Arch_Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emp_Bod">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_Bod">
+              <MappingFragment StoreEntitySet="Emp_Bod">
+                <ScalarProperty Name="Emp_Codigo" ColumnName="Emp_Codigo" />
+                <ScalarProperty Name="Suc_Codigo" ColumnName="Suc_Codigo" />
+                <ScalarProperty Name="Bod_codigo" ColumnName="Bod_codigo" />
+                <ScalarProperty Name="Bod_nombre" ColumnName="Bod_nombre" />
+                <ScalarProperty Name="Bod_IdCta" ColumnName="Bod_IdCta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emp_Datos">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_Datos">
+              <MappingFragment StoreEntitySet="Emp_Datos">
+                <ScalarProperty Name="Emp_codigo" ColumnName="Emp_codigo" />
+                <ScalarProperty Name="Emp_Nombre" ColumnName="Emp_Nombre" />
+                <ScalarProperty Name="Emp_Pais" ColumnName="Emp_Pais" />
+                <ScalarProperty Name="Emp_Provincia" ColumnName="Emp_Provincia" />
+                <ScalarProperty Name="Emp_Ciudad" ColumnName="Emp_Ciudad" />
+                <ScalarProperty Name="Emp_Cantón" ColumnName="Emp_Cantón" />
+                <ScalarProperty Name="Emp_Dirección" ColumnName="Emp_Dirección" />
+                <ScalarProperty Name="Emp_Telefono_1" ColumnName="Emp_Telefono_1" />
+                <ScalarProperty Name="Emp_Telefono_2" ColumnName="Emp_Telefono_2" />
+                <ScalarProperty Name="Emp_Fax" ColumnName="Emp_Fax" />
+                <ScalarProperty Name="Emp_Casilla" ColumnName="Emp_Casilla" />
+                <ScalarProperty Name="Emp_Email" ColumnName="Emp_Email" />
+                <ScalarProperty Name="Emp_RUC" ColumnName="Emp_RUC" />
+                <ScalarProperty Name="Emp_SegSocial" ColumnName="Emp_SegSocial" />
+                <ScalarProperty Name="Emp_Presidente" ColumnName="Emp_Presidente" />
+                <ScalarProperty Name="Emp_Gerente" ColumnName="Emp_Gerente" />
+                <ScalarProperty Name="Emp_RepLegal" ColumnName="Emp_RepLegal" />
+                <ScalarProperty Name="Emp_Contador" ColumnName="Emp_Contador" />
+                <ScalarProperty Name="Emp_Logotipo" ColumnName="Emp_Logotipo" />
+                <ScalarProperty Name="Emp_Defecto" ColumnName="Emp_Defecto" />
+                <ScalarProperty Name="Emp_Lic1" ColumnName="Emp_Lic1" />
+                <ScalarProperty Name="Emp_Lic2" ColumnName="Emp_Lic2" />
+                <ScalarProperty Name="Emp_Lic3" ColumnName="Emp_Lic3" />
+                <ScalarProperty Name="Emp_TipoBase" ColumnName="Emp_TipoBase" />
+                <ScalarProperty Name="Emp_Lic4" ColumnName="Emp_Lic4" />
+                <ScalarProperty Name="Emp_Lic5" ColumnName="Emp_Lic5" />
+                <ScalarProperty Name="Emp_Lic6" ColumnName="Emp_Lic6" />
+                <ScalarProperty Name="Emp_PathImagenes" ColumnName="Emp_PathImagenes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emp_Par">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_Par">
+              <MappingFragment StoreEntitySet="Emp_Par">
+                <ScalarProperty Name="Emp_Codigo" ColumnName="Emp_Codigo" />
+                <ScalarProperty Name="DefCta_NumNiveles" ColumnName="DefCta_NumNiveles" />
+                <ScalarProperty Name="DefCta_NumGrupos" ColumnName="DefCta_NumGrupos" />
+                <ScalarProperty Name="DefCta_NumDigNivel" ColumnName="DefCta_NumDigNivel" />
+                <ScalarProperty Name="Par_ConTipCierre" ColumnName="Par_ConTipCierre" />
+                <ScalarProperty Name="Par_InvTipCierre" ColumnName="Par_InvTipCierre" />
+                <ScalarProperty Name="Par_VenIVA" ColumnName="Par_VenIVA" />
+                <ScalarProperty Name="Par_VenSNEmp" ColumnName="Par_VenSNEmp" />
+                <ScalarProperty Name="Par_VenSNAcuDoc" ColumnName="Par_VenSNAcuDoc" />
+                <ScalarProperty Name="Par_ComIVA" ColumnName="Par_ComIVA" />
+                <ScalarProperty Name="Par_ComSNEmp" ColumnName="Par_ComSNEmp" />
+                <ScalarProperty Name="Par_ComSNAcuDoc" ColumnName="Par_ComSNAcuDoc" />
+                <ScalarProperty Name="Par_AcfNumNiv" ColumnName="Par_AcfNumNiv" />
+                <ScalarProperty Name="Par_RolCodMay" ColumnName="Par_RolCodMay" />
+                <ScalarProperty Name="Par_RolTur" ColumnName="Par_RolTur" />
+                <ScalarProperty Name="Par_SucPri" ColumnName="Par_SucPri" />
+                <ScalarProperty Name="Par_ClvDsc" ColumnName="Par_ClvDsc" />
+                <ScalarProperty Name="Par_ClvIVA" ColumnName="Par_ClvIVA" />
+                <ScalarProperty Name="Par_AcumHis" ColumnName="Par_AcumHis" />
+                <ScalarProperty Name="Par_FecDes" ColumnName="Par_FecDes" />
+                <ScalarProperty Name="Par_Numerodigitos" ColumnName="Par_Numerodigitos" />
+                <ScalarProperty Name="Par_LimAtrasoEntrada" ColumnName="Par_LimAtrasoEntrada" />
+                <ScalarProperty Name="Par_LimExtraSalida" ColumnName="Par_LimExtraSalida" />
+                <ScalarProperty Name="Par_LimExtraEntrada" ColumnName="Par_LimExtraEntrada" />
+                <ScalarProperty Name="Par_DocPrincipalVta" ColumnName="Par_DocPrincipalVta" />
+                <ScalarProperty Name="Par_Cheques" ColumnName="Par_Cheques" />
+                <ScalarProperty Name="Par_PagoCompras" ColumnName="Par_PagoCompras" />
+                <ScalarProperty Name="DefCta_NumNiveles1" ColumnName="DefCta_NumNiveles1" />
+                <ScalarProperty Name="DefCta_NumGrupos1" ColumnName="DefCta_NumGrupos1" />
+                <ScalarProperty Name="DefCta_NumDigNivel1" ColumnName="DefCta_NumDigNivel1" />
+                <ScalarProperty Name="DefCtaV" ColumnName="DefCtaV" />
+                <ScalarProperty Name="Par_DigitosCostos" ColumnName="Par_DigitosCostos" />
+                <ScalarProperty Name="Par_DigitosPrecios" ColumnName="Par_DigitosPrecios" />
+                <ScalarProperty Name="Par_CruceDocSucursal" ColumnName="Par_CruceDocSucursal" />
+                <ScalarProperty Name="par_PathImagenes" ColumnName="par_PathImagenes" />
+                <ScalarProperty Name="par_DiasMensualesAcf" ColumnName="par_DiasMensualesAcf" />
+                <ScalarProperty Name="Emp_PathImagenes" ColumnName="Emp_PathImagenes" />
+                <ScalarProperty Name="Emp_DiasMensualesAcf" ColumnName="Emp_DiasMensualesAcf" />
+                <ScalarProperty Name="Prspto_NumNiveles" ColumnName="Prspto_NumNiveles" />
+                <ScalarProperty Name="Prspto_NumGrupos" ColumnName="Prspto_NumGrupos" />
+                <ScalarProperty Name="Prspto_NumDigNivel" ColumnName="Prspto_NumDigNivel" />
+                <ScalarProperty Name="path_tmpServer" ColumnName="path_tmpServer" />
+                <ScalarProperty Name="CtaLocalEmail" ColumnName="CtaLocalEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emp_PtoVta">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_PtoVta">
+              <MappingFragment StoreEntitySet="Emp_PtoVta">
+                <ScalarProperty Name="Emp_Codigo" ColumnName="Emp_Codigo" />
+                <ScalarProperty Name="Suc_Codigo" ColumnName="Suc_Codigo" />
+                <ScalarProperty Name="Pto_codigo" ColumnName="Pto_codigo" />
+                <ScalarProperty Name="Pto_nombre" ColumnName="Pto_nombre" />
+                <ScalarProperty Name="Pto_IDTributario" ColumnName="Pto_IDTributario" />
+                <ScalarProperty Name="Pto_IdCta" ColumnName="Pto_IdCta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emp_Suc">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_Suc">
+              <MappingFragment StoreEntitySet="Emp_Suc">
+                <ScalarProperty Name="Emp_Codigo" ColumnName="Emp_Codigo" />
+                <ScalarProperty Name="Suc_Codigo" ColumnName="Suc_Codigo" />
+                <ScalarProperty Name="Suc_Nombre" ColumnName="Suc_Nombre" />
+                <ScalarProperty Name="Suc_Direccion" ColumnName="Suc_Direccion" />
+                <ScalarProperty Name="Suc_RUC" ColumnName="Suc_RUC" />
+                <ScalarProperty Name="Suc_SegSocial" ColumnName="Suc_SegSocial" />
+                <ScalarProperty Name="Suc_IdCta" ColumnName="Suc_IdCta" />
+                <ScalarProperty Name="Bod_Codigo" ColumnName="Bod_Codigo" />
+                <ScalarProperty Name="Suc_IdTributario" ColumnName="Suc_IdTributario" />
+                <ScalarProperty Name="precioVta" ColumnName="precioVta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_Accesos">
+            <EntityTypeMapping TypeName="DaxsysModel.sys_Accesos">
+              <MappingFragment StoreEntitySet="sys_Accesos">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdSistema" ColumnName="IdSistema" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="IdNomOpcion" ColumnName="IdNomOpcion" />
+                <ScalarProperty Name="Accesos" ColumnName="Accesos" />
+                <ScalarProperty Name="idclavedoc" ColumnName="idclavedoc" />
+                <ScalarProperty Name="accnvo" ColumnName="accnvo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_Bodegas">
+            <EntityTypeMapping TypeName="DaxsysModel.sys_Bodegas">
+              <MappingFragment StoreEntitySet="sys_Bodegas">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="CodSucursal" ColumnName="CodSucursal" />
+                <ScalarProperty Name="CodBodega" ColumnName="CodBodega" />
+                <ScalarProperty Name="AutorizaBod" ColumnName="AutorizaBod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_Sucursales">
+            <EntityTypeMapping TypeName="DaxsysModel.sys_Sucursales">
+              <MappingFragment StoreEntitySet="sys_Sucursales">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="CodSucursal" ColumnName="CodSucursal" />
+                <ScalarProperty Name="AutorizaSuc" ColumnName="AutorizaSuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emp_Periodos">
+            <EntityTypeMapping TypeName="DaxsysModel.Emp_Periodos">
+              <MappingFragment StoreEntitySet="Emp_Periodos">
+                <ScalarProperty Name="CodEmpresa" ColumnName="CodEmpresa" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Periodo1" ColumnName="Periodo1" />
+                <ScalarProperty Name="Periodo2" ColumnName="Periodo2" />
+                <ScalarProperty Name="Idclave" ColumnName="Idclave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_ptoVta">
+            <EntityTypeMapping TypeName="DaxsysModel.sys_ptoVta">
+              <MappingFragment StoreEntitySet="sys_ptoVta">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="CodSucursal" ColumnName="CodSucursal" />
+                <ScalarProperty Name="CodptoVta" ColumnName="CodptoVta" />
+                <ScalarProperty Name="AutorizaPtoVta" ColumnName="AutorizaPtoVta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

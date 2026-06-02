@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D46A5F80-81E5-4FF3-9879-648FF8C02EE7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SES_ERP24</RootNamespace>
+    <AssemblyName>SES_ERP24</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logoP.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="artInvent">
+      <HintPath>..\Librerias\artInvent.dll</HintPath>
+    </Reference>
+    <Reference Include="ctaAnalisis">
+      <HintPath>..\Librerias\ctaAnalisis.dll</HintPath>
+    </Reference>
+    <Reference Include="CtaCartera">
+      <HintPath>..\Librerias\CtaCartera.dll</HintPath>
+    </Reference>
+    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\CtaMtnS.dll</HintPath>
+    </Reference>
+    <Reference Include="ctbRepBal">
+      <HintPath>..\Librerias\ctbRepBal.exe</HintPath>
+    </Reference>
+    <Reference Include="DattCom">
+      <HintPath>..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="directMnt, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\directMnt.dll</HintPath>
+    </Reference>
+    <Reference Include="EmiFacElec">
+      <HintPath>..\Librerias\EmiFacElec.dll</HintPath>
+    </Reference>
+    <Reference Include="emiFacPed">
+      <HintPath>..\Librerias\emiFacPed.dll</HintPath>
+    </Reference>
+    <Reference Include="EmiFacPV">
+      <HintPath>..\Librerias\EmiFacPV.dll</HintPath>
+    </Reference>
+    <Reference Include="EmpMant">
+      <HintPath>..\Librerias\EmpMant.dll</HintPath>
+    </Reference>
+    <Reference Include="frmaPgo, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\frmaPgo.dll</HintPath>
+    </Reference>
+    <Reference Include="genEgr, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\genEgr.dll</HintPath>
+    </Reference>
+    <Reference Include="importarData">
+      <HintPath>..\Librerias\importarData.dll</HintPath>
+    </Reference>
+    <Reference Include="IngSis">
+      <HintPath>..\Librerias\IngSis.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.4\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="listaCG">
+      <HintPath>..\Librerias\listaCG.dll</HintPath>
+    </Reference>
+    <Reference Include="LstDoc">
+      <HintPath>..\Librerias\LstDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="MntUsers, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\MntUsers.dll</HintPath>
+    </Reference>
+    <Reference Include="repAnalisis">
+      <HintPath>..\Librerias\repAnalisis.dll</HintPath>
+    </Reference>
+    <Reference Include="retFuente, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\retFuente.dll</HintPath>
+    </Reference>
+    <Reference Include="sesConcto, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\sesConcto.dll</HintPath>
+    </Reference>
+    <Reference Include="sesDctoEmi">
+      <HintPath>..\Librerias\sesDctoEmi.dll</HintPath>
+    </Reference>
+    <Reference Include="SesFelec">
+      <HintPath>..\Librerias\SesFelec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesSysp">
+      <HintPath>..\Librerias\sesSysp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="utilidadDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\utilidadDoc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="datosIng.cs" />
+    <Compile Include="FrmMenuInicial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMenuInicial.Designer.cs">
+      <DependentUpon>FrmMenuInicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MnPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MnPrincipal.Designer.cs">
+      <DependentUpon>MnPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PermisosUsuario.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="FrmMenuInicial.resx">
+      <DependentUpon>FrmMenuInicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MnPrincipal.resx">
+      <DependentUpon>MnPrincipal.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\_Bancos\DaxBancos\DaxBancos.csproj">
+      <Project>{50102c9d-0c51-476b-9fc9-62f7e128a883}</Project>
+      <Name>DaxBancos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\_ClassBasesDatos\adcClassDoc\ClassDoc\ClassDoc.csproj">
+      <Project>{5A5B64A4-7F44-4D1F-B986-F749C3EEBDFD}</Project>
+      <Name>ClassDoc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logoP.ico" />
+    <None Include="Resources\entorno.png" />
+    <None Include="Resources\archivo.png" />
+    <None Include="Resources\mantenimiento.png" />
+    <None Include="Resources\cuenta-por-cobrar.png" />
+    <None Include="Resources\contabilidad c.png" />
+    <None Include="Resources\caja-del-paquete.png" />
+    <None Include="Resources\inventario.png" />
+    <None Include="Resources\banco.png" />
+    <None Include="Resources\analitica.png" />
+    <None Include="Resources\factura c.png" />
+    <None Include="Resources\factura1.png" />
+    <None Include="Resources\factura.png" />
+    <None Include="Resources\punto-de-venta.png" />
+    <None Include="Resources\trabajar-desde-casa.png" />
+    <None Include="Resources\lista-de-contactos.png" />
+    <None Include="Resources\contactos-telefonicos %281%29.png" />
+    <None Include="Resources\contactos-telefonicos.png" />
+    <None Include="Resources\llave-inglesa.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

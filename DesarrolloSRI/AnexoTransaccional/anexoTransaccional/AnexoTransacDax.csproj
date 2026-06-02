@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>anexoTransaccional</RootNamespace>
+    <AssemblyName>AnexoTransSri</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Librerias\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ConxServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\ConxServer.dll</HintPath>
+    </Reference>
+    <Reference Include="DataGridViewPrinterApplication1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\LibreriasGenerales\Librerias\DataGridViewPrinterApplication1.dll</HintPath>
+    </Reference>
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="DaxFechas">
+      <HintPath>..\..\DesarrolloUtilitariosNet\Librerias\DaxFechas.dll</HintPath>
+    </Reference>
+    <Reference Include="directMnt">
+      <HintPath>..\..\..\Librerias\directMnt.dll</HintPath>
+    </Reference>
+    <Reference Include="mallExpS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\mallExpS.dll</HintPath>
+    </Reference>
+    <Reference Include="mntReemboDax, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\mntReemboDax.dll</HintPath>
+    </Reference>
+    <Reference Include="retFuente">
+      <HintPath>..\..\..\Librerias\retFuente.dll</HintPath>
+    </Reference>
+    <Reference Include="sesMall">
+      <HintPath>..\..\..\Librerias\sesMall.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WaitMensaje">
+      <HintPath>..\..\UtilitariosGenerales\Librerias\WaitMensaje.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmDetDocVta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetDocVta.Designer.cs">
+      <DependentUpon>frmDetDocVta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConxServer.cs" />
+    <Compile Include="frmConxServer.Designer.cs">
+      <DependentUpon>frmConxServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionEspecial.cs" />
+    <Compile Include="ConfMalla.cs" />
+    <Compile Include="frmAts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAts.Designer.cs">
+      <DependentUpon>frmAts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAts.resx">
+      <DependentUpon>frmAts.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDetDocVta.resx">
+      <DependentUpon>frmDetDocVta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConxServer.resx">
+      <DependentUpon>frmConxServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\atsgenxml\AtsGenXmlDax.csproj">
+      <Project>{947d070d-e271-4d37-8549-69063b6fa794}</Project>
+      <Name>AtsGenXmlDax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClassAts\ClassAtsDax.csproj">
+      <Project>{8d34000b-9d01-41fb-bb62-b08e4d7a52f2}</Project>
+      <Name>ClassAtsDax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsAplicacion\ConsAplicacionDax.csproj">
+      <Project>{348cddd4-5eef-4f4e-a340-452aa2b87e00}</Project>
+      <Name>ConsAplicacionDax</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title of the document</title>
+    <style>
+        table.border {
+            border-collapse: collapse;
+        }
+
+            table.border th {
+                padding: 5px;
+                border: 1px solid black;
+            }
+
+            table.border td {
+                padding: 5px;
+                border: 1px solid black;
+            }
+    </style>
+</head>
+<body>
+    <table border="2px style="width:100%">
+        <tr>
+            <td style="width:1%">LLEGO</td>
+            <td style="width:100%" align="left" valign="top">
+                <table>
+                    <tr><td align="center"><h2 style="margin:0px">@EMPRESA</h2></td></tr>
+                    <tr><td align="center">@DIRECCIONEMPRESA</td></tr>
+                    <tr><td align="center">@TELEFONOSEMPRESA</td></tr>
+                </table>
+            </td>
+            <td style="width:100%">
+                <table border="2px style="width:100%">
+                    <!--class="border"-->
+                    <tr><td align="left">R U C @RUC</td></tr>
+                    <!--<tr><td align="center" style="background-color:#D8D8D8">FACTURA</td></tr>-->
+                    <tr><td align="left"><h4 style="margin:0px">FACTURA</h4></td></tr>
+                    <tr><td align="left">Nro: @NUMEROFAC</td></tr>
+                    <tr><td align="left">NUMERO DE AUTORIZACION</td></tr>
+                    <tr><td align="left">@NUMAUTORIZACION</td></tr>
+                    <tr><td align="left">FECHA Y HORA DE AUTORIZACION</td></tr>
+                    <tr><td align="left">FECHA</td></tr>
+                    <tr><td align="left">AMBIENTE</td></tr>
+                    <tr><td align="left">AMBIENTE1</td></tr>
+                    <tr><td align="left">EMISION</td></tr>
+                    <tr><td align="left">EMISION1</td></tr>
+                    <tr><td align="left">CLAVE ACCESO</td></tr>
+                    <tr><td align="left">CLAVE ACCESO1</td></tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td colspan="3" height="20">NOSE DONDE VA</td></tr>
+
+        <tr>
+            <td colspan="2">
+                <table border="2px style="width:100%">
+                    <tr>
+                        <td colspan="1" style="width:60%">RAZON SOCIAL :</td>
+                        <!--<td colspan="3" style="width:80%;border-bottom:1px solid black">@CLIENTE</td>-->
+                        <td style="width:100%">@CLIENTE</td>                        
+                    </tr>
+                    <tr>
+                        <td style="width:40%">RUC :</td>
+                        <td style="width:100%">@CEDULARUC</td>
+                    </tr>
+                </table>
+                <table border="2px style="width:100%">
+                    <tr>
+                        <!--td style="width:40%">RUC :</td>
+                        <td style="width:30%">@CEDULARUC</td>-->
+                        <td style="width:30%">FECHA EMISION:</td>
+                        <td style="width:40%">@FECHA</td>
+                    </tr>
+                </table>
+            </td>
+            <td>ACA DONDE</td>
+        </tr>
+
+        <tr><td colspan="3" height="30"></td></tr>
+
+        <tr>
+            <td colspan="3">
+                <table class="border" style="width:100%;">
+                    <thead>
+                        <tr style="background-color:#D8D8D8">
+                            <th>Cant.</th>
+                            <th>Descripcion</th>
+                            <th>P. Unitario</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--<tr>
+                            <td>1</td>
+                            <td>sdafsda</td>
+                            <td>2.4</td>
+                            <td>2.4</td>
+                        </tr>-->
+                        @FILAS
+                        <tr>
+                            <td style="border: 0px !important"></td>
+                            <td style="border: 0px !important"></td>
+                            <td align="right">Total:</td>
+                            <td>@TOTAL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

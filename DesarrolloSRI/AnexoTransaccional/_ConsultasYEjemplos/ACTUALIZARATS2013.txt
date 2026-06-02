@@ -1,0 +1,67 @@
+proceso actualizacion sri 2013
+
+
+1- correr actualizador revisando use adcomdx
+2.- ordenar camposen compras de ivaret
+  tipodeproveedor va en 5 lugar
+	es relacionado en 6
+datos de pago debaj de retnecion 100
+
+CL_SusTributario	varchar(50)	Checked
+CL_TipoIdProveedor	nvarchar(50)	Checked
+CL_CodigoProveedor	varchar(50)	Checked
+Cl_TipoComprobante	varchar(50)	Checked
+----------
+CL_TipoProveedor	varchar(20)	Checked
+CL_ParteRelacionada	varchar(20)	Checked
+-----------
+CL_FechaRegContable	datetime	Checked
+CL_NroSerieEstablec	varchar(50)	Checked
+CL_NroSeriePtoEmision	varchar(50)	Checked
+CL_NroSecuencial	varchar(20)	Checked
+CL_FechaComprobante	datetime	Checked
+CL_NroAutorizacion	varchar(50)	Checked
+CL_BaseNoGrabaIva	decimal(18, 0)	Checked
+CL_BaseImpTarCero	decimal(18, 2)	Checked
+CL_BaseImpGravadaIva	decimal(18, 2)	Checked
+CL_MontoICE	decimal(18, 2)	Checked
+CL_MontoIva	decimal(18, 2)	Checked
+CL_MontoRetIvaBienes	decimal(18, 2)	Checked
+CL_MontoRetIvaServicios	decimal(18, 2)	Checked
+CL_MontoRetIva100	decimal(18, 2)	Checked
+---------
+CL_pagoLocExt	varchar(20)	Checked
+CL_pagoPais	varchar(20)	Checked
+CL_dobleTributacion	varchar(10)	Checked
+CL_pagoSujetoRetencion	varchar(10)	Checked
+CL_formaDePago	varchar(20)	Checked
+---------
+CL_CodRetFteImpRenta0	nvarchar(5)	Checked
+CL_BaseImponibleIR0	decimal(18, 2)	Checked
+CL_CodPorcRetIR0	decimal(18, 2)	Checked
+CL_MontoRetIR0	decimal(18, 2)	Checked
+CL_CodRetFteImpRenta1	nvarchar(5)	Checked
+CL_BaseImponibleIR1	decimal(18, 2)	Checked
+CL_CodPorcRetIR1	decimal(18, 2)	Checked
+CL_MontoRetIR1	decimal(18, 2)	Checked
+CL_NroSerieCpbteRetEstable	nvarchar(3)	Checked
+CL_NroSerieCpbteRetEmision	nvarchar(3)	Checked
+CL_NroSecuencialCpbteRet	nvarchar(7)	Checked
+CL_NroAutorizaCpbteRete	nvarchar(10)	Checked
+CL_FechaEmisionCpbteRete	datetime	Checked
+CL_CodigoTipoModificado	nvarchar(2)	Checked
+CL_NroSerieModificadoEstab	nvarchar(3)	Checked
+CL_NroSerieModificadoEmision	nvarchar(3)	Checked
+CL_NroSecuencialModificado	nvarchar(7)	Checked
+CL_NroAutorizaModificado	nvarchar(10)	Checked
+Clave	numeric(18, 0)	Unchecked
+Cl_Mes	int	Checked
+Cl_Anio	int	Checked
+		Unchecked
+
+
+crear tabla resVentas para resumen de ventas por establecimiento
+idestab varchar(10)
+totventa numeric(18,2)
+
+correr sqls del SRI

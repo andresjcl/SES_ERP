@@ -1,0 +1,22 @@
+DLL COMBOS
+
+-combos(nombre,Condicion consulta,conexion, combo)
+
+-("DOCUMENTOS",ctrlusuario.docs(fac inv egr etc),strConxAdcom,nombre combo)
+-("VENDEDORES","",strConxAdcom,nombre combo)
+-("BANCOS","",strConxAdcom,nombre combo)
+-("CATEGORIA" / "CLASE" / "GRUPO" / "SUBGRUPO","1"/"2"/"3"/"4",strConxAdcom,nombre combo)
+-("CATEGORIA_AF" / "CLASE_AF" / "GRUPO_AF" / "SUBGRUPO_AF","1"/"2"/"3"/"4",strConxAdcomr,nombre combo)
+-("SUCURSALES",ctrlusuario.sucs,strConxDaxSys,nombre combo)
+-("BODEGAS",,ctrlusuario.bods,strConxDaxSys,nombre combo)
+-("CLASIFICADORES","",strConxAdcom,nombre combo)
+-("TIPOCLASIFICADORES",campo(dia_costo/dia_empleado..),strConxAdcom,nombre combo)
+-("REFERENCIAS",referencia("ciudades",..),strConxDaxSys,nombre combo)
+
+
+
+
+
+1.- todos
+2.- clase documento     tip-ducumento  
+3.- tipo documento       opc_documento

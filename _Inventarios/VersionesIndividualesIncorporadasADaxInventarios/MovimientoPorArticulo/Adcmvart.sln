@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adcmvart", "Adcmvart\Adcmvart.csproj", "{0E04B17F-689C-45FD-A032-3BACA2CF118A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Buscar", "..\..\DesarrolloUtilitariosNet\Buscador\Fuentes\Buscar\Buscar\Buscar.vbproj", "{35CA4C63-9620-4ADC-A64E-85945043A89A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E04B17F-689C-45FD-A032-3BACA2CF118A}.Debug|x86.ActiveCfg = Debug|x86
+		{0E04B17F-689C-45FD-A032-3BACA2CF118A}.Debug|x86.Build.0 = Debug|x86
+		{0E04B17F-689C-45FD-A032-3BACA2CF118A}.Release|x86.ActiveCfg = Release|x86
+		{0E04B17F-689C-45FD-A032-3BACA2CF118A}.Release|x86.Build.0 = Release|x86
+		{35CA4C63-9620-4ADC-A64E-85945043A89A}.Debug|x86.ActiveCfg = Debug|x86
+		{35CA4C63-9620-4ADC-A64E-85945043A89A}.Debug|x86.Build.0 = Debug|x86
+		{35CA4C63-9620-4ADC-A64E-85945043A89A}.Release|x86.ActiveCfg = Release|x86
+		{35CA4C63-9620-4ADC-A64E-85945043A89A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

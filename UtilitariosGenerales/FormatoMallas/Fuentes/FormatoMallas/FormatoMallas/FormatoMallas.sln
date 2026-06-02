@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FormatoMallas", "FormatoMallas.vbproj", "{9A079D34-9F04-4CA3-8A81-1F1453F2395C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A079D34-9F04-4CA3-8A81-1F1453F2395C}.Debug|x86.ActiveCfg = Debug|x86
+		{9A079D34-9F04-4CA3-8A81-1F1453F2395C}.Debug|x86.Build.0 = Debug|x86
+		{9A079D34-9F04-4CA3-8A81-1F1453F2395C}.Release|x86.ActiveCfg = Release|x86
+		{9A079D34-9F04-4CA3-8A81-1F1453F2395C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,827 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4E25A207-83DB-48D5-ADD0-707F00A6B8D5}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>IVARETdx</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>IVARETdx.ModIvaret</StartupObject>
+    <AssemblyMajorVersion>6</AssemblyMajorVersion>
+    <AssemblyMinorVersion>1</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>550</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>True</GenerateRevisionNumber>
+    <AssemblyCompanyName>DAXSOF</AssemblyCompanyName>
+    <ApplicationIcon>ivaretdx_ANE.ico</ApplicationIcon>
+    <RootNamespace>IVARETdx</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>.\bin\</OutputPath>
+    <DocumentationFile>IVARETdx.xml</DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineDebug>True</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>Win32=True</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>.\bin\</OutputPath>
+    <DocumentationFile>IVARETdx.xml</DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <DefineDebug>False</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>Win32=True</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ManDirct">
+      <Name>ManDirct</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility">
+      <Name>Microsoft.VisualBasic.Compatibility</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility.Data">
+      <Name>Microsoft.VisualBasic.Compatibility.Data</Name>
+    </Reference>
+    <Reference Include="PrySysp13">
+      <Name>PrySysp13</Name>
+    </Reference>
+    <Reference Include="Syscod">
+      <Name>Syscod</Name>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+    <COMReference Include="Accessibility">
+      <Guid>{1EA4DBF0-3C3B-11CF-810C-00AA00389B71}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AdcDax">
+      <Guid>{937B4926-D99E-4795-AADD-979EC6594D05}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ADODB">
+      <Guid>{EF53050B-882E-4776-B643-EDA472E8E3F2}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="ADOMD">
+      <Guid>{22813728-8BD3-11D0-B4EF-00A0C9138CA4}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ADOR">
+      <Guid>{00000300-0000-0010-8000-00AA006D2EA4}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="aiValidaciones">
+      <Guid>{9C3AF2C8-A196-4947-8141-CF8E892B6338}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxBARCODEXLib">
+      <Guid>{8E515444-86DF-11D3-A630-444553540001}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxComboTnsDoc">
+      <Guid>{5D16C130-9548-4790-8C08-3E8DC00042D4}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>69</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxComboTnsSuc">
+      <Guid>{F4F9D466-063C-4367-B7BC-8F56529A6025}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxComboTnsVend">
+      <Guid>{D62D60C4-2A4E-44E1-B37A-A38D23C1F535}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxComCtl2">
+      <Guid>{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxComCtl3">
+      <Guid>{38911DA0-E448-11D0-84A3-00DD01104159}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxComctlLib">
+      <Guid>{6B7E6392-850A-101B-AFC0-4210102A8DA7}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxDaxGrid">
+      <Guid>{F9E25C06-3F05-4CB9-A5FA-67553DD80A53}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxDaxGridnvo">
+      <Guid>{D9D87CD9-DECC-4CD2-AB3E-001C71ABBA54}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSChart20Lib">
+      <Guid>{65E121D4-0C60-11D2-A9FC-0000F8754DA1}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSComCtl2">
+      <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSCommLib">
+      <Guid>{648A5603-2C6E-101B-82B6-000000000014}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSDataGridLib">
+      <Guid>{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSDataListLib">
+      <Guid>{F0D2F211-CCB0-11D0-A316-00AA00688B10}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSDBCtls">
+      <Guid>{FAEEE763-117E-101B-8933-08002B2F4F5A}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSFlexGridLib">
+      <Guid>{5E9E78A0-531B-11CF-91F6-C2863C385E30}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="AxMSHierarchicalFlexGridLib">
+      <Guid>{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>aximp</WrapperTool>
+    </COMReference>
+    <COMReference Include="BARCODEXLib">
+      <Guid>{8E515444-86DF-11D3-A630-444553540001}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="BusAlex">
+      <Guid>{555E381D-DAC9-410F-9B7E-6CA7E63C3ACE}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="calculador">
+      <Guid>{5EDB0470-7E5A-4AAC-956F-EC6F266C08CD}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ComboTnsDoc">
+      <Guid>{5D16C130-9548-4790-8C08-3E8DC00042D4}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>69</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ComboTnsSuc">
+      <Guid>{F4F9D466-063C-4367-B7BC-8F56529A6025}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ComboTnsVend">
+      <Guid>{D62D60C4-2A4E-44E1-B37A-A38D23C1F535}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ComCtl2">
+      <Guid>{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ComCtl3">
+      <Guid>{38911DA0-E448-11D0-84A3-00DD01104159}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ComctlLib">
+      <Guid>{6B7E6392-850A-101B-AFC0-4210102A8DA7}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="DAO">
+      <Guid>{00025E01-0000-0000-C000-000000000046}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="DaxGrid">
+      <Guid>{F9E25C06-3F05-4CB9-A5FA-67553DD80A53}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="DaxGridnvo">
+      <Guid>{D9D87CD9-DECC-4CD2-AB3E-001C71ABBA54}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="DaxLib">
+      <Guid>{09B321EF-9EBC-4CC9-8113-D8BE1D1C2E04}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>10</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="DaxPrintGrd">
+      <Guid>{0B139EFF-0692-4DFB-BB75-78041B8B89E0}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="DaxUsr">
+      <Guid>{FDB7F1CB-50E2-4A17-9902-AC671BACFF0D}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="fecha">
+      <Guid>{F1833554-5533-4C6F-BFC6-77789766FB16}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Outlook">
+      <Guid>{00062FFF-0000-0000-C000-000000000046}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="Microsoft.StdFormat">
+      <Guid>{6B263850-900B-11D0-9484-00A0C91110ED}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="Microsoft.Vbe.Interop">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="Microsoft.Vbe.Interop.Forms">
+      <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSAdodcLib">
+      <Guid>{67397AA1-7FB1-11D0-B148-00A0C922E820}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSChart20Lib">
+      <Guid>{65E121D4-0C60-11D2-A9FC-0000F8754DA1}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSComCtl2">
+      <Guid>{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSCommLib">
+      <Guid>{648A5603-2C6E-101B-82B6-000000000014}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSDataGridLib">
+      <Guid>{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSDataListLib">
+      <Guid>{F0D2F211-CCB0-11D0-A316-00AA00688B10}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSDataReportLib">
+      <Guid>{642AC760-AAB4-11D0-8494-00A0C90DC8A9}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSDATASRC">
+      <Guid>{7C0FFAB0-CD84-11D0-949A-00A0C91110ED}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSDBCtls">
+      <Guid>{FAEEE763-117E-101B-8933-08002B2F4F5A}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSFlexGridLib">
+      <Guid>{5E9E78A0-531B-11CF-91F6-C2863C385E30}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSHierarchicalFlexGridLib">
+      <Guid>{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="MSXML2">
+      <Guid>{F5078F18-C551-11D3-89B9-0000F81FE221}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="office">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="PrntDax">
+      <Guid>{E80E2A78-916C-48BD-B3C6-CD2F8F356187}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="ResEdit6">
+      <Guid>{2D25A54B-AFC1-11D1-BE67-CAEC58000000}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="Scripting">
+      <Guid>{420B2830-E718-11CF-893D-00A0C9054228}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{EF404E00-EDA6-101A-8DAF-00DD010F7EBB}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdcAutorizacionesSri.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>AdcAutorizacionesSri.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AdcAutorizacionesSri.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ANEEMPLEADOS.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>ANEEMPLEADOS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ANEEMPLEADOS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="AutorizacionSri.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AxDataComboArray.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BuscaRetencionAIR.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscaRetencionAIR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaRetencionAIR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaRetIvaBienes.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscaRetIvaBienes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaRetIvaBienes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaRetIvaServicios.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscaRetIvaServicios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaRetIvaServicios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaSustento.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscaSustento.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaSustento.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaTipoId.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscaTipoId.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaTipoId.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscaTipoImportacion.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscaTipoImportacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaTipoImportacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscDocAdcom.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscDocAdcom.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscDocAdcom.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscDocSri.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>BuscDocSri.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscDocSri.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CambiaPeriodo.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>CambiaPeriodo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CambiaPeriodo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConexionBaseDeDatos.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ConfiguracionRegional.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DigitacionDatos.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EscojeTipoTra.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>EscojeTipoTra.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EscojeTipoTra.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportaExcel.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>ImportaExcel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ImportaExcel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ivaret.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Ivaret_MDTransacciones.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>Ivaret_MDTransacciones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Ivaret_MDTransacciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ivaret_OpcionesImporta.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>Ivaret_OpcionesImporta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Ivaret_OpcionesImporta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MensajesError.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModIvaret_10.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModMallas.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MoverArchivo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NumLetra.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OperacionesMallas.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RutinasExcel.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RutinasSri.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RutSyscod.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SRIANULADOS.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRIANULADOS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRIANULADOS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SRICOMPRAS.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRICOMPRAS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRICOMPRAS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SRIEXPORTA.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRIEXPORTA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRIEXPORTA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SRIGENARCHIVOSCOA.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRIGENARCHIVOSCOA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRIGENARCHIVOSCOA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SRIIMPORTA.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRIIMPORTA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRIIMPORTA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SRITABA.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRITABA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRITABA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SRIVENTAS.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>SRIVENTAS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SRIVENTAS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpgradeSupport.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Validaciones.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ValidadoresSri9.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="AdcAutorizacionesSri.resX">
+      <DependentUpon>AdcAutorizacionesSri.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ANEEMPLEADOS.resX">
+      <DependentUpon>ANEEMPLEADOS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaRetencionAIR.resX">
+      <DependentUpon>BuscaRetencionAIR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaRetIvaBienes.resX">
+      <DependentUpon>BuscaRetIvaBienes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaRetIvaServicios.resX">
+      <DependentUpon>BuscaRetIvaServicios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaSustento.resX">
+      <DependentUpon>BuscaSustento.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaTipoId.resX">
+      <DependentUpon>BuscaTipoId.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaTipoImportacion.resX">
+      <DependentUpon>BuscaTipoImportacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscDocAdcom.resX">
+      <DependentUpon>BuscDocAdcom.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscDocSri.resX">
+      <DependentUpon>BuscDocSri.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CambiaPeriodo.resX">
+      <DependentUpon>CambiaPeriodo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EscojeTipoTra.resX">
+      <DependentUpon>EscojeTipoTra.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resX">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportaExcel.resX">
+      <DependentUpon>ImportaExcel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ivaret_MDTransacciones.resX">
+      <DependentUpon>Ivaret_MDTransacciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ivaret_OpcionesImporta.resX">
+      <DependentUpon>Ivaret_OpcionesImporta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRIANULADOS.resX">
+      <DependentUpon>SRIANULADOS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRICOMPRAS.resX">
+      <DependentUpon>SRICOMPRAS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRIEXPORTA.resX">
+      <DependentUpon>SRIEXPORTA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRIGENARCHIVOSCOA.resX">
+      <DependentUpon>SRIGENARCHIVOSCOA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRIIMPORTA.resX">
+      <DependentUpon>SRIIMPORTA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRITABA.resX">
+      <DependentUpon>SRITABA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SRIVENTAS.resX">
+      <DependentUpon>SRIVENTAS.vb</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="ivaretdx_ANE.ico" />
+    <None Include="_UpgradeReport.htm">
+      <SubType>Preview</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

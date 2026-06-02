@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adcRolneg", "adcRolneg\adcRolneg.csproj", "{B177168E-E0CD-4221-AB17-0FA5EF8909DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B177168E-E0CD-4221-AB17-0FA5EF8909DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B177168E-E0CD-4221-AB17-0FA5EF8909DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B177168E-E0CD-4221-AB17-0FA5EF8909DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B177168E-E0CD-4221-AB17-0FA5EF8909DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

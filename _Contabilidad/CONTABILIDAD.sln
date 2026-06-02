@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DaxMantContab", "MantenimientoCtasContables\DaxMantContab.vbproj", "{DEBF9284-537F-4240-918F-E998D7575E15}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Clasificadores", "CLASIFICADORES\MantenimientoTipoClasificadores\Clasificadores\Clasificadores.vbproj", "{5F3198EA-B330-4F66-B830-10405D2FBCC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxClasificadores", "CLASIFICADORES\ClasificadoresyDistribucion\DaxClasificadores.csproj", "{0C40AE48-36DA-45F6-A0BC-4FBC03152074}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MantenimentoClasf", "CLASIFICADORES\RegistroClasificadores\MantenimentoClasf\MantenimentoClasf.vbproj", "{86CE237F-7C2C-431A-9B3D-0F047CF2582D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daxContaDax", "daxContaDAX\daxContaDax.csproj", "{797B34B8-66EC-44A3-8F06-84D24ACA98B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "daxContaDoc", "daxContaDoc\daxContaDoc.csproj", "{6EDC2704-6999-4EB1-942A-090BA63788AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adcValCtb", "adcValCtb\adcValCtb.csproj", "{4CB55435-3DD9-488D-8A68-F59D064043EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Debug|x86.ActiveCfg = Debug|x86
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Debug|x86.Build.0 = Debug|x86
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Release|x86.ActiveCfg = Release|x86
+		{DEBF9284-537F-4240-918F-E998D7575E15}.Release|x86.Build.0 = Release|x86
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Debug|x86.ActiveCfg = Debug|x86
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Debug|x86.Build.0 = Debug|x86
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Release|x86.ActiveCfg = Release|x86
+		{5F3198EA-B330-4F66-B830-10405D2FBCC0}.Release|x86.Build.0 = Release|x86
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C40AE48-36DA-45F6-A0BC-4FBC03152074}.Release|x86.Build.0 = Release|Any CPU
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Debug|x86.ActiveCfg = Debug|x86
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Debug|x86.Build.0 = Debug|x86
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Release|x86.ActiveCfg = Release|x86
+		{86CE237F-7C2C-431A-9B3D-0F047CF2582D}.Release|x86.Build.0 = Release|x86
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{797B34B8-66EC-44A3-8F06-84D24ACA98B9}.Release|x86.Build.0 = Release|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Debug|x86.Build.0 = Debug|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{6EDC2704-6999-4EB1-942A-090BA63788AA}.Release|x86.Build.0 = Release|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CB55435-3DD9-488D-8A68-F59D064043EA}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C74A64C-142B-412E-9707-C5E78FC255DE}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MantContab.vsmdi
+	EndGlobalSection
+EndGlobal

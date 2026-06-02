@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FormasPagoDAX", "FormasPago\FormasPagoDAX.vbproj", "{05EB86F9-B700-499D-8B86-118C6E2268C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05EB86F9-B700-499D-8B86-118C6E2268C9}.Debug|x86.ActiveCfg = Debug|x86
+		{05EB86F9-B700-499D-8B86-118C6E2268C9}.Debug|x86.Build.0 = Debug|x86
+		{05EB86F9-B700-499D-8B86-118C6E2268C9}.Release|x86.ActiveCfg = Release|x86
+		{05EB86F9-B700-499D-8B86-118C6E2268C9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

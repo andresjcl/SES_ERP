@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowClassName="DataTable1Row">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CodCta" msprop:Generator_ColumnVarNameInTable="columnCodCta" msprop:Generator_ColumnPropNameInRow="CodCta" msprop:Generator_ColumnPropNameInTable="CodCtaColumn" msprop:Generator_UserColumnName="CodCta" type="xs:string" minOccurs="0" />
+              <xs:element name="SaldoAnterior" msprop:Generator_ColumnVarNameInTable="columnSaldoAnterior" msprop:Generator_ColumnPropNameInRow="SaldoAnterior" msprop:Generator_ColumnPropNameInTable="SaldoAnteriorColumn" msprop:Generator_UserColumnName="SaldoAnterior" type="xs:string" minOccurs="0" />
+              <xs:element name="Debito" msprop:Generator_ColumnVarNameInTable="columnDebito" msprop:Generator_ColumnPropNameInRow="Debito" msprop:Generator_ColumnPropNameInTable="DebitoColumn" msprop:Generator_UserColumnName="Debito" type="xs:string" minOccurs="0" />
+              <xs:element name="Credito" msprop:Generator_ColumnVarNameInTable="columnCredito" msprop:Generator_ColumnPropNameInRow="Credito" msprop:Generator_ColumnPropNameInTable="CreditoColumn" msprop:Generator_UserColumnName="Credito" type="xs:string" minOccurs="0" />
+              <xs:element name="SaldoFecha" msprop:Generator_ColumnVarNameInTable="columnSaldoFecha" msprop:Generator_ColumnPropNameInRow="SaldoFecha" msprop:Generator_ColumnPropNameInTable="SaldoFechaColumn" msprop:Generator_UserColumnName="SaldoFecha" type="xs:string" minOccurs="0" />
+              <xs:element name="cta_nombre" msprop:Generator_ColumnVarNameInTable="columncta_nombre" msprop:Generator_ColumnPropNameInRow="cta_nombre" msprop:Generator_ColumnPropNameInTable="cta_nombreColumn" msprop:Generator_UserColumnName="cta_nombre" type="xs:string" minOccurs="0" />
+              <xs:element name="cta_grupo" msprop:Generator_ColumnVarNameInTable="columncta_grupo" msprop:Generator_ColumnPropNameInRow="cta_grupo" msprop:Generator_ColumnPropNameInTable="cta_grupoColumn" msprop:Generator_UserColumnName="cta_grupo" type="xs:string" minOccurs="0" />
+              <xs:element name="GrupoBalance" msprop:Generator_ColumnVarNameInTable="columnGrupoBalance" msprop:Generator_ColumnPropNameInRow="GrupoBalance" msprop:Generator_ColumnPropNameInTable="GrupoBalanceColumn" msprop:Generator_UserColumnName="GrupoBalance" type="xs:string" minOccurs="0" />
+              <xs:element name="Cniv1" msprop:Generator_ColumnVarNameInTable="columncniv1" msprop:Generator_ColumnPropNameInRow="cniv1" msprop:Generator_ColumnPropNameInTable="cniv1Column" msprop:Generator_UserColumnName="Cniv1" type="xs:string" minOccurs="0" />
+              <xs:element name="CtaForma" msprop:Generator_ColumnVarNameInTable="columnCtaForma" msprop:Generator_ColumnPropNameInRow="CtaForma" msprop:Generator_ColumnPropNameInTable="CtaFormaColumn" msprop:Generator_UserColumnName="CtaForma" type="xs:string" minOccurs="0" />
+              <xs:element name="SaldoAño" msprop:Generator_ColumnVarNameInTable="columnSaldoAño" msprop:Generator_ColumnPropNameInRow="SaldoAño" msprop:Generator_ColumnPropNameInTable="SaldoAñoColumn" msprop:Generator_UserColumnName="SaldoAño" type="xs:string" minOccurs="0" />
+              <xs:element name="SaldoAnt" msprop:Generator_ColumnVarNameInTable="columnSaldoAnt" msprop:Generator_ColumnPropNameInRow="SaldoAnt" msprop:Generator_ColumnPropNameInTable="SaldoAntColumn" msprop:Generator_UserColumnName="SaldoAnt" type="xs:string" minOccurs="0" />
+              <xs:element name="Cniv2" msprop:Generator_ColumnVarNameInTable="columncniv2" msprop:Generator_ColumnPropNameInRow="cniv2" msprop:Generator_ColumnPropNameInTable="cniv2Column" msprop:Generator_UserColumnName="Cniv2" type="xs:string" minOccurs="0" />
+              <xs:element name="NomNiv1" msprop:Generator_ColumnVarNameInTable="columnNomNiv1" msprop:Generator_ColumnPropNameInRow="NomNiv1" msprop:Generator_ColumnPropNameInTable="NomNiv1Column" msprop:Generator_UserColumnName="NomNiv1" type="xs:string" minOccurs="0" />
+              <xs:element name="NomNiv2" msprop:Generator_ColumnVarNameInTable="columnNomNiv2" msprop:Generator_ColumnPropNameInRow="NomNiv2" msprop:Generator_ColumnPropNameInTable="NomNiv2Column" msprop:Generator_UserColumnName="NomNiv2" type="xs:string" minOccurs="0" />
+              <xs:element name="Cta_codigo" msprop:Generator_ColumnVarNameInTable="columnCta_codigo" msprop:Generator_ColumnPropNameInRow="Cta_codigo" msprop:Generator_ColumnPropNameInTable="Cta_codigoColumn" msprop:Generator_UserColumnName="Cta_codigo" type="xs:string" minOccurs="0" />
+              <xs:element name="Cta_nivel" msprop:Generator_ColumnVarNameInTable="columnCta_nivel" msprop:Generator_ColumnPropNameInRow="Cta_nivel" msprop:Generator_ColumnPropNameInTable="Cta_nivelColumn" msprop:Generator_UserColumnName="Cta_nivel" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
