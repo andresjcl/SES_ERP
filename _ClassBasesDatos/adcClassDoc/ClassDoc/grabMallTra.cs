@@ -15,6 +15,7 @@ namespace ClassDoc
             Int32[] campos;
             string[] tipos;
             string sel = "SELECT * FROM AdcTra WHERE doc_sucursal = '" + datDoc.Doc_sucursal + "' and opc_documento = '" + datDoc.Opc_documento + "' and idclavedoc = " + datDoc.IdClaveDoc.ToString();
+
             using (var adapter = new SqlDataAdapter(sel, strConx))
             using (new SqlCommandBuilder(adapter))
             {
@@ -29,14 +30,12 @@ namespace ClassDoc
 
                 Int32 cmpo = 0;
                 DataRow dataRowGrabar = Dtable.NewRow();
-                //ANDRES
+
                 foreach (DataGridViewRow MallaRow in malla.Rows)
                 {
-                    // ✅ AGREGAR: Validar que no sea una fila nueva vacía
                     if (MallaRow.IsNewRow)
                         continue;
 
-                    // ✅ VALIDAR: Tra_Codigo no sea null o vacío
                     var codigoValue = MallaRow.Cells["TRA_Codigo"]?.Value;
                     if (codigoValue == null || codigoValue == DBNull.Value)
                         continue;
@@ -45,112 +44,86 @@ namespace ClassDoc
                     if (string.IsNullOrEmpty(codigo))
                         continue;
 
+                    nroRowNew++;
+                    dataRowGrabar = existeData(Dtable, MallaRow, ref esNuevo);
 
-                    // ✅ OPCIONAL: Validar que tenga cantidad mayor a 0
-                    decimal cantidad = 1;
-                    if (MallaRow.Cells["Tra_cantidad"]?.Value != null)
+                    // ✅ MOVER TODOS LOS CAMPOS DE LA MALLA AL DATATABLE
+                    for (int i = 0; i < Dtable.Columns.Count; i++)
                     {
-                        decimal.TryParse(MallaRow.Cells["Tra_cantidad"].Value.ToString(), out cantidad);
+                        cmpo = campos[i];
+                        if (cmpo != 0)
+                            moverMallaData(MallaRow.Cells[cmpo], dataRowGrabar, i, tipos[i]);
                     }
-                    if (cantidad <= 0)
-                        continue; // Saltar filas con cantidad inválida
 
-
-
-                    if (MallaRow.Cells["TRA_Codigo"].Value != null && (MallaRow.Cells["TRA_Codigo"].Value).ToString() != string.Empty)
+                    // ✅ VERIFICAR QUE LOS COSTOS SE ESTÉN MOVIENDO CORRECTAMENTE
+                    // Si las columnas no se mapearon automáticamente, asignarlas manualmente
+                    if (Dtable.Columns.Contains("Tra_costuni"))
                     {
-                        nroRowNew++;
-                        dataRowGrabar = existeData(Dtable, MallaRow, ref esNuevo);
-
-
-                        for (int i = 0; i < Dtable.Columns.Count; i++)
+                        if (MallaRow.Cells["Tra_costuni"]?.Value != null && MallaRow.Cells["Tra_costuni"].Value != DBNull.Value)
                         {
-                            // mover campos dela malla al datatable de acuerdo al tipo de dato
-                            cmpo = campos[i];
-                            if (cmpo != 0) moverMallaData(MallaRow.Cells[cmpo], dataRowGrabar, i, tipos[i]);
+                            decimal costo = 0;
+                            decimal.TryParse(MallaRow.Cells["Tra_costuni"].Value.ToString(), out costo);
+                            dataRowGrabar["Tra_costuni"] = Math.Round(costo, 4);
                         }
-
-                        // NUEVO: Verificar si es artículo tipo "A" y procesar costos
-                        string tipoArticulo = MallaRow.Cells["tra_quetipo"]?.Value?.ToString() ?? "";
-
-                        if (tipoArticulo.ToUpper() == "A")
+                        else
                         {
+                            dataRowGrabar["Tra_costuni"] = 0;
+                        }
+                    }
+
+                    if (Dtable.Columns.Contains("Tra_costtot"))
+                    {
+                        if (MallaRow.Cells["Tra_costtot"]?.Value != null && MallaRow.Cells["Tra_costtot"].Value != DBNull.Value)
+                        {
+                            decimal costo = 0;
+                            decimal.TryParse(MallaRow.Cells["Tra_costtot"].Value.ToString(), out costo);
+                            dataRowGrabar["Tra_costtot"] = Math.Round(costo, 2);
+                        }
+                        else
+                        {
+                            // Si no hay costo total, calcularlo de Tra_costuni * cantidad
                             decimal costoUnitario = 0;
-                            decimal costoTotal = 0;
-                            //decimal cantidad = 1;
+                            if (Dtable.Columns.Contains("Tra_costuni") && dataRowGrabar["Tra_costuni"] != DBNull.Value)
+                                decimal.TryParse(dataRowGrabar["Tra_costuni"].ToString(), out costoUnitario);
 
-                            // OBTENER LA CANTIDAD DE LA MALLA - ESTO ES LO QUE FALTA
-                            if (MallaRow.Cells["tra_cantidad"]?.Value != null && MallaRow.Cells["tra_cantidad"].Value.ToString() != "")
-                            {
-                                decimal.TryParse(MallaRow.Cells["tra_cantidad"].Value.ToString(), out cantidad);
-                            }
-                            else if (MallaRow.Cells["TRA_cantidad"]?.Value != null && MallaRow.Cells["TRA_cantidad"].Value.ToString() != "")
-                            {
-                                decimal.TryParse(MallaRow.Cells["TRA_cantidad"].Value.ToString(), out cantidad);
-                            }
+                            decimal cantidad = 0;
+                            if (MallaRow.Cells["Tra_cantidad"]?.Value != null && MallaRow.Cells["Tra_cantidad"].Value != DBNull.Value)
+                                decimal.TryParse(MallaRow.Cells["Tra_cantidad"].Value.ToString(), out cantidad);
 
-                            // Si no hay cantidad válida, usar 1 para evitar división por cero
-                            if (cantidad <= 0) cantidad = 1;
-
-                            if (MallaRow.Cells["Tra_prectot"]?.Value != null && MallaRow.Cells["Tra_prectot"].Value.ToString() != "")
-                            {
-                                decimal precioTotal = 0;
-                                if (decimal.TryParse(MallaRow.Cells["Tra_prectot"].Value.ToString(), out precioTotal))
-                                {
-                                    // Calcular costo unitario basado en precio total dividido por cantidad
-                                    if (cantidad > 0)
-                                    {
-                                        costoUnitario = precioTotal / cantidad;
-                                        costoTotal = precioTotal; // O podrías usar: costoTotal = costoUnitario * cantidad;
-                                    }
-                                }
-                            }
-
-                            // Para debug - verificar valores
-                            Console.WriteLine($"DEBUG - Tipo: {tipoArticulo}, Cantidad: {cantidad}, PrecioTotal: {MallaRow.Cells["Tra_prectot"]?.Value}, " +
-                                             $"CostoUnitario: {costoUnitario}, CostoTotal: {costoTotal}");
-
-                            // Asignar los valores al DataRow
-                            dataRowGrabar["Tra_costuni"] = costoUnitario;
-                            dataRowGrabar["Tra_costtot"] = costoTotal;
+                            dataRowGrabar["Tra_costtot"] = Math.Round(costoUnitario * cantidad, 2);
                         }
+                    }
 
+                    if (esNuevo)
+                    {
+                        dataRowGrabar["Doc_sucursal"] = datDoc.Doc_sucursal;
+                        dataRowGrabar["Doc_Bodega"] = datDoc.Doc_Bodega;
+                        dataRowGrabar["Opc_documento"] = datDoc.Opc_documento;
+                        dataRowGrabar["Doc_numero"] = datDoc.Doc_numero;
+                        dataRowGrabar["IdClaveDoc"] = datDoc.IdClaveDoc;
+                        dataRowGrabar["Tra_valor"] = datDoc.Doc_valor;
+                        dataRowGrabar["Tra_DocSop"] = datDoc.Doc_DocSop;
+                        dataRowGrabar["Tra_NumSop"] = datDoc.Doc_NumSop;
+                        dataRowGrabar["Tra_fecha"] = datDoc.Doc_fecha;
+                        dataRowGrabar["Tra_TipoDoc"] = datDoc.Doc_TipoDoc;
+                        dataRowGrabar["tra_numprecio"] = 1;
+                        dataRowGrabar["tra_multiplo"] = 1.00000000m;
+                        dataRowGrabar["Tra_Estado"] = 1;
+                        dataRowGrabar["Tra_Oculto"] = Convert.ToInt16(datDoc.Doc_Oculto);
+                        dataRowGrabar["Tra_Ventas"] = datDoc.Doc_Ventas;
+                        dataRowGrabar["Tra_Inventario"] = datDoc.Doc_Inventario;
+                        dataRowGrabar["Tra_Compras"] = datDoc.Doc_Compras;
+                        dataRowGrabar["Tra_Activo"] = datDoc.Doc_Activo;
+                        dataRowGrabar["Tra_NroLoteDoc"] = datDoc.Doc_NroLoteDoc;
+                        dataRowGrabar["tra_anio"] = datDoc.Doc_fecha.Year;
+                        dataRowGrabar["tra_mes"] = datDoc.Doc_fecha.Month;
+                        dataRowGrabar["tra_dia"] = datDoc.Doc_fecha.Day;
+                        dataRowGrabar["Tra_numlinea"] = nroRowNew;
 
-
-
-                        if (esNuevo)
-                        {
-                            DataTable dt = new DataTable();
-                            dataRowGrabar["Doc_sucursal"] = datDoc.Doc_sucursal;
-                            dataRowGrabar["Doc_Bodega"] = datDoc.Doc_Bodega;
-                            dataRowGrabar["Opc_documento"] = datDoc.Opc_documento;
-                            dataRowGrabar["Doc_numero"] = datDoc.Doc_numero;
-                            dataRowGrabar["IdClaveDoc"] = datDoc.IdClaveDoc;
-                            dataRowGrabar["Tra_valor"] = datDoc.Doc_valor;
-                            dataRowGrabar["Tra_DocSop"] = datDoc.Doc_DocSop;
-                            dataRowGrabar["Tra_NumSop"] = datDoc.Doc_NumSop;
-                            dataRowGrabar["Tra_fecha"] = datDoc.Doc_fecha;
-                            dataRowGrabar["Tra_TipoDoc"] = datDoc.Doc_TipoDoc;
-                            dataRowGrabar["tra_numprecio"] = 1;
-                            dataRowGrabar["tra_multiplo"] = 1.00000000;
-                            dataRowGrabar["Tra_Estado"] = 1;
-                            dataRowGrabar["Tra_Oculto"] = Convert.ToInt16(datDoc.Doc_Oculto);
-                            dataRowGrabar["Tra_Ventas"] = datDoc.Doc_Ventas;
-                            dataRowGrabar["Tra_Inventario"] = datDoc.Doc_Inventario;
-                            dataRowGrabar["Tra_Compras"] = datDoc.Doc_Compras;
-                            dataRowGrabar["Tra_Activo"] = datDoc.Doc_Activo;
-                            dataRowGrabar["Tra_NroLoteDoc"] = datDoc.Doc_NroLoteDoc;
-                            dataRowGrabar["tra_anio"] = datDoc.Doc_fecha.Year;
-                            dataRowGrabar["tra_mes"] = datDoc.Doc_fecha.Month;
-                            dataRowGrabar["tra_dia"] = datDoc.Doc_fecha.Day;
-
-                                         
-                            dataRowGrabar["Tra_numlinea"] = nroRowNew;
-							Dtable.Rows.Add(dataRowGrabar);
-						}
+                        Dtable.Rows.Add(dataRowGrabar);
                     }
                 }
-                sel = "";
+
                 adapter.Update(Dtable);
                 adapter.Dispose();
                 Dtable.Dispose();
@@ -302,19 +275,6 @@ namespace ClassDoc
                 Dtable.Dispose();
             }
         }
-        //static private Int32 verificaDataEnMalla(DataTable dt, DataGridView malla)
-        //{
-        //    Int32 nroRow = 0;
-        //    Int32 auxNro = 0;
-        //    foreach (DataRow dtRow in dt.Rows)
-        //    {
-        //        try { auxNro = Convert.ToInt32("0" + dtRow["Tra_numlinea"].ToString()); } catch { }
-        //        if (nroRow < auxNro) nroRow = auxNro;
-        //        if (datExisteEnMalla(dtRow, malla) == false) dtRow.Delete();
-        //    }
-        //    return nroRow;
-        //}
-
 
         static private Int32 verificaDataEnMalla(DataTable dt, DataGridView malla)
         {
@@ -323,36 +283,23 @@ namespace ClassDoc
 
             foreach (DataRow dtRow in dt.Rows)
             {
-                try { auxNro = Convert.ToInt32("0" + dtRow["Tra_numlinea"].ToString()); }
+                try
+                {
+                    auxNro = Convert.ToInt32("0" + dtRow["Tra_numlinea"].ToString());
+                }
                 catch { continue; }
 
                 if (nroRow < auxNro) nroRow = auxNro;
 
-                // ✅ Si NO existe en malla (o es inválida), eliminar de DataTable
                 if (datExisteEnMalla(dtRow, malla) == false)
                 {
-                    Console.WriteLine($"ELIMINANDO: Tra_numlinea = {auxNro} (no existe en malla o es inválida)");
                     dtRow.Delete();
-                }
-                else
-                {
-                    Console.WriteLine($"MANTIENE: Tra_numlinea = {auxNro} (válida en malla)");
                 }
             }
             return nroRow;
         }
 
 
-
-        //static private bool datExisteEnMalla(DataRow dtRow, DataGridView malla)
-        //{
-        //    foreach (DataGridViewRow mrow in malla.Rows)
-        //    {
-        //        if (Convert.ToInt32("0" + dtRow["Tra_numlinea"].ToString()) == Convert.ToInt32("0" + mrow.Cells["Tra_numlinea"].Value.ToString())
-        //             && mrow.Cells["tra_codigo"].Value.ToString().Length > 0) return true;
-        //    }
-        //    return false;
-        //}
 
         static private bool datExisteEnMalla(DataRow dtRow, DataGridView malla)
         {
@@ -362,10 +309,8 @@ namespace ClassDoc
 
             foreach (DataGridViewRow mrow in malla.Rows)
             {
-                // ✅ VALIDAR: No es fila nueva
                 if (mrow.IsNewRow) continue;
 
-                // ✅ VALIDAR: Tra_numlinea coincide
                 int numLineaMalla = 0;
                 try
                 {
@@ -375,7 +320,6 @@ namespace ClassDoc
 
                 if (numLineaDB != numLineaMalla) continue;
 
-                // ✅ VALIDAR: Tra_Codigo NO sea null, DBNull o vacío
                 var codigoValue = mrow.Cells["TRA_Codigo"]?.Value;
                 if (codigoValue == null || codigoValue == DBNull.Value)
                     continue;
@@ -384,11 +328,11 @@ namespace ClassDoc
                 if (string.IsNullOrEmpty(codigo))
                     continue;
 
-                // ✅ TODAS LAS VALIDACIONES PASARON - La fila es válida
                 return true;
             }
             return false;
         }
+
         static private DataRow existeData(DataTable datTab, DataGridViewRow mrow, ref bool esNuevo)
         {
             esNuevo = true;
@@ -405,72 +349,137 @@ namespace ClassDoc
             return datTab.NewRow();
 
         }
+        //static private void encontrarDatosTipos(ref Int32[] campos, ref string[] tipos, DataTable table, DataGridView malla)
+        //{
+        //    for (int i = 0; i < malla.Columns.Count; i++)
+        //    {
+        //        for (int j = 0; j < table.Columns.Count; j++)
+        //        {
+        //            if (table.Columns[j].ColumnName.ToUpper() == malla.Columns[i].Name.ToUpper())
+        //            {
+        //                campos[j] = i;
+        //                tipos[j] = table.Columns[j].DataType.Name;
+        //            }
+        //        }
+        //    }
+        //}
+
         static private void encontrarDatosTipos(ref Int32[] campos, ref string[] tipos, DataTable table, DataGridView malla)
         {
             for (int i = 0; i < malla.Columns.Count; i++)
             {
                 for (int j = 0; j < table.Columns.Count; j++)
                 {
+                    // ✅ COMPARAR SIN DISTINGUIR MAYÚSCULAS/MINÚSCULAS
                     if (table.Columns[j].ColumnName.ToUpper() == malla.Columns[i].Name.ToUpper())
                     {
                         campos[j] = i;
                         tipos[j] = table.Columns[j].DataType.Name;
+
+                        // ✅ DEBUG: Verificar qué columnas se están mapeando
+                        System.Diagnostics.Debug.WriteLine($"Mapeando: {table.Columns[j].ColumnName} -> {malla.Columns[i].Name}");
                     }
                 }
             }
         }
+
+
         static private void moverMallaData(DataGridViewCell cell, DataRow drow, Int32 campo, string tipo)
         {
-            if (tipo.ToUpper() == "STRING")
+            // ✅ VERIFICAR QUE LA CELDA NO SEA NULL Y TENGA VALOR
+            if (cell == null || cell.Value == null || cell.Value == DBNull.Value)
             {
-                try
-                {
+                drow[campo] = DBNull.Value;
+                return;
+            }
+
+            string valorStr = cell.Value.ToString().Trim();
+            if (string.IsNullOrEmpty(valorStr))
+            {
+                drow[campo] = DBNull.Value;
+                return;
+            }
+
+            switch (tipo.ToUpper())
+            {
+                case "STRING":
+                    drow[campo] = valorStr;
+                    break;
+
+                case "DECIMAL":
+                case "NUMERIC":
+                case "MONEY":
+                case "SMALLMONEY":
+                    // ✅ USAR CultureInfo.InvariantCulture para evitar errores de formato
+                    decimal decValor;
+                    if (decimal.TryParse(valorStr, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decValor))
+                        drow[campo] = decValor;
+                    else
+                        drow[campo] = 0.00m;
+                    break;
+
+                case "DATETIME":
+                case "DATE":
+                case "SMALLDATETIME":
+                    DateTime dateValor;
+                    if (DateTime.TryParse(valorStr, out dateValor))
+                    {
+                        // ✅ Si es 01/01/1900, guardar como NULL
+                        if (dateValor.Year == 1900 && dateValor.Month == 1 && dateValor.Day == 1)
+                            drow[campo] = DBNull.Value;
+                        else
+                            drow[campo] = dateValor;
+                    }
+                    else
+                        drow[campo] = DBNull.Value;
+                    break;
+
+                case "INT32":
+                case "INT":
+                    int intValor;
+                    if (int.TryParse(valorStr, out intValor))
+                        drow[campo] = intValor;
+                    else
+                        drow[campo] = 0;
+                    break;
+
+                case "INT64":
+                case "BIGINT":
+                    long longValor;
+                    if (long.TryParse(valorStr, out longValor))
+                        drow[campo] = longValor;
+                    else
+                        drow[campo] = 0;
+                    break;
+
+                case "INT16":
+                case "SMALLINT":
+                    short shortValor;
+                    if (short.TryParse(valorStr, out shortValor))
+                        drow[campo] = shortValor;
+                    else
+                        drow[campo] = 0;
+                    break;
+
+                case "BIT":
+                case "BOOLEAN":
+                    bool boolValor;
+                    if (bool.TryParse(valorStr, out boolValor))
+                        drow[campo] = boolValor;
+                    else if (valorStr == "1" || valorStr.ToUpper() == "TRUE" || valorStr.ToUpper() == "S")
+                        drow[campo] = true;
+                    else if (valorStr == "0" || valorStr.ToUpper() == "FALSE" || valorStr.ToUpper() == "N")
+                        drow[campo] = false;
+                    else
+                        drow[campo] = false;
+                    break;
+
+                default:
                     drow[campo] = cell.Value;
-                }
-                catch { drow[campo] = ""; }
+                    break;
             }
-            else if (tipo.ToUpper() == "DECIMAL")
-            {
-                try
-                {
-                    drow[campo] = Convert.ToDecimal(cell.Value);
-                }
-                catch { drow[campo] = 0.00; }
-            }
-            else if (tipo.ToUpper() == "DATETIME")
-            {
-                try
-                {
-                    drow[campo] = Convert.ToDateTime(cell.Value);
-                }
-                catch { drow[campo] = new DateTime(1900, 1, 1); }
-            }
-            else if (tipo.ToUpper() == "INT32")
-            {
-                try
-                {
-                    drow[campo] = Convert.ToInt32(cell.Value);
-                }
-                catch { drow[campo] = 0; }
-            }
-            else if (tipo.ToUpper() == "INT64")
-            {
-                try
-                {
-                    drow[campo] = Convert.ToInt64(cell.Value);
-                }
-                catch { drow[campo] = 0; }
-            }
-            else if (tipo.ToUpper() == "INT16")
-            {
-                try
-                {
-                    drow[campo] = Convert.ToInt16(cell.Value);
-                }
-                catch { drow[campo] = 0; }
-            }
-            else drow[campo] = cell.Value;
         }
+
         static public void grabarDetalleAdctra(DataGridView malla, AdcDoc datDoc, string strConx)
         {
             string sel = "SELECT * FROM AdcTra WHERE doc_sucursal = '" + datDoc.Doc_sucursal + "' and opc_documento = '" + datDoc.Opc_documento + "' and idclavedoc = " + datDoc.IdClaveDoc.ToString();

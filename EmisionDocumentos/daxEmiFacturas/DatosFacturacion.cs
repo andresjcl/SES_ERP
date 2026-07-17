@@ -45,6 +45,28 @@ namespace DctosEmi
             return ssqlTra;
         }
 
+        public string armarSqlLecturaTransInventario(string TablaTra, string suc, string tip, double idClave)
+        {
+            string ssqlTra = "SELECT TRA_NUMLINEA, tra_codigo, tra_nombre, tra_cantidad, tra_medida, Tra_precuni";
+            ssqlTra += ", Tra_prectot";
+            ssqlTra += ", tra_piezas, tra_peso, Doc_Bodega";
+            ssqlTra += ", tra_nrolote, Tra_vence";
+            ssqlTra += ", tra_costo, tra_empleado, tra_centroProduccion, tra_centroDistribucion, tra_Proyecto";
+            ssqlTra += ", tra_quetipo, tra_esCuenta, Tra_individual, tra_costuni, Tra_CostTot, tra_multiplo";
+            ssqlTra += ", tra_numprecio";
+            ssqlTra += ", 0.0000 as Existencia";
+            ssqlTra += ", '' as medidaArticulo";
+            ssqlTra += ", '' as Cmb";
+            ssqlTra += ", AuxVar3";
+            ssqlTra += " FROM " + TablaTra;
+            ssqlTra += " WHERE doc_sucursal = '" + suc + "'";
+            ssqlTra += " AND opc_documento = '" + tip + "'";
+            ssqlTra += " AND idclavedoc = " + idClave.ToString();
+            ssqlTra += " ORDER BY opc_documento, idclavedoc, tra_numlinea";
+
+            return ssqlTra;
+        }
+
         internal Boolean CargarConceptoDoc(string dato,  DataGridViewRow row, sesSys.OpcDoc opcDoc,string QueBeneficiario,string BancoFin)
         {
             if (row == null) return false;

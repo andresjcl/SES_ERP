@@ -474,7 +474,7 @@ namespace SES_ERP24
 		private void mnConciliacionBancaria_Click(object sender, EventArgs e)
 		{
 			if (!AutorizarLlamadas.VerificaAutorización("MnConciliacionBancos")) return;
-			DaxBan.frmConBan prog = new DaxBan.frmConBan();
+			DaxBan.frmConBan prog = new DaxBan.frmConBan();			
 			prog.Show();
 		}
 
@@ -559,6 +559,55 @@ namespace SES_ERP24
 
 			
 
+		}
+
+        private void btnCambClave_Click(object sender, EventArgs e)
+        {
+            SesProg.frmCbPass prog = new SesProg.frmCbPass();
+            //prog.MdiParent = this;
+            prog.CmbPaswd(datosEmpresa.strConIniSis);
+        }
+
+        private void btnCambSucursal_Click(object sender, EventArgs e)
+        {
+			SesProg.frmSuc prog = new SesProg.frmSuc();
+			//prog.MdiParent = this;
+			string sucursalNombre = datosEmpresa.sucNom;
+			prog.CmbSuc(datosEmpresa.strConIniSis, ref sucursalNombre);
+			cargarUbicacionEmpresa();
+		}
+
+		private void cargarUbicacionEmpresa()
+		{
+			string LaLinea = "[ Empresa: " + datosEmpresa.nomEmpresa + "] [ Sucursal: " + datosEmpresa.SucursalNombre + "]";
+			//LaLinea += "  [PtoVta: " + SysEmpDatt.datosEmpresa.PuntoDeVenta + "]";
+			label1.Text = LaLinea + " [ Usuario: " + DatosUsuario.Identifica + " - Ingreso: " + DateTime.Now + "]";
+		}
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+			Close();
+			Dispose();
+			Application.Exit();
+		}
+
+        private void menTransferenciasInv_Click(object sender, EventArgs e)
+        {
+			if (!AutorizarLlamadas.VerificaAutorización("TransferenciaInventarios")) return;
+			DctosEmi.FormTransferenciaInv prog = new DctosEmi.FormTransferenciaInv("", "", true, false, false, false, null);
+			prog.Show();
+		}
+
+        private void menRepInventarios_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menImportarXML_Click(object sender, EventArgs e)
+        {
+			if (!AutorizarLlamadas.VerificaAutorización("importarXML")) return;
+			leeDocXml.frmLeDocxml prog = new leeDocXml.frmLeDocxml();			
+			prog.Show();
 		}
     }
 }

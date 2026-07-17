@@ -9,7 +9,8 @@ using ctrlReferencia;
 using ClassDoc;
 using System.Drawing;
 using DattCom;
-
+using DaxInvent;
+using adcArticulo;
 
 namespace DctosEmi
 {
@@ -76,13 +77,7 @@ namespace DctosEmi
 				idDocumentoParaGenerar = idDocViene;
 				cmbDocumento.SelectedValue = idDocViene.Tipo;
 			}
-			//else
-			//{
-			//    idDocumentoActual.Sucursal = datosEmpresa.suc;
-			//    idDocumentoActual.Tipo = tipoDocDefault;
-			//    idDocumentoActual.familia = claseDocDefault;
-			//}
-			//ValoresSistemaMedico = sisMedico.Split(Convert.ToChar("|"));
+			
 		}
 		private void CargarValoresIniciales()
 		{
@@ -150,17 +145,38 @@ namespace DctosEmi
 			//	if (memVendedor.Length > 0) { cmbVendedor.SelectedValue = memVendedor; } else { cmbVendedor.SelectedIndex = 0; }
 			//}
 		}
+		//private void CargarPredefinidosDocumento()
+		//{
+		//	propiedadesDoc = new sesSys.OpcDoc();
+		//	propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
+		//	accesosLocalizados.iniciar(datosEmpresa.codEmpresa, datosEmpresa.usr, datosEmpresa.strConxSyscod);
+		//	accesosLocalizados.cargarAccesoDoc(idDocumentoActual.Tipo);
+			
+		//	AutorizacionesFac.HabilitarOpcionesDocumento(this);
+
+		//	//HabilitarOpcionesDocumento();
+		//}
+
+
 		private void CargarPredefinidosDocumento()
 		{
 			propiedadesDoc = new sesSys.OpcDoc();
 			propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
+
+			// ✅ RECARGAR ACCESOS LOCALIZADOS
+			accesosLocalizados = new daxAccs.propiedadesDaxAuto();
 			accesosLocalizados.iniciar(datosEmpresa.codEmpresa, datosEmpresa.usr, datosEmpresa.strConxSyscod);
 			accesosLocalizados.cargarAccesoDoc(idDocumentoActual.Tipo);
-			
+
 			AutorizacionesFac.HabilitarOpcionesDocumento(this);
 
-			//HabilitarOpcionesDocumento();
+			// ✅ ACTUALIZAR BOTONES
+			prepararBotones();
 		}
+
+
+
+
 		//private void HabilitarOpcionesDocumento()
 		//{
 		//	HabilitarSoporte((propiedadesDoc.TipoSoporteObligatorio.Length > 0 && propiedadesDoc.TipoSoporteObligatorio != "ORP") || datosAuxiliares.tieneDatoDocumento("DocumentoReferencia", propiedadesDoc));
@@ -189,9 +205,18 @@ namespace DctosEmi
 			Boolean nuevo = (operacionEnCurso == nuevoRegistro);
 			Boolean modificando = (operacionEnCurso == modificandoRegistro);
 			Boolean docAnulado = false;
+			//try
+			//{
+			//	docAnulado = (datADCDOC.Doc_Estado == 0 && modificando);
+			//}
+			//catch { }
+
 			try
 			{
-				docAnulado = (datADCDOC.Doc_Estado == 0 && modificando);
+				if (datADCDOC != null)
+				{
+					docAnulado = (datADCDOC.Doc_Estado == 0 && modificando);
+				}
 			}
 			catch { }
 
@@ -377,7 +402,44 @@ namespace DctosEmi
 			}
 //			debeActualizarContacto = false;
 		}
-        private Boolean cargarDatosDocumento(string SUC, string TIPO, double IDCLAVE, double NUMERO=0)
+
+		//private Boolean cargarDatosDocumento(string SUC, string TIPO, double IDCLAVE, double NUMERO = 0)
+		//{
+		//	Boolean resp = false;
+		//	if (IDCLAVE != 0)
+		//	{
+		//		// ✅ ACTUALIZAR ID DEL DOCUMENTO
+		//		idDocumentoActual.Tipo = TIPO;
+		//		idDocumentoActual.Sucursal = SUC;
+		//		idDocumentoActual.idClave = IDCLAVE;
+
+		//		// ✅ FORZAR RECARGA DE PROPIEDADES
+		//		propiedadesDoc = new sesSys.OpcDoc();
+		//		propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
+
+		//		// ✅ SELECCIONAR EL DOCUMENTO EN EL COMBOBOX
+		//		try { cmbDocumento.SelectedValue = TIPO; } catch { }
+
+		//		datADCDOC = new AdcDoc(datosEmpresa.strConxAdcom);
+		//		datADCDOC = AdcDoc.Buscar(" doc_sucursal = '" + SUC + "' and opc_documento ='" + TIPO + "' and idclavedoc = " + IDCLAVE.ToString());
+
+		//		if (datADCDOC != null)
+		//		{
+		//			cargarDatosCliente(datADCDOC.Doc_codper);
+		//			moverClaseAcontroles();
+		//			if (Convert.ToInt32(datADCDOC.Doc_Estado) == 0) mensajesDocumento.Text = "DOCUMENTO ANULADO : " + datADCDOC.MotivoAnulacion;
+		//			cargarDetalleArticulos(idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.idClave, "ADCTRA");
+		//			totalizar();
+		//			operacionEnCurso = modificandoRegistro;
+		//			prepararBotones();
+		//			resp = true;
+		//			txtnumero.Enabled = false;
+		//		}
+		//	}
+		//	return resp;
+		//}
+
+		private Boolean cargarDatosDocumento(string SUC, string TIPO, double IDCLAVE, double NUMERO = 0)
 		{
 			Boolean resp = false;
 			if (IDCLAVE != 0)
@@ -388,32 +450,278 @@ namespace DctosEmi
 				{
 					cargarDatosCliente(datADCDOC.Doc_codper);
 					moverClaseAcontroles();
-					if (Convert.ToInt32(datADCDOC.Doc_Estado) == 0) mensajesDocumento.Text = "DOCUMENTO ANULADO : " + datADCDOC.MotivoAnulacion;
+					if (Convert.ToInt32(datADCDOC.Doc_Estado) == 0)
+						mensajesDocumento.Text = "DOCUMENTO ANULADO : " + datADCDOC.MotivoAnulacion;
+
 					cargarDetalleArticulos(idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.idClave, "ADCTRA");
-					//cargarFormaDePago(idDocumentoActual, "ADCPAG");
+
+					// ✅ CALCULAR COSTOS PARA TODOS LOS PRODUCTOS
+					CalcularCostosParaTodaLaMalla();
+
 					totalizar();
 					operacionEnCurso = modificandoRegistro;
 					prepararBotones();
 					resp = true;
 					txtnumero.Enabled = false;
-					//debeActualizarContacto = false;
 				}
 			}
-			else { }
 			return resp;
 		}
 
 		private void cargarDetalleArticulos(string suc, string tip, double idClave, string tablatra)
 		{
 			DatosDocFacturacion dcut = new DatosDocFacturacion();
-			ModelaMalla  dcut2 = new ModelaMalla();
+			ModelaMalla dcut2 = new ModelaMalla();
 
-			dtDetalleDocumento = utilBasDatos.utilBasDatos.leerTablas(dcut.armarSqlLecturaTransFacturas( tablatra, suc, tip, idClave), datosEmpresa.strConxAdcom);
+			dtDetalleDocumento = utilBasDatos.utilBasDatos.leerTablas(
+				dcut.armarSqlLecturaTransInventario(tablatra, suc, tip, idClave),
+				datosEmpresa.strConxAdcom);
+
 			if (dtDetalleDocumento == null) return;
+
 			malla.DataSource = dtDetalleDocumento;
-			dcut2.diseñarMallaFacturas(ref malla, ref propiedadesDoc);
-			malla.Columns["Existencia"].Visible = valoresPredefinidosEmpresa.existenciaEnLineas;
+			dcut2.diseñarMallaInventario(ref malla, ref propiedadesDoc, accesosLocalizados);
+
+			// ✅ CALCULAR COSTOS PARA TODOS LOS PRODUCTOS
+			CalcularCostosParaTodaLaMalla();
+
+			// ✅ LIMPIAR FECHAS VACÍAS
+			LimpiarDatosMalla();
+
+			// ✅ RECALCULAR TOTALES
+			totalizar();
+
+			if (malla.Columns.Contains("Existencia"))
+				malla.Columns["Existencia"].Visible = valoresPredefinidosEmpresa.existenciaEnLineas;
 		}
+
+		private void CalcularCostosParaTodaLaMalla()
+		{
+			if (malla.Rows.Count == 0) return;
+
+			foreach (DataGridViewRow row in malla.Rows)
+			{
+				if (row.IsNewRow) continue;
+
+				// Verificar que tenga código
+				if (row.Cells["tra_Codigo"]?.Value == null ||
+					row.Cells["tra_Codigo"].Value == DBNull.Value ||
+					string.IsNullOrEmpty(row.Cells["tra_Codigo"].Value.ToString()))
+					continue;
+
+				string codigo = row.Cells["tra_Codigo"].Value.ToString().Trim();
+				if (string.IsNullOrEmpty(codigo) || codigo == ".")
+					continue;
+
+				// ✅ OBTENER COSTO PROMEDIO DESDE AdcArt
+				decimal costoPromedio = 0;
+				try
+				{
+					// Buscar el artículo en la base de datos
+					AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
+					opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
+
+					if (opArt != null)
+					{
+						// Obtener el costo de compra del artículo
+						costoPromedio = Convert.ToDecimal(opArt.Art_costucom);
+
+						// Si el costo de compra es 0, intentar con otro método
+						if (costoPromedio == 0)
+						{
+							// Intentar obtener el último costo de compra
+							try
+							{
+								// Usar el método que ya tienes en tu código
+								costoPromedio = Convert.ToDecimal(
+									ultimosValor.UltimoCostoCompra("", "", codigo, false, "", "",
+									Convert.ToDateTime(txtfecha.Text),
+									datosEmpresa.strConxAdcom,
+									datosEmpresa.strConxSyscod)
+								);
+							}
+							catch { }
+						}
+
+						// Si aún es 0, usar Art_precvta1 como referencia
+						if (costoPromedio == 0)
+						{
+							costoPromedio = Convert.ToDecimal(opArt.Art_precvta1);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					// Si hay error, intentar con el método alternativo
+					try
+					{
+						costoPromedio = Convert.ToDecimal(
+							ultimosValor.UltimoCostoCompra("", "", codigo, false, "", "",
+							Convert.ToDateTime(txtfecha.Text),
+							datosEmpresa.strConxAdcom,
+							datosEmpresa.strConxSyscod)
+						);
+					}
+					catch { costoPromedio = 0; }
+				}
+
+				// ✅ OBTENER CANTIDAD
+				decimal cantidad = 1;
+				if (row.Cells["tra_Cantidad"]?.Value != null && row.Cells["tra_Cantidad"].Value != DBNull.Value)
+					decimal.TryParse(row.Cells["tra_Cantidad"].Value.ToString(), out cantidad);
+
+				if (cantidad <= 0) cantidad = 1;
+
+				// ✅ ASIGNAR COSTO UNITARIO (Tra_costuni)
+				if (malla.Columns.Contains("Tra_costuni"))
+				{
+					if (row.Cells["Tra_costuni"]?.Value == null ||
+						row.Cells["Tra_costuni"].Value == DBNull.Value ||
+						Convert.ToDecimal(row.Cells["Tra_costuni"].Value) == 0)
+					{
+						row.Cells["Tra_costuni"].Value = Math.Round(costoPromedio, 4);
+					}
+				}
+
+				// ✅ ASIGNAR COSTO TOTAL (Tra_costtot)
+				if (malla.Columns.Contains("Tra_costtot"))
+				{
+					if (row.Cells["Tra_costtot"]?.Value == null ||
+						row.Cells["Tra_costtot"].Value == DBNull.Value ||
+						Convert.ToDecimal(row.Cells["Tra_costtot"].Value) == 0)
+					{
+						row.Cells["Tra_costtot"].Value = Math.Round(costoPromedio * cantidad, 2);
+					}
+				}
+
+				// ✅ ASIGNAR PRECIO UNITARIO (Tra_precuni) - COLUMNA VISIBLE
+				if (malla.Columns.Contains("Tra_precuni"))
+				{
+					if (row.Cells["Tra_precuni"]?.Value == null ||
+						row.Cells["Tra_precuni"].Value == DBNull.Value ||
+						Convert.ToDecimal(row.Cells["Tra_precuni"].Value) == 0)
+					{
+						row.Cells["Tra_precuni"].Value = Math.Round(costoPromedio, 4);
+					}
+				}
+
+				// ✅ ASIGNAR PRECIO TOTAL (Tra_prectot)
+				if (malla.Columns.Contains("Tra_prectot"))
+				{
+					if (row.Cells["Tra_prectot"]?.Value == null ||
+						row.Cells["Tra_prectot"].Value == DBNull.Value ||
+						Convert.ToDecimal(row.Cells["Tra_prectot"].Value) == 0)
+					{
+						row.Cells["Tra_prectot"].Value = Math.Round(costoPromedio * cantidad, 2);
+					}
+				}
+			}
+		}
+
+		private void LimpiarDatosMalla()
+		{
+			if (malla.Rows.Count == 0) return;
+
+			foreach (DataGridViewRow row in malla.Rows)
+			{
+				if (row.IsNewRow) continue;
+
+				// ✅ 1. LIMPIAR FECHA DE CADUCIDAD
+				if (malla.Columns.Contains("Tra_vence"))
+				{
+					if (row.Cells["Tra_vence"]?.Value != null && row.Cells["Tra_vence"].Value != DBNull.Value)
+					{
+						DateTime fecha;
+						if (DateTime.TryParse(row.Cells["Tra_vence"].Value.ToString(), out fecha))
+						{
+							// Si es 01/01/1900 o fecha mínima, dejarlo en blanco
+							if (fecha.Year == 1900 && fecha.Month == 1 && fecha.Day == 1)
+							{
+								row.Cells["Tra_vence"].Value = DBNull.Value;
+							}
+						}
+						else
+						{
+							row.Cells["Tra_vence"].Value = DBNull.Value;
+						}
+					}
+				}
+
+				// ✅ 2. LIMPIAR NRO LOTE SI ESTÁ VACÍO
+				if (malla.Columns.Contains("tra_nrolote"))
+				{
+					if (row.Cells["tra_nrolote"]?.Value != null && row.Cells["tra_nrolote"].Value != DBNull.Value)
+					{
+						string lote = row.Cells["tra_nrolote"].Value.ToString().Trim();
+						if (string.IsNullOrEmpty(lote) || lote == "0")
+						{
+							row.Cells["tra_nrolote"].Value = DBNull.Value;
+						}
+					}
+				}
+
+				// ✅ 3. LIMPIAR COSTO UNITARIO SI ES 0
+				if (malla.Columns.Contains("Tra_costuni"))
+				{
+					if (row.Cells["Tra_costuni"]?.Value != null && row.Cells["Tra_costuni"].Value != DBNull.Value)
+					{
+						string valorStr = row.Cells["Tra_costuni"].Value.ToString().Trim();
+						if (!string.IsNullOrEmpty(valorStr))
+						{
+							decimal valor;
+							if (decimal.TryParse(valorStr, out valor))
+							{
+								if (valor == 0)
+								{
+									row.Cells["Tra_costuni"].Value = DBNull.Value;
+								}
+							}
+						}
+					}
+				}
+
+				// ✅ 4. LIMPIAR COSTO TOTAL SI ES 0
+				if (malla.Columns.Contains("Tra_costtot"))
+				{
+					if (row.Cells["Tra_costtot"]?.Value != null && row.Cells["Tra_costtot"].Value != DBNull.Value)
+					{
+						string valorStr = row.Cells["Tra_costtot"].Value.ToString().Trim();
+						if (!string.IsNullOrEmpty(valorStr))
+						{
+							decimal valor;
+							if (decimal.TryParse(valorStr, out valor))
+							{
+								if (valor == 0)
+								{
+									row.Cells["Tra_costtot"].Value = DBNull.Value;
+								}
+							}
+						}
+					}
+				}
+
+				// ✅ 5. LIMPIAR PRECIO UNITARIO SI ES 0 (para documentos de inventario)
+				if (malla.Columns.Contains("Tra_precuni"))
+				{
+					if (row.Cells["Tra_precuni"]?.Value != null && row.Cells["Tra_precuni"].Value != DBNull.Value)
+					{
+						string valorStr = row.Cells["Tra_precuni"].Value.ToString().Trim();
+						if (!string.IsNullOrEmpty(valorStr))
+						{
+							decimal valor;
+							if (decimal.TryParse(valorStr, out valor))
+							{
+								if (valor == 0)
+								{
+									row.Cells["Tra_precuni"].Value = DBNull.Value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 		private void cargarDetalleArticulosConsolidacion(string listaDocumentos)
 		{
 			DctosEmi.armarConsTra dcut = new DctosEmi.armarConsTra();
@@ -428,23 +736,11 @@ namespace DctosEmi
 			dcut = null;
 			dcut2 = null;
 		}
-		//private void cargarFormaDePago(idDocumento iddoc, string tabla)
-		//{
-		//	clasePagos = new DaxComercia.classPagosDoc
-		//	{
-		//		strConx = datosEmpresa.strConxAdcom,
-		//		DocSucursal = iddoc.Sucursal,
-		//		Doctipo = iddoc.Tipo,
-		//		idClaveDoc = iddoc.idClave,
-		//		DocNumero = iddoc.numero,
-		//		DocFecha = iddoc.fecha
-		//	};
-		//	clasePagos.cargarPagosDocumento(tabla);
-		//}
+
+		
 		private void moverClaseAcontroles()
 		{
-			moverCabezera();
-			//moverOtrosValores();
+			moverCabezera();			
 		}
 		private void moverCabezera()
 		{
@@ -626,30 +922,123 @@ namespace DctosEmi
 			prepararBotones();
 		    InicializarMalla();
 		}
+
+
+		//private void InicializarMalla()
+		//{
+		//	DatosDocFacturacion dcut = new DatosDocFacturacion();
+		//	ModelaMalla dcut2 = new ModelaMalla();
+
+		//	dtDetalleDocumento = utilBasDatos.utilBasDatos.leerTablas(
+		//		dcut.armarSqlLecturaTransInventario("ADCTRA", datosEmpresa.suc, idDocumentoActual.Tipo, 0),
+		//		datosEmpresa.strConxAdcom);
+
+		//	if (dtDetalleDocumento == null) return;
+
+		//	malla.DataSource = dtDetalleDocumento;
+		//	dtDetalleDocumento.Rows.Add(dtDetalleDocumento.NewRow());
+		//	dcut2.diseñarMallaInventario(ref malla, ref propiedadesDoc);
+
+		//	// ✅ LIMPIAR FECHAS VACÍAS
+		//	LimpiarFechasVacias();
+		//	CalcularCostosParaTodaLaMalla();
+
+		//	dcut2 = null;
+		//}
+
 		private void InicializarMalla()
 		{
-			//  this.malla.CellValueChanged -= new System.Windows.Forms.DataGridViewCellEventHandler(this.malla_CellValueChanged);
 			DatosDocFacturacion dcut = new DatosDocFacturacion();
 			ModelaMalla dcut2 = new ModelaMalla();
 
-			dtDetalleDocumento = utilBasDatos.utilBasDatos.leerTablas(dcut.armarSqlLecturaTransFacturas("ADCTRA",datosEmpresa.suc, idDocumentoActual.Tipo , 0), datosEmpresa.strConxAdcom);
+			dtDetalleDocumento = utilBasDatos.utilBasDatos.leerTablas(
+				dcut.armarSqlLecturaTransInventario("ADCTRA", datosEmpresa.suc, idDocumentoActual.Tipo, 0),
+				datosEmpresa.strConxAdcom);
+
 			if (dtDetalleDocumento == null) return;
+
 			malla.DataSource = dtDetalleDocumento;
 			dtDetalleDocumento.Rows.Add(dtDetalleDocumento.NewRow());
-			dcut2.diseñarMallaFacturas(ref malla, ref propiedadesDoc);
+			dcut2.diseñarMallaInventario(ref malla, ref propiedadesDoc);
+
+			// ✅ CALCULAR COSTOS PARA TODOS LOS PRODUCTOS
+			CalcularCostosParaTodaLaMalla();
+
+			// ✅ LIMPIAR FECHAS VACÍAS
+			LimpiarDatosMalla();
+
+			// ✅ TOTALIZAR
+			totalizar();
+
 			dcut2 = null;
+		}
+
+
+		private void LimpiarFechasVacias()
+		{
+			if (malla.Rows.Count == 0) return;
+
+			foreach (DataGridViewRow row in malla.Rows)
+			{
+				if (row.IsNewRow) continue;
+
+				// ✅ Limpiar fecha de caducidad
+				if (malla.Columns.Contains("Tra_vence"))
+				{
+					if (row.Cells["Tra_vence"]?.Value != null && row.Cells["Tra_vence"].Value != DBNull.Value)
+					{
+						DateTime fecha;
+						if (DateTime.TryParse(row.Cells["Tra_vence"].Value.ToString(), out fecha))
+						{
+							// Si es 01/01/1900, dejarlo en blanco
+							if (fecha.Year == 1900 && fecha.Month == 1 && fecha.Day == 1)
+							{
+								row.Cells["Tra_vence"].Value = DBNull.Value;
+							}
+						}
+						else
+						{
+							row.Cells["Tra_vence"].Value = DBNull.Value;
+						}
+					}
+				}
+
+				// ✅ Limpiar Nro Lote si está vacío
+				if (malla.Columns.Contains("tra_nrolote"))
+				{
+					if (row.Cells["tra_nrolote"]?.Value != null && row.Cells["tra_nrolote"].Value != DBNull.Value)
+					{
+						string lote = row.Cells["tra_nrolote"].Value.ToString().Trim();
+						if (string.IsNullOrEmpty(lote) || lote == "0")
+						{
+							row.Cells["tra_nrolote"].Value = DBNull.Value;
+						}
+					}
+				}
+
+				// ✅ Limpiar Costo Total si es 0 - CON MANEJO DE DBNull
+				if (malla.Columns.Contains("Tra_costtot"))
+				{
+					if (row.Cells["Tra_costtot"]?.Value != null && row.Cells["Tra_costtot"].Value != DBNull.Value)
+					{
+						// ✅ Verificar que el valor sea un número válido antes de convertir
+						string valorStr = row.Cells["Tra_costtot"].Value.ToString().Trim();
+						if (!string.IsNullOrEmpty(valorStr))
+						{
+							decimal costoTotal;
+							if (decimal.TryParse(valorStr, out costoTotal))
+							{
+								if (costoTotal == 0)
+								{
+									row.Cells["Tra_costtot"].Value = DBNull.Value;
+								}
+							}
+						}
+					}
+				}
 			}
+		}
 
-		//private void malla_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-		//{
-		//    //if (e.ColumnIndex < 0 || saltaEventosMalla == true)
-		//    //{
-		//    //    return;
-		//    //}
-
-		//    //string nomCol = malla.Columns[e.ColumnIndex].Name.ToUpper();
-		//    //if (nomCol == "TRA_PRECUNI" || nomCol == "TRA_CANTIDAD" || nomCol == "TRA_PORCENDES" || nomCol == "TRA_SNIVA" || nomCol == "TRA_MULTIPLO") totalizar();
-		//}
 		private void malla_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.ColumnIndex < 0 || saltaEventosMalla == true)
@@ -742,18 +1131,7 @@ namespace DctosEmi
 			}
 
 		}
-		//private void btnPagos_Click(object sender, EventArgs e)
-		//{
-		//	string pagoPredefinido = "";
-		//	if (clasePagos.pagosDelDocumento.Count == 0)
-		//	{
-		//		pagoPredefinido = registrarFormaDePagoPredefinida();
-		//		crearPagoPredefinido(pagoPredefinido);
-		//	}
-		//	DaxComercia.MntPago PagosDoc = new DaxComercia.MntPago();
-		//	PagosDoc.INIPagos(idDocumentoActual.idClave, ref clasePagos, opalex.codigo, datosEmpresa.suc, propiedadesDoc.TipoDoc, txtfecha.Text, false, cmbDocumento.SelectedValue.ToString(), Convert.ToDouble("0" + txtnumero.Text), pagoPredefinido, Convert.ToDouble("0" + edTotal.Text), false);
-		//	PagosDoc = null;
-		//}
+		
 
 		private void btnNuevo_Click(object sender, EventArgs e)
 		{
@@ -762,6 +1140,10 @@ namespace DctosEmi
 		private void iniciarNuevoDocumento()
 		{
 			limpiarDatos();
+			// ✅ ASEGURAR QUE datADCDOC ESTÉ INICIALIZADO
+			if (datADCDOC == null)
+				datADCDOC = new AdcDoc(datosEmpresa.strConxAdcom);
+
 			datADCDOC = new AdcDoc(datosEmpresa.strConxAdcom);
 			InicializarMalla();
 			idDocumentoActual = new idDocumento
@@ -888,12 +1270,39 @@ namespace DctosEmi
 			}
 			if ((codigo + "").Length > 0) cargarDatosCliente(codigo);
 		}
+		//private void cmbDocumento_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	if (idDocumentoActual.Sucursal == "") return;
+		//	if (idDocumentoActual.Tipo == cmbDocumento.SelectedValue.ToString()) return;
+		//	idDocumentoActual.Tipo = cmbDocumento.SelectedValue.ToString();
+		//	CargarPredefinidosDocumento();
+		//	//llenarComboDocReferencia();
+		//}
+
 		private void cmbDocumento_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (idDocumentoActual.Sucursal == "") return;
 			if (idDocumentoActual.Tipo == cmbDocumento.SelectedValue.ToString()) return;
+
+			// ✅ ACTUALIZAR EL TIPO DE DOCUMENTO
 			idDocumentoActual.Tipo = cmbDocumento.SelectedValue.ToString();
+
+			// ✅ FORZAR RECARGA DE PROPIEDADES
 			CargarPredefinidosDocumento();
+
+			// ✅ SI EL DOCUMENTO ESTÁ EN MODO NUEVO, ACTUALIZAR EL NÚMERO
+			if (operacionEnCurso == nuevoRegistro || operacionEnCurso == sinOperacion)
+			{
+				ClassDoc.controlNumeracion cnum = new controlNumeracion();
+				txtnumero.Text = cnum.NumeroMayor(idDocumentoActual, "", "", "", datosEmpresa.strConxAdcom).ToString();
+			}
+
+			// ✅ ACTUALIZAR LA MALLA CON EL NUEVO TIPO DE DOCUMENTO
+			if (operacionEnCurso == sinOperacion || operacionEnCurso == nuevoRegistro)
+			{
+				InicializarMalla();
+			}
+
 			//llenarComboDocReferencia();
 		}
 
@@ -913,13 +1322,37 @@ namespace DctosEmi
 				verificaNroDocumentoDigitado();
 			}
 		}
+		//private void verificaNroDocumentoDigitado()
+		//{
+		//	LlenarIdDocumento(ref idDocumentoActual);
+		//          //idDocumentoActual.numero = Convert.ToDouble(txtnumero.Text);
+		//          impresionVerificacion.verificarExistenciaDocumento(ref idDocumentoActual, datosEmpresa.strConxAdcom,false, "ADCDOC");
+		//	if (idDocumentoActual.idClave > 0) { cargarDatosDocumento(idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.idClave);}
+		//          else { MessageBox.Show("El documento digitado no existe");}
+		//}
+
 		private void verificaNroDocumentoDigitado()
 		{
+			// ✅ ACTUALIZAR EL TIPO DE DOCUMENTO DESDE EL COMBOBOX
+			idDocumentoActual.Tipo = cmbDocumento.SelectedValue.ToString();
+			idDocumentoActual.Sucursal = datosEmpresa.suc;
+
 			LlenarIdDocumento(ref idDocumentoActual);
-            //idDocumentoActual.numero = Convert.ToDouble(txtnumero.Text);
-            impresionVerificacion.verificarExistenciaDocumento(ref idDocumentoActual, datosEmpresa.strConxAdcom,false, "ADCDOC");
-			if (idDocumentoActual.idClave > 0) { cargarDatosDocumento(idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.idClave);}
-            else { MessageBox.Show("El documento digitado no existe");}
+
+			// ✅ FORZAR RECARGA DE PROPIEDADES ANTES DE BUSCAR
+			propiedadesDoc = new sesSys.OpcDoc();
+			propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
+
+			impresionVerificacion.verificarExistenciaDocumento(ref idDocumentoActual, datosEmpresa.strConxAdcom, false, "ADCDOC");
+
+			if (idDocumentoActual.idClave > 0)
+			{
+				cargarDatosDocumento(idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.idClave);
+			}
+			else
+			{
+				MessageBox.Show("El documento digitado no existe");
+			}
 		}
 
 
@@ -1110,7 +1543,7 @@ namespace DctosEmi
 
 			//if (Convert.ToInt32(controlaSig) == -1) controlaSig = "0"; else controlaSig = "1";
 
-			adcCtasCorrientes.frmAplicacionesDcto prog = new adcCtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
+			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
 			prog.ShowDialog();
 		}
 
@@ -1189,10 +1622,41 @@ namespace DctosEmi
 			e.Cancel = true;
 		}
 
+		//private Boolean validarDocumento()
+		//{
+		//	string docsustento = "";
+		//	//DctosEmi.impresionVerificacion util = new DctosEmi.impresionVerificacion();
+		//	if (Convert.ToDouble("0" + txtnumero.Text) == 0) { mensajesErrorDocumento.MensajeNumeroDoc(); txtnumero.Focus(); return false; }
+		//	if (ValidacionDocumentos.ValidacionGeneral.validarFecha(txtfecha.Text, datosEmpresa.usr) == false) { return false; };
+		//	if (opalex.codigo == "" || codCliente == "" || txtcedula.Text == "") { mensajesErrorDocumento.ElCodigoNoExiste("C"); return false; }
+
+		//	if (propiedadesDoc.TipoSoporteObligatorio != "")
+		//	{
+		//		if (cmbDocumentoSustento.Text == "" || nroDocSoporte.Text == "")
+		//		{
+		//			mensajesErrorDocumento.SinDocumentoReferencia(); return false;
+		//		}
+		//		else
+		//		{
+		//			if (clasref.LeerDocumentoReferencial(datosEmpresa.suc, cmbDocumentoSustento.SelectedValue.ToString(), nroDocSoporte.Text, idDocumentoActual) == false)
+		//			{ clasref = null; mensajesErrorDocumento.SinDocumentoReferencia(); return false; }
+		//		}
+		//	}
+		//	if (ValidacionDocumentos.ValidacionGeneral.validarIngresoDetalle(malla) == false) { mensajesErrorDocumento.sinArtículosOservicios(); return false; }
+		//	if (ValidacionDocumentos.ValidacionGeneral.ControlValidacionFacCli(ref malla, ref propiedadesDoc, clasref, txtfecha.Text, datosEmpresa.suc, datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod, idDocumentoActual.idClave, cmbBodega.SelectedValue.ToString(), txtnumero.Text, entregasPendientes, datosEmpresa.suc, docsustento, "") == false) return false;
+		//	//if (verificarFormaDePago() == false) {return false; }
+		//          DatosFacturacion.moverDatosAclase(this,datADCDOC);
+		//	return true;
+		//}
+
 		private Boolean validarDocumento()
 		{
 			string docsustento = "";
-			//DctosEmi.impresionVerificacion util = new DctosEmi.impresionVerificacion();
+
+			// ✅ FORZAR RECARGA DE PROPIEDADES DEL DOCUMENTO ACTUAL
+			propiedadesDoc = new sesSys.OpcDoc();
+			propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
+
 			if (Convert.ToDouble("0" + txtnumero.Text) == 0) { mensajesErrorDocumento.MensajeNumeroDoc(); txtnumero.Focus(); return false; }
 			if (ValidacionDocumentos.ValidacionGeneral.validarFecha(txtfecha.Text, datosEmpresa.usr) == false) { return false; };
 			if (opalex.codigo == "" || codCliente == "" || txtcedula.Text == "") { mensajesErrorDocumento.ElCodigoNoExiste("C"); return false; }
@@ -1211,10 +1675,11 @@ namespace DctosEmi
 			}
 			if (ValidacionDocumentos.ValidacionGeneral.validarIngresoDetalle(malla) == false) { mensajesErrorDocumento.sinArtículosOservicios(); return false; }
 			if (ValidacionDocumentos.ValidacionGeneral.ControlValidacionFacCli(ref malla, ref propiedadesDoc, clasref, txtfecha.Text, datosEmpresa.suc, datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod, idDocumentoActual.idClave, cmbBodega.SelectedValue.ToString(), txtnumero.Text, entregasPendientes, datosEmpresa.suc, docsustento, "") == false) return false;
-			//if (verificarFormaDePago() == false) {return false; }
-            DatosFacturacion.moverDatosAclase(this,datADCDOC);
+
+			DatosFacturacion.moverDatosAclase(this, datADCDOC);
 			return true;
 		}
+
 
 		private Boolean grabarDocumento()
 		{
@@ -1222,21 +1687,18 @@ namespace DctosEmi
             Boolean RESP = true;
 
             string res = "";
-            //if (debeActualizarContacto)
-            //{
-            //    if (MessageBox.Show("Se han cambiado datos del cliente, confirma Actualizar el registro ?", "Actualizar datos de Cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            //    {
-            //        debeActualizarContacto = false;
-            //        ActualizarDatosCliente();
-            //    }
-            //}
+           
             try
             {
-                if (idDocumentoActual.idClave == 0)
-                {
-                    //DctosEmi.fijarNumeroDocumento fijnum = new DctosEmi.fijarNumeroDocumento();
-                    //datADCDOC.Doc_numero = Convert.ToDecimal(fijnum.nroDeDocumento(propiedadesDoc.tablaDatosDoc, propiedadesDoc.CodDuplica, Convert.ToBoolean(propiedadesDoc.NroAutomatico), Convert.ToDouble(txtnumero.Text), datosEmpresa.strConxAdcom, datosEmpresa.suc, cmbDocumento.SelectedValue.ToString(), txtnumero.Text, cmbBodega.SelectedValue.ToString(), codCliente, txtNroID.Text));
-                    //if (datADCDOC.Doc_numero == 0) return false;
+				ForzarCalculoDeCostosAntesDeGrabar();
+				// ✅ VERIFICAR QUE TODAS LAS FILAS TENGAN COSTOS
+				VerificarCostosEnMalla();
+
+				// ✅ FORZAR QUE LA MALLA TERMINE LA EDICIÓN
+				malla.EndEdit();
+
+				if (idDocumentoActual.idClave == 0)
+                {                    
                     res = datADCDOC.Crear();
                     idDocumentoActual.idClave = Convert.ToDouble(datADCDOC.IdClaveDoc);
                     idDocumentoActual.numero = Convert.ToDouble(datADCDOC.Doc_numero);
@@ -1265,61 +1727,214 @@ namespace DctosEmi
             }
             return RESP;
 		}
-		
+
+		private void ForzarCalculoDeCostosAntesDeGrabar()
+		{
+			if (malla.Rows.Count == 0) return;
+
+			foreach (DataGridViewRow row in malla.Rows)
+			{
+				if (row.IsNewRow) continue;
+
+				if (row.Cells["tra_Codigo"]?.Value == null ||
+					row.Cells["tra_Codigo"].Value == DBNull.Value ||
+					string.IsNullOrEmpty(row.Cells["tra_Codigo"].Value.ToString()))
+					continue;
+
+				string codigo = row.Cells["tra_Codigo"].Value.ToString().Trim();
+				if (string.IsNullOrEmpty(codigo) || codigo == ".")
+					continue;
+
+				// ✅ OBTENER COSTO UNITARIO ACTUAL
+				decimal costoUnitario = 0;
+				if (row.Cells["Tra_costuni"]?.Value != null && row.Cells["Tra_costuni"].Value != DBNull.Value)
+					decimal.TryParse(row.Cells["Tra_costuni"].Value.ToString(), out costoUnitario);
+
+				// ✅ SI EL COSTO ES 0, BUSCARLO
+				if (costoUnitario == 0)
+				{
+					try
+					{
+						AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
+						opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
+						if (opArt != null)
+						{
+							costoUnitario = Convert.ToDecimal(opArt.Art_costucom);
+							if (costoUnitario == 0)
+								costoUnitario = Convert.ToDecimal(opArt.Art_precvta1);
+						}
+					}
+					catch { costoUnitario = 0; }
+				}
+
+				// ✅ ASIGNAR COSTOS
+				if (costoUnitario > 0)
+				{
+					decimal cantidad = 1;
+					if (row.Cells["tra_Cantidad"]?.Value != null && row.Cells["tra_Cantidad"].Value != DBNull.Value)
+						decimal.TryParse(row.Cells["tra_Cantidad"].Value.ToString(), out cantidad);
+
+					if (row.Cells["Tra_costuni"] != null)
+						row.Cells["Tra_costuni"].Value = Math.Round(costoUnitario, 4);
+
+					if (row.Cells["Tra_costtot"] != null)
+						row.Cells["Tra_costtot"].Value = Math.Round(costoUnitario * cantidad, 2);
+
+					if (row.Cells["Tra_precuni"] != null)
+						row.Cells["Tra_precuni"].Value = Math.Round(costoUnitario, 4);
+
+					if (row.Cells["Tra_prectot"] != null)
+						row.Cells["Tra_prectot"].Value = Math.Round(costoUnitario * cantidad, 2);
+				}
+			}
+		}
+
 		private void grabarAdctra()
 		{
 			grabMallTra.grabarMallaAdctra(malla, datADCDOC,datosEmpresa.strConxAdcom);
 		}
 
+		private void VerificarCostosEnMalla()
+		{
+			if (malla.Rows.Count == 0) return;
+
+			foreach (DataGridViewRow row in malla.Rows)
+			{
+				if (row.IsNewRow) continue;
+
+				// ✅ Verificar si tiene costo unitario
+				if (malla.Columns.Contains("Tra_costuni"))
+				{
+					if (row.Cells["Tra_costuni"]?.Value == null || row.Cells["Tra_costuni"].Value == DBNull.Value)
+					{
+						// Si no tiene costo, calcularlo de Tra_precuni
+						if (malla.Columns.Contains("Tra_precuni") && row.Cells["Tra_precuni"]?.Value != null)
+						{
+							decimal costo = 0;
+							decimal.TryParse(row.Cells["Tra_precuni"].Value.ToString(), out costo);
+							row.Cells["Tra_costuni"].Value = Math.Round(costo, 4);
+						}
+					}
+				}
+
+				// ✅ Verificar si tiene costo total
+				if (malla.Columns.Contains("Tra_costtot"))
+				{
+					if (row.Cells["Tra_costtot"]?.Value == null || row.Cells["Tra_costtot"].Value == DBNull.Value)
+					{
+						// Si no tiene costo total, calcularlo de Tra_costuni * cantidad
+						if (malla.Columns.Contains("Tra_costuni") && row.Cells["Tra_costuni"]?.Value != null)
+						{
+							decimal costoUnitario = 0;
+							decimal.TryParse(row.Cells["Tra_costuni"].Value.ToString(), out costoUnitario);
+
+							decimal cantidad = 0;
+							if (row.Cells["Tra_cantidad"]?.Value != null)
+								decimal.TryParse(row.Cells["Tra_cantidad"].Value.ToString(), out cantidad);
+
+							row.Cells["Tra_costtot"].Value = Math.Round(costoUnitario * cantidad, 2);
+						}
+					}
+				}
+			}
+		}
+
+		private decimal ObtenerValorDecimal(DataGridViewRow row, string columna)
+		{
+			if (row == null) return 0;
+
+			try
+			{
+				// Verificar que la columna existe en el DataGridView
+				if (!malla.Columns.Contains(columna))
+					return 0;
+
+				// Obtener la celda
+				DataGridViewCell cell = row.Cells[columna];
+				if (cell == null || cell.Value == null)
+					return 0;
+
+				// Intentar convertir a decimal
+				if (decimal.TryParse(cell.Value.ToString(), out decimal valor))
+					return valor;
+			}
+			catch
+			{
+				// Ignorar errores
+			}
+			return 0;
+		}
+
 		private void totalizar()
 		{
-            if (malla.Rows.Count < 1) return;
-//			this.malla.CellValueChanged -= new System.Windows.Forms.DataGridViewCellEventHandler(this.malla_CellValueChanged);
-			//if (claseImpuestos.cambiadoManual == false)
-			//{
-			//	if (claseImpuestos.impstoPorcentaje1 == 0 || claseImpuestos.impstoFechaIni1 > txtfecha.Value || claseImpuestos.impstoFechaFin1 < txtfecha.Value) claseImpuestos.cargar(datosEmpresa.strConxIvaret , txtfecha.Value);
-			//}
-			totalesDocumento = new DctosEmi.docTotals();
-			//edTotal.Text = totalesDocumento.totalizar(malla,propiedadesDoc, valoresPredefinidosEmpresa.nroDigitosEnPrecios , valoresPredefinidosEmpresa.nroDigitosEnCostos ).ToString("#,0.00");
-			edTotal.Text = Convert.ToString(totalesDocumento.totalizar(malla, ivaM, claseDescuentos, clasePagos, propiedadesDoc, valoresPredefinidosEmpresa.nroDigitosEnPrecios, valoresPredefinidosEmpresa.nroDigitosEnCostos));
+			if (malla.Rows.Count < 1) return;
 
-			//			presentarTotales();
-			//			this.malla.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.malla_CellValueChanged);
-			//			btnPagos.Enabled = (totalesDocumento.TotVta > 0) ;
-			//sumarPartePago();
+			decimal total = 0;
+
+			foreach (DataGridViewRow row in malla.Rows)
+			{
+				// Saltar la fila nueva (en blanco)
+				if (row.IsNewRow) continue;
+
+				// Verificar que la fila tenga código
+				if (row.Cells["tra_Codigo"].Value == null ||
+					row.Cells["tra_Codigo"].Value.ToString().Length == 0 ||
+					row.Cells["tra_Codigo"].Value.ToString() == ".")
+					continue;
+
+				try
+				{
+					// Obtener cantidad - USAR row.Cells["nombre"] 
+					decimal cantidad = 0;
+					if (row.Cells["tra_Cantidad"].Value != null)
+					{
+						decimal.TryParse(row.Cells["tra_Cantidad"].Value.ToString(), out cantidad);
+					}
+
+					// Obtener costo unitario - USAR row.Cells["nombre"]
+					decimal costoUnitario = 0;
+					if (row.Cells["Tra_precuni"].Value != null)
+					{
+						decimal.TryParse(row.Cells["Tra_precuni"].Value.ToString(), out costoUnitario);
+					}
+
+					// Calcular total de línea
+					decimal totalLinea = cantidad * costoUnitario;
+					total += totalLinea;
+
+					// Actualizar la columna de total de línea - USAR row.Cells["nombre"]
+					if (row.Cells["Tra_prectot"] != null)
+					{
+						row.Cells["Tra_prectot"].Value = Math.Round(totalLinea, valoresPredefinidosEmpresa.nroDigitosEnPrecios);
+					}
+				}
+				catch (Exception ex)
+				{
+					// Si hay error en la línea, la ignoramos
+					continue;
+				}
+			}
+
+			// Mostrar el total (SIN IVA)
+			edTotal.Text = total.ToString("#,0.00");
+
+			// Actualizar el documento si existe
+			if (datADCDOC != null)
+			{
+				datADCDOC.Doc_valor = Convert.ToDecimal(total);
+				datADCDOC.Doc_valoriva = 0;
+				datADCDOC.Doc_totciva = 0;
+				datADCDOC.Doc_totsiva = 0;
+				datADCDOC.Doc_TotDesArt = 0;
+				datADCDOC.Doc_TotDesSer = 0;
+				datADCDOC.BaseImp1 = 0;
+				datADCDOC.ValorImp1 = 0;
+				datADCDOC.ValorImp2 = 0;
+				datADCDOC.ValorImp3 = 0;
+			}
 		}
-		//private void presentarTotales()
-		//{
-		//	string formato = "#,0.00";
-		//	labTotDescuentoIva.Text = totalesDocumento.totdesciva.ToString(formato);
-		//	labTotdescuentoSinIva.Text = totalesDocumento.totdessiva.ToString(formato);
-		//	labTotIva.Text = totalesDocumento.TotIva.ToString(formato);
-		//	//labTotPorcIva.Text = (claseImpuestos.impstoPorcentaje1 * 100).ToString() + "% IVA";
-		//	labTotSubConIva.Text = totalesDocumento.Subtotalciva.ToString(formato);
-		//	labTotSubSinIva.Text = totalesDocumento.SubTotalSIva.ToString(formato);
-		//	labTotVtaConIva.Text = totalesDocumento.TotCiva.ToString(formato);
-		//	labTotVtaSinIva.Text = totalesDocumento.TotSiva.ToString(formato);
-		//	labTotalDescuento.Text = totalesDocumento.TotDescuentos.ToString(formato);
-		//	labTotalVenta.Text = (totalesDocumento.TotCiva + totalesDocumento.TotSiva).ToString(formato);
-		//	labSubtotal.Text = (totalesDocumento.Subtotalciva + totalesDocumento.SubTotalSIva ) .ToString(formato);
-		//}
 
-		//private void ActualizarDatosCliente()
-		//{
-		//	string insertar = "update identificacion set HistoriaClinica = '" + txtcedula.Text + "'";
-		//	insertar += ", correoElectrónico = '" + txtCorreElectronico.Text + "'";
-		//	insertar += ", Telefono1 = '" + txttelefono.Text + "'";
-		//	insertar += ", Domicilio = '" + txtdireccion.Text + "'";
-		//	insertar += " where Codigo = '" + txtcedula.Text + "' or CedulaIdentidadRuc = '" + txtcedula.Text + "' ";
-		//	using (SqlConnection conn = new SqlConnection (datosEmpresa.strConxAdcom))
-		//	{
-		//		conn.Open();
-		//		using (SqlCommand comm = new SqlCommand (insertar,conn))
-		//		{
-		//			comm.ExecuteNonQuery();
-		//		}
-		//	}
-		//}
+
 		private void LlenarIdDocumento(ref idDocumento docmtoActual)
 		{
 			docmtoActual.Sucursal=datosEmpresa.suc ;

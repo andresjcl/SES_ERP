@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports DattCom
 Imports SysEmpDatt
 
 
@@ -38,7 +39,7 @@ Public Class frmSuc
 
 #Region "Conectar"
     Private Sub btnConectar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConectar.Click
-        SysEmpDatt.ManejoDatosEmpresa.cargarSucursalYbodegaCambio(codSuc)
+        DattCom.ManejoDatosEmpresa.cargarSucursalYbodegaCambio(codSuc)
         Me.Dispose()
     End Sub
     Private Sub lst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lst.SelectedIndexChanged

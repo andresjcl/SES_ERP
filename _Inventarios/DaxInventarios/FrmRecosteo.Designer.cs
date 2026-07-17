@@ -6,6 +6,10 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label lblEstado;
+        private System.Windows.Forms.Label lblProgreso;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -43,6 +47,10 @@
             this.btnProcesar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.lblEstado = new System.Windows.Forms.Label();
+            this.lblProgreso = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +70,7 @@
             this.panel1.Location = new System.Drawing.Point(16, 15);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(818, 184);
+            this.panel1.Size = new System.Drawing.Size(818, 130);
             this.panel1.TabIndex = 0;
             // 
             // btnErrores
@@ -71,19 +79,20 @@
             this.btnErrores.FlatAppearance.BorderSize = 0;
             this.btnErrores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnErrores.ForeColor = System.Drawing.Color.White;
-            this.btnErrores.Location = new System.Drawing.Point(680, 128);
+            this.btnErrores.Location = new System.Drawing.Point(680, 80);
             this.btnErrores.Margin = new System.Windows.Forms.Padding(4);
             this.btnErrores.Name = "btnErrores";
             this.btnErrores.Size = new System.Drawing.Size(129, 41);
             this.btnErrores.TabIndex = 4;
             this.btnErrores.Text = "Analizar errores";
             this.btnErrores.UseVisualStyleBackColor = false;
+            this.btnErrores.Click += new System.EventHandler(this.btnErrores_Click);
             // 
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(528, 65);
+            this.label6.Location = new System.Drawing.Point(528, 48);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(61, 20);
@@ -96,7 +105,7 @@
             this.labDesde.BackColor = System.Drawing.Color.White;
             this.labDesde.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labDesde.ForeColor = System.Drawing.Color.Black;
-            this.labDesde.Location = new System.Drawing.Point(397, 65);
+            this.labDesde.Location = new System.Drawing.Point(397, 48);
             this.labDesde.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labDesde.Name = "labDesde";
             this.labDesde.Size = new System.Drawing.Size(115, 20);
@@ -144,7 +153,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(45, 112);
+            this.checkBox1.Location = new System.Drawing.Point(19, 73);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(260, 22);
@@ -155,7 +164,7 @@
             // dtFechaLimiteProceso
             // 
             this.dtFechaLimiteProceso.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtFechaLimiteProceso.Location = new System.Drawing.Point(596, 63);
+            this.dtFechaLimiteProceso.Location = new System.Drawing.Point(596, 46);
             this.dtFechaLimiteProceso.Margin = new System.Windows.Forms.Padding(4);
             this.dtFechaLimiteProceso.Name = "dtFechaLimiteProceso";
             this.dtFechaLimiteProceso.Size = new System.Drawing.Size(132, 22);
@@ -165,7 +174,7 @@
             // 
             this.label1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(25, 64);
+            this.label1.Location = new System.Drawing.Point(16, 49);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(373, 20);
@@ -217,22 +226,64 @@
             // 
             // label3
             // 
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Silver;
-            this.label3.Location = new System.Drawing.Point(9, 208);
+            this.label3.Location = new System.Drawing.Point(16, 200);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(520, 93);
+            this.label3.Size = new System.Drawing.Size(818, 52);
             this.label3.TabIndex = 3;
             this.label3.Text = resources.GetString("label3.Text");
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(16, 155);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(818, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 5;
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEstado.ForeColor = System.Drawing.Color.White;
+            this.lblEstado.Location = new System.Drawing.Point(16, 182);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(85, 18);
+            this.lblEstado.TabIndex = 6;
+            this.lblEstado.Text = "Estado: Listo";
+            // 
+            // lblProgreso
+            // 
+            this.lblProgreso.AutoSize = true;
+            this.lblProgreso.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProgreso.ForeColor = System.Drawing.Color.White;
+            this.lblProgreso.Location = new System.Drawing.Point(806, 182);
+            this.lblProgreso.Name = "lblProgreso";
+            this.lblProgreso.Size = new System.Drawing.Size(26, 18);
+            this.lblProgreso.TabIndex = 7;
+            this.lblProgreso.Text = "0%";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // FrmRecosteo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(872, 350);
+            this.ClientSize = new System.Drawing.Size(860, 346);
             this.ControlBox = false;
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.lblEstado);
+            this.Controls.Add(this.lblProgreso);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnProcesar);
@@ -243,9 +294,11 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "REACTUALIZACION DE COSTO DE ARTICULOS";
+            this.Load += new System.EventHandler(this.FrmRecosteo_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

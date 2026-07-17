@@ -10,6 +10,7 @@ using Microsoft.Reporting.WinForms;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using DattCom;
 
 namespace DaxBan
 {
@@ -19,15 +20,14 @@ namespace DaxBan
         public string textBoxFechaHasta;
         public string comboCuentaBanco;
         public string Nombre;
-        public string comboBanco;
-        public SqlConnection conexion ;  //= new SqlConnection();
+        public string comboBanco;        
         public string pathappl;
         public string textSaldoSistema;
         public string textSaldoBanco;
         public string textDiferencia;
         internal  frmVisConBan()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
         
         internal  void  form2_load() 
@@ -51,7 +51,7 @@ namespace DaxBan
                 rds.Value = CalcularDataSet(consulta).Tables[0];
                 reportViewer1.LocalReport.DataSources.Clear();
                 reportViewer1.LocalReport.DataSources.Add(rds);
-                reportViewer1.LocalReport.ReportPath = pathappl + "BinNet\\Rep\\Cnclbc.rdlc";
+                reportViewer1.LocalReport.ReportPath = pathappl + "Rep\\Cnclbc.rdlc";
                 reportViewer1.LocalReport.SetParameters(FechaInicial);
                 reportViewer1.LocalReport.SetParameters(FechaFinal);
                 reportViewer1.LocalReport.SetParameters(empresa);
@@ -71,7 +71,7 @@ namespace DaxBan
         }
         private DataSet CalcularDataSet(String consulta)
         {
-            SqlDataAdapter misqlDa = new SqlDataAdapter(consulta, conexion);
+            SqlDataAdapter misqlDa = new SqlDataAdapter(consulta, datosEmpresa.strConxAdcom);
             DataSet dato = new DataSet();
             misqlDa.Fill(dato);
             return dato;

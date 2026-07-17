@@ -28,7 +28,7 @@ namespace DaxComercia
                     dt.Dispose();
                 }
             }
-            catch (Exception EX)
+            catch (Exception)
             {
             }
         }

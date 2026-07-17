@@ -45,6 +45,7 @@ namespace DctosEmi
         private void button1_Click(object sender, EventArgs e)
         {
             idclavedoc = Convert.ToDouble(mallaDatos.Rows[mallaDatos.CurrentCell.RowIndex].Cells["idclavedoc"].Value);
+            salirDelProceso();
         }
 
         private void mallaDatos_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -320,4 +320,8 @@ Public Class frmRepDoc
         'imprimeDetalleDocumento = chkDetalle.Checked
         ReportViewer1.Clear()
     End Sub
+
+    Private Sub DocDetalle_Click(sender As Object, e As EventArgs) Handles DocDetalle.Click
+
+    End Sub
 End Class

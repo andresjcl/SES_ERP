@@ -47,6 +47,7 @@ namespace DctosEmi
         public Decimal totalvalorDeIva15 = 0;
         public Decimal TotVta8 = 0;
         public Decimal TotIva8 = 0;
+        public Decimal SubTotal = 0;
         //public Decimal totalvalorDeIva = 0;
         //public Decimal totalvalorDeIva = 0;
 
@@ -644,7 +645,101 @@ namespace DctosEmi
 
         }
 
-	}
+        // ============================================================
+        // MÉTODO ESPECÍFICO PARA DOCUMENTOS DE INVENTARIO (SIN IVA)
+        // ============================================================
+        public Decimal totalizarInventario(DataGridView malla, int digitosPrecios = 2)
+        {
+            Decimal total = 0;
+
+            if (malla.Rows.Count < 1) return total;
+
+            foreach (DataGridViewRow row in malla.Rows)
+            {
+                // Saltar fila nueva
+                if (row.IsNewRow) continue;
+
+                try
+                {
+                    // Verificar que la fila tenga código
+                    if (row.Cells["tra_Codigo"].Value == null ||
+                        row.Cells["tra_Codigo"].Value.ToString().Length == 0 ||
+                        row.Cells["tra_Codigo"].Value.ToString() == ".")
+                        continue;
+
+                    // Obtener cantidad
+                    decimal cantidad = 0;
+                    if (row.Cells["tra_Cantidad"].Value != null)
+                        decimal.TryParse(row.Cells["tra_Cantidad"].Value.ToString(), out cantidad);
+
+                    // Obtener costo unitario
+                    decimal costoUnitario = 0;
+                    if (row.Cells["Tra_precuni"].Value != null)
+                        decimal.TryParse(row.Cells["Tra_precuni"].Value.ToString(), out costoUnitario);
+
+                    // Calcular total de línea
+                    decimal totalLinea = cantidad * costoUnitario;
+                    total += totalLinea;
+
+                    // Actualizar columna de total
+                    if (row.Cells["Tra_prectot"] != null)
+                    {
+                        row.Cells["Tra_prectot"].Value = Math.Round(totalLinea, digitosPrecios);
+                    }
+
+                    // Si existe columna de peso
+                    if (row.Cells["tra_Peso"] != null && row.Cells["tra_Peso"].Value != null)
+                    {
+                        decimal peso = 0;
+                        decimal.TryParse(row.Cells["tra_Peso"].Value.ToString(), out peso);
+                        TotPes += peso * cantidad;
+                    }
+
+                    // Contar unidades (si existe la columna tra_queTipo)
+                    if (row.Cells["tra_queTipo"] != null && row.Cells["tra_queTipo"].Value != null)
+                    {
+                        string tipoProducto = row.Cells["tra_queTipo"].Value.ToString();
+                        if (cantidad != 0 && tipoProducto == "A")
+                            TotUnd += cantidad;
+                    }
+
+                    // Acumular costos (si existe la columna tra_costtot)
+                    if (row.Cells["tra_costtot"] != null && row.Cells["tra_costtot"].Value != null)
+                    {
+                        decimal costo = 0;
+                        decimal.TryParse(row.Cells["tra_costtot"].Value.ToString(), out costo);
+                        TotCosArt += costo;
+                    }
+                }
+                catch
+                {
+                    // Ignorar errores en líneas individuales
+                    continue;
+                }
+            }
+
+            // Asignar totales (SIN IVA)
+            TotVta = total;
+            TotCiva = 0;
+            TotSiva = 0;
+            TotIva = 0;
+            TotDescuentos = 0;
+            totdesciva = 0;
+            totdessiva = 0;
+            TotDesArt = 0;
+            TotDesSer = 0;
+            SubTotal = total;
+            Subtotalciva = 0;
+            SubTotalSIva = 0;
+            totalFinal = total;
+            totalvalorDeIva = 0;
+            totalvalorDeIva5 = 0;
+            totalvalorDeIva15 = 0;
+
+            return total;
+        }
+
+    }
 
 }
 

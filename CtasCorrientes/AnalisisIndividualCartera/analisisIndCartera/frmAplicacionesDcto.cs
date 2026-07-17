@@ -77,7 +77,8 @@ namespace CtasCorrientes
             cod += " DD.Doc_NombreImp as NOMBRE, DD.Doc_codper, DD.doc_fecha";
             cod += " FROM  AdcDoc DD right JOIN Adcdocabonos2 ABB ON DD.idclavedoc = ABB.idclavedoc AND ";
             cod += " DD.Opc_documento = ABB.opc_documento AND ABB.Doc_sucursal = DD.Doc_sucursal ";
-            cod += " WHERE  " + Seleccion + "  " + StrFecha + "   ";
+            //cod += " WHERE  " + Seleccion + "  " + StrFecha + "   ";
+            cod += " WHERE  " + Seleccion +"   ";
             cod += " Order BY abb.Apl_Fecha, abb.Opc_Documento , dd.Doc_numero";
           
             SqlDataAdapter da = new SqlDataAdapter(cod,strConxAdcom);

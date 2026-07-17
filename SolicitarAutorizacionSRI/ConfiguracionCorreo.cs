@@ -1,209 +1,191 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 
 namespace SolicitudAutSRI
 {
-	public static class ConfiguracionCorreo
-	{
-		public static string CorreoDesde { get; private set; }
-		public static string Smtp { get; private set; }
-		public static string Usuario { get; private set; }
-		public static string Clave { get; private set; }
-		public static int Puerto { get; private set; }
-		public static bool HabilitarSSL { get; private set; }
+    public static class ConfiguracionCorreo
+    {
+        public static string CorreoDesde { get; private set; }
+        public static string Smtp { get; private set; }
+        public static string Usuario { get; private set; }
+        public static string Clave { get; private set; }
+        public static int Puerto { get; private set; }
+        public static bool HabilitarSSL { get; private set; }
+        public static string TipoCuenta { get; private set; } // "SMTP" o "OUTLOOK"
 
-		private static bool _configuracionCargada = false;
+        private static bool _configuracionCargada = false;
 
-		private static bool _parametroCargado = false;
+        private static bool _parametroCargado = false;
 
+        public static bool ParametroCargado => _parametroCargado;
+        public static byte parametro; // variable para almacenar el valor leído
+        private static string _urlSRI;
+        public static string UrlSRI => _urlSRI;
 
+        /// <summary>
+        /// Carga la configuración de correo desde la tabla CorreoConfig
+        /// </summary>
+        /// <param name="cadenaConexion">Cadena de conexión a la base de datos</param>
+        /// <param name="codEmpresa">Código de la empresa</param>
+        /// <returns>True si la configuración se cargó correctamente</returns>
+        public static bool CargarConfiguracion(string cadenaConexion, string codEmpresa)
+        {
+            if (_configuracionCargada)
+                return true;
 
-		public static bool ParametroCargado => _parametroCargado;
-		public static byte parametro; // variable para almacenar el valor leído
-		private static string _urlSRI;
-		private static string _parUrlSRI;
-		public static string UrlSRI => _urlSRI;
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
+                {
+                    conexion.Open();
 
-		//public static void CargarConfiguracion(string cadenaConexion)
-		//{
-		//	if (_configuracionCargada) return;
+                    // Verificar si existe la tabla CorreoConfig
+                    if (!TablaCorreoConfigExiste(conexion))
+                    {
+                        return false;
+                    }
 
-		//	using (SqlConnection conexion = new SqlConnection(cadenaConexion))
-		//	{
-		//		conexion.Open();
-		//		string query = "SELECT sys4, valor FROM sysopc WHERE sys3 = 'mail'";
+                    // Consultar la tabla CorreoConfig
+                    string query = @"
+                        SELECT TOP 1 CorreoDesde, Smtp, Usuario, Clave, Puerto, HabilitarSSL, Tipo 
+                        FROM CorreoConfig 
+                        WHERE EmpresaCodigo = @CodEmpresa";
 
-		//		using (SqlCommand cmd = new SqlCommand(query, conexion))
-		//		using (SqlDataReader reader = cmd.ExecuteReader())
-		//		{
-		//			while (reader.Read())
-		//			{
-		//				string claveCampo = reader.GetString(0).Trim().ToLower();
-		//				string valorCampo = reader.GetString(1).Trim();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@CodEmpresa", codEmpresa);
 
-		//				switch (claveCampo)
-		//				{
-		//					case "correo": CorreoDesde = valorCampo; break;
-		//					case "smtp": Smtp = valorCampo; break;
-		//					case "user": Usuario = valorCampo; break;
-		//					case "clave": Clave = valorCampo; break;
-		//					case "puerto": int.TryParse(valorCampo, out int puerto); Puerto = puerto; break;
-		//					case "ssl": HabilitarSSL = (valorCampo.ToUpper() == "S"); break;
-		//				}
-		//			}
-		//		}
-		//	}
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                CorreoDesde = reader.GetString(0);
+                                Smtp = reader.GetString(1);
+                                Usuario = reader.GetString(2);
+                                Clave = reader.GetString(3);
+                                Puerto = reader.GetInt32(4);
+                                HabilitarSSL = reader.GetBoolean(5);
+                                TipoCuenta = reader.GetString(6);
 
-		//	_configuracionCargada = true;
-		//}
+                                _configuracionCargada = true;
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al cargar configuración de correo: {ex.Message}");
+                _configuracionCargada = false;
+                return false;
+            }
+        }
+        /// <summary>
+        /// Verifica si la tabla CorreoConfig existe en la base de datos
+        /// </summary>
+        private static bool TablaCorreoConfigExiste(SqlConnection conexion)
+        {
+            string query = @"
+                SELECT COUNT(*) 
+                FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_NAME = 'CorreoConfig'";
 
-		public static bool CargarConfiguracion(string cadenaConexion)
-		{
-			if (_configuracionCargada)
-				return true;
+            using (SqlCommand cmd = new SqlCommand(query, conexion))
+            {
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+        }
 
-			bool datosEncontrados = false;
+        /// <summary>
+        /// Crea la tabla CorreoConfig si no existe
+        /// </summary>
+        public static bool CrearTablaCorreoConfig(string cadenaConexion)
+        {
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
+                {
+                    conexion.Open();
 
-			try
-			{
-				using (SqlConnection conexion = new SqlConnection(cadenaConexion))
-				{
-					conexion.Open();
-					string query = "SELECT sys4, valor FROM sysopc WHERE sys3 = 'mail'";
+                    string createTableQuery = @"
+                        IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'CorreoConfig')
+                        BEGIN
+                            CREATE TABLE CorreoConfig (
+                                Id INT IDENTITY(1,1) PRIMARY KEY,
+                                EmpresaCodigo VARCHAR(10) NOT NULL,
+                                CorreoDesde VARCHAR(100) NOT NULL,
+                                Smtp VARCHAR(100) NOT NULL,
+                                Usuario VARCHAR(100) NOT NULL,
+                                Clave VARCHAR(200) NOT NULL,
+                                Puerto INT NOT NULL,
+                                HabilitarSSL BIT NOT NULL DEFAULT 0,
+                                Tipo VARCHAR(20) DEFAULT 'SMTP',
+                                FechaRegistro DATETIME DEFAULT GETDATE(),
+                                CONSTRAINT UQ_CorreoConfig_Empresa UNIQUE (EmpresaCodigo)
+                            )
+                        END";
 
-					using (SqlCommand cmd = new SqlCommand(query, conexion))
-					using (SqlDataReader reader = cmd.ExecuteReader())
-					{
-						while (reader.Read())
-						{
-							datosEncontrados = true;
+                    using (SqlCommand cmd = new SqlCommand(createTableQuery, conexion))
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
-							string claveCampo = reader.GetString(0).Trim().ToLower();
-							string valorCampo = reader.GetString(1).Trim();
+        public static bool CargarParametroSRI(string cadenaConexion, int codempresa)
+        {
+            if (_parametroCargado)
+                return true;
 
-							switch (claveCampo)
-							{
-								case "correo": CorreoDesde = valorCampo; break;
-								case "smtp": Smtp = valorCampo; break;
-								case "user": Usuario = valorCampo; break;
-								case "clave": Clave = valorCampo; break;
-								case "puerto":
-									if (int.TryParse(valorCampo, out int puerto))
-										Puerto = puerto;
-									break;
-								case "ssl":
-									HabilitarSSL = valorCampo.Equals("S", StringComparison.OrdinalIgnoreCase);
-									break;
-							}
-						}
-					}
-				}
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
+                {
+                    conexion.Open();
 
-				// Validación mínima
-				if (!datosEncontrados || string.IsNullOrEmpty(Smtp) || string.IsNullOrEmpty(CorreoDesde))
-					return false;
-
-				_configuracionCargada = true;
-				return true;
-			}
-			catch
-			{
-				_configuracionCargada = false;
-				return false;
-			}
-		}
-
-
-		//public static void CargarParametroSRI(string cadenaConexion, int codempresa)
-		//{
-		//	if (_parametroCargado) return;
-
-		//	using (SqlConnection conexion = new SqlConnection(cadenaConexion))
-		//	{
-		//		conexion.Open();
-
-		//		string query = "SELECT par_ValiSRI,par_UrlSRI FROM emp_par WHERE EMP_CODIGO = @codEmpresa";
-
-		//		using (SqlCommand cmd = new SqlCommand(query, conexion))
-		//		{
-		//			cmd.Parameters.AddWithValue("@codEmpresa", codempresa);
-
-		//			using (SqlDataReader reader = cmd.ExecuteReader())
-		//			{
-		//				if (reader.Read())
-		//				{
-		//					// par_ValiSRI es tinyint
-		//					parametro = reader.IsDBNull(0) ? (byte)0 : reader.GetByte(0);
-
-		//					// par_UrlSRI es VARCHAR(80)
-		//					_urlSRI = reader.IsDBNull(1) ? string.Empty : reader.GetString(1).Trim();
-		//				}
-		//			}
-		//		}
-		//	}
-
-		//	_parametroCargado = true;
-		//}
-
-
-		public static bool CargarParametroSRI(string cadenaConexion, int codempresa)
-		{
-			if (_parametroCargado)
-				return true;
-
-			try
-			{
-				bool datosEncontrados = false;
-
-				using (SqlConnection conexion = new SqlConnection(cadenaConexion))
-				{
-					conexion.Open();
-
-					string query = @"SELECT par_ValiSRI, par_UrlSRI 
+                    string query = @"SELECT par_ValiSRI, par_UrlSRI 
                              FROM emp_par 
                              WHERE EMP_CODIGO = @codEmpresa";
 
-					using (SqlCommand cmd = new SqlCommand(query, conexion))
-					{
-						cmd.Parameters.Add("@codEmpresa", SqlDbType.Int).Value = codempresa;
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.Add("@codEmpresa", SqlDbType.Int).Value = codempresa;
 
-						using (SqlDataReader reader = cmd.ExecuteReader())
-						{
-							if (reader.Read())
-							{
-								datosEncontrados = true;
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                parametro = reader.IsDBNull(0) ? (byte)0 : reader.GetByte(0);
+                                _urlSRI = reader.IsDBNull(1) ? string.Empty : reader.GetString(1).Trim();
 
-								// par_ValiSRI es tinyint
-								parametro = reader.IsDBNull(0) ? (byte)0 : reader.GetByte(0);
-
-								// par_UrlSRI es VARCHAR(80)
-								_urlSRI = reader.IsDBNull(1) ? string.Empty : reader.GetString(1).Trim();
-							}
-						}
-					}
-				}
-
-				// Validación mínima
-				if (!datosEncontrados)
-					return false;
-
-				_parametroCargado = true;
-				return true;
-			}
-			catch
-			{
-				_parametroCargado = false;
-				return false;
-			}
-		}
-
-
-
-	}
-
-
+                                _parametroCargado = true;
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                _parametroCargado = false;
+                return false;
+            }
+        }
+    }
 }

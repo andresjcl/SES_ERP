@@ -15,9 +15,10 @@ namespace DctosEmi
 
         static public double verificarExistenciaDocumento(ref idDocumento IDdcto, string strConxAdcom, Boolean documentoMultiNumeracion,string TablaBd,string proveedor = "")
         {
-            if (IDdcto.numero == 0) return 0;
-
             double clavedoc = 0;
+            IDdcto.idClave = 0;
+            if (IDdcto.numero == 0) return 0;            
+           
             if (documentoMultiNumeracion == true && proveedor.Length == 0 )
             {
                 DctosEmi.frmVerDupli forma1 = new DctosEmi.frmVerDupli();

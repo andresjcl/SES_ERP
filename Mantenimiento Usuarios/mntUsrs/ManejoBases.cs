@@ -4,6 +4,7 @@ using System.Data.SqlClient ;
 using System.Data ;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 namespace mntUsrs
 {
@@ -164,39 +165,159 @@ namespace mntUsrs
             mb = null;
         }
 
+        //public void guardarDocumentos(string strConxDaxsys, string usuario, string empresa, DataGridView mallaDoc)
+        //{
+        //    string ssql = " where idUsuario = '" + usuario + "' and idempresa = " + empresa;
+        //    ManejoBases manBas = new ManejoBases();
+        //    DataRow nvoRow;
+        //    DataTable dtAccesos = new DataTable();
+        //    SqlCommandBuilder cb;
+        //    SqlDataAdapter da;
+        //    string AUX = "";
+        //    da = new SqlDataAdapter("select * from sys_documentos " + ssql, strConxDaxsys);
+        //    dtAccesos = new DataTable();
+        //    da.Fill(dtAccesos);
+        //    foreach (DataRow dr in dtAccesos.Rows)
+        //    {
+        //        dr.Delete();
+        //    }
+        //    foreach (DataGridViewRow row in mallaDoc.Rows)
+        //    {
+
+        //        AUX = "";
+        //        if (row.Cells["conAcceso"].Value.ToString() == "X") AUX = "T";
+        //        if (AUX.Trim() != "")
+        //        {
+        //            nvoRow = dtAccesos.NewRow();
+        //            nvoRow["IdUsuario"] = usuario;
+        //            nvoRow["IdEmpresa"] = empresa;
+        //            nvoRow["cambios"] = AUX;
+        //            nvoRow["CodDocumento"] = row.Cells["modulo"].Value;
+        //            dtAccesos.Rows.Add(nvoRow);
+        //        }
+        //    }
+        //    cb = new SqlCommandBuilder(da);
+        //    da.Update(dtAccesos);
+        //}
+
         public void guardarDocumentos(string strConxDaxsys, string usuario, string empresa, DataGridView mallaDoc)
         {
-            string ssql = " where idUsuario = '" + usuario + "' and idempresa = " + empresa;
-            ManejoBases manBas = new ManejoBases();
-            DataRow nvoRow;
-            DataTable dtAccesos = new DataTable();
-            SqlCommandBuilder cb;
-            SqlDataAdapter da;
-            string AUX = "";
-            da = new SqlDataAdapter("select * from sys_documentos " + ssql, strConxDaxsys);
-            dtAccesos = new DataTable();
-            da.Fill(dtAccesos);
-            foreach (DataRow dr in dtAccesos.Rows)
-            {
-                dr.Delete();
-            }
-            foreach (DataGridViewRow row in mallaDoc.Rows)
-            {
+            SqlConnection conn = null;
+            SqlTransaction transaction = null;
 
-                AUX = "";
-                if (row.Cells["conAcceso"].Value.ToString() == "X") AUX = "T";
-                if (AUX.Trim() != "")
+            try
+            {
+                conn = new SqlConnection(strConxDaxsys);
+                conn.Open();
+                transaction = conn.BeginTransaction();
+
+                // Obtener la lista de documentos que el usuario TIENE actualmente en sys_documentos (antes de modificar)
+                List<string> documentosAntes = new List<string>();
+                string queryDocumentosAntes = "SELECT CodDocumento FROM sys_documentos WHERE idUsuario = '" + usuario + "' AND idEmpresa = " + empresa;
+                SqlCommand cmdAntes = new SqlCommand(queryDocumentosAntes, conn, transaction);
+                SqlDataReader reader = cmdAntes.ExecuteReader();
+                while (reader.Read())
                 {
-                    nvoRow = dtAccesos.NewRow();
-                    nvoRow["IdUsuario"] = usuario;
-                    nvoRow["IdEmpresa"] = empresa;
-                    nvoRow["cambios"] = AUX;
-                    nvoRow["CodDocumento"] = row.Cells["modulo"].Value;
-                    dtAccesos.Rows.Add(nvoRow);
+                    documentosAntes.Add(reader["CodDocumento"].ToString());
                 }
+                reader.Close();
+
+                // Primero eliminar todos los documentos actuales del usuario
+                string ssql = "DELETE FROM sys_documentos WHERE idUsuario = '" + usuario + "' AND idEmpresa = " + empresa;
+                SqlCommand cmdDelete = new SqlCommand(ssql, conn, transaction);
+                cmdDelete.ExecuteNonQuery();
+
+                // Insertar los documentos que están marcados (conAcceso = 'X')
+                DataRow nvoRow;
+                DataTable dtAccesos = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM sys_documentos WHERE 1=0", conn); // Solo estructura
+                da.SelectCommand.Transaction = transaction;
+
+                // Configurar el SqlCommandBuilder
+                SqlCommandBuilder cb = new SqlCommandBuilder(da);
+
+                // Crear un DataTable para los nuevos documentos
+                da.Fill(dtAccesos);
+
+                foreach (DataGridViewRow row in mallaDoc.Rows)
+                {
+                    string aux = "";
+                    if (row.Cells["conAcceso"].Value != null && row.Cells["conAcceso"].Value.ToString() == "X")
+                        aux = "T";
+
+                    if (aux.Trim() != "")
+                    {
+                        nvoRow = dtAccesos.NewRow();
+                        nvoRow["IdUsuario"] = usuario;
+                        nvoRow["IdEmpresa"] = empresa;
+                        nvoRow["cambios"] = aux;
+                        nvoRow["CodDocumento"] = row.Cells["modulo"].Value;
+                        dtAccesos.Rows.Add(nvoRow);
+                    }
+                }
+
+                // Guardar los nuevos documentos
+                da.Update(dtAccesos);
+
+                // Obtener la lista de documentos que el usuario TIENE AHORA (después de guardar)
+                List<string> documentosDespues = new List<string>();
+                string queryDocumentosDespues = "SELECT CodDocumento FROM sys_documentos WHERE idUsuario = '" + usuario + "' AND idEmpresa = " + empresa;
+                SqlCommand cmdDespues = new SqlCommand(queryDocumentosDespues, conn, transaction);
+                SqlDataReader readerDespues = cmdDespues.ExecuteReader();
+                while (readerDespues.Read())
+                {
+                    documentosDespues.Add(readerDespues["CodDocumento"].ToString());
+                }
+                readerDespues.Close();
+
+                // Determinar qué documentos fueron ELIMINADOS (estaban antes pero no están después)
+                List<string> documentosEliminados = documentosAntes.Except(documentosDespues).ToList();
+
+                // ELIMINAR de sysdocaccs las autorizaciones de los documentos que ya no tiene el usuario
+                if (documentosEliminados.Count > 0)
+                {
+                    string inClause = "";
+                    foreach (string doc in documentosEliminados)
+                    {
+                        if (inClause != "") inClause += "', '";
+                        inClause += doc.Replace("'", "''");
+                    }
+                    inClause = "'" + inClause + "'";
+
+                    string queryEliminarAutorizaciones = "DELETE FROM sysdocaccs WHERE empresa = " + empresa +
+                                                        " AND idusuario = '" + usuario + "' " +
+                                                        "AND opc_documento IN (" + inClause + ")";
+
+                    SqlCommand cmdEliminarAut = new SqlCommand(queryEliminarAutorizaciones, conn, transaction);
+                    int registrosEliminados = cmdEliminarAut.ExecuteNonQuery();
+
+                    if (registrosEliminados > 0)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Eliminadas {registrosEliminados} autorizaciones de documentos desmarcados");
+                    }
+                }
+
+                // Confirmar la transacción
+                transaction.Commit();
             }
-            cb = new SqlCommandBuilder(da);
-            da.Update(dtAccesos);
+            catch (Exception ex)
+            {
+                // Si hay error, deshacer todos los cambios
+                if (transaction != null)
+                {
+                    try { transaction.Rollback(); } catch { }
+                }
+                throw new Exception("Error al guardar documentos: " + ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                if (conn != null) conn.Dispose();
+                if (transaction != null) transaction.Dispose();
+            }
         }
 
         private string armarAccesoNuevo(DataGridViewRow row)

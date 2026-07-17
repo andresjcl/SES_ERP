@@ -173,7 +173,7 @@ namespace DctosEmi
 			{
 				if (iniciaConNuevoDOc) iniciarNuevoDocumento();
 			}
-
+			registrarAccesosLocalizadosDocumento();
 			prepararBotones();
 		}
 
@@ -254,8 +254,20 @@ namespace DctosEmi
 			// Asegurar que tenga 2 dígitos
 			return valor.PadLeft(2, '0');
 		}
+		//private void CargarPredefinidosDocumento()
+		//{			
+		//	propiedadesDoc = new sesSys.OpcDoc();
+		//	propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
+		//	accesosLocalizados.iniciar(datosEmpresa.codEmpresa, datosEmpresa.usr, datosEmpresa.strConxSyscod);
+		//	accesosLocalizados.cargarAccesoDoc(idDocumentoActual.Tipo);
+		//	cargarSustentoTributario();
+		//	AutorizacionesFac.HabilitarOpcionesDocumento(this);
+
+
+		//}
+
 		private void CargarPredefinidosDocumento()
-		{			
+		{
 			propiedadesDoc = new sesSys.OpcDoc();
 			propiedadesDoc.Cargar(ref idDocumentoActual.Tipo, ref idDocumentoActual.Sucursal);
 			accesosLocalizados.iniciar(datosEmpresa.codEmpresa, datosEmpresa.usr, datosEmpresa.strConxSyscod);
@@ -263,9 +275,8 @@ namespace DctosEmi
 			cargarSustentoTributario();
 			AutorizacionesFac.HabilitarOpcionesDocumento(this);
 
-			
+			registrarAccesosLocalizadosDocumento();
 		}
-		
 		private void prepararBotones()
 		{
 			Boolean inicio = (operacionEnCurso == sinOperacion);
@@ -366,36 +377,59 @@ namespace DctosEmi
 			if (propiedadesDoc.ImprimirDoc == "N")
 				btnEnviar.Visible = false;
 		}
+			
+
 
 		private void registrarAccesosLocalizadosDocumento()
 		{
 			if (accesosLocalizados.sinRegistro) return;
 
-			txtnumero.Enabled = accesosLocalizados.NúmeroDocumento;
-			txtNroID.Enabled = txtnumero.Enabled;
-			txtfecha.Enabled = accesosLocalizados.FechaDocumento;
+			bool esAdmin = datosEmpresa.usr.ToUpper() == "ADMINISTRADOR";
 
-			cmbBodega.Enabled = accesosLocalizados.Bodega;
-			if (accesosLocalizados.BodegaFija.Length > 0)
+			if (esAdmin)
 			{
-				cmbBodega.SelectedValue = accesosLocalizados.BodegaFija;
-				cmbBodega.Enabled = false;
+				// ======================================================
+				// ADMINISTRADOR: TODO HABILITADO
+				// ======================================================
+				txtnumero.Enabled = true;
+				txtNroID.Enabled = true;
+				txtfecha.Enabled = true;
+				cmbBodega.Enabled = true;
+				cmbVendedor.Enabled = true;
+				cmbDocumento.Enabled = true;
 			}
-			
-			cmbVendedor.Enabled = accesosLocalizados.Vendedor;
-			if (accesosLocalizados.VendedorFijo.Length > 0)
+			else
 			{
-				cmbVendedor.SelectedValue = accesosLocalizados.VendedorFijo;
-				cmbVendedor.Enabled = false;
+				// ======================================================
+				// USUARIO NORMAL: RESPETA PERMISOS DE BD
+				// ======================================================
+				txtnumero.Enabled = accesosLocalizados.NúmeroDocumento;
+				txtNroID.Enabled = txtnumero.Enabled;  // Sigue al número
+				txtfecha.Enabled = accesosLocalizados.FechaDocumento;
+
+				cmbBodega.Enabled = accesosLocalizados.Bodega;
+				if (!string.IsNullOrEmpty(accesosLocalizados.BodegaFija))
+				{
+					try { cmbBodega.SelectedValue = accesosLocalizados.BodegaFija; }
+					catch { }
+					cmbBodega.Enabled = false;
+				}
+
+				cmbVendedor.Enabled = accesosLocalizados.Vendedor;
+				if (!string.IsNullOrEmpty(accesosLocalizados.VendedorFijo))
+				{
+					try { cmbVendedor.SelectedValue = accesosLocalizados.VendedorFijo; }
+					catch { }
+					cmbVendedor.Enabled = false;
+				}
 			}
 
-			btnPagos.Visible = (accesosLocalizados.FormaDePago || accesosLocalizados.FormaDePagoFijo.Length > 0);
+			// Visibilidad de botones (igual para ambos, pero ADMIN las tendrá visibles)
+			btnPagos.Visible = (accesosLocalizados.FormaDePago || !string.IsNullOrEmpty(accesosLocalizados.FormaDePagoFijo));
 			btnContabiliza.Visible = accesosLocalizados.Contabilidad;
 			btnPorcentajeIva.Visible = accesosLocalizados.Impuestos;
 			btnDescuentos.Visible = accesosLocalizados.DescuentoDocumento;
 		}
-
-		
 
 		private void LlenarComboDocReferencia()
 		{
@@ -616,6 +650,7 @@ namespace DctosEmi
 			prepararBotones();
 			TextNroAutSri.Text = "";
 			txtCodigoRet.Text = "";
+			codProveedor = "";
 			
 			//            InicializarMalla();
 		}
@@ -649,7 +684,11 @@ namespace DctosEmi
 			{
 				MessageBox.Show("El documento tiene un número máximo de " + propiedadesDoc.LineasMaximas.ToString() + " lineas para su impresión ", "INFORMACION DE DOCUMENTOS", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-			if (DctosEmi.ValidarDatos.ValidarDatosVentas(nomCol,malla.Rows[e.RowIndex], accesosLocalizados) == false) return;
+			
+			var assembly = typeof(daxAccs.propiedadesDaxAuto).Assembly;
+			var version = assembly.GetName().Version;
+			Console.WriteLine($"Versión de daxAccs: {version}");
+			if (DctosEmi.ValidarDatos.ValidarDatosVentas(nomCol,malla.Rows[e.RowIndex], accesosLocalizados) == false) return;			
 			if (nomCol == "TRA_PRECUNI" || nomCol == "TRA_CANTIDAD" || nomCol == "TRA_PORCENDES" || nomCol == "TRA_SNIVA" || nomCol == "TRA_MULTIPLO" || nomCol == "Tra_porceniva" ) totalizar();
 		}
 
@@ -786,7 +825,7 @@ namespace DctosEmi
 			{
 				if (grabarDocumento() == true)
 				{
-					EnviarAimpresora.imprimirDocumentoDirectamente(datADCDOC, accesosLocalizados, idDocumentoActual);
+					EnviarAimpresora.imprimirDocumentoDirectamenteOtros(datADCDOC, accesosLocalizados, idDocumentoActual);
 					limpiarDatos();
 				}
 			}
@@ -899,12 +938,13 @@ namespace DctosEmi
 		{
 			saltarEventoNumero = true;
 			if (e.KeyCode == Keys.Return)
-			{
+			{				
 				verificaNroDocumentoDigitado();
 			}
 		}
 		private void verificaNroDocumentoDigitado()
 		{
+
 			LlenarIdDocumento(ref idDocumentoActual);
 			impresionVerificacion.verificarExistenciaDocumento(ref idDocumentoActual, datosEmpresa.strConxAdcom,true, "ADCDOC", codProveedor);
 			if (idDocumentoActual.idClave > 0) cargarDatosFactura(idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.idClave);
@@ -1121,6 +1161,12 @@ namespace DctosEmi
 				double.TryParse(row.Cells["tra_cantidad"].Value?.ToString() ?? "0", out cantidad);
 				double.TryParse(row.Cells["Tra_porceniva"].Value?.ToString() ?? "0", out porcIva);
 
+				// ✅ Redondear el porcentaje a 2 decimales siempre
+				porcIva = Math.Round(porcIva, 2);
+
+				// Guardar el porcentaje redondeado
+				row.Cells["Tra_porceniva"].Value = porcIva;
+
 				double subtotal = precio * cantidad;
 				double valorIva = Math.Round((subtotal * porcIva) / 100, valoresPredefinidosEmpresa.nroDigitosEnPrecios);
 
@@ -1184,7 +1230,7 @@ namespace DctosEmi
 
 			//if (Convert.ToInt32(controlaSig) == -1) controlaSig = "0"; else controlaSig = "1";
 
-			adcCtasCorrientes.frmAplicacionesDcto prog = new adcCtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
+			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
 			prog.ShowDialog();
 		}
 
@@ -1763,7 +1809,7 @@ namespace DctosEmi
 
 			//if (Convert.ToInt32(controlaSig) == -1) controlaSig = "0"; else controlaSig = "1";
 
-			adcCtasCorrientes.frmAplicacionesDcto prog = new adcCtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
+			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
 			prog.ShowDialog();
 		}
 

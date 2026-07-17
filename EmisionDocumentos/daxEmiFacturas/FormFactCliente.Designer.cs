@@ -29,10 +29,10 @@
 		private void InitializeComponent()
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFactCliente));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.ToolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
             this.ToolStrip10 = new System.Windows.Forms.ToolStrip();
@@ -145,6 +145,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.btnAplicaciones = new System.Windows.Forms.ToolStripButton();
             this.panel2.SuspendLayout();
             this.ToolStripContainer4.ContentPanel.SuspendLayout();
             this.ToolStripContainer4.SuspendLayout();
@@ -217,12 +218,13 @@
             this.ToolStrip10.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ToolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnBarras,
+            this.btnAplicaciones,
             this.btnAgrupa});
             this.ToolStrip10.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.ToolStrip10.Location = new System.Drawing.Point(519, 1);
             this.ToolStrip10.Name = "ToolStrip10";
             this.ToolStrip10.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ToolStrip10.Size = new System.Drawing.Size(105, 94);
+            this.ToolStrip10.Size = new System.Drawing.Size(104, 94);
             this.ToolStrip10.Stretch = true;
             this.ToolStrip10.TabIndex = 5;
             this.ToolStrip10.Text = "ToolStrip10";
@@ -565,28 +567,28 @@
             // btnImprimir
             // 
             this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(224, 26);
+            this.btnImprimir.Size = new System.Drawing.Size(206, 26);
             this.btnImprimir.Text = "Imprimir";
             this.btnImprimir.Click += new System.EventHandler(this.btnEnviar_Click);
             // 
             // btnExportaExcel
             // 
             this.btnExportaExcel.Name = "btnExportaExcel";
-            this.btnExportaExcel.Size = new System.Drawing.Size(224, 26);
+            this.btnExportaExcel.Size = new System.Drawing.Size(206, 26);
             this.btnExportaExcel.Text = "Exportar a excel";
             this.btnExportaExcel.Click += new System.EventHandler(this.btnExportaExcel_Click);
             // 
             // btnEnviarCorreo
             // 
             this.btnEnviarCorreo.Name = "btnEnviarCorreo";
-            this.btnEnviarCorreo.Size = new System.Drawing.Size(224, 26);
+            this.btnEnviarCorreo.Size = new System.Drawing.Size(206, 26);
             this.btnEnviarCorreo.Text = "Enviar por correo";
             this.btnEnviarCorreo.Click += new System.EventHandler(this.btnEnviarCorreo_Click);
             // 
             // imprimirRToolStripMenuItem
             // 
             this.imprimirRToolStripMenuItem.Name = "imprimirRToolStripMenuItem";
-            this.imprimirRToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.imprimirRToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
             this.imprimirRToolStripMenuItem.Text = "Imprimir R";
             this.imprimirRToolStripMenuItem.Visible = false;
             this.imprimirRToolStripMenuItem.Click += new System.EventHandler(this.imprimirRToolStripMenuItem_Click);
@@ -734,43 +736,43 @@
             this.malla.AllowUserToAddRows = false;
             this.malla.AllowUserToResizeColumns = false;
             this.malla.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.malla.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.malla.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             this.malla.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.malla.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SteelBlue;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.malla.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.malla.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.malla.ColumnHeadersHeight = 20;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = null;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.malla.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.Format = "N2";
+            dataGridViewCellStyle19.NullValue = null;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.malla.DefaultCellStyle = dataGridViewCellStyle19;
             this.malla.Dock = System.Windows.Forms.DockStyle.Fill;
             this.malla.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.malla.EnableHeadersVisualStyles = false;
             this.malla.Location = new System.Drawing.Point(0, 254);
             this.malla.Margin = new System.Windows.Forms.Padding(4);
             this.malla.Name = "malla";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.SteelBlue;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.malla.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.malla.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
             this.malla.RowHeadersWidth = 20;
             this.malla.Size = new System.Drawing.Size(1296, 224);
             this.malla.StandardTab = true;
@@ -1643,6 +1645,17 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "DOCUMENTO";
             // 
+            // btnAplicaciones
+            // 
+            this.btnAplicaciones.ForeColor = System.Drawing.Color.White;
+            this.btnAplicaciones.Image = ((System.Drawing.Image)(resources.GetObject("btnAplicaciones.Image")));
+            this.btnAplicaciones.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAplicaciones.Name = "btnAplicaciones";
+            this.btnAplicaciones.Size = new System.Drawing.Size(79, 28);
+            this.btnAplicaciones.Text = "Aplica";
+            this.btnAplicaciones.ToolTipText = "Aplicaciones";
+            this.btnAplicaciones.Click += new System.EventHandler(this.btnAplicaciones_Click);
+            // 
             // FormFactCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1810,5 +1823,6 @@
 		internal System.Windows.Forms.Label labTotSubConIva5;
 		internal System.Windows.Forms.Label label13;
 		internal System.Windows.Forms.Label label12;
-	}
+        internal System.Windows.Forms.ToolStripButton btnAplicaciones;
+    }
 }

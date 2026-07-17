@@ -46,171 +46,415 @@ namespace DtosMall
             if (CargarServicios(codigo, ref malla, impIva, Convert.ToInt16(digPrecios), fechaDoc, ref OpcDoc)) return true;
             return CargarArticulo(malla, ref OpcDoc, codigo, tipoCliente, fechaFin, tipoDoc, idClaveDoc,ElPrecio);
         }
+		//		public Boolean CargarArticulo(DataGridView malla, ref sesSys.OpcDoc OpcDoc, string codigo, string tipoCliente, string fechaFin, string tipoDoc, double idClaveDoc, Int32 ElPrecio = 1)
+		//		{
+		//			DataGridViewRow row = null;
+		//			try { row = malla.CurrentRow; } catch { return false; }
+		//			if (row == null) return false;
+		//			if (codigo.Length == 0) return false;
+
+		//			double valPrecio = 0;
+		//			AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
+		//			opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
+		//            if (opArt == null) return false;
+		//			//{
+		//			//	return CargarServicios(codigo, ref malla, impIva, Convert.ToInt16(digPrecios), fechaDoc, ref OpcDoc);
+		//			//}
+		//			validaArticuloFactura valArt = new validaArticuloFactura();
+		//			if (valArt.validarArticulo(ref opArt, ref OpcDoc, ref malla, sucursal, bodega, fechaDoc.ToShortDateString(), tipoDoc, numDoc) == false) return false;
+
+		//			row.Cells["tra_Codigo"].Value = codigo;
+		//			row.Cells["tra_nombre"].Value = opArt.Art_nombre;
+		//			row.Cells["tra_medida"].Value = opArt.Art_unimed;
+		//			row.Cells["tra_SnIva"].Value = opArt.Art_sniva;
+		//			row.Cells["tra_Individual"].Value = opArt.Art_individ;
+		//			row.Cells["tra_Multiplo"].Value = 1;
+		//			row.Cells["tra_queTipo"].Value = "A";
+
+		//			if (Convert.ToDouble("0" + row.Cells["tra_Cantidad"].Value) == 0) row.Cells["tra_Cantidad"].Value = 1;
+
+		//			valPrecio =   cargarPrecios.CargarPrecioVta(Convert.ToInt32(Keys.F1) + ElPrecio, ref opArt, impIva, ref ElPrecio, "", "", codCliente, digPrecios);
+
+		//			if (valPrecio == 0) valPrecio =  ultimosValor.UltimoPrecioVenta(sucursal, codCliente, codigo, false, opArt.Art_unimed, "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
+
+		//			try
+		//			{
+		//				row.Cells["variedad"].Value = opArt.Art_clase; 
+		//                row.Cells["HTS"].Value = opArt.HTS;
+		//                row.Cells["Nandina"].Value = opArt.Nandina;
+		//                row.Cells["tra_peso"].Value = opArt.Art_peso;
+		//            }
+		//            catch { }
+
+		//			row.Cells["tra_PrecUni"].Value = valPrecio;
+		//			row.Cells["tra_numprecio"].Value = ElPrecio;
+
+		//			//row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA ;
+		//			DateTime fechaProd = Convert.ToDateTime(fechaFin);
+		//			claseImpuestos.cargar(datosEmpresa.strConxIvaret, fechaProd);
+		//			//if (opArt.Art_sniva)
+		//			//{
+		//			//	row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA;
+		//			//}
+		//			//else
+		//			//{
+		//			//	row.Cells["Tra_porceniva"].Value = claseImpuestos.impstoPorcentaje1;
+		//			//}
+
+		//			if (!opArt.Art_sniva)   // SIN IVA
+		//			{
+		//				row.Cells["Tra_porceniva"].Value = 0;
+		//			}
+		//			else                        // CON IVA
+		//			{
+		//				if (opArt.Art_PorIVA > 0)
+		//					row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA;
+		//				else
+		//					row.Cells["Tra_porceniva"].Value = claseImpuestos.impstoPorcentaje1;
+		//			}
+
+
+
+		//			try { row.Cells["precioArticulo"].Value = valPrecio; } catch { }
+
+		//			double desc = 0; //Convert.ToDouble ( "0" + row.Cells["tra_Porcendes"].Value);
+		//			{
+		//				if (fechaDoc >= opArt.Art_fecinides && fechaDoc <= opArt.Art_fecfindes)
+		//				{
+		//					desc = Convert.ToDouble(opArt.Art_descuen);
+		//				}
+		//			}
+		//			if (desc == 0 && opArt.Art_categor != "" && tipoCliente != "")
+		//			{
+		//				adcDescto.valorDescuentoLineas adccDes = new adcDescto.valorDescuentoLineas();
+		//				desc = adccDes.ValorDescuentoLineas(opArt.Art_categor, tipoCliente, datosEmpresa.strConxAdcom);
+		//				row.Cells["tra_porcendes"].Value = desc;
+		//			}
+		//            if (desc == 0) { desc = Convert.ToDouble(opArt.Art_descuen); row.Cells["tra_porcendes"].Value = desc; }
+
+		//			try
+		//			{
+		//				row.Cells["ultimoCosto"].Value = ultimosValor.UltimoCostoCompra("", "", codigo, false, "", "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
+		//			} catch { }
+		//			try
+		//			{
+		//				if (malla.Columns["Existencia"].Visible == true)
+		//				{
+		//					row.Cells["Existencia"].Value = ultimosValor.SaldoFecha(datosEmpresa.strConxAdcom, codigo, fechaFin, tipoDoc, sucursal, tipoDoc, idClaveDoc, bodega);
+		////					promedio ?  hacer consulta para estos tres campos de una ?
+		//				}
+		//			} catch { }
+		//            try
+		//            {
+		//                    row.Cells["LimiteDescuento"].Value = opArt.art_limDescuento;
+		//            }
+		//            catch { }            
+		//            return true;		
+		//		}
+
+
+
+
+		//public Boolean CargarArticuloinmediato(DataGridViewRow row, ref sesSys.OpcDoc OpcDoc, string codigo, string tipoCliente, string fechaFin, string tipoDoc, double idClaveDoc, Int32 ElPrecio = 1)
+		//      {
+		//          if (row == null) return false;
+		//          if (codigo.Length == 0) return false;
+
+		//          double valPrecio = 0;
+		//          AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
+		//          opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
+		//          if (opArt == null) return false;
+		//          //validaArticuloFactura valArt = new validaArticuloFactura();
+		//          //if (valArt.validarArticulo(ref opArt, ref OpcDoc, ref row, sucursal, bodega, fechaDoc.ToShortDateString(), tipoDoc, numDoc) == false) return false;
+
+		//          row.Cells["tra_Codigo"].Value = codigo;
+		//          row.Cells["tra_nombre"].Value = opArt.Art_nombre;
+		//          row.Cells["tra_medida"].Value = opArt.Art_unimed;
+		//          row.Cells["tra_SnIva"].Value = opArt.Art_sniva;
+		//          row.Cells["tra_Individual"].Value = opArt.Art_individ;
+		//          row.Cells["tra_Multiplo"].Value = 1;
+		//          row.Cells["tra_queTipo"].Value = "A";
+
+
+		//	if (Convert.ToDouble("0" + row.Cells["tra_Cantidad"].Value) == 0) row.Cells["tra_Cantidad"].Value = 1;
+
+		//          valPrecio = cargarPrecios.CargarPrecioVta(Convert.ToInt32(Keys.F1) + ElPrecio, ref opArt, impIva, ref ElPrecio, "", "", codCliente, digPrecios);
+
+		//          //if (valPrecio == 0) valPrecio = ultimosValor.UltimoPrecioVenta(sucursal, codCliente, codigo, false, opArt.Art_unimed, "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
+
+		//          row.Cells["tra_PrecUni"].Value = valPrecio;
+		//          row.Cells["tra_numprecio"].Value = ElPrecio;
+
+		//          try { row.Cells["precioArticulo"].Value = valPrecio; } catch { }
+
+		//	row.Cells["COMP"].Value = opArt.Art_sncomp;
+
+		//	double desc = 0; //Convert.ToDouble ( "0" + row.Cells["tra_Porcendes"].Value);
+		//          {
+		//              if (fechaDoc >= opArt.Art_fecinides && fechaDoc <= opArt.Art_fecfindes)
+		//              {
+		//                  desc = Convert.ToDouble(opArt.Art_descuen);
+		//              }
+		//          }
+		//          if (desc == 0 && opArt.Art_categor != "" && tipoCliente != "")
+		//          {
+		//              adcDescto.valorDescuentoLineas adccDes = new adcDescto.valorDescuentoLineas();
+		//              desc = adccDes.ValorDescuentoLineas(opArt.Art_categor, tipoCliente, datosEmpresa.strConxAdcom);
+		//              row.Cells["tra_porcendes"].Value = desc;
+		//          }
+		//          if (desc == 0) { desc = Convert.ToDouble(opArt.Art_descuen); row.Cells["tra_porcendes"].Value = desc; }
+
+		//          ultimosValor ult = new ultimosValor();
+		//          try
+		//          {
+		//              row.Cells["LimiteDescuento"].Value = opArt.art_limDescuento;
+		//          }
+		//          catch { }
+		//          return true;
+		//      }
+
+
 		public Boolean CargarArticulo(DataGridView malla, ref sesSys.OpcDoc OpcDoc, string codigo, string tipoCliente, string fechaFin, string tipoDoc, double idClaveDoc, Int32 ElPrecio = 1)
 		{
 			DataGridViewRow row = null;
 			try { row = malla.CurrentRow; } catch { return false; }
 			if (row == null) return false;
 			if (codigo.Length == 0) return false;
-            
+
 			double valPrecio = 0;
+			double costoPromedio = 0;
 			AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
 			opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
-            if (opArt == null) return false;
-			//{
-			//	return CargarServicios(codigo, ref malla, impIva, Convert.ToInt16(digPrecios), fechaDoc, ref OpcDoc);
-			//}
+			if (opArt == null) return false;
+
 			validaArticuloFactura valArt = new validaArticuloFactura();
 			if (valArt.validarArticulo(ref opArt, ref OpcDoc, ref malla, sucursal, bodega, fechaDoc.ToShortDateString(), tipoDoc, numDoc) == false) return false;
 
 			row.Cells["tra_Codigo"].Value = codigo;
 			row.Cells["tra_nombre"].Value = opArt.Art_nombre;
 			row.Cells["tra_medida"].Value = opArt.Art_unimed;
-			row.Cells["tra_SnIva"].Value = opArt.Art_sniva;
-			row.Cells["tra_Individual"].Value = opArt.Art_individ;
-			row.Cells["tra_Multiplo"].Value = 1;
-			row.Cells["tra_queTipo"].Value = "A";
 
-			if (Convert.ToDouble("0" + row.Cells["tra_Cantidad"].Value) == 0) row.Cells["tra_Cantidad"].Value = 1;
+			// ✅ VERIFICAR SI LAS COLUMNAS EXISTEN
+			if (malla.Columns.Contains("tra_SnIva"))
+				row.Cells["tra_SnIva"].Value = opArt.Art_sniva;
 
-			valPrecio =   cargarPrecios.CargarPrecioVta(Convert.ToInt32(Keys.F1) + ElPrecio, ref opArt, impIva, ref ElPrecio, "", "", codCliente, digPrecios);
+			if (malla.Columns.Contains("tra_Individual"))
+				row.Cells["tra_Individual"].Value = opArt.Art_individ;
 
-			if (valPrecio == 0) valPrecio =  ultimosValor.UltimoPrecioVenta(sucursal, codCliente, codigo, false, opArt.Art_unimed, "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
+			if (malla.Columns.Contains("tra_Multiplo"))
+				row.Cells["tra_Multiplo"].Value = 1;
 
+			if (malla.Columns.Contains("tra_queTipo"))
+				row.Cells["tra_queTipo"].Value = "A";
+
+			if (Convert.ToDouble("0" + row.Cells["tra_Cantidad"].Value) == 0)
+				row.Cells["tra_Cantidad"].Value = 1;
+
+			// ✅ OBTENER COSTO PROMEDIO
 			try
 			{
-				row.Cells["variedad"].Value = opArt.Art_clase; 
-                row.Cells["HTS"].Value = opArt.HTS;
-                row.Cells["Nandina"].Value = opArt.Nandina;
-                row.Cells["tra_peso"].Value = opArt.Art_peso;
-            }
-            catch { }
+				// Obtener el costo promedio del artículo
+				costoPromedio = ultimosValor.UltimoCostoCompra("", "", codigo, false, "", "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
+			}
+			catch
+			{
+				costoPromedio = Convert.ToDouble(opArt.Art_costucom); // Si no hay, usar el costo unitario de compra
+			}
+
+			// ✅ ASIGNAR COSTO PROMEDIO A LA FILA
+			if (malla.Columns.Contains("Tra_costuni"))
+				row.Cells["Tra_costuni"].Value = costoPromedio;
+
+			if (malla.Columns.Contains("Tra_costtot"))
+			{
+				double cantidad = Convert.ToDouble(row.Cells["tra_Cantidad"].Value);
+				row.Cells["Tra_costtot"].Value = costoPromedio * cantidad;
+			}
+
+			// ✅ OBTENER PRECIO DE VENTA (para el campo Costo Unitario de la malla)
+			valPrecio = cargarPrecios.CargarPrecioVta(Convert.ToInt32(Keys.F1) + ElPrecio, ref opArt, impIva, ref ElPrecio, "", "", codCliente, digPrecios);
+
+			if (valPrecio == 0)
+				valPrecio = ultimosValor.UltimoPrecioVenta(sucursal, codCliente, codigo, false, opArt.Art_unimed, "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
+
+			// ✅ CAMPOS OPCIONALES
+			try
+			{
+				if (malla.Columns.Contains("variedad"))
+					row.Cells["variedad"].Value = opArt.Art_clase;
+
+				if (malla.Columns.Contains("HTS"))
+					row.Cells["HTS"].Value = opArt.HTS;
+
+				if (malla.Columns.Contains("Nandina"))
+					row.Cells["Nandina"].Value = opArt.Nandina;
+
+				if (malla.Columns.Contains("tra_peso"))
+					row.Cells["tra_peso"].Value = opArt.Art_peso;
+			}
+			catch { }
 
 			row.Cells["tra_PrecUni"].Value = valPrecio;
 			row.Cells["tra_numprecio"].Value = ElPrecio;
 
-			//row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA ;
 			DateTime fechaProd = Convert.ToDateTime(fechaFin);
 			claseImpuestos.cargar(datosEmpresa.strConxIvaret, fechaProd);
-			//if (opArt.Art_sniva)
-			//{
-			//	row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA;
-			//}
-			//else
-			//{
-			//	row.Cells["Tra_porceniva"].Value = claseImpuestos.impstoPorcentaje1;
-			//}
 
-			if (!opArt.Art_sniva)   // SIN IVA
+			// ✅ ASIGNAR IVA SOLO SI LA COLUMNA EXISTE
+			if (malla.Columns.Contains("Tra_porceniva"))
 			{
-				row.Cells["Tra_porceniva"].Value = 0;
-			}
-			else                        // CON IVA
-			{
-				if (opArt.Art_PorIVA > 0)
-					row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA;
+				if (!opArt.Art_sniva)
+				{
+					row.Cells["Tra_porceniva"].Value = 0;
+				}
 				else
-					row.Cells["Tra_porceniva"].Value = claseImpuestos.impstoPorcentaje1;
+				{
+					if (opArt.Art_PorIVA > 0)
+						row.Cells["Tra_porceniva"].Value = opArt.Art_PorIVA;
+					else
+						row.Cells["Tra_porceniva"].Value = claseImpuestos.impstoPorcentaje1;
+				}
 			}
 
+			try
+			{
+				if (malla.Columns.Contains("precioArticulo"))
+					row.Cells["precioArticulo"].Value = valPrecio;
+			}
+			catch { }
 
-
-			try { row.Cells["precioArticulo"].Value = valPrecio; } catch { }
-
-			double desc = 0; //Convert.ToDouble ( "0" + row.Cells["tra_Porcendes"].Value);
+			double desc = 0;
 			{
 				if (fechaDoc >= opArt.Art_fecinides && fechaDoc <= opArt.Art_fecfindes)
 				{
 					desc = Convert.ToDouble(opArt.Art_descuen);
 				}
 			}
+
 			if (desc == 0 && opArt.Art_categor != "" && tipoCliente != "")
 			{
 				adcDescto.valorDescuentoLineas adccDes = new adcDescto.valorDescuentoLineas();
 				desc = adccDes.ValorDescuentoLineas(opArt.Art_categor, tipoCliente, datosEmpresa.strConxAdcom);
-				row.Cells["tra_porcendes"].Value = desc;
+				if (malla.Columns.Contains("tra_porcendes"))
+					row.Cells["tra_porcendes"].Value = desc;
 			}
-            if (desc == 0) { desc = Convert.ToDouble(opArt.Art_descuen); row.Cells["tra_porcendes"].Value = desc; }
+
+			if (desc == 0)
+			{
+				desc = Convert.ToDouble(opArt.Art_descuen);
+				if (malla.Columns.Contains("tra_porcendes"))
+					row.Cells["tra_porcendes"].Value = desc;
+			}
 
 			try
 			{
-				row.Cells["ultimoCosto"].Value = ultimosValor.UltimoCostoCompra("", "", codigo, false, "", "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
-			} catch { }
+				if (malla.Columns.Contains("ultimoCosto"))
+					row.Cells["ultimoCosto"].Value = costoPromedio;
+			}
+			catch { }
+
 			try
 			{
-				if (malla.Columns["Existencia"].Visible == true)
+				if (malla.Columns.Contains("Existencia") && malla.Columns["Existencia"].Visible == true)
 				{
 					row.Cells["Existencia"].Value = ultimosValor.SaldoFecha(datosEmpresa.strConxAdcom, codigo, fechaFin, tipoDoc, sucursal, tipoDoc, idClaveDoc, bodega);
-//					promedio ?  hacer consulta para estos tres campos de una ?
 				}
-			} catch { }
-            try
-            {
-                    row.Cells["LimiteDescuento"].Value = opArt.art_limDescuento;
-            }
-            catch { }            
-            return true;		
+			}
+			catch { }
+
+			try
+			{
+				if (malla.Columns.Contains("LimiteDescuento"))
+					row.Cells["LimiteDescuento"].Value = opArt.art_limDescuento;
+			}
+			catch { }
+
+			return true;
+		}
+		
+		public Boolean CargarArticuloinmediato(DataGridViewRow row, ref sesSys.OpcDoc OpcDoc, string codigo, string tipoCliente, string fechaFin, string tipoDoc, double idClaveDoc, Int32 ElPrecio = 1)
+		{
+			if (row == null) return false;
+			if (codigo.Length == 0) return false;
+
+			double valPrecio = 0;
+			AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
+			opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
+			if (opArt == null) return false;
+
+			// Obtener el DataGridView al que pertenece la fila
+			DataGridView malla = row.DataGridView;
+			if (malla == null) return false;
+
+			row.Cells["tra_Codigo"].Value = codigo;
+			row.Cells["tra_nombre"].Value = opArt.Art_nombre;
+			row.Cells["tra_medida"].Value = opArt.Art_unimed;
+
+			// ✅ VERIFICAR SI LAS COLUMNAS EXISTEN USANDO malla.Columns.Contains()
+			if (malla.Columns.Contains("tra_SnIva"))
+				row.Cells["tra_SnIva"].Value = opArt.Art_sniva;
+
+			if (malla.Columns.Contains("tra_Individual"))
+				row.Cells["tra_Individual"].Value = opArt.Art_individ;
+
+			if (malla.Columns.Contains("tra_Multiplo"))
+				row.Cells["tra_Multiplo"].Value = 1;
+
+			if (malla.Columns.Contains("tra_queTipo"))
+				row.Cells["tra_queTipo"].Value = "A";
+
+			if (Convert.ToDouble("0" + row.Cells["tra_Cantidad"].Value) == 0)
+				row.Cells["tra_Cantidad"].Value = 1;
+
+			valPrecio = cargarPrecios.CargarPrecioVta(Convert.ToInt32(Keys.F1) + ElPrecio, ref opArt, impIva, ref ElPrecio, "", "", codCliente, digPrecios);
+
+			row.Cells["tra_PrecUni"].Value = valPrecio;
+			row.Cells["tra_numprecio"].Value = ElPrecio;
+
+			try
+			{
+				if (malla.Columns.Contains("precioArticulo"))
+					row.Cells["precioArticulo"].Value = valPrecio;
+			}
+			catch { }
+
+			if (malla.Columns.Contains("COMP"))
+				row.Cells["COMP"].Value = opArt.Art_sncomp;
+
+			double desc = 0;
+			{
+				if (fechaDoc >= opArt.Art_fecinides && fechaDoc <= opArt.Art_fecfindes)
+				{
+					desc = Convert.ToDouble(opArt.Art_descuen);
+				}
+			}
+
+			if (desc == 0 && opArt.Art_categor != "" && tipoCliente != "")
+			{
+				adcDescto.valorDescuentoLineas adccDes = new adcDescto.valorDescuentoLineas();
+				desc = adccDes.ValorDescuentoLineas(opArt.Art_categor, tipoCliente, datosEmpresa.strConxAdcom);
+				if (malla.Columns.Contains("tra_porcendes"))
+					row.Cells["tra_porcendes"].Value = desc;
+			}
+
+			if (desc == 0)
+			{
+				desc = Convert.ToDouble(opArt.Art_descuen);
+				if (malla.Columns.Contains("tra_porcendes"))
+					row.Cells["tra_porcendes"].Value = desc;
+			}
+
+			try
+			{
+				if (malla.Columns.Contains("LimiteDescuento"))
+					row.Cells["LimiteDescuento"].Value = opArt.art_limDescuento;
+			}
+			catch { }
+
+			return true;
 		}
 
-        public Boolean CargarArticuloinmediato(DataGridViewRow row, ref sesSys.OpcDoc OpcDoc, string codigo, string tipoCliente, string fechaFin, string tipoDoc, double idClaveDoc, Int32 ElPrecio = 1)
-        {
-            if (row == null) return false;
-            if (codigo.Length == 0) return false;
-            
-            double valPrecio = 0;
-            AdcArt opArt = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
-            opArt = adcArticulo.AdcArt.Buscar(" art_codigo = '" + codigo + "' ");
-            if (opArt == null) return false;
-            //validaArticuloFactura valArt = new validaArticuloFactura();
-            //if (valArt.validarArticulo(ref opArt, ref OpcDoc, ref row, sucursal, bodega, fechaDoc.ToShortDateString(), tipoDoc, numDoc) == false) return false;
-
-            row.Cells["tra_Codigo"].Value = codigo;
-            row.Cells["tra_nombre"].Value = opArt.Art_nombre;
-            row.Cells["tra_medida"].Value = opArt.Art_unimed;
-            row.Cells["tra_SnIva"].Value = opArt.Art_sniva;
-            row.Cells["tra_Individual"].Value = opArt.Art_individ;
-            row.Cells["tra_Multiplo"].Value = 1;
-            row.Cells["tra_queTipo"].Value = "A";
-			
-
-			if (Convert.ToDouble("0" + row.Cells["tra_Cantidad"].Value) == 0) row.Cells["tra_Cantidad"].Value = 1;
-
-            valPrecio = cargarPrecios.CargarPrecioVta(Convert.ToInt32(Keys.F1) + ElPrecio, ref opArt, impIva, ref ElPrecio, "", "", codCliente, digPrecios);
-
-            //if (valPrecio == 0) valPrecio = ultimosValor.UltimoPrecioVenta(sucursal, codCliente, codigo, false, opArt.Art_unimed, "", Convert.ToDateTime(fechaFin), datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod);
-
-            row.Cells["tra_PrecUni"].Value = valPrecio;
-            row.Cells["tra_numprecio"].Value = ElPrecio;
-
-            try { row.Cells["precioArticulo"].Value = valPrecio; } catch { }
-
-			row.Cells["COMP"].Value = opArt.Art_sncomp;
-
-			double desc = 0; //Convert.ToDouble ( "0" + row.Cells["tra_Porcendes"].Value);
-            {
-                if (fechaDoc >= opArt.Art_fecinides && fechaDoc <= opArt.Art_fecfindes)
-                {
-                    desc = Convert.ToDouble(opArt.Art_descuen);
-                }
-            }
-            if (desc == 0 && opArt.Art_categor != "" && tipoCliente != "")
-            {
-                adcDescto.valorDescuentoLineas adccDes = new adcDescto.valorDescuentoLineas();
-                desc = adccDes.ValorDescuentoLineas(opArt.Art_categor, tipoCliente, datosEmpresa.strConxAdcom);
-                row.Cells["tra_porcendes"].Value = desc;
-            }
-            if (desc == 0) { desc = Convert.ToDouble(opArt.Art_descuen); row.Cells["tra_porcendes"].Value = desc; }
-
-            ultimosValor ult = new ultimosValor();
-            try
-            {
-                row.Cells["LimiteDescuento"].Value = opArt.art_limDescuento;
-            }
-            catch { }
-            return true;
-        }
-
-        public Boolean CargarServicios(string dato,ref DataGridView malla,double valIva,Int16 digitosPrecios, DateTime fechaDoc,ref sesSys.OpcDoc opcDoc)
+		public Boolean CargarServicios(string dato,ref DataGridView malla,double valIva,Int16 digitosPrecios, DateTime fechaDoc,ref sesSys.OpcDoc opcDoc)
 		{
             if (malla.CurrentRow == null) return false;
             if (dato == "") return false;

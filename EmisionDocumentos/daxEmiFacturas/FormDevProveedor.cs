@@ -28,13 +28,41 @@ namespace DctosEmi
 
 		internal DctosEmi.docTotals totalesDocumento = new DctosEmi.docTotals();
 		daxContaDoc.AsientosContables asientosContables = new daxContaDoc.AsientosContables();
-		string claseDocDefault = "DEP";
-		string tipoDocDefault = "DEP";
+        string claseDocDefault = "DEP";
+        string tipoDocDefault = "DEP";
 
-		//string claseDocDefault = "NCP";
-		//string tipoDocDefault = "NCP";
+        //string claseDocDefault = "NCP";
+        //string tipoDocDefault = "NCP";
 
-		bool iniciaConNuevoDOc = false;
+        // Propiedades dinámicas
+        //private string claseDocDefault = "DEP";
+        //private string tipoDocDefault = "DEP";
+
+        // Propiedad pública para cambiar el tipo de documento dinámicamente
+        //public string TipoDocumentoActual
+        //{
+        //	get { return claseDocDefault; }
+        //	set
+        //	{
+        //		if (value == "DEP" || value == "NCP")
+        //		{
+        //			claseDocDefault = value;
+        //			tipoDocDefault = value;
+
+        //			// Recargar si el formulario ya está inicializado
+        //			if (cmbDocumento != null && this.IsHandleCreated)
+        //			{
+        //				LlenarCombos();
+        //				CargarPredefinidosDocumento();
+        //				limpiarDatos();
+        //			}
+        //		}
+        //	}
+        //}
+
+
+
+        bool iniciaConNuevoDOc = false;
 		internal Boolean esSoloConsulta = false;
 		Boolean entregasPendientes = false;
 		internal Boolean esDeLiquidacion = false;
@@ -58,6 +86,7 @@ namespace DctosEmi
 		string memVendedor = "";
 		string memBodega = "";
 		//string DocSoporte = "";
+
 
 		DocPendientes.ListDocAplican listaDocAplicados = new DocPendientes.ListDocAplican();
 
@@ -105,6 +134,9 @@ namespace DctosEmi
 			CargarPredefinidosDocumento();
 			this.txtfecha.ValueChanged += new System.EventHandler(this.txtfecha_ValueChanged);
 			this.Text += "  " + datosEmpresa.nomEmpresa + " PUNTO DE VENTA: " + valoresPredefinidosSucursal.nomPuntoVta;
+
+			this.malla.CellFormatting += new DataGridViewCellFormattingEventHandler(malla_CellFormatting);
+			this.malla.CellParsing += new DataGridViewCellParsingEventHandler(malla_CellParsing);
 		}
 		
 		private void txtfecha_ValueChanged(object sender, EventArgs e)
@@ -122,7 +154,9 @@ namespace DctosEmi
 		{
 			recordarOpciones();
 			DaxCombobx.CargCmbBox cmb = new DaxCombobx.CargCmbBox();
-			cmb.DaxCombosDoc(claseDocDefault, "", false, datosEmpresa.strConxAdcom, ref cmbDocumento);
+			//cmb.DaxCombosDoc(claseDocDefault, "", false, datosEmpresa.strConxAdcom, ref cmbDocumento);
+			cmb.DaxCombosDoc("DEPNCP", "", false, datosEmpresa.strConxAdcom, ref cmbDocumento);
+			//cmb.DaxCombosDoc("EGRINGVICVECNDBNCB", "", false, datosEmpresa.strConxAdcom, ref cmbDocumento);
 			cmb.DaxCombosBods(datosEmpresa.suc, false, datosEmpresa.strConIniSis, ref cmbBodega);
 			cmb.DaxCombosVend(datosEmpresa.strConxAdcom, ref cmbVendedor, false);
 
@@ -672,6 +706,74 @@ namespace DctosEmi
 			{
 				cell.Value = docUtils.DaxNow().ToShortDateString();
 			}
+
+			else if (keyData == Keys.F2 && nombreCelda == "TRA_SNIVA")
+			{
+				DataGridViewRow row = malla.CurrentRow;
+
+				// Verificar que la fila tenga código (no está vacía)
+				if (row.Cells["tra_codigo"].Value == null ||
+					row.Cells["tra_codigo"].Value == DBNull.Value ||
+					row.Cells["tra_codigo"].Value.ToString().Trim() == "")
+				{
+					MessageBox.Show("Primero debe ingresar un código de artículo o servicio",
+								  "Información",
+								  MessageBoxButtons.OK,
+								  MessageBoxIcon.Information);
+					keyData = Keys.Cancel; // Evitar comportamiento default
+					saltaEventosMalla = false;
+					mallaArticulo = null;
+					return resp;
+				}
+
+				// 👇 Obtener valor actual como número (1 o 0)
+				int valorActual = 0;
+				if (row.Cells["TRA_SNIVA"].Value != null && row.Cells["TRA_SNIVA"].Value != DBNull.Value)
+				{
+					int.TryParse(row.Cells["TRA_SNIVA"].Value.ToString(), out valorActual);
+
+					// Si no es número, verificar si es texto "SI"/"NO"
+					if (valorActual == 0)
+					{
+						string texto = row.Cells["TRA_SNIVA"].Value.ToString().Trim().ToUpper();
+						if (texto == "SI" || texto == "S" || texto == "1" || texto == "TRUE")
+							valorActual = 1;
+					}
+				}
+
+				// 👇 Alternar: SI(1) → NO(0), NO(0) → SI(1)
+				int nuevoValor = (valorActual == 1) ? 0 : 1;
+				row.Cells["TRA_SNIVA"].Value = nuevoValor;
+
+				// 👇 Actualizar porcentaje de IVA
+				if (nuevoValor == 1)
+				{
+					// CAMBIÓ A SI → Poner porcentaje por defecto del sistema
+					row.Cells["Tra_porceniva"].Value = claseImpuestos.impstoPorcentaje1;
+				}
+				else
+				{
+					// CAMBIÓ A NO → Poner 0
+					row.Cells["Tra_porceniva"].Value = 0;
+				}
+
+				// 👇 Recalcular IVA de la fila
+				CalcularValorIvaFila(row);
+
+				// 👇 Recalcular totales del documento
+				totalizar();
+
+				// 👇 Forzar actualización visual
+				malla.RefreshEdit();
+				malla.UpdateCellValue(cell.ColumnIndex, cell.RowIndex);
+
+				keyData = Keys.Cancel; // ✅ Evitar que F2 active modo edición
+			}
+			// ========================================================================
+			// 👆 FIN NUEVO CASO TRA_SNIVA
+			// ========================================================================
+
+
 			else
 			{
 				switch (nombreCelda)
@@ -756,6 +858,30 @@ namespace DctosEmi
 			return resp;
 		}
 
+		private void CalcularValorIvaFila(DataGridViewRow row)
+		{
+			try
+			{
+				double precio = 0, cantidad = 0, porcIva = 0;
+				double.TryParse(row.Cells["Tra_precuni"].Value?.ToString() ?? "0", out precio);
+				double.TryParse(row.Cells["tra_cantidad"].Value?.ToString() ?? "0", out cantidad);
+				double.TryParse(row.Cells["Tra_porceniva"].Value?.ToString() ?? "0", out porcIva);
+
+				// ✅ Redondear el porcentaje a 2 decimales siempre
+				porcIva = Math.Round(porcIva, 2);
+
+				// Guardar el porcentaje redondeado
+				row.Cells["Tra_porceniva"].Value = porcIva;
+
+				double subtotal = precio * cantidad;
+				double valorIva = Math.Round((subtotal * porcIva) / 100, valoresPredefinidosEmpresa.nroDigitosEnPrecios);
+
+				row.Cells["Tra_valoriva"].Value = valorIva;
+				row.Cells["Tra_prectot"].Value = Math.Round(subtotal, valoresPredefinidosEmpresa.nroDigitosEnPrecios);
+			}
+			catch { }
+		}
+
 		private string registrarFormaDePagoPredefinida()
 		{
 			if (opalex.FormaPago != null && opalex.FormaPago.Length > 0) return opalex.FormaPago;
@@ -801,7 +927,7 @@ namespace DctosEmi
 
 			//if (Convert.ToInt32(controlaSig) == -1) controlaSig = "0"; else controlaSig = "1";
 
-			adcCtasCorrientes.frmAplicacionesDcto prog = new adcCtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
+			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
 			prog.ShowDialog();
 		}
 
@@ -1457,6 +1583,63 @@ namespace DctosEmi
 			DctosEmi.anulaElimina classAnular = new DctosEmi.anulaElimina();
 			if (classAnular.eliminarDocumento(datosEmpresa.strConxAdcom, datosEmpresa.strConxSyscod, idDocumentoActual, datosEmpresa.usr, esDeLiquidacion, datosEmpresa.nomEmpresa, datosEmpresa.codEmpresa.ToString(), edTotal.Text, "ADCDOC", propiedadesDoc.ComandoExterno)) limpiarDatos();
 			classAnular = null;
+		}
+
+		private void malla_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			if (malla.Columns[e.ColumnIndex].Name == "TRA_SNIVA")
+			{
+				DataGridViewRow row = malla.Rows[e.RowIndex];
+
+				// Filas vacías: dejar vacío
+				if (row.Cells["tra_codigo"].Value == null ||
+					row.Cells["tra_codigo"].Value == DBNull.Value ||
+					row.Cells["tra_codigo"].Value.ToString().Trim() == "")
+				{
+					e.Value = "";
+					e.FormattingApplied = true;
+					return;
+				}
+
+				// Convertir 1/0 a SI/NO para mostrar
+				if (e.Value == null || e.Value == DBNull.Value)
+				{
+					e.Value = "NO";
+					e.FormattingApplied = true;
+					return;
+				}
+
+				string valorTexto;
+				if (e.Value is bool)
+					valorTexto = ((bool)e.Value) ? "SI" : "NO";
+				else if (e.Value is int || e.Value is short || e.Value is byte)
+					valorTexto = (Convert.ToInt32(e.Value) == 1) ? "SI" : "NO";
+				else
+				{
+					string texto = e.Value.ToString().Trim().ToUpper();
+					valorTexto = (texto == "1" || texto == "TRUE" || texto == "SI" || texto == "S") ? "SI" : "NO";
+				}
+
+				e.Value = valorTexto;
+				e.FormattingApplied = true;
+			}
+		}
+
+		private void malla_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
+		{
+			if (malla.Columns[e.ColumnIndex].Name == "TRA_SNIVA")
+			{
+				if (e.Value == null)
+				{
+					e.Value = 0;
+					e.ParsingApplied = true;
+					return;
+				}
+
+				string texto = e.Value.ToString().Trim().ToUpper();
+				e.Value = (texto == "SI" || texto == "S" || texto == "1" || texto == "TRUE") ? 1 : 0;
+				e.ParsingApplied = true;
+			}
 		}
 	}
 }

@@ -188,6 +188,12 @@
     <Compile Include="frmBuscarPreferenciaPlato.Designer.cs">
       <DependentUpon>frmBuscarPreferenciaPlato.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmErrores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmErrores.Designer.cs">
+      <DependentUpon>FrmErrores.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmExistenciaBod.cs">
       <SubType>Form</SubType>
     </Compile>

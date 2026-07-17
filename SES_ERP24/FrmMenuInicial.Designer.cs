@@ -49,11 +49,7 @@ namespace SES_ERP24
             this.reporteGeneralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
+            this.menImportarXML = new System.Windows.Forms.ToolStripMenuItem();
             this.menFacturacionVenta = new System.Windows.Forms.ToolStripMenuItem();
             this.btnEmitirFacturasDirectas = new System.Windows.Forms.ToolStripMenuItem();
             this.FacPtoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,13 +59,12 @@ namespace SES_ERP24
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuNCP = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.menReportes = new System.Windows.Forms.ToolStripMenuItem();
             this.menReporDoc = new System.Windows.Forms.ToolStripMenuItem();
-            this.menHorarios = new System.Windows.Forms.ToolStripMenuItem();
-            this.ConsultarCitasMedico = new System.Windows.Forms.ToolStripMenuItem();
+            this.menRepInventarios = new System.Windows.Forms.ToolStripMenuItem();
             this.menBancos = new System.Windows.Forms.ToolStripMenuItem();
             this.egresosBco = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnCreacionBco = new System.Windows.Forms.ToolStripMenuItem();
             this.mnConciliacionBancaria = new System.Windows.Forms.ToolStripMenuItem();
             this.menHistoriaClínica = new System.Windows.Forms.ToolStripMenuItem();
             this.mntProductosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,23 +73,19 @@ namespace SES_ERP24
             this.mnuExistenBod = new System.Windows.Forms.ToolStripMenuItem();
             this.menuInvenIBG = new System.Windows.Forms.ToolStripMenuItem();
             this.menuInvenEBG = new System.Windows.Forms.ToolStripMenuItem();
+            this.menTransferenciasInv = new System.Windows.Forms.ToolStripMenuItem();
             this.menMantMed = new System.Windows.Forms.ToolStripMenuItem();
             this.menRecostear = new System.Windows.Forms.ToolStripMenuItem();
             this.menImportaciones = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRegistrarCitas = new System.Windows.Forms.ToolStripMenuItem();
-            this.ConsultarCitasPaciente = new System.Windows.Forms.ToolStripMenuItem();
             this.mnContabilidad = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlanCuentas = new System.Windows.Forms.ToolStripMenuItem();
             this.mnBalances = new System.Windows.Forms.ToolStripMenuItem();
             this.MenCtasCorrientes = new System.Windows.Forms.ToolStripMenuItem();
             this.btnlistaGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAnalisisIndividual = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnMantExamenes = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnPedidos = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnRegistrarResultadosLaboratorio = new System.Windows.Forms.ToolStripMenuItem();
             this.menuComercializacion = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFormasPago = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenSRI = new System.Windows.Forms.ToolStripMenuItem();
             this.menRegistrarRTP = new System.Windows.Forms.ToolStripMenuItem();
             this.menRegistrarRTC = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,10 +95,12 @@ namespace SES_ERP24
             this.menCuentasContables = new System.Windows.Forms.ToolStripMenuItem();
             this.menImportarProductos = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnClose = new System.Windows.Forms.PictureBox();
+            this.btnCambSucursal = new System.Windows.Forms.PictureBox();
+            this.btnCambClave = new System.Windows.Forms.PictureBox();
             this.btnMenu = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.labNombreProfesionalAtiende = new System.Windows.Forms.Label();
-            this.BtnSalir = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.btnNormal = new System.Windows.Forms.PictureBox();
             this.btnMinimizar = new System.Windows.Forms.PictureBox();
@@ -116,13 +109,16 @@ namespace SES_ERP24
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labFecha = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.mnCreacionBco = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContenedor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picDaxsof)).BeginInit();
             this.panelOpciones.SuspendLayout();
             this.menugeneral.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCambSucursal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCambClave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnNormal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimizar)).BeginInit();
@@ -353,11 +349,7 @@ namespace SES_ERP24
             this.toolStripMenuItem5.BackColor = System.Drawing.Color.DimGray;
             this.toolStripMenuItem5.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem6,
-            this.toolStripMenuItem8,
-            this.toolStripMenuItem9,
-            this.toolStripMenuItem10,
-            this.toolStripMenuItem11,
-            this.toolStripMenuItem14});
+            this.menImportarXML});
             this.toolStripMenuItem5.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripMenuItem5.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem5.Image = global::SES_ERP24.Properties.Resources.trabajar_desde_casa;
@@ -374,55 +366,21 @@ namespace SES_ERP24
             this.toolStripMenuItem6.BackColor = System.Drawing.Color.DimGray;
             this.toolStripMenuItem6.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(473, 34);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(394, 34);
             this.toolStripMenuItem6.Tag = "SolicAutorizaSRI";
             this.toolStripMenuItem6.Text = "Solicitar Autorizacion SRI DOC";
             this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
             // 
-            // toolStripMenuItem8
+            // menImportarXML
             // 
-            this.toolStripMenuItem8.BackColor = System.Drawing.Color.DimGray;
-            this.toolStripMenuItem8.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(473, 34);
-            this.toolStripMenuItem8.Text = "Servicios médicos";
-            this.toolStripMenuItem8.Visible = false;
-            // 
-            // toolStripMenuItem9
-            // 
-            this.toolStripMenuItem9.BackColor = System.Drawing.Color.DimGray;
-            this.toolStripMenuItem9.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(473, 34);
-            this.toolStripMenuItem9.Text = "Definición Horarios Cajas";
-            this.toolStripMenuItem9.Visible = false;
-            // 
-            // toolStripMenuItem10
-            // 
-            this.toolStripMenuItem10.BackColor = System.Drawing.Color.DimGray;
-            this.toolStripMenuItem10.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(473, 34);
-            this.toolStripMenuItem10.Text = "Honorarios médicos por servicios";
-            this.toolStripMenuItem10.Visible = false;
-            // 
-            // toolStripMenuItem11
-            // 
-            this.toolStripMenuItem11.BackColor = System.Drawing.Color.DimGray;
-            this.toolStripMenuItem11.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(473, 34);
-            this.toolStripMenuItem11.Text = "Matriz general de honorarios médicos";
-            this.toolStripMenuItem11.Visible = false;
-            // 
-            // toolStripMenuItem14
-            // 
-            this.toolStripMenuItem14.BackColor = System.Drawing.Color.DimGray;
-            this.toolStripMenuItem14.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(473, 34);
-            this.toolStripMenuItem14.Text = "Autorizaciones";
-            this.toolStripMenuItem14.Visible = false;
+            this.menImportarXML.BackColor = System.Drawing.Color.DimGray;
+            this.menImportarXML.ForeColor = System.Drawing.Color.White;
+            this.menImportarXML.Name = "menImportarXML";
+            this.menImportarXML.Size = new System.Drawing.Size(394, 34);
+            this.menImportarXML.Tag = "importarXML";
+            this.menImportarXML.Text = "Importar XML";
+            this.menImportarXML.Visible = false;
+            this.menImportarXML.Click += new System.EventHandler(this.menImportarXML_Click);
             // 
             // menFacturacionVenta
             // 
@@ -499,8 +457,7 @@ namespace SES_ERP24
             this.toolStripMenuItem1.BackColor = System.Drawing.Color.DimGray;
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem3,
-            this.MenuNCP,
-            this.toolStripMenuItem4});
+            this.MenuNCP});
             this.toolStripMenuItem1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Image = global::SES_ERP24.Properties.Resources.factura_c;
@@ -533,20 +490,12 @@ namespace SES_ERP24
             this.MenuNCP.Text = "Notas De Crédito ";
             this.MenuNCP.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(273, 34);
-            this.toolStripMenuItem4.Text = "Egresos de caja";
-            this.toolStripMenuItem4.Visible = false;
-            // 
             // menReportes
             // 
             this.menReportes.BackColor = System.Drawing.Color.DimGray;
             this.menReportes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menReporDoc,
-            this.menHorarios,
-            this.ConsultarCitasMedico});
+            this.menRepInventarios});
             this.menReportes.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menReportes.ForeColor = System.Drawing.Color.White;
             this.menReportes.Image = global::SES_ERP24.Properties.Resources.analitica;
@@ -563,28 +512,20 @@ namespace SES_ERP24
             this.menReporDoc.BackColor = System.Drawing.Color.DimGray;
             this.menReporDoc.ForeColor = System.Drawing.Color.White;
             this.menReporDoc.Name = "menReporDoc";
-            this.menReporDoc.Size = new System.Drawing.Size(276, 34);
+            this.menReporDoc.Size = new System.Drawing.Size(225, 34);
             this.menReporDoc.Tag = "RepListadoDoc";
             this.menReporDoc.Text = "Documentos";
             this.menReporDoc.Click += new System.EventHandler(this.menReporDoc_Click);
             // 
-            // menHorarios
+            // menRepInventarios
             // 
-            this.menHorarios.BackColor = System.Drawing.Color.DimGray;
-            this.menHorarios.ForeColor = System.Drawing.Color.White;
-            this.menHorarios.Name = "menHorarios";
-            this.menHorarios.Size = new System.Drawing.Size(276, 34);
-            this.menHorarios.Text = "Horarios atención";
-            this.menHorarios.Visible = false;
-            // 
-            // ConsultarCitasMedico
-            // 
-            this.ConsultarCitasMedico.BackColor = System.Drawing.Color.DimGray;
-            this.ConsultarCitasMedico.ForeColor = System.Drawing.Color.White;
-            this.ConsultarCitasMedico.Name = "ConsultarCitasMedico";
-            this.ConsultarCitasMedico.Size = new System.Drawing.Size(276, 34);
-            this.ConsultarCitasMedico.Text = "Consultar citas";
-            this.ConsultarCitasMedico.Visible = false;
+            this.menRepInventarios.BackColor = System.Drawing.Color.DimGray;
+            this.menRepInventarios.ForeColor = System.Drawing.Color.White;
+            this.menRepInventarios.Name = "menRepInventarios";
+            this.menRepInventarios.Size = new System.Drawing.Size(225, 34);
+            this.menRepInventarios.Text = "Inventarios";
+            this.menRepInventarios.Visible = false;
+            this.menRepInventarios.Click += new System.EventHandler(this.menRepInventarios_Click);
             // 
             // menBancos
             // 
@@ -614,6 +555,16 @@ namespace SES_ERP24
             this.egresosBco.Text = "Documentos Bancos";
             this.egresosBco.Click += new System.EventHandler(this.egresosBco_Click);
             // 
+            // mnCreacionBco
+            // 
+            this.mnCreacionBco.BackColor = System.Drawing.Color.DimGray;
+            this.mnCreacionBco.ForeColor = System.Drawing.Color.White;
+            this.mnCreacionBco.Name = "mnCreacionBco";
+            this.mnCreacionBco.Size = new System.Drawing.Size(320, 34);
+            this.mnCreacionBco.Tag = "MnCrearBancos";
+            this.mnCreacionBco.Text = "Crear Cuenta Bancaria";
+            this.mnCreacionBco.Click += new System.EventHandler(this.mnCreacionBco_Click);
+            // 
             // mnConciliacionBancaria
             // 
             this.mnConciliacionBancaria.BackColor = System.Drawing.Color.DimGray;
@@ -634,6 +585,7 @@ namespace SES_ERP24
             this.mnuExistenBod,
             this.menuInvenIBG,
             this.menuInvenEBG,
+            this.menTransferenciasInv,
             this.menMantMed,
             this.menRecostear});
             this.menHistoriaClínica.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -707,6 +659,16 @@ namespace SES_ERP24
             this.menuInvenEBG.Text = "Egresos Inventarios";
             this.menuInvenEBG.Click += new System.EventHandler(this.menuInvenEBG_Click);
             // 
+            // menTransferenciasInv
+            // 
+            this.menTransferenciasInv.BackColor = System.Drawing.Color.DimGray;
+            this.menTransferenciasInv.ForeColor = System.Drawing.Color.White;
+            this.menTransferenciasInv.Name = "menTransferenciasInv";
+            this.menTransferenciasInv.Size = new System.Drawing.Size(360, 34);
+            this.menTransferenciasInv.Tag = "TransferenciaInventarios";
+            this.menTransferenciasInv.Text = "Transferencia Inventarios";
+            this.menTransferenciasInv.Click += new System.EventHandler(this.menTransferenciasInv_Click);
+            // 
             // menMantMed
             // 
             this.menMantMed.BackColor = System.Drawing.Color.DimGray;
@@ -731,8 +693,7 @@ namespace SES_ERP24
             // 
             this.menImportaciones.BackColor = System.Drawing.Color.DimGray;
             this.menImportaciones.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnRegistrarCitas,
-            this.ConsultarCitasPaciente});
+            this.btnRegistrarCitas});
             this.menImportaciones.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menImportaciones.ForeColor = System.Drawing.Color.White;
             this.menImportaciones.Image = global::SES_ERP24.Properties.Resources.caja_del_paquete;
@@ -749,19 +710,10 @@ namespace SES_ERP24
             this.btnRegistrarCitas.BackColor = System.Drawing.Color.DimGray;
             this.btnRegistrarCitas.ForeColor = System.Drawing.Color.White;
             this.btnRegistrarCitas.Name = "btnRegistrarCitas";
-            this.btnRegistrarCitas.Size = new System.Drawing.Size(331, 34);
+            this.btnRegistrarCitas.Size = new System.Drawing.Size(319, 34);
             this.btnRegistrarCitas.Tag = "IMPEmitir";
             this.btnRegistrarCitas.Text = "Ingreso Importaciones";
             this.btnRegistrarCitas.Click += new System.EventHandler(this.btnRegistrarCitas_Click);
-            // 
-            // ConsultarCitasPaciente
-            // 
-            this.ConsultarCitasPaciente.BackColor = System.Drawing.Color.DimGray;
-            this.ConsultarCitasPaciente.ForeColor = System.Drawing.Color.White;
-            this.ConsultarCitasPaciente.Name = "ConsultarCitasPaciente";
-            this.ConsultarCitasPaciente.Size = new System.Drawing.Size(331, 34);
-            this.ConsultarCitasPaciente.Text = "Consultar citas médicas";
-            this.ConsultarCitasPaciente.Visible = false;
             // 
             // mnContabilidad
             // 
@@ -805,10 +757,7 @@ namespace SES_ERP24
             this.MenCtasCorrientes.BackColor = System.Drawing.Color.DimGray;
             this.MenCtasCorrientes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnlistaGeneral,
-            this.btnAnalisisIndividual,
-            this.btnMantExamenes,
-            this.btnPedidos,
-            this.btnRegistrarResultadosLaboratorio});
+            this.btnAnalisisIndividual});
             this.MenCtasCorrientes.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenCtasCorrientes.ForeColor = System.Drawing.Color.White;
             this.MenCtasCorrientes.Image = global::SES_ERP24.Properties.Resources.cuenta_por_cobrar;
@@ -826,7 +775,7 @@ namespace SES_ERP24
             this.btnlistaGeneral.ForeColor = System.Drawing.Color.White;
             this.btnlistaGeneral.Name = "btnlistaGeneral";
             this.btnlistaGeneral.ShowShortcutKeys = false;
-            this.btnlistaGeneral.Size = new System.Drawing.Size(360, 34);
+            this.btnlistaGeneral.Size = new System.Drawing.Size(334, 34);
             this.btnlistaGeneral.Tag = "CtaCorrListaGen";
             this.btnlistaGeneral.Text = "Listado General";
             this.btnlistaGeneral.Click += new System.EventHandler(this.btnlistaGeneral_Click);
@@ -837,44 +786,16 @@ namespace SES_ERP24
             this.btnAnalisisIndividual.ForeColor = System.Drawing.Color.White;
             this.btnAnalisisIndividual.Name = "btnAnalisisIndividual";
             this.btnAnalisisIndividual.ShowShortcutKeys = false;
-            this.btnAnalisisIndividual.Size = new System.Drawing.Size(360, 34);
+            this.btnAnalisisIndividual.Size = new System.Drawing.Size(334, 34);
             this.btnAnalisisIndividual.Tag = "CtaCorrAnalisInd";
             this.btnAnalisisIndividual.Text = "Estado Cuenta Individual";
             this.btnAnalisisIndividual.Click += new System.EventHandler(this.btnAnalisisIndividual_Click);
-            // 
-            // btnMantExamenes
-            // 
-            this.btnMantExamenes.BackColor = System.Drawing.Color.DimGray;
-            this.btnMantExamenes.ForeColor = System.Drawing.Color.White;
-            this.btnMantExamenes.Name = "btnMantExamenes";
-            this.btnMantExamenes.Size = new System.Drawing.Size(360, 34);
-            this.btnMantExamenes.Text = "Mantenimiento Exámenes";
-            this.btnMantExamenes.Visible = false;
-            // 
-            // btnPedidos
-            // 
-            this.btnPedidos.BackColor = System.Drawing.Color.DimGray;
-            this.btnPedidos.ForeColor = System.Drawing.Color.White;
-            this.btnPedidos.Name = "btnPedidos";
-            this.btnPedidos.Size = new System.Drawing.Size(360, 34);
-            this.btnPedidos.Text = "Pedido a laboratorio";
-            this.btnPedidos.Visible = false;
-            // 
-            // btnRegistrarResultadosLaboratorio
-            // 
-            this.btnRegistrarResultadosLaboratorio.BackColor = System.Drawing.Color.DimGray;
-            this.btnRegistrarResultadosLaboratorio.ForeColor = System.Drawing.Color.White;
-            this.btnRegistrarResultadosLaboratorio.Name = "btnRegistrarResultadosLaboratorio";
-            this.btnRegistrarResultadosLaboratorio.Size = new System.Drawing.Size(360, 34);
-            this.btnRegistrarResultadosLaboratorio.Text = "Registrar resultados";
-            this.btnRegistrarResultadosLaboratorio.Visible = false;
             // 
             // menuComercializacion
             // 
             this.menuComercializacion.BackColor = System.Drawing.Color.DimGray;
             this.menuComercializacion.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuFormasPago,
-            this.toolStripMenuItem16});
+            this.menuFormasPago});
             this.menuComercializacion.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuComercializacion.ForeColor = System.Drawing.Color.White;
             this.menuComercializacion.Image = global::SES_ERP24.Properties.Resources.mantenimiento;
@@ -891,19 +812,10 @@ namespace SES_ERP24
             this.menuFormasPago.BackColor = System.Drawing.Color.DimGray;
             this.menuFormasPago.ForeColor = System.Drawing.Color.White;
             this.menuFormasPago.Name = "menuFormasPago";
-            this.menuFormasPago.Size = new System.Drawing.Size(275, 34);
+            this.menuFormasPago.Size = new System.Drawing.Size(254, 34);
             this.menuFormasPago.Tag = "MntFormaPago";
             this.menuFormasPago.Text = "Formas de Pago";
             this.menuFormasPago.Click += new System.EventHandler(this.menuFormasPago_Click);
-            // 
-            // toolStripMenuItem16
-            // 
-            this.toolStripMenuItem16.BackColor = System.Drawing.Color.DimGray;
-            this.toolStripMenuItem16.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem16.Name = "toolStripMenuItem16";
-            this.toolStripMenuItem16.Size = new System.Drawing.Size(275, 34);
-            this.toolStripMenuItem16.Text = "Retencion Cliente";
-            this.toolStripMenuItem16.Visible = false;
             // 
             // MenSRI
             // 
@@ -1004,10 +916,9 @@ namespace SES_ERP24
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.btnMenu);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.labNombreProfesionalAtiende);
-            this.panel1.Controls.Add(this.BtnSalir);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.btnNormal);
             this.panel1.Controls.Add(this.btnMinimizar);
@@ -1020,6 +931,58 @@ namespace SES_ERP24
             this.panel1.Size = new System.Drawing.Size(2036, 96);
             this.panel1.TabIndex = 15;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.btnClose);
+            this.panel3.Controls.Add(this.btnCambSucursal);
+            this.panel3.Controls.Add(this.btnCambClave);
+            this.panel3.Location = new System.Drawing.Point(1889, 48);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(142, 44);
+            this.panel3.TabIndex = 18;
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.SystemColors.Control;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Image = global::SES_ERP24.Properties.Resources.salida;
+            this.btnClose.Location = new System.Drawing.Point(98, 4);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(40, 37);
+            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnClose.TabIndex = 57;
+            this.btnClose.TabStop = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnCambSucursal
+            // 
+            this.btnCambSucursal.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCambSucursal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCambSucursal.Image = global::SES_ERP24.Properties.Resources.rama;
+            this.btnCambSucursal.Location = new System.Drawing.Point(51, 4);
+            this.btnCambSucursal.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCambSucursal.Name = "btnCambSucursal";
+            this.btnCambSucursal.Size = new System.Drawing.Size(40, 37);
+            this.btnCambSucursal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnCambSucursal.TabIndex = 56;
+            this.btnCambSucursal.TabStop = false;
+            this.btnCambSucursal.Click += new System.EventHandler(this.btnCambSucursal_Click);
+            // 
+            // btnCambClave
+            // 
+            this.btnCambClave.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCambClave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCambClave.Image = global::SES_ERP24.Properties.Resources.restablecer_la_contrasena1;
+            this.btnCambClave.Location = new System.Drawing.Point(5, 4);
+            this.btnCambClave.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCambClave.Name = "btnCambClave";
+            this.btnCambClave.Size = new System.Drawing.Size(40, 37);
+            this.btnCambClave.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnCambClave.TabIndex = 55;
+            this.btnCambClave.TabStop = false;
+            this.btnCambClave.Click += new System.EventHandler(this.btnCambClave_Click);
+            // 
             // btnMenu
             // 
             this.btnMenu.Image = ((System.Drawing.Image)(resources.GetObject("btnMenu.Image")));
@@ -1029,20 +992,6 @@ namespace SES_ERP24
             this.btnMenu.Size = new System.Drawing.Size(21, 20);
             this.btnMenu.TabIndex = 17;
             this.btnMenu.TabStop = false;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label2.Location = new System.Drawing.Point(1948, 82);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 18);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Ingresar";
-            this.label2.Visible = false;
             // 
             // labNombreProfesionalAtiende
             // 
@@ -1057,19 +1006,6 @@ namespace SES_ERP24
             this.labNombreProfesionalAtiende.Text = "Ingrese al sistema para identIficar el profesional que atiende la consulta o el e" +
     "xámen";
             this.labNombreProfesionalAtiende.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // BtnSalir
-            // 
-            this.BtnSalir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnSalir.AutoSize = true;
-            this.BtnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnSalir.ForeColor = System.Drawing.Color.DarkOrange;
-            this.BtnSalir.Location = new System.Drawing.Point(1980, 59);
-            this.BtnSalir.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.BtnSalir.Name = "BtnSalir";
-            this.BtnSalir.Size = new System.Drawing.Size(37, 18);
-            this.BtnSalir.TabIndex = 11;
-            this.BtnSalir.Text = "Salir";
             // 
             // label3
             // 
@@ -1167,16 +1103,6 @@ namespace SES_ERP24
             this.label1.Size = new System.Drawing.Size(2036, 20);
             this.label1.TabIndex = 18;
             // 
-            // mnCreacionBco
-            // 
-            this.mnCreacionBco.BackColor = System.Drawing.Color.DimGray;
-            this.mnCreacionBco.ForeColor = System.Drawing.Color.White;
-            this.mnCreacionBco.Name = "mnCreacionBco";
-            this.mnCreacionBco.Size = new System.Drawing.Size(320, 34);
-            this.mnCreacionBco.Tag = "MnCrearBancos";
-            this.mnCreacionBco.Text = "Crear Cuenta Bancaria";
-            this.mnCreacionBco.Click += new System.EventHandler(this.mnCreacionBco_Click);
-            // 
             // FrmMenuInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1201,7 +1127,10 @@ namespace SES_ERP24
             this.menugeneral.ResumeLayout(false);
             this.menugeneral.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCambSucursal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCambClave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnNormal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimizar)).EndInit();
@@ -1231,17 +1160,12 @@ namespace SES_ERP24
 		private System.Windows.Forms.ToolStripMenuItem reporteGeneralToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem menReportes;
 		private System.Windows.Forms.ToolStripMenuItem menReporDoc;
-		private System.Windows.Forms.ToolStripMenuItem menHorarios;
-		private System.Windows.Forms.ToolStripMenuItem ConsultarCitasMedico;
+		private System.Windows.Forms.ToolStripMenuItem menRepInventarios;
 		private System.Windows.Forms.ToolStripMenuItem menImportaciones;
 		private System.Windows.Forms.ToolStripMenuItem btnRegistrarCitas;
-		private System.Windows.Forms.ToolStripMenuItem ConsultarCitasPaciente;
 		private System.Windows.Forms.ToolStripMenuItem MenCtasCorrientes;
 		private System.Windows.Forms.ToolStripMenuItem btnlistaGeneral;
 		private System.Windows.Forms.ToolStripMenuItem btnAnalisisIndividual;
-		private System.Windows.Forms.ToolStripMenuItem btnMantExamenes;
-		private System.Windows.Forms.ToolStripMenuItem btnPedidos;
-		private System.Windows.Forms.ToolStripMenuItem btnRegistrarResultadosLaboratorio;
 		private System.Windows.Forms.ToolStripMenuItem MenSRI;
 		private System.Windows.Forms.ToolStripMenuItem menRegistrarRTP;
 		private System.Windows.Forms.ToolStripMenuItem menFacturacionVenta;
@@ -1253,9 +1177,7 @@ namespace SES_ERP24
 		private System.Windows.Forms.ToolStripMenuItem menuInvenEBG;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.PictureBox btnMenu;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label labNombreProfesionalAtiende;
-		private System.Windows.Forms.Label BtnSalir;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.PictureBox btnNormal;
 		private System.Windows.Forms.PictureBox btnMinimizar;
@@ -1267,7 +1189,6 @@ namespace SES_ERP24
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
 		private System.Windows.Forms.ToolStripMenuItem MenuNCP;
 		private System.Windows.Forms.ToolStripMenuItem btnEmitirFacturasPedidos;
 		private System.Windows.Forms.ToolStripMenuItem btnEmitirPedidos;
@@ -1276,11 +1197,7 @@ namespace SES_ERP24
 		private System.Windows.Forms.ToolStripMenuItem mnConciliacionBancaria;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
+		private System.Windows.Forms.ToolStripMenuItem menImportarXML;
 		private System.Windows.Forms.ToolStripMenuItem serviciosBancosToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem menRegistrarRTC;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuProf;
@@ -1293,7 +1210,6 @@ namespace SES_ERP24
 		private System.Windows.Forms.ToolStripMenuItem mnBalances;
         private System.Windows.Forms.ToolStripMenuItem menuComercializacion;
         private System.Windows.Forms.ToolStripMenuItem menuFormasPago;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem16;
         private System.Windows.Forms.ToolStripMenuItem menuMatTablasSRI;
         private System.Windows.Forms.ToolStripMenuItem menImportarData;
         private System.Windows.Forms.ToolStripMenuItem menDirectorioImp;
@@ -1301,5 +1217,10 @@ namespace SES_ERP24
         private System.Windows.Forms.ToolStripMenuItem menImportarProductos;
         private System.Windows.Forms.ToolStripMenuItem menGuiaR;
         private System.Windows.Forms.ToolStripMenuItem mnCreacionBco;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.PictureBox btnCambSucursal;
+        private System.Windows.Forms.PictureBox btnCambClave;
+        private System.Windows.Forms.PictureBox btnClose;
+        private System.Windows.Forms.ToolStripMenuItem menTransferenciasInv;
     }
 }

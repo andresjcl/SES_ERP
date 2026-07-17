@@ -76,13 +76,7 @@ namespace DctosEmi
 				idDocumentoParaGenerar = idDocViene;
 				cmbDocumento.SelectedValue = idDocViene.Tipo;
 			}
-			//else
-			//{
-			//    idDocumentoActual.Sucursal = datosEmpresa.suc;
-			//    idDocumentoActual.Tipo = tipoDocDefault;
-			//    idDocumentoActual.familia = claseDocDefault;
-			//}
-			//ValoresSistemaMedico = sisMedico.Split(Convert.ToChar("|"));
+			
 		}
 		private void CargarValoresIniciales()
 		{
@@ -147,10 +141,7 @@ namespace DctosEmi
 			if (cmbDocumento.SelectedValue == null) cmbDocumento.SelectedIndex = 0;
 			idDocumentoActual.Tipo = cmbDocumento.SelectedValue.ToString();
 			if (memBodega.Length > 0) { cmbBodega.SelectedValue = memBodega; } else { cmbBodega.SelectedIndex = 0; }
-			//if (cmbVendedor.Items.Count > 0)
-			//{
-			//	if (memVendedor.Length > 0) { cmbVendedor.SelectedValue = memVendedor; } else { cmbVendedor.SelectedIndex = 0; }
-			//}
+			
 		}
 		private void CargarPredefinidosDocumento()
 		{
@@ -163,28 +154,7 @@ namespace DctosEmi
 
 			//HabilitarOpcionesDocumento();
 		}
-		//private void HabilitarOpcionesDocumento()
-		//{
-		//	HabilitarSoporte((propiedadesDoc.TipoSoporteObligatorio.Length > 0 && propiedadesDoc.TipoSoporteObligatorio != "ORP") || datosAuxiliares.tieneDatoDocumento("DocumentoReferencia", propiedadesDoc));
-
-		//	cmbVendedor.Visible = (datosAuxiliares.tieneDatoDocumento("Vendedor", propiedadesDoc));
-		//	lbVendedor.Visible = cmbVendedor.Visible;
-
-		//	labNroLote.Visible = (datosAuxiliares.tieneDatoDocumento("NúmeroLote", propiedadesDoc));
-		//	txtNroLote.Visible = labNroLote.Visible;
-
-		//	btnDescuentos.Visible = (datosAuxiliares.tieneDatoDocumento("DescuentoDocumento", propiedadesDoc));
-
-		//	btnExportacion.Visible = (datosAuxiliares.tieneDatoDocumento("Transporte", propiedadesDoc));
-
-		//	btnPendientes.Visible = true;
-		//	// chequear lectura de parametros en varbl
-		//	//btnContabiliza.Visible = (datosEmpresa.auto.Substring(3, 1) == "1" && propiedadesDoc.noCtbLinea != "X" && propiedadesDoc.SNContabilizar != 0);
-		//	cmbBodega.Visible = (datosAuxiliares.tieneDatoDocumento("Bodega", propiedadesDoc));
-		//	lbBodega.Visible = cmbBodega.Visible;
-
-		//	if (accesosLocalizados.sinRegistro==false) registrarAccesosLocalizadosDocumento();
-		//}
+		
 		private void prepararBotones()
 		{
 			Boolean inicio = (operacionEnCurso == sinOperacion);
@@ -290,21 +260,7 @@ namespace DctosEmi
 			//btnDescuentos.Visible = accesosLocalizados.DescuentoDocumento;
 		}
 
-		//private void HabilitarSoporte(bool tieneSoporte)
-		//{
-		//	cmbDocumentoSustento.Visible = tieneSoporte;
-		//	labSoporteNumero.Visible = tieneSoporte;
-		//	labSoporteTipo.Visible = tieneSoporte;
-		//	nroDocSoporte.Visible = tieneSoporte;
-		//	btnBuscaDocumentoSoporte.Visible = tieneSoporte;
-		//	if (tieneSoporte) LlenarComboDocReferencia();
-		//	//if (propiedadesDoc.TipoSoporteObligatorio.Length > 0)
-		//	//{
-		//	//	cmbDocumentoSustento.SelectedValue = propiedadesDoc.TipoSoporteObligatorio;
-		//	//	cmbDocumentoSustento.Enabled = false;
-		//	//}
-		//}
-
+		
 		private void LlenarComboDocReferencia()
 		{
 			idDocumentoActual.Tipo = cmbDocumento.SelectedValue.ToString();
@@ -334,51 +290,7 @@ namespace DctosEmi
 		{
 			if (classMenSistem.mensajesErrorDocumento.ConfirmaCerrar()) this.Close();
 		}
-
-		//private void BuscaCliente(string buscador)
-		//{
-		//	directMnt.BuscaClien directorio = new directMnt.BuscaClien();
-		//	string cliente = "C";
-		//	string codigo = "";
-		//	string nombre = "";
-		//	string conalias = "N";
-		//	string connuevo = "N";
-		//	codigo = directorio.IniBuscaCliOPro(ref cliente, ref nombre, ref conalias, ref connuevo);
-		//	if ((codigo + "").Length > 0) cargarDatosCliente(codigo);
-		//	directorio.Dispose();
-		//}
-//		private void cargarDatosCliente(string codigo = "")
-//		{
-//			// utilBasDatos datt = new utilBasDatos();
-//			if (codigo != "")
-//			{
-//				string solocodigo = "";
-//				Boolean x = false;
-//				opalex = new directMnt.DirectorioAlex();
-//				opalex.CargarAlex(ref codigo, ref x, ref solocodigo);
-//				if (opalex.codigo == null) codigo = ""; else codigo = opalex.codigo;
-//				if (codigo.Length > 0)
-//				{
-//					codCliente = opalex.codigo;
-//					//txtcedula.Text = opalex.CiRuc;
-//					//txtnombrecliente.Text = opalex.NombreImpresion;
-//					//txtdireccion.Text = opalex.direccion;
-//					//txtCorreElectronico.Text = opalex.correoElectronico;
-//					//txttelefono.Text = opalex.telefono1;
-//				}
-//			}
-//			if (codigo == "")
-//			{
-//				codCliente = "";
-//				txtcedula.Text = "";
-//				txtnombrecliente.Text = "";
-//				//txtdireccion.Text = "";
-//				//txtCorreElectronico.Text = "";
-//				//txttelefono.Text = "";
-//				opalex = null;
-//			}
-////			debeActualizarContacto = false;
-//		}
+		
         private Boolean cargarDatosDocumento(string SUC, string TIPO, double IDCLAVE, double NUMERO=0)
 		{
 			Boolean resp = false;
@@ -424,37 +336,10 @@ namespace DctosEmi
 			malla.Columns["Existencia"].Visible = valoresPredefinidosEmpresa.existenciaEnLineas;
 		
 		}
-		//private void cargarDetalleArticulosConsolidacion(string listaDocumentos)
-		//{
-		//	DctosEmi.armarConsTra dcut = new DctosEmi.armarConsTra();
-		//	DctosEmi.diseñarMalla dcut2 = new DctosEmi.diseñarMalla();
-
-		//	dtDetalleDocumento = utilBasDatos.utilBasDatos.leerTablas(dcut.armarSqlLecturaTraFacConsolida("ADCTRA", listaDocumentos), datosEmpresa.strConxAdcom);
-		//	dcut = null;
-		//	if (dtDetalleDocumento == null) return;
-		//	malla.DataSource = dtDetalleDocumento;
-		//	if (malla.Rows.Count > 0) dcut2.diseñarMallaFacCli(ref malla, ref propiedadesDoc);
-
-		//	dcut = null;
-		//	dcut2 = null;
-		//}
-		//private void cargarFormaDePago(idDocumento iddoc, string tabla)
-		//{
-		//	clasePagos = new DaxComercia.classPagosDoc
-		//	{
-		//		strConx = datosEmpresa.strConxAdcom,
-		//		DocSucursal = iddoc.Sucursal,
-		//		Doctipo = iddoc.Tipo,
-		//		idClaveDoc = iddoc.idClave,
-		//		DocNumero = iddoc.numero,
-		//		DocFecha = iddoc.fecha
-		//	};
-		//	clasePagos.cargarPagosDocumento(tabla);
-		//}
+		
 		private void moverClaseAcontroles()
 		{
-			moverCabezera();
-			//moverOtrosValores();
+			moverCabezera();			
 		}
 		private void moverCabezera()
 		{
@@ -474,128 +359,7 @@ namespace DctosEmi
 			CmbBodDestino.SelectedValue = datADCDOC.doc_BodDestino;
 			//cmbVendedor.SelectedValue = datADCDOC.Doc_venabre;
 		}
-		//private void moverOtrosValores()
-		//{
-		//	claseDescuentos = new adcDescto.descDocumento();
-		//	//claseImpuestos = new IvaRett.docImpuestos();
-		//	claseDescuentos.nombreDes[0] = datADCDOC.Doc_nombredes1;
-		//	claseDescuentos.nombreDes[1] = datADCDOC.Doc_nombredes2;
-		//	claseDescuentos.nombreDes[2] = datADCDOC.Doc_nombredes3;
-
-		//	claseDescuentos.porcentajeDes[0] = Convert.ToDouble(datADCDOC.Doc_porcendes1);
-		//	claseDescuentos.porcentajeDes[1] = Convert.ToDouble(datADCDOC.Doc_porcendes2);
-		//	claseDescuentos.porcentajeDes[2] = Convert.ToDouble(datADCDOC.Doc_porcendes3);
-
-		//	claseDescuentos.valorDes[0] = Convert.ToDouble(datADCDOC.Doc_valordes1);
-		//	claseDescuentos.valorDes[1] = Convert.ToDouble(datADCDOC.Doc_valordes2);
-		//	claseDescuentos.valorDes[2] = Convert.ToDouble(datADCDOC.Doc_valordes3);
-
-		//	//claseImpuestos.impstoPorcentaje1 = Convert.ToDouble(datADCDOC.Doc_porceniva);
-		//	//claseImpuestos.impstoNombre1 = "IVA";
-
-		//}
-		//private void moverDatosClase()
-		//{
-		//	datADCDOC.Doc_sucursal = datosEmpresa.suc;
-		//	datADCDOC.Doc_Bodega = cmbBodega.SelectedValue.ToString();
-		//	datADCDOC.Opc_documento = cmbDocumento.SelectedValue.ToString();
-		//	datADCDOC.Doc_docnombre = cmbDocumento.Text;
-		//	datADCDOC.Doc_numero = Convert.ToDecimal(txtnumero.Text);
-		//	datADCDOC.Doc_fecha = Convert.ToDateTime(txtfecha.Text);
-		//	datADCDOC.Doc_codper = codCliente;
-		//	datADCDOC.Doc_CiRuc = txtcedula.Text;
-		//	datADCDOC.Doc_NombreImp = txtnombrecliente.Text;
-		//	datADCDOC.Doc_Direccion = txtdireccion.Text;
-		//	datADCDOC.Doc_Telefono1 = txttelefono.Text;
-		//	datADCDOC.Doc_detalle = txtDetalle.Text;
-		//	datADCDOC.Doc_venabre = cmbVendedor.SelectedValue.ToString();
-		//	datADCDOC.Doc_DocSop = "";
-		//	datADCDOC.Doc_NumSop = 0;
-		//	datADCDOC.Doc_valor = Convert.ToDecimal(edTotal.Text);
-		//	datADCDOC.AuxVar9 = txtCorreElectronico.Text;
-
-		//	if (operacionEnCurso == 1)
-		//	{
-		//		datADCDOC.PuntoVta = valoresPredefinidosSucursal.nomPuntoVta;
-		//		datADCDOC.Doc_Hora = docUtils.DaxNow();
-		//		datADCDOC.Doc_Estado = 1;
-		//	}
-
-		//	datADCDOC.Doc_nombredes1 = claseDescuentos.nombreDes[0];
-		//	datADCDOC.Doc_nombredes2 = claseDescuentos.nombreDes[1];
-		//	datADCDOC.Doc_nombredes3 = claseDescuentos.nombreDes[2];
-
-		//	datADCDOC.Doc_porcendes1 = Convert.ToDecimal(claseDescuentos.porcentajeDes[0]);
-		//	datADCDOC.Doc_porcendes2 = Convert.ToDecimal(claseDescuentos.porcentajeDes[1]);
-		//	datADCDOC.Doc_porcendes3 = Convert.ToDecimal(claseDescuentos.porcentajeDes[2]);
-
-		//	datADCDOC.Doc_valordes1 = Convert.ToDecimal(claseDescuentos.valorDes[0]); ;
-		//	datADCDOC.Doc_valordes2 = Convert.ToDecimal(claseDescuentos.valorDes[1]);
-		//	datADCDOC.Doc_valordes3 = Convert.ToDecimal(claseDescuentos.valorDes[2]);
-
-		//	datADCDOC.Doc_porceniva = Convert.ToDecimal(claseImpuestos.impstoPorcentaje1);
-
-		//	datADCDOC.Doc_NroLoteDoc =  txtNroLote.Text;
-		//	datADCDOC.Doc_NroIdDoc = txtNroID.Text;
-		//	datADCDOC.Adi_TipoDocSri = propiedadesDoc.TipoSri;
-		//	//datADCDOC.Adi_FechContab = IIf(FechaContab < TxtFecha, TxtFecha, FechaContab)
-		//	//datADCDOC.Adi_CodigoNSR = TexCodigoExoneraRetencion.Text
-		//	//datADCDOC.Adi_SustTrib = DatSustento.BoundText
-		//	//datADCDOC'.Adi_SNDevIva = IIf(DerechoIva.Value = 1, "S", "N")
-		//	datADCDOC.IdClaveDoc = Convert.ToDecimal(idDocumentoActual.idClave);
-		//	datADCDOC.IdClaveDocSop = 0;
-		//	datADCDOC.Doc_docnombre = cmbDocumento.Text; 
-		//	datADCDOC.Doc_TipoDoc = propiedadesDoc.TipoDoc;
-		//	datADCDOC.Doc_FechaEfe = Convert.ToDateTime(txtfecha.Text);     //FechaVence.Value
-		//	datADCDOC.Doc_extension = "";
-		//	datADCDOC.Doc_codusu = datosEmpresa.usr;
-		//	datADCDOC.Doc_valoriva = totalesDocumento.TotIva;
-		//	datADCDOC.Doc_totciva = totalesDocumento.TotCiva;
-		//	datADCDOC.Doc_totsiva = totalesDocumento.TotSiva;
-		//	datADCDOC.Doc_valorabon = Convert.ToDecimal(clasePagos.totalContado);
-		//	datADCDOC.Doc_DepDes = "";
-		//	datADCDOC.Doc_TotDesArt = totalesDocumento.TotDesArt;
-		//	datADCDOC.Doc_TotDesSer = totalesDocumento.TotDesSer;
-		//	datADCDOC.Doc_TotArtCIva = totalesDocumento.TotArtCIva;
-		//	datADCDOC.Doc_TotArtSIva = totalesDocumento.TotArtSIva;
-		//	datADCDOC.Doc_TotSerCIva = totalesDocumento.TotSerCIva;
-		//	datADCDOC.Doc_TotSerSIva = totalesDocumento.TotSerSIva;
-		//	datADCDOC.Doc_TotAcf = totalesDocumento.TotAcf;
-		//	datADCDOC.Doc_Contado = totalesDocumento.ValorEfec;
-		//	datADCDOC.Doc_Oculto = propiedadesDoc.ClaveOculto;
-		//	datADCDOC.Doc_Contabilidad = propiedadesDoc.ClaveContable;
-		//	datADCDOC.Doc_Banco = Convert.ToInt16(propiedadesDoc.ClaveBanco);
-		//	datADCDOC.Doc_Inventario = Convert.ToInt16(propiedadesDoc.ClaveInventario);
-		//	datADCDOC.Doc_Ventas = Convert.ToInt16(propiedadesDoc.ClaveVentas);
-		//	datADCDOC.Doc_Compras = Convert.ToInt16(propiedadesDoc.ClaveCompras);
-		//	datADCDOC.Doc_Activo = Convert.ToInt16(propiedadesDoc.ClaveActivo);
-		//	datADCDOC.Doc_Adicional2 = 0;
-		//	datADCDOC.Doc_NumeroExterno = 0;
-		//	datADCDOC.IdClaveDocSop = Convert.ToDecimal( idDocumentoSoporte.idClave);
-		//	datADCDOC.Doc_FechaModifica = docUtils.DaxNow();
-		//	datADCDOC.doc_TotDesSiva = totalesDocumento.totdessiva;
-		//	datADCDOC.doc_TotDesCIva = totalesDocumento.totdesciva;
-		//	//datADCDOC.Adi_NroAutSri = "";                   //TextNroAutSri
-		//	datADCDOC.ProductoProduccion = "";            // ProductoProduccion.Text
-		//	datADCDOC.BaseImp1 = totalesDocumento.Subtotalciva;
-		//	datADCDOC.ValorImp1 = totalesDocumento.TotImp1;
-		//	datADCDOC.PorcImp1 = Convert.ToDecimal(claseImpuestos.impstoPorcentaje1);
-
-		//	//datADCDOC.BaseImp2 = totalesDocumento.Subtotalciva2;
-		//	datADCDOC.ValorImp2 = totalesDocumento.TotImp2;
-		//	datADCDOC.PorcImp2 = Convert.ToDecimal(claseImpuestos.impstoPorcentaje2);
-
-		//	//datADCDOC.BaseImp3 = totalesDocumento.Subtotalciva3;
-		//	datADCDOC.ValorImp3 = totalesDocumento.TotImp2;
-		//	datADCDOC.PorcImp3 = Convert.ToDecimal(claseImpuestos.impstoPorcentaje2);
-
-		//	//datADCDOC.FacDesde = FDesde.Value;
-		//	//datADCDOC.FacDesde = FDesde.Value;
-		//	//datADCDOC.FacDesde = FDesde.Value;
-		//	//datADCDOC.FacHasta = FHasta.Value;
-		//	//datADCDOC.TipoPeriodo = "";
-		//}
-
+		
 
 		private void btnCierra_Click(object sender, EventArgs e)
 		{
@@ -1124,7 +888,7 @@ namespace DctosEmi
 
 			//if (Convert.ToInt32(controlaSig) == -1) controlaSig = "0"; else controlaSig = "1";
 
-			adcCtasCorrientes.frmAplicacionesDcto prog = new adcCtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
+			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
 			prog.ShowDialog();
 		}
 

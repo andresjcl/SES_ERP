@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -204,16 +205,52 @@ namespace DattCom
         }
 
 
+        //static public DateTime FechaLimiteDocumentos
+        //{
+        //    get
+        //    {
+        //        DateTime fecha = new DateTime(1, 1, 1900);
+        //        try
+        //        {
+        //            fecha = Convert.ToDateTime(_Par_RolCodMay);
+        //        }
+        //        catch { }
+        //        return fecha;
+        //    }
+        //}
+
         static public DateTime FechaLimiteDocumentos
         {
             get
             {
-                DateTime fecha = new DateTime(1, 1, 1900);
+                DateTime fecha = new DateTime(1900, 1, 1);
                 try
                 {
-                    fecha = Convert.ToDateTime(_Par_RolCodMay);
+                    if (!string.IsNullOrEmpty(_Par_RolCodMay))
+                    {
+                        // Intentar parsear con formato dd/MM/yyyy
+                        if (DateTime.TryParseExact(_Par_RolCodMay, "dd/MM/yyyy",
+                            CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fechaParseada))
+                        {
+                            fecha = fechaParseada;
+                        }
+                        else
+                        {
+                            // Fallback: intentar con otros formatos comunes
+                            string[] formatos = { "dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd", "dd-MM-yyyy" };
+                            if (DateTime.TryParseExact(_Par_RolCodMay, formatos,
+                                CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaParseada))
+                            {
+                                fecha = fechaParseada;
+                            }
+                        }
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    // Opcional: log del error
+                    // MessageBox.Show($"Error al convertir fecha: {ex.Message}");
+                }
                 return fecha;
             }
         }

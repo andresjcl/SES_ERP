@@ -1029,48 +1029,114 @@ Friend Class SYSP13
     'End If
     'End Sub
 
+    'Private Sub CargarTipoDocumentoSRI()
+    '    Dim cmd As New SqlCommand()
+    '    Dim ssql As String = ""
+    '    Dim dat1 As SqlDataReader = Nothing
+    '    '        Dim claves As String
+    '    Dim ElCodigo As String = ""
+    '    Dim ElCodigo2 As String = ""
+    '    'On Error Resume Next
+    '    'cmd.Connection = conectarDaxsy
+    '    Select Case dbDoc.SelectedValue.ToString
+    '        Case "FAC", "DEV", "NDC", "NCC", "REM", "RTC"
+    '            ElCodigo = "2"
+    '            ElCodigo2 = "4"
+    '        Case "FAP", "DEP", "NDP", "NCP", "RTP"
+    '            ElCodigo = "1"
+    '            ElCodigo2 = "3"
+    '    End Select
+    '    Dim tieneSri As Boolean = (DattCom.datosEmpresa.AnexoTransaccional Or DattCom.datosEmpresa.Ivaret)
+    '    Label13.Visible = (tieneSri And Val(ElCodigo) <> 0)
+    '    TipoComprobanteSri.Visible = Label13.Visible
+    '    If tieneSri = True Then
+    '        'ssql = "SELECT * FROM comprobantesAutorizados WHERE secuencialTransaccion like '%" + ElCodigo + "%' or secuencialTransaccion  like '%" + ElCodigo2 + "%'"
+    '        'cmd.CommandText = ssql
+    '        'If conectarDaxsys.State = ConnectionState.Open Then conectarDaxsys.Close()
+    '        'conectarDaxsys.Open()
+    '        'dat1 = cmd.ExecuteReader()
+    '        'If Not dat1.Read And ElCodigo <> 0 Then
+    '        '    MsgBox("No se encontró la tabla del SRI de Tipos de Transaccion")
+    '        '    Exit Sub
+    '        'End If
+    '        'claves = dat1("TipoComprobante")
+    '        'conectarDaxsys.Close()
+    '        'If claves = "" And ElCodigo <> 0 Then
+    '        '    MsgBox("En tabla de tipo de transacciones, codigo " & ElCodigo.ToString() & " el tipo de documentos esta mal definido")
+    '        '    Exit Sub
+    '        'End If
+    '        'claves = SepararClaves(claves, "codigo")
+    '        ssql = " select '' as codigo,'No afecta al SRI' as TipoDeComprobante  union all "
+    '        ssql += "Select código, (substring(Ltrim(código) + '    ',0,3) + ' - ' + Descripción) as TipodeComprobante From comprobantesAutorizados WHERE secuencialTransaccion like '%" + ElCodigo + "%' or secuencialTransaccion  like '%" + ElCodigo2 + "%'"
+    '        Dim dt As New DataTable
+    '        Dim da As New SqlDataAdapter(ssql, DattCom.datosEmpresa.strConxIvaret)
+    '        da.Fill(dt)
+    '        TipoComprobanteSri.DataSource = dt
+    '        TipoComprobanteSri.ValueMember = "codigo"
+    '        TipoComprobanteSri.DisplayMember = "TipoDeComprobante"
+    '    End If
+    'End Sub
+
+
     Private Sub CargarTipoDocumentoSRI()
-        Dim cmd As New SqlCommand()
         Dim ssql As String = ""
-        Dim dat1 As SqlDataReader = Nothing
-        '        Dim claves As String
         Dim ElCodigo As String = ""
         Dim ElCodigo2 As String = ""
-        'On Error Resume Next
-        'cmd.Connection = conectarDaxsy
+
+        ' Determinar códigos según el tipo de documento
         Select Case dbDoc.SelectedValue.ToString
             Case "FAC", "DEV", "NDC", "NCC", "REM", "RTC"
-                ElCodigo = "2"
+                ElCodigo = "2"   ' Código para ventas
                 ElCodigo2 = "4"
             Case "FAP", "DEP", "NDP", "NCP", "RTP"
-                ElCodigo = "1"
+                ElCodigo = "1"   ' Código para compras
                 ElCodigo2 = "3"
         End Select
+
         Dim tieneSri As Boolean = (DattCom.datosEmpresa.AnexoTransaccional Or DattCom.datosEmpresa.Ivaret)
         Label13.Visible = (tieneSri And Val(ElCodigo) <> 0)
         TipoComprobanteSri.Visible = Label13.Visible
-        If tieneSri = True Then
-            'ssql = "SELECT * FROM comprobantesAutorizados WHERE secuencialTransaccion like '%" + ElCodigo + "%' or secuencialTransaccion  like '%" + ElCodigo2 + "%'"
-            'cmd.CommandText = ssql
-            'If conectarDaxsys.State = ConnectionState.Open Then conectarDaxsys.Close()
-            'conectarDaxsys.Open()
-            'dat1 = cmd.ExecuteReader()
-            'If Not dat1.Read And ElCodigo <> 0 Then
-            '    MsgBox("No se encontró la tabla del SRI de Tipos de Transaccion")
-            '    Exit Sub
-            'End If
-            'claves = dat1("TipoComprobante")
-            'conectarDaxsys.Close()
-            'If claves = "" And ElCodigo <> 0 Then
-            '    MsgBox("En tabla de tipo de transacciones, codigo " & ElCodigo.ToString() & " el tipo de documentos esta mal definido")
-            '    Exit Sub
-            'End If
-            'claves = SepararClaves(claves, "codigo")
-            ssql = " select '' as codigo,'No afecta al SRI' as TipoDeComprobante  union all "
-            ssql += "Select código, (substring(Ltrim(código) + '    ',0,3) + ' - ' + Descripción) as TipodeComprobante From comprobantesAutorizados WHERE secuencialTransaccion like '%" + ElCodigo + "%' or secuencialTransaccion  like '%" + ElCodigo2 + "%'"
+
+        If tieneSri = True And (ElCodigo <> "" Or ElCodigo2 <> "") Then
+            ' Consulta para obtener los tipos de comprobante SRI
+            ssql = " SELECT '18' as codigo, '18 - FACTURA' as TipoDeComprobante UNION ALL "
+            ssql += " SELECT '01' as codigo, '01 - FACTURA' as TipoDeComprobante UNION ALL "
+            ssql += " SELECT '04' as codigo, '04 - NOTA DE CREDITO' as TipoDeComprobante UNION ALL "
+            ssql += " SELECT '05' as codigo, '05 - NOTA DE DEBITO' as TipoDeComprobante UNION ALL "
+            ssql += " SELECT '06' as codigo, '06 - GUIA DE REMISION' as TipoDeComprobante UNION ALL "
+            ssql += " SELECT '07' as codigo, '07 - COMPROBANTE DE RETENCION' as TipoDeComprobante "
+
+            ' Si tienes tabla de comprobantes autorizados, puedes agregar:
+            ' ssql += " UNION ALL "
+            ' ssql += " SELECT código, (código + ' - ' + Descripción) as TipoDeComprobante "
+            ' ssql += " FROM comprobantesAutorizados "
+            ' ssql += " WHERE secuencialTransaccion like '%" & ElCodigo & "%' "
+            ' ssql += " OR secuencialTransaccion like '%" & ElCodigo2 & "%'"
+
+            Try
+                Dim dt As New DataTable
+                Dim da As New SqlDataAdapter(ssql, DattCom.datosEmpresa.strConxIvaret)
+                da.Fill(dt)
+
+                ' Agregar opción "No afecta al SRI" al inicio
+                Dim dr As DataRow = dt.NewRow()
+                dr("codigo") = ""
+                dr("TipoDeComprobante") = "No afecta al SRI"
+                dt.Rows.InsertAt(dr, 0)
+
+                TipoComprobanteSri.DataSource = dt
+                TipoComprobanteSri.ValueMember = "codigo"
+                TipoComprobanteSri.DisplayMember = "TipoDeComprobante"
+
+            Catch ex As Exception
+                MessageBox.Show("Error al cargar tipos de comprobante SRI: " & ex.Message)
+            End Try
+        Else
+            ' Si no hay SRI, cargar solo la opción por defecto
             Dim dt As New DataTable
-            Dim da As New SqlDataAdapter(ssql, DattCom.datosEmpresa.strConxIvaret)
-            da.Fill(dt)
+            dt.Columns.Add("codigo")
+            dt.Columns.Add("TipoDeComprobante")
+            dt.Rows.Add("", "No afecta al SRI")
             TipoComprobanteSri.DataSource = dt
             TipoComprobanteSri.ValueMember = "codigo"
             TipoComprobanteSri.DisplayMember = "TipoDeComprobante"
@@ -1146,8 +1212,29 @@ Friend Class SYSP13
                 dbDoc.SelectedValue = dat("Opc_Tipo").ToString
             End Try
 
-            ' TIPO DOCUMENTO SRI
-            If TipoComprobanteSri.SelectedValue.ToString() <> dat("Opc_TipoSri").ToString() Then TipoComprobanteSri.SelectedValue = dat("Opc_TipoSri").ToString
+            'TIPO DOCUMENTO SRI
+            'If TipoComprobanteSri.SelectedValue.ToString() <> dat("Opc_TipoSri").ToString() Then TipoComprobanteSri.SelectedValue = dat("Opc_TipoSri").ToString
+
+            'TIPO DOCUMENTO SRI
+            Try
+                If TipoComprobanteSri IsNot Nothing Then
+                    If Not IsDBNull(dat("Opc_TipoSri")) Then
+                        Dim valorOpcTipoSri As String = dat("Opc_TipoSri").ToString()
+                        Dim valorActual As String = If(TipoComprobanteSri.SelectedValue IsNot Nothing,
+                                          TipoComprobanteSri.SelectedValue.ToString(), "")
+
+                        If valorOpcTipoSri <> valorActual Then
+                            TipoComprobanteSri.SelectedValue = valorOpcTipoSri
+                        End If
+                    End If
+                End If
+            Catch ex As Exception
+                ' Si hay error, intentar asignar directamente
+                If TipoComprobanteSri IsNot Nothing AndAlso Not IsDBNull(dat("Opc_TipoSri")) Then
+                    TipoComprobanteSri.SelectedValue = dat("Opc_TipoSri").ToString()
+                End If
+            End Try
+
 
 
             ' TIPO DE DOCUMENTO GENERA EN ARTICULOS COMPUESTOS

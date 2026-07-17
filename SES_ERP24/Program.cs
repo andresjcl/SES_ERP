@@ -33,7 +33,7 @@ namespace SES_ERP24
                 DattCom.ManejoDatosUsuario.LeerDatosUsuario(datosEmpresa.usr);
                 if (DattCom.datosEmpresa.Emp_codigo > 0)
                 {
-                    Application.Run(new MnPrincipal());
+                    Application.Run(new FrmMenuInicial());
                     DattCom.ManejoDatosEmpresa.ResetearEmpresaRegistrada();
                 }
             }

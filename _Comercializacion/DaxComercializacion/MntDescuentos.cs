@@ -11,7 +11,7 @@ namespace DaxComercia
 {
     public partial class MntDescuentos : Form
     {
-        int proceso = 0;  // 0 ninguno 1 nuevo  2 modificando
+        int proceso = 0;  
         ClassDoc.DescPromo DatosDescuentos;
         public MntDescuentos()
         {

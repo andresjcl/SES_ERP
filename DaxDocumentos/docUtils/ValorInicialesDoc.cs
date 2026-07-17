@@ -84,13 +84,94 @@ namespace DctosEmi
             idPuntoVta = puntoDeVentas(datosEmpresa.codEmpresa.ToString(), datosEmpresa.suc, datosEmpresa.usr, datosEmpresa.strConIniSis);
             idtributario = idTributario(datosEmpresa.codEmpresa.ToString(), datosEmpresa.suc, idPuntoVta,datosEmpresa.strConIniSis);
         }
+        //static public string puntoDeVentas(string empresa, string sucursal, string usuario, string strsys)
+        //{
+        //    string ptoVta = "";
+        //    string ssql = "select CodptoVta,AutorizaPtoVta  from sys_ptoVta where idempresa = '" + empresa + "' and codSucursal = '" + sucursal + "' and idUsuario = '" + usuario + "' ";
+
+        //    // obtener punto de ventas al que esta asignado un usuario obligatoriamente
+
+        //    using (SqlDataAdapter da = new SqlDataAdapter(ssql, strsys))
+        //    {
+        //        DataTable dt = new DataTable();
+        //        da.Fill(dt);
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            ptoVta = dt.Rows[0]["CodPtoVta"].ToString();
+        //            if (dt.Rows[0]["autorizaPtoVta"].ToString()=="SI") autCambiaPtoVta = true; else autCambiaPtoVta = false;
+        //        }
+        //        da.Dispose();
+        //    }
+
+        //    //si no esta asignado un punto de ventas obligatorio probamos con el nombre del computador
+        //    if (ptoVta.Length == 0)
+        //    {
+        //        ssql = "select Pto_codigo , Pto_nombre  from emp_ptovta where emp_codigo = '" + empresa + "' and suc_codigo = '" + sucursal + "' ";
+        //        ssql += " and pto_nombre = '" + Environment.MachineName + "' ";
+        //        using (SqlDataAdapter da = new SqlDataAdapter(ssql, strsys))
+        //        {
+        //            DataTable dt = new DataTable();
+        //            da.Fill(dt);
+        //            if (dt.Rows.Count > 0)
+        //            {
+        //                ptoVta = dt.Rows[0]["Pto_codigo"].ToString();
+        //                autCambiaPtoVta = false;
+        //            }
+        //            da.Dispose();
+        //        }
+        //    }
+
+        //    //  obtenemos datos del punto de venta anterior o leemos todos los puntos de venta de la sucursal y escojemos el primero en orden alfabetico
+
+        //    {
+        //        ssql = "select Pto_codigo , Pto_nombre, TipoPunto, pto_IdTributario from emp_ptovta where  emp_codigo = '" + empresa + "' and suc_codigo = '" + sucursal + "' ";
+        //        if (ptoVta.Length != 0)
+        //        {
+        //            ssql += " and pto_codigo = '" + ptoVta + "' ";
+        //        }
+        //        else
+        //        {
+        //            ssql += " order by Pto_Nombre";
+        //            autCambiaPtoVta  = true;
+        //        }
+
+        //        using (SqlDataAdapter da = new SqlDataAdapter(ssql, strsys))
+        //        {
+        //            DataTable dt = new DataTable();
+        //            da.Fill(dt);
+        //            if (dt.Rows.Count == 0)
+        //            {
+        //                ptoVta = Environment.MachineName;
+        //                autCambiaPtoVta = true;
+        //                nomPuntoVta = ptoVta;
+        //                tipoPunto = "";
+        //            }
+        //            else
+        //            {
+        //                ptoVta = dt.Rows[0]["Pto_Codigo"].ToString();
+        //                nomPuntoVta = dt.Rows[0]["Pto_nombre"].ToString();
+        //                tipoPunto = dt.Rows[0]["TipoPunto"].ToString();
+        //            }
+        //            da.Dispose();
+        //        }
+        //        idPuntoVta = ptoVta;
+        //        return ptoVta;
+        //    }
+        //}
+
+
         static public string puntoDeVentas(string empresa, string sucursal, string usuario, string strsys)
         {
             string ptoVta = "";
+            bool esAdmin = usuario.ToUpper() == "ADMINISTRADOR";
+
+            // ==================================================
+            // PRIMERO: OBTENER LA CONFIGURACIÓN NORMAL
+            // ==================================================
+
             string ssql = "select CodptoVta,AutorizaPtoVta  from sys_ptoVta where idempresa = '" + empresa + "' and codSucursal = '" + sucursal + "' and idUsuario = '" + usuario + "' ";
 
             // obtener punto de ventas al que esta asignado un usuario obligatoriamente
-
             using (SqlDataAdapter da = new SqlDataAdapter(ssql, strsys))
             {
                 DataTable dt = new DataTable();
@@ -98,12 +179,15 @@ namespace DctosEmi
                 if (dt.Rows.Count > 0)
                 {
                     ptoVta = dt.Rows[0]["CodPtoVta"].ToString();
-                    if (dt.Rows[0]["autorizaPtoVta"].ToString()=="SI") autCambiaPtoVta = true; else autCambiaPtoVta = false;
+                    if (dt.Rows[0]["autorizaPtoVta"].ToString() == "SI")
+                        autCambiaPtoVta = true;
+                    else
+                        autCambiaPtoVta = false;
                 }
                 da.Dispose();
             }
 
-            //si no esta asignado un punto de ventas obligatorio probamos con el nombre del computador
+            // si no esta asignado un punto de ventas obligatorio probamos con el nombre del computador
             if (ptoVta.Length == 0)
             {
                 ssql = "select Pto_codigo , Pto_nombre  from emp_ptovta where emp_codigo = '" + empresa + "' and suc_codigo = '" + sucursal + "' ";
@@ -121,8 +205,7 @@ namespace DctosEmi
                 }
             }
 
-            //  obtenemos datos del punto de venta anterior o leemos todos los puntos de venta de la sucursal y escojemos el primero en orden alfabetico
-
+            // obtenemos datos del punto de venta anterior o leemos todos los puntos de venta de la sucursal y escojemos el primero en orden alfabetico
             {
                 ssql = "select Pto_codigo , Pto_nombre, TipoPunto, pto_IdTributario from emp_ptovta where  emp_codigo = '" + empresa + "' and suc_codigo = '" + sucursal + "' ";
                 if (ptoVta.Length != 0)
@@ -132,7 +215,7 @@ namespace DctosEmi
                 else
                 {
                     ssql += " order by Pto_Nombre";
-                    autCambiaPtoVta  = true;
+                    autCambiaPtoVta = true;
                 }
 
                 using (SqlDataAdapter da = new SqlDataAdapter(ssql, strsys))
@@ -155,9 +238,18 @@ namespace DctosEmi
                     da.Dispose();
                 }
                 idPuntoVta = ptoVta;
+
+                // ✅ DESPUÉS DE OBTENER LA CONFIGURACIÓN, AJUSTAR SOLO EL PERMISO PARA ADMIN
+                if (esAdmin)
+                {
+                    autCambiaPtoVta = true;  // Solo cambiar el permiso, NO los datos
+                }
+
                 return ptoVta;
             }
         }
+
+
         static public string idTributario(string empresa, string sucursal, string puntoVtas, string strsys)
         {
             string idTvta = "";

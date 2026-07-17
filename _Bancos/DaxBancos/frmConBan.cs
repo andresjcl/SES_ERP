@@ -542,7 +542,7 @@ namespace DaxBan
             s.comboCuentaBanco = comboCuentaBanco.Text ;
             s.comboBanco = comboBanco.Text;
             s.Nombre = datosEmpresa.Emp_Nombre;
-            s.conexion = null;
+            //s.conexion = null;
             s.pathappl = datosEmpresa.pathAppl;
             s.textSaldoBanco = textSaldo.Text;
             s.textSaldoSistema = Convert.ToString( malla.Rows[Linea].Cells["Saldo"].Value);

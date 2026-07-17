@@ -165,7 +165,7 @@ Partial Class frmRepDoc
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 39)
-        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(4)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -199,8 +199,8 @@ Partial Class frmRepDoc
         Me.chkConsignatario.AutoSize = True
         Me.chkConsignatario.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkConsignatario.ForeColor = System.Drawing.Color.White
-        Me.chkConsignatario.Location = New System.Drawing.Point(4, 258)
-        Me.chkConsignatario.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.chkConsignatario.Location = New System.Drawing.Point(0, 258)
+        Me.chkConsignatario.Margin = New System.Windows.Forms.Padding(4)
         Me.chkConsignatario.Name = "chkConsignatario"
         Me.chkConsignatario.Size = New System.Drawing.Size(258, 24)
         Me.chkConsignatario.TabIndex = 14
@@ -213,7 +213,7 @@ Partial Class frmRepDoc
         Me.chkDetalle.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkDetalle.ForeColor = System.Drawing.Color.White
         Me.chkDetalle.Location = New System.Drawing.Point(4, 226)
-        Me.chkDetalle.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.chkDetalle.Margin = New System.Windows.Forms.Padding(4)
         Me.chkDetalle.Name = "chkDetalle"
         Me.chkDetalle.Size = New System.Drawing.Size(233, 24)
         Me.chkDetalle.TabIndex = 13
@@ -226,7 +226,7 @@ Partial Class frmRepDoc
         Me.chkSoloTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkSoloTotal.ForeColor = System.Drawing.Color.White
         Me.chkSoloTotal.Location = New System.Drawing.Point(4, 198)
-        Me.chkSoloTotal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.chkSoloTotal.Margin = New System.Windows.Forms.Padding(4)
         Me.chkSoloTotal.Name = "chkSoloTotal"
         Me.chkSoloTotal.Size = New System.Drawing.Size(183, 24)
         Me.chkSoloTotal.TabIndex = 12
@@ -242,9 +242,9 @@ Partial Class frmRepDoc
         Me.GroupBox3.Controls.Add(Me.txtCodIni)
         Me.GroupBox3.Controls.Add(Me.Label7)
         Me.GroupBox3.Location = New System.Drawing.Point(-1, 286)
-        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox3.Size = New System.Drawing.Size(329, 94)
         Me.GroupBox3.TabIndex = 9
         Me.GroupBox3.TabStop = False
@@ -253,7 +253,7 @@ Partial Class frmRepDoc
         'btnCodFin
         '
         Me.btnCodFin.Location = New System.Drawing.Point(295, 57)
-        Me.btnCodFin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnCodFin.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCodFin.Name = "btnCodFin"
         Me.btnCodFin.Size = New System.Drawing.Size(28, 26)
         Me.btnCodFin.TabIndex = 5
@@ -263,7 +263,7 @@ Partial Class frmRepDoc
         'txtCodFin
         '
         Me.txtCodFin.Location = New System.Drawing.Point(96, 57)
-        Me.txtCodFin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCodFin.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCodFin.MaxLength = 15
         Me.txtCodFin.Name = "txtCodFin"
         Me.txtCodFin.Size = New System.Drawing.Size(200, 22)
@@ -283,7 +283,7 @@ Partial Class frmRepDoc
         'btnCodIni
         '
         Me.btnCodIni.Location = New System.Drawing.Point(296, 22)
-        Me.btnCodIni.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnCodIni.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCodIni.Name = "btnCodIni"
         Me.btnCodIni.Size = New System.Drawing.Size(28, 26)
         Me.btnCodIni.TabIndex = 2
@@ -293,7 +293,7 @@ Partial Class frmRepDoc
         'txtCodIni
         '
         Me.txtCodIni.Location = New System.Drawing.Point(97, 22)
-        Me.txtCodIni.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCodIni.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCodIni.MaxLength = 15
         Me.txtCodIni.Name = "txtCodIni"
         Me.txtCodIni.Size = New System.Drawing.Size(200, 22)
@@ -321,9 +321,9 @@ Partial Class frmRepDoc
         Me.GroupBox2.Controls.Add(Me.optBancos)
         Me.GroupBox2.Controls.Add(Me.optInv)
         Me.GroupBox2.Location = New System.Drawing.Point(0, 4)
-        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Size = New System.Drawing.Size(329, 113)
         Me.GroupBox2.TabIndex = 8
         Me.GroupBox2.TabStop = False
@@ -334,7 +334,7 @@ Partial Class frmRepDoc
         Me.optAnulados.AutoSize = True
         Me.optAnulados.ForeColor = System.Drawing.Color.White
         Me.optAnulados.Location = New System.Drawing.Point(129, 80)
-        Me.optAnulados.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optAnulados.Margin = New System.Windows.Forms.Padding(4)
         Me.optAnulados.Name = "optAnulados"
         Me.optAnulados.Size = New System.Drawing.Size(88, 21)
         Me.optAnulados.TabIndex = 7
@@ -346,7 +346,7 @@ Partial Class frmRepDoc
         Me.optTodos.AutoSize = True
         Me.optTodos.ForeColor = System.Drawing.Color.White
         Me.optTodos.Location = New System.Drawing.Point(233, 80)
-        Me.optTodos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optTodos.Margin = New System.Windows.Forms.Padding(4)
         Me.optTodos.Name = "optTodos"
         Me.optTodos.Size = New System.Drawing.Size(69, 21)
         Me.optTodos.TabIndex = 6
@@ -358,7 +358,7 @@ Partial Class frmRepDoc
         Me.optCtaPag.AutoSize = True
         Me.optCtaPag.ForeColor = System.Drawing.Color.White
         Me.optCtaPag.Location = New System.Drawing.Point(129, 52)
-        Me.optCtaPag.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optCtaPag.Margin = New System.Windows.Forms.Padding(4)
         Me.optCtaPag.Name = "optCtaPag"
         Me.optCtaPag.Size = New System.Drawing.Size(112, 21)
         Me.optCtaPag.TabIndex = 5
@@ -370,7 +370,7 @@ Partial Class frmRepDoc
         Me.optCtasCob.AutoSize = True
         Me.optCtasCob.ForeColor = System.Drawing.Color.White
         Me.optCtasCob.Location = New System.Drawing.Point(11, 52)
-        Me.optCtasCob.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optCtasCob.Margin = New System.Windows.Forms.Padding(4)
         Me.optCtasCob.Name = "optCtasCob"
         Me.optCtasCob.Size = New System.Drawing.Size(107, 21)
         Me.optCtasCob.TabIndex = 4
@@ -382,7 +382,7 @@ Partial Class frmRepDoc
         Me.optCompras.AutoSize = True
         Me.optCompras.ForeColor = System.Drawing.Color.White
         Me.optCompras.Location = New System.Drawing.Point(233, 23)
-        Me.optCompras.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optCompras.Margin = New System.Windows.Forms.Padding(4)
         Me.optCompras.Name = "optCompras"
         Me.optCompras.Size = New System.Drawing.Size(85, 21)
         Me.optCompras.TabIndex = 2
@@ -394,7 +394,7 @@ Partial Class frmRepDoc
         Me.optVentas.AutoSize = True
         Me.optVentas.ForeColor = System.Drawing.Color.White
         Me.optVentas.Location = New System.Drawing.Point(129, 23)
-        Me.optVentas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optVentas.Margin = New System.Windows.Forms.Padding(4)
         Me.optVentas.Name = "optVentas"
         Me.optVentas.Size = New System.Drawing.Size(73, 21)
         Me.optVentas.TabIndex = 1
@@ -406,7 +406,7 @@ Partial Class frmRepDoc
         Me.optBancos.AutoSize = True
         Me.optBancos.ForeColor = System.Drawing.Color.White
         Me.optBancos.Location = New System.Drawing.Point(13, 80)
-        Me.optBancos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optBancos.Margin = New System.Windows.Forms.Padding(4)
         Me.optBancos.Name = "optBancos"
         Me.optBancos.Size = New System.Drawing.Size(76, 21)
         Me.optBancos.TabIndex = 3
@@ -419,7 +419,7 @@ Partial Class frmRepDoc
         Me.optInv.Checked = True
         Me.optInv.ForeColor = System.Drawing.Color.White
         Me.optInv.Location = New System.Drawing.Point(11, 23)
-        Me.optInv.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.optInv.Margin = New System.Windows.Forms.Padding(4)
         Me.optInv.Name = "optInv"
         Me.optInv.Size = New System.Drawing.Size(91, 21)
         Me.optInv.TabIndex = 0
@@ -434,9 +434,9 @@ Partial Class frmRepDoc
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Location = New System.Drawing.Point(0, 128)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Size = New System.Drawing.Size(329, 63)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
@@ -446,7 +446,7 @@ Partial Class frmRepDoc
         '
         Me.txtFechaAl.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.txtFechaAl.Location = New System.Drawing.Point(200, 30)
-        Me.txtFechaAl.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtFechaAl.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFechaAl.Name = "txtFechaAl"
         Me.txtFechaAl.Size = New System.Drawing.Size(119, 22)
         Me.txtFechaAl.TabIndex = 13
@@ -455,7 +455,7 @@ Partial Class frmRepDoc
         '
         Me.txtFechaDel.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.txtFechaDel.Location = New System.Drawing.Point(43, 30)
-        Me.txtFechaDel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtFechaDel.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFechaDel.Name = "txtFechaDel"
         Me.txtFechaDel.Size = New System.Drawing.Size(119, 22)
         Me.txtFechaDel.TabIndex = 12
@@ -486,7 +486,7 @@ Partial Class frmRepDoc
         '
         Me.cboVendedor.FormattingEnabled = True
         Me.cboVendedor.Location = New System.Drawing.Point(19, 514)
-        Me.cboVendedor.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboVendedor.Margin = New System.Windows.Forms.Padding(4)
         Me.cboVendedor.Name = "cboVendedor"
         Me.cboVendedor.Size = New System.Drawing.Size(280, 24)
         Me.cboVendedor.TabIndex = 7
@@ -506,7 +506,7 @@ Partial Class frmRepDoc
         '
         Me.cboDoc.FormattingEnabled = True
         Me.cboDoc.Location = New System.Drawing.Point(19, 459)
-        Me.cboDoc.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboDoc.Margin = New System.Windows.Forms.Padding(4)
         Me.cboDoc.Name = "cboDoc"
         Me.cboDoc.Size = New System.Drawing.Size(280, 24)
         Me.cboDoc.TabIndex = 5
@@ -526,7 +526,7 @@ Partial Class frmRepDoc
         '
         Me.cboBodega.FormattingEnabled = True
         Me.cboBodega.Location = New System.Drawing.Point(19, 571)
-        Me.cboBodega.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboBodega.Margin = New System.Windows.Forms.Padding(4)
         Me.cboBodega.Name = "cboBodega"
         Me.cboBodega.Size = New System.Drawing.Size(280, 24)
         Me.cboBodega.TabIndex = 3
@@ -546,7 +546,7 @@ Partial Class frmRepDoc
         '
         Me.cboSucursal.FormattingEnabled = True
         Me.cboSucursal.Location = New System.Drawing.Point(16, 409)
-        Me.cboSucursal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboSucursal.Margin = New System.Windows.Forms.Padding(4)
         Me.cboSucursal.Name = "cboSucursal"
         Me.cboSucursal.Size = New System.Drawing.Size(280, 24)
         Me.cboSucursal.TabIndex = 1
@@ -566,7 +566,7 @@ Partial Class frmRepDoc
         '
         Me.ReportViewer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ReportViewer1.Location = New System.Drawing.Point(0, 0)
-        Me.ReportViewer1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ReportViewer1.Margin = New System.Windows.Forms.Padding(4)
         Me.ReportViewer1.Name = "ReportViewer1"
         Me.ReportViewer1.Size = New System.Drawing.Size(877, 615)
         Me.ReportViewer1.TabIndex = 0
@@ -579,7 +579,7 @@ Partial Class frmRepDoc
         Me.ControlBox = False
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.ToolStrip1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "frmRepDoc"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

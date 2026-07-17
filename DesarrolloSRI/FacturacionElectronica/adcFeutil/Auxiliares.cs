@@ -201,7 +201,7 @@ namespace DaxDocElectronicos
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				// Puedes loguear el error si deseas
 				correo = "";
@@ -266,16 +266,41 @@ namespace DaxDocElectronicos
 			return pago;
 		}
 
+		//public string ObtenerLogoBase64(string pathImagenes)
+		//{
+		//	try
+		//	{
+		//		string rutaLogo = Path.Combine(pathImagenes, "logoempresa.jpg");
+
+		//		if (File.Exists(rutaLogo))
+		//		{
+		//			byte[] bytes = File.ReadAllBytes(rutaLogo);
+		//			return Convert.ToBase64String(bytes);
+		//		}
+		//	}
+		//	catch
+		//	{
+		//		// Si falla por red o permisos
+		//	}
+
+		//	return "";
+		//}
 		public string ObtenerLogoBase64(string pathImagenes)
 		{
 			try
 			{
-				string rutaLogo = Path.Combine(pathImagenes, "logoempresa.jpg");
+				// Lista de extensiones a probar (en orden de preferencia)
+				string[] extensiones = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
 
-				if (File.Exists(rutaLogo))
+				foreach (string ext in extensiones)
 				{
-					byte[] bytes = File.ReadAllBytes(rutaLogo);
-					return Convert.ToBase64String(bytes);
+					string rutaLogo = Path.Combine(pathImagenes, "logoempresa" + ext);
+
+					if (File.Exists(rutaLogo))
+					{
+						byte[] bytes = File.ReadAllBytes(rutaLogo);
+						return Convert.ToBase64String(bytes);
+					}
 				}
 			}
 			catch

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CtasBanForm));
             this.buscarbutton = new System.Windows.Forms.Button();
             this.numeroCuentatextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -50,8 +51,10 @@
             this.eliminartoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.imprimirtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.salirtoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.btnCtaContable = new System.Windows.Forms.PictureBox();
             this.tipoCtagroupBox.SuspendLayout();
             this.menutoolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCtaContable)).BeginInit();
             this.SuspendLayout();
             // 
             // buscarbutton
@@ -303,6 +306,17 @@
             this.salirtoolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.salirtoolStripButton.Click += new System.EventHandler(this.salirtoolStripButton_Click);
             // 
+            // btnCtaContable
+            // 
+            this.btnCtaContable.Image = ((System.Drawing.Image)(resources.GetObject("btnCtaContable.Image")));
+            this.btnCtaContable.Location = new System.Drawing.Point(333, 178);
+            this.btnCtaContable.Name = "btnCtaContable";
+            this.btnCtaContable.Size = new System.Drawing.Size(36, 28);
+            this.btnCtaContable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnCtaContable.TabIndex = 59;
+            this.btnCtaContable.TabStop = false;
+            this.btnCtaContable.Click += new System.EventHandler(this.btnCtaContable_Click_1);
+            // 
             // CtasBanForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -310,6 +324,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(585, 326);
             this.ControlBox = false;
+            this.Controls.Add(this.btnCtaContable);
             this.Controls.Add(this.buscarbutton);
             this.Controls.Add(this.numeroCuentatextBox);
             this.Controls.Add(this.label1);
@@ -325,10 +340,12 @@
             this.Name = "CtasBanForm";
             this.ShowIcon = false;
             this.Text = " MANTENIMIENTO CUENTAS BANCARIAS";
+            this.Load += new System.EventHandler(this.CtasBanForm_Load);
             this.tipoCtagroupBox.ResumeLayout(false);
             this.tipoCtagroupBox.PerformLayout();
             this.menutoolStrip.ResumeLayout(false);
             this.menutoolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCtaContable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -358,6 +375,7 @@
         private System.Windows.Forms.ToolStripButton salirtoolStripButton;
         private System.Windows.Forms.ToolStripButton nuevotoolStripButton;
         private System.Windows.Forms.ToolStrip menutoolStrip;
+        private System.Windows.Forms.PictureBox btnCtaContable;
     }
 }
 

@@ -39,9 +39,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\adcDescto.dll</HintPath>
     </Reference>
-    <Reference Include="analisisIndCar">
-      <HintPath>..\..\CtasCorrientes\Librerias\analisisIndCar.dll</HintPath>
-    </Reference>
     <Reference Include="artInvent, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\artInvent.dll</HintPath>
@@ -98,6 +95,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\ConsolidaDoc.dll</HintPath>
     </Reference>
+    <Reference Include="ctaAnalisis, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\ctaAnalisis.dll</HintPath>
+    </Reference>
     <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\CtaMtnS.dll</HintPath>
@@ -153,6 +154,10 @@
     <Reference Include="genEgr, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\genEgr.dll</HintPath>
+    </Reference>
+    <Reference Include="impreDctos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\impreDctos.dll</HintPath>
     </Reference>
     <Reference Include="inputDialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -422,9 +427,17 @@
     <None Include="Resources\shop.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\daxAccs\DaxAccsDoc.csproj">
+      <Project>{e1d362f5-5e6d-4fba-b632-2c369f3e8ebb}</Project>
+      <Name>DaxAccsDoc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DaxDocumentos\ImprimirDocumentosDax\ImprimirDocumentoDax.csproj">
       <Project>{09cd9941-6345-4485-942a-8a649d01e86a}</Project>
       <Name>ImprimirDocumentoDax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_ClassBasesDatos\adcClassart\adcClassart.csproj">
+      <Project>{37A56D8D-0ADC-4376-A64A-36C443D7CBB9}</Project>
+      <Name>adcClassart</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

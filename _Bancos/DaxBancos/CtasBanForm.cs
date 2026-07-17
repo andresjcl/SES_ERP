@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CtaMtn;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -255,6 +256,7 @@ namespace DaxBan
             buscarbutton.Enabled = true;
             bancocomboBox.Enabled = true;
             tipoCtagroupBox.Enabled = true;
+            btnCtaContable.Enabled = true;
         }
 
         //PERMITE ESCRIBIR CUANDO ABRIMOS REGISTROS O CREAMOS NUEVO 
@@ -274,6 +276,7 @@ namespace DaxBan
             buscarbutton.Enabled = false;
             bancocomboBox.Enabled = false;
             tipoCtagroupBox.Enabled = false;
+            btnCtaContable.Enabled = false;
         }
 
 
@@ -358,6 +361,25 @@ namespace DaxBan
         }
 
         private void abrevlabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCtaContable_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCtaContable_Click_1(object sender, EventArgs e)
+        {
+            String nombre = "";
+            String var = "S";
+            CtaMtn.BuscaCta busca = new BuscaCta();
+            String codigo = busca.BuscaCtaCtb(ref nombre, ref var);
+            ctatextBox.Text = codigo;
+        }
+
+        private void CtasBanForm_Load(object sender, EventArgs e)
         {
 
         }

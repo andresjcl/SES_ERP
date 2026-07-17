@@ -59,7 +59,7 @@
     </Reference>
     <Reference Include="ClassDaxMail, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\AdcomDax\Librerias\ClassDaxMail.dll</HintPath>
+      <HintPath>..\..\..\Librerias\ClassDaxMail.dll</HintPath>
     </Reference>
     <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

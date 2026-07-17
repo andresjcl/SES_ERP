@@ -218,36 +218,149 @@ namespace mntUsrs
             Cursor = Cursors.Default ;
         }
 
+        //private void btnElimina_Click(object sender, EventArgs e)
+        //{
+
+        //    if (MessageBox.Show("Confirma eliminar el usuario actual del sistema ?,", "Eliminar perfil del usuario", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No) return;
+
+        //    string ssql = "delete from sys_usuario where idusuario = '" + txtIdentificacion.Text + "'";
+        //    SqlConnection conn = new SqlConnection ( strConxDaxsys);
+        //    conn.Open() ;
+        //    SqlCommand comm = new SqlCommand(ssql,conn) ;
+        //    comm.ExecuteNonQuery();
+
+        //    ssql = "delete from sys_accesos where idusuario = '" + txtIdentificacion.Text + "'";
+        //    comm = new SqlCommand(ssql, conn);
+        //    comm.ExecuteNonQuery();
+
+        //    ssql = "delete from sys_bodegas where idusuario = '" + txtIdentificacion.Text + "'";
+        //    comm = new SqlCommand(ssql, conn);
+        //    comm.ExecuteNonQuery();
+
+        //    ssql = "delete from sys_sucursales where idusuario = '" + txtIdentificacion.Text + "'";
+        //    comm = new SqlCommand(ssql, conn);
+        //    comm.ExecuteNonQuery();
+
+        //    ssql = "delete from sys_documentos where idusuario = '" + txtIdentificacion.Text + "'";
+        //    comm = new SqlCommand(ssql, conn);
+        //    comm.ExecuteNonQuery();
+
+        //    comm.Dispose();
+        //    comm = null;
+        //    ssql = null;
+        //}
+
         private void btnElimina_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtIdentificacion.Text))
+            {
+                MessageBox.Show("No hay un usuario seleccionado para eliminar.", "Advertencia",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            if (MessageBox.Show("Confirma eliminar el usuario actual del sistema ?,", "Eliminar perfil del usuario", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No) return;
-            
-            string ssql = "delete from sys_usuario where idusuario = '" + txtIdentificacion.Text + "'";
-            SqlConnection conn = new SqlConnection ( strConxDaxsys);
-            conn.Open() ;
-            SqlCommand comm = new SqlCommand(ssql,conn) ;
-            comm.ExecuteNonQuery();
+            string usuarioAEliminar = txtIdentificacion.Text;
 
-            ssql = "delete from sys_accesos where idusuario = '" + txtIdentificacion.Text + "'";
-            comm = new SqlCommand(ssql, conn);
-            comm.ExecuteNonQuery();
+            DialogResult result = MessageBox.Show(
+                string.Format("¿Está seguro de eliminar al usuario {0}?\n\n" +
+                              "Se eliminarán TODOS sus permisos" +
+                              "Esta acción no se puede deshacer.", usuarioAEliminar),
+                "Confirmar Eliminación de Usuario",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
 
-            ssql = "delete from sys_bodegas where idusuario = '" + txtIdentificacion.Text + "'";
-            comm = new SqlCommand(ssql, conn);
-            comm.ExecuteNonQuery();
+            if (result == DialogResult.No) return;
 
-            ssql = "delete from sys_sucursales where idusuario = '" + txtIdentificacion.Text + "'";
-            comm = new SqlCommand(ssql, conn);
-            comm.ExecuteNonQuery();
+            EliminarUsuarioCompleto(usuarioAEliminar);
+        }
 
-            ssql = "delete from sys_documentos where idusuario = '" + txtIdentificacion.Text + "'";
-            comm = new SqlCommand(ssql, conn);
-            comm.ExecuteNonQuery();
+        private void EliminarUsuarioCompleto(string usuario)
+        {
+            SqlConnection conn = null;
+            SqlTransaction transaction = null;
 
-            comm.Dispose();
-            comm = null;
-            ssql = null;
+            try
+            {
+                conn = new SqlConnection(strConxDaxsys);
+                conn.Open();
+                transaction = conn.BeginTransaction();
+
+                int delUsuario = 0, delAccesos = 0, delBodegas = 0, delSucursales = 0, delDocumentos = 0, delDocAccs = 0;
+
+                // 1. Eliminar de sysdocaccs (autorizaciones específicas de documentos)
+                string queryDocAccs = "DELETE FROM sysdocaccs WHERE empresa = " + CodigoEmpresa + " AND idusuario = '" + usuario + "'";
+                delDocAccs = EjecutarDelete(conn, transaction, queryDocAccs);
+
+                // 2. Eliminar de sys_documentos (documentos asignados)
+                string queryDocumentos = "DELETE FROM sys_documentos WHERE idEmpresa = " + CodigoEmpresa + " AND idUsuario = '" + usuario + "'";
+                delDocumentos = EjecutarDelete(conn, transaction, queryDocumentos);
+
+                // 3. Eliminar de sys_sucursales (sucursales asignadas)
+                string querySucursales = "DELETE FROM sys_sucursales WHERE empresa = " + CodigoEmpresa + " AND idusuario = '" + usuario + "'";
+                delSucursales = EjecutarDelete(conn, transaction, querySucursales);
+
+                // 4. Eliminar de sys_bodegas (bodegas asignadas)
+                string queryBodegas = "DELETE FROM sys_bodegas WHERE empresa = " + CodigoEmpresa + " AND idusuario = '" + usuario + "'";
+                delBodegas = EjecutarDelete(conn, transaction, queryBodegas);
+
+                // 5. Eliminar de sys_accesos (accesos a menús/módulos)
+                string queryAccesos = "DELETE FROM sys_accesos WHERE empresa = " + CodigoEmpresa + " AND idusuario = '" + usuario + "'";
+                delAccesos = EjecutarDelete(conn, transaction, queryAccesos);
+
+                // 6. Eliminar de sys_usuario (el usuario principal)
+                string queryUsuario = "DELETE FROM sys_usuario WHERE idusuario = '" + usuario + "'";
+                delUsuario = EjecutarDelete(conn, transaction, queryUsuario);
+
+                // Confirmar la transacción
+                transaction.Commit();
+
+                // Mostrar resumen de eliminación
+                MessageBox.Show(string.Format(
+                    "Usuario {0} eliminado correctamente.\n\n" +
+                    "Registros eliminados:",
+                    usuario, delDocAccs, delDocumentos, delSucursales, delBodegas, delAccesos, delUsuario),
+                    "Eliminación Exitosa",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                // Limpiar el formulario después de eliminar
+                limpiar();
+            }
+            catch (Exception ex)
+            {
+                // Si hay error, deshacer todos los cambios
+                if (transaction != null)
+                {
+                    try { transaction.Rollback(); } catch { }
+                }
+
+                MessageBox.Show("Error al eliminar el usuario: " + ex.Message,
+                               "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                if (conn != null) conn.Dispose();
+                if (transaction != null) transaction.Dispose();
+            }
+        }
+
+        private int EjecutarDelete(SqlConnection conn, SqlTransaction transaction, string query)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, conn, transaction);
+                int registrosAfectados = cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return registrosAfectados;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error ejecutando: {query}\n{ex.Message}");
+            }
         }
         private void btnMedica_Click(object sender, EventArgs e)
         {

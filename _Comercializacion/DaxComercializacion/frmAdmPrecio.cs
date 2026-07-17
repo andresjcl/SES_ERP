@@ -10,10 +10,10 @@ namespace DaxComercia
     {
    
         DaxFormPv datFormula = new DaxFormPv(datosEmpresa.strConxAdcom);
-        private DataSet dato;
+        //private DataSet dato;
         private string consulta;
-        private BindingSource valor;
-        private SqlDataAdapter misqlDa;
+       // private BindingSource valor;
+        //private SqlDataAdapter misqlDa;
         private double  nuevoValor;// nuevo valor del precio a cambiar
         private String cambiarPrecio;//precio a cambiar
         private String precioActual;//parametro para varia el precio en realacion al precio de venta actual

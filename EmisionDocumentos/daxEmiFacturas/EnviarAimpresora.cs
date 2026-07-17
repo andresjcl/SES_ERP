@@ -41,23 +41,23 @@ namespace DctosEmi
 			//         { MessageBox.Show ("Excepción en impresion de documento \n" + ee.Message); return false; }
 			return true;
 		}
-        //internal static bool imprimirDocumentoDirectamente(ClassDoc.AdcDoc datADCDOC, daxAccs.propiedadesDaxAuto accesosLocalizados, ClassDoc.idDocumento idDocumentoActual)
-        //{
-        //    if (accesosLocalizados.NroImpresiones > 0 && accesosLocalizados.NroImpresiones <= datADCDOC.Doc_Adicional1)
-        //    { MessageBox.Show("Ha llegado al límite de impresiones permitidas", "Imprimir documentos", MessageBoxButtons.OK, MessageBoxIcon.Information); return false; }
-        //    try
-        //    {
-        //        ImpresionDocumentosDax.ImprimeDocumentoDoble impProg = new ImpresionDocumentosDax.ImprimeDocumentoDoble(datosEmpresa.nombreBaseIvaret, datosEmpresa.strConxAdcom, datosEmpresa.strConxIvaret, datosEmpresa.strConxSyscod, datosEmpresa.strConxDaxpro, datosEmpresa.codEmpresa, datosEmpresa.pathServer);
-        //        int imp = impProg.ImpDocFast(idDocumentoActual, "A", "", false, true);
-        //        datADCDOC.Doc_Adicional1 = imp;
-        //        impProg.Dispose();
-        //    }
-        //    catch (Exception ee)
-        //    { MessageBox.Show("Excepción en impresion de documento \n" + ee.Message); return false; }
-        //    return true;
-        //}
-
         internal static bool imprimirDocumentoDirectamente(ClassDoc.AdcDoc datADCDOC, daxAccs.propiedadesDaxAuto accesosLocalizados, ClassDoc.idDocumento idDocumentoActual)
+        {
+            if (accesosLocalizados.NroImpresiones > 0 && accesosLocalizados.NroImpresiones <= datADCDOC.Doc_Adicional1)
+            { MessageBox.Show("Ha llegado al límite de impresiones permitidas", "Imprimir documentos", MessageBoxButtons.OK, MessageBoxIcon.Information); return false; }
+            try
+            {
+                ImpresionDocumentosDax.ImprimeDocumentoDoble impProg = new ImpresionDocumentosDax.ImprimeDocumentoDoble(datosEmpresa.nombreBaseIvaret, datosEmpresa.strConxAdcom, datosEmpresa.strConxIvaret, datosEmpresa.strConxSyscod, datosEmpresa.strConxDaxpro, datosEmpresa.codEmpresa, datosEmpresa.pathServer);
+                int imp = impProg.ImpDocFast(idDocumentoActual, "A", "", false, true);
+                datADCDOC.Doc_Adicional1 = imp;
+                impProg.Dispose();
+            }
+            catch (Exception ee)
+            { MessageBox.Show("Excepción en impresion de documento \n" + ee.Message); return false; }
+            return true;
+        }
+
+        internal static bool imprimirDocumentoDirectamenteOtros(ClassDoc.AdcDoc datADCDOC, daxAccs.propiedadesDaxAuto accesosLocalizados, ClassDoc.idDocumento idDocumentoActual)
         {
             // Validar límite de impresiones
             if (accesosLocalizados.NroImpresiones > 0 && accesosLocalizados.NroImpresiones <= datADCDOC.Doc_Adicional1)
@@ -207,178 +207,7 @@ namespace DctosEmi
         }
 
 
-        //private static bool ImprimirPdfExistenteConEspera(string rutaPdf)
-        //{
-        //    try
-        //    {
-        //        if (!File.Exists(rutaPdf))
-        //        {
-        //            MessageBox.Show($"No se encuentra el archivo PDF:\n{rutaPdf}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return false;
-        //        }
-
-        //        // 🔹 MÉTODO 1: Buscar e intentar con Adobe Reader
-        //        string adobePath = ObtenerRutaAdobeReader();
-        //        if (!string.IsNullOrEmpty(adobePath))
-        //        {
-        //            try
-        //            {
-        //                ProcessStartInfo infoAdobe = new ProcessStartInfo
-        //                {
-        //                    FileName = adobePath,
-        //                    Arguments = $"/p /h \"{rutaPdf}\"",
-        //                    UseShellExecute = false,
-        //                    CreateNoWindow = true,
-        //                    WindowStyle = ProcessWindowStyle.Hidden
-        //                };
-
-        //                using (Process proc = Process.Start(infoAdobe))
-        //                {
-        //                    if (proc != null)
-        //                    {
-        //                        // Esperar que Adobe cargue y envíe a impresión
-        //                        proc.WaitForInputIdle(5000);
-        //                        Thread.Sleep(4000); // Dar tiempo para que envíe a la impresora
-
-        //                        // Cerrar Adobe Reader
-        //                        try
-        //                        {
-        //                            proc.CloseMainWindow();
-        //                            Thread.Sleep(1000);
-        //                            if (!proc.HasExited)
-        //                                proc.Kill();
-        //                        }
-        //                        catch { }
-
-        //                        // Verificar si realmente se envió a impresión
-        //                        Thread.Sleep(2000);
-        //                        return true;
-        //                    }
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                System.Diagnostics.Debug.WriteLine($"Adobe Reader falló: {ex.Message}");
-        //            }
-        //        }
-
-        //        // 🔹 MÉTODO 2: Usar Microsoft Print to PDF o impresora predeterminada con printto
-        //        try
-        //        {
-        //            string printerName = new System.Drawing.Printing.PrinterSettings().PrinterName;
-
-        //            // Si no hay impresora predeterminada, usar "Microsoft Print to PDF"
-        //            if (string.IsNullOrEmpty(printerName))
-        //                printerName = "Microsoft Print to PDF";
-
-        //            ProcessStartInfo infoPrintTo = new ProcessStartInfo
-        //            {
-        //                FileName = rutaPdf,
-        //                Verb = "printto",
-        //                Arguments = $"\"{printerName}\"",
-        //                UseShellExecute = true,
-        //                CreateNoWindow = true,
-        //                WindowStyle = ProcessWindowStyle.Hidden
-        //            };
-
-        //            using (Process proc = Process.Start(infoPrintTo))
-        //            {
-        //                if (proc != null)
-        //                {
-        //                    proc.WaitForExit(10000);
-        //                    proc.Close();
-        //                    Thread.Sleep(2000);
-        //                    return true;
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Diagnostics.Debug.WriteLine($"Verb 'printto' falló: {ex.Message}");
-        //        }
-
-        //        // 🔹 MÉTODO 3: Usar PowerShell (más compatible)
-        //        try
-        //        {
-        //            string psCommand = $"Start-Process -FilePath \"{rutaPdf}\" -Verb Print -WindowStyle Hidden -Wait";
-
-        //            ProcessStartInfo infoPS = new ProcessStartInfo
-        //            {
-        //                FileName = "powershell.exe",
-        //                Arguments = $"-Command \"{psCommand}\"",
-        //                UseShellExecute = false,
-        //                CreateNoWindow = true,
-        //                WindowStyle = ProcessWindowStyle.Hidden
-        //            };
-
-        //            using (Process proc = Process.Start(infoPS))
-        //            {
-        //                if (proc != null)
-        //                {
-        //                    proc.WaitForExit(15000);
-        //                    proc.Close();
-        //                    Thread.Sleep(2000);
-        //                    return true;
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Diagnostics.Debug.WriteLine($"PowerShell falló: {ex.Message}");
-        //        }
-
-        //        // 🔹 MÉTODO 4: Usar el programa predeterminado de Windows (último recurso)
-        //        try
-        //        {
-        //            ProcessStartInfo info = new ProcessStartInfo
-        //            {
-        //                FileName = rutaPdf,
-        //                Verb = "print",
-        //                UseShellExecute = true,
-        //                CreateNoWindow = true,
-        //                WindowStyle = ProcessWindowStyle.Hidden
-        //            };
-
-        //            using (Process proc = Process.Start(info))
-        //            {
-        //                if (proc != null)
-        //                {
-        //                    proc.WaitForExit(10000);
-        //                    proc.Close();
-        //                    Thread.Sleep(2000);
-        //                    return true;
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Diagnostics.Debug.WriteLine($"Verb 'print' falló: {ex.Message}");
-        //        }
-
-        //        // 🔹 MÉTODO 5: Si todo falla, preguntar al usuario
-        //        DialogResult result = MessageBox.Show(
-        //            $"No se pudo imprimir automáticamente.\n\n" +
-        //            $"Archivo: {Path.GetFileName(rutaPdf)}\n\n" +
-        //            $"¿Desea abrir el PDF para imprimirlo manualmente?\n" +
-        //            $"(Presione Ctrl+P una vez abierto)",
-        //            "Imprimir documento",
-        //            MessageBoxButtons.YesNo,
-        //            MessageBoxIcon.Question);
-
-        //        if (result == DialogResult.Yes)
-        //        {
-        //            Process.Start(new ProcessStartInfo { FileName = rutaPdf, UseShellExecute = true });
-        //            return true;
-        //        }
-
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al imprimir:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return false;
-        //    }
-        //}
+      
 
         private static bool ImprimirPdfExistenteConEspera(string rutaPdf)
         {

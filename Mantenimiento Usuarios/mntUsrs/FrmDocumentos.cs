@@ -33,7 +33,7 @@ namespace mntUsrs
             nomEmpresa = nomEmp;
             sistema = sys;
             strConxAdcom = strConx;
-            this.Text = "Registrar accesos al sistema AdcomDax de " + nomEmp + " usuario : " + usr;
+            this.Text = "Registrar accesos al sistema  " + nomEmp + " usuario : " + usr;
             cargarMenus();
         }
         private void cargarMenus()
@@ -136,7 +136,7 @@ namespace mntUsrs
             ManejoBases manbas = new ManejoBases();
             //manbas.guardarRegistros(strConxDaxsys, usuario, empresa.ToString(), sistema, mallaMenu);
             //manbas.guardarSucursales(strConxDaxsys, usuario, empresa.ToString(), mallaSucursal);
-            manbas.guardarRegistros(strConxDaxsys, usuario, empresa.ToString(), "GRD", mallaGrupoDocumentos);
+            manbas.guardarRegistros(strConxDaxsys, usuario, empresa.ToString(), "CNX", mallaGrupoDocumentos);
             manbas.guardarDocumentos(strConxDaxsys, usuario, empresa.ToString(), mallaDocIndividual);
             cambiado = false;
             Close();

@@ -1627,6 +1627,7 @@
             this.txtnumero.Size = new System.Drawing.Size(88, 22);
             this.txtnumero.TabIndex = 4;
             this.txtnumero.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtnumero_KeyDown);
+            this.txtnumero.Leave += new System.EventHandler(this.txtnumero_Leave);
             // 
             // cmbDocumento
             // 

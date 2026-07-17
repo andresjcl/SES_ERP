@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports DattCom
 Imports SysEmpDatt
 
 Public Class frmCbPass
@@ -6,7 +7,8 @@ Public Class frmCbPass
 #Region "Datos Iniciales"
     Private Sub frmCbPass_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         limpiar()
-        lblUsuario.Text = DatosUsuario.Identifica + " - " + DatosUsuario.nombre
+        'lblUsuario.Text = DatosUsuario.Identifica + " - " + DatosUsuario.nombre
+        lblUsuario.Text = DatosUsuario.Identifica.ToUpper()
 
     End Sub
     Private Sub limpiar()
@@ -21,6 +23,8 @@ Public Class frmCbPass
         Dim msg As String = VerificarDatos()
         If msg <> "" Then MsgBox(msg, MsgBoxStyle.Information) : Exit Sub
         ActualizaPass()
+        ' Mensaje de confirmación
+        MsgBox("¡Contraseña cambiada correctamente!", MsgBoxStyle.Information, "Éxito")
         Me.Dispose()
     End Sub
     Private Function VerificarDatos() As String

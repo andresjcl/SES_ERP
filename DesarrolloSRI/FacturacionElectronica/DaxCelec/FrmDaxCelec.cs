@@ -1,26 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using ClassDoc;
+using DattCom;
+using DaxDocElectronicos;
+using leeDocXml;
+using SesFelec;
+using SolicitudAutSRI;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using ClassDoc;
-using DaxDocElectronicos;
-using DattCom;
-using ClassDaxMail;
-using documentosPdf;
-using leeDocXml;
-using ImpresionDocumentosDax;
-using sesSys;
-using SolicitudAutSRI;
-using DctosEmi;
-using System.Net.Mail;
-using System.Net;
-using SesFelec;
-using static DaxDocElectronicos.Auxiliares;
 
 namespace DaxCelec
 {
@@ -147,7 +136,7 @@ namespace DaxCelec
             IdDocumento.Sucursal = datosEmpresa.suc;
             revisarFacturas(strConxadcom);
             configurarBotones();
-            ConfiguracionCorreo.CargarConfiguracion(datosEmpresa.strConIniSis);
+            ConfiguracionCorreo.CargarConfiguracion(datosEmpresa.strConxAdcom, datosEmpresa.Emp_codigo.ToString());
             ConfiguracionCorreo.CargarParametroSRI(datosEmpresa.strConIniSis, datosEmpresa.Emp_codigo);
         }
 
@@ -434,7 +423,7 @@ namespace DaxCelec
 
                 string numeroCompleto = $"{IdDocumento.Tipo}-{idTributario}-{numeroFormateado}";
 
-                frmEnvioCorreo frm = new frmEnvioCorreo(datosEmpresa.strConIniSis, correoElectronico, "", $"Ha recibido su documento electrónico: {numeroCompleto}", nombreCliente, IdDocumento.Tipo, idTributario + "-" + numeroFormateado, queClaveSRI, LabFechaAutoriza.Text, pathXml + ";" + pathPdf);
+                frmEnvioCorreo frm = new frmEnvioCorreo(datosEmpresa.strConIniSis,datosEmpresa.strConxAdcom,datosEmpresa.codEmpresa.ToString(), correoElectronico, "", $"Ha recibido su documento electrónico: {numeroCompleto}", nombreCliente, IdDocumento.Tipo, idTributario + "-" + numeroFormateado, queClaveSRI, LabFechaAutoriza.Text, pathXml + ";" + pathPdf);
 
 
                 frm.ShowDialog();

@@ -203,7 +203,7 @@ namespace DattCom
             dt.WriteXml("empcdg.xml");
             dt.Dispose();
         }
-        private static void cargarSucursalYbodegaDefaul(string StrConxSyscod)
+        public static void cargarSucursalYbodegaDefaul(string StrConxSyscod)
         {
             string Aux = "";
             if (datosEmpresa.sucursal.Length > 0) Aux = " and Suc_Codigo='" + datosEmpresa.sucursal + "' ";
@@ -229,7 +229,7 @@ namespace DattCom
             }
             dr.Close();
         }
-        private static void cargarSucursalYbodegaCambio(string NvSucursal)
+        public static void cargarSucursalYbodegaCambio(string NvSucursal)
         {
 
             string Aux = "SELECT Suc_codigo,Suc_nombre FROM EMP_Suc WHERE Emp_Codigo=" + datosEmpresa.Emp_codigo;
