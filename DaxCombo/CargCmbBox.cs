@@ -249,53 +249,138 @@ namespace DaxCombobx
             return true;
         }
 
-        public bool DaxCombosCat(string categoria, string InvServAcf, string StrCon, ref ComboBox PasCombo,bool Todos = true)
+        //public bool DaxCombosCat(string categoria, string InvServAcf, string StrCon, ref ComboBox PasCombo,bool Todos = true)
+        //{
+        //    string tabla = "";
+        //    string td = "select 'Todo' as Niv_nombre, '0' as Niv_abrevia union all ";
+        //    if (Todos == false) td = "";
+        //    string cat = "";
+        //    switch (categoria.ToUpper())
+        //    {
+        //        case "CL":
+        //            {
+        //                cat = "2";
+        //                break;
+        //            }
+
+        //        case "G":
+        //            {
+        //                cat = "3";
+        //                break;
+        //            }
+
+        //        case "S":
+        //            {
+        //                cat = "4";
+        //                break;
+        //            }
+
+        //        default:
+        //            {
+        //                cat = "1";
+        //                break;
+        //            }
+        //    }
+        //    if (InvServAcf == "A")
+        //        tabla = "AdcNivAcf";
+        //    else if (InvServAcf == "S")
+        //        tabla = "AdcNivServ";
+        //    else
+        //        tabla = "AdcNiv";
+        //    string ssql = td + " select Niv_nombre, Niv_abrevia from " + tabla + " where Niv_categor=" + cat + " order by Niv_nombre";
+
+        //    using (SqlDataAdapter datA = new SqlDataAdapter(ssql, StrCon ))
+        //    {
+        //        DataTable dat = new DataTable();
+        //        datA.Fill(dat);
+        //        PasCombo.DataSource = dat;
+        //        PasCombo.DisplayMember = "Niv_nombre";
+        //        PasCombo.ValueMember = "Niv_abrevia";
+        //    }
+        //    return true;
+        //}
+
+        public bool DaxCombosCat(string categoria, string InvServAcf, string StrCon, ref ComboBox PasCombo, bool Todos = true)
         {
             string tabla = "";
             string td = "select 'Todo' as Niv_nombre, '0' as Niv_abrevia union all ";
             if (Todos == false) td = "";
             string cat = "";
+
             switch (categoria.ToUpper())
             {
                 case "CL":
-                    {
-                        cat = "2";
-                        break;
-                    }
-
+                    cat = "2";
+                    break;
                 case "G":
-                    {
-                        cat = "3";
-                        break;
-                    }
-
+                    cat = "3";
+                    break;
                 case "S":
-                    {
-                        cat = "4";
-                        break;
-                    }
-
+                    cat = "4";
+                    break;
                 default:
-                    {
-                        cat = "1";
-                        break;
-                    }
+                    cat = "1";
+                    break;
             }
+
             if (InvServAcf == "A")
                 tabla = "AdcNivAcf";
             else if (InvServAcf == "S")
                 tabla = "AdcNivServ";
             else
                 tabla = "AdcNiv";
-            string ssql = td + " select Niv_nombre, Niv_abrevia from " + tabla + " where Niv_categor=" + cat;
 
-            using (SqlDataAdapter datA = new SqlDataAdapter(ssql, StrCon ))
+            string ssql = td + " select Niv_nombre, Niv_abrevia from " + tabla + " where Niv_categor=" + cat + " order by Niv_nombre";
+
+            using (SqlDataAdapter datA = new SqlDataAdapter(ssql, StrCon))
             {
                 DataTable dat = new DataTable();
                 datA.Fill(dat);
+
+                // ============================================
+                // ASIGNAR DATASOURCE Y SELECCIONAR "Todo"
+                // ============================================
+
+                // Primero, limpiar el combo y asignar DataSource
+                PasCombo.DataSource = null;
+                PasCombo.Items.Clear();
+
                 PasCombo.DataSource = dat;
                 PasCombo.DisplayMember = "Niv_nombre";
                 PasCombo.ValueMember = "Niv_abrevia";
+
+                // ============================================
+                // SELECCIONAR "Todo" POR DEFECTO (Value = "0")
+                // ============================================
+                if (Todos)
+                {
+                    // Método 1: Intentar seleccionar por valor "0"
+                    try
+                    {
+                        PasCombo.SelectedValue = "0";
+                    }
+                    catch { }
+
+                    // Método 2: Si no se seleccionó, buscar por índice
+                    if (PasCombo.SelectedIndex == -1)
+                    {
+                        for (int i = 0; i < PasCombo.Items.Count; i++)
+                        {
+                            DataRowView item = PasCombo.Items[i] as DataRowView;
+                            if (item != null && item["Niv_abrevia"].ToString() == "0")
+                            {
+                                PasCombo.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Método 3: Si aún no se seleccionó, seleccionar el primer elemento
+                    if (PasCombo.SelectedIndex == -1 && PasCombo.Items.Count > 0)
+                    {
+                        PasCombo.SelectedIndex = 0;
+                    }
+                }
             }
             return true;
         }

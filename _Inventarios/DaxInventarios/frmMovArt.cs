@@ -12,12 +12,12 @@ namespace DaxInvent
         //string strConxadcom = "";
         string CodigoExterno = "";
         //Boolean conPiezas = false;
-        //string nomArticulo = "";
+        string nomArticulo = "";
 
         internal frmMovArt(string cod = "", string nomart = "")
         {
             CodigoExterno = cod;
-            //nomArticulo = nomart;
+            nomArticulo = nomart;
             InitializeComponent();
             cargarCombos();
             valoresIniciales();
@@ -45,6 +45,7 @@ namespace DaxInvent
             txtFechaFin.Text = fecha.ToString();
             txtFechaIni.Text = fecha.AddMonths(-1).ToString();
             if (CodigoExterno != "") txtCodigo.Text = CodigoExterno;
+            if (nomArticulo != "") labArticulo.Text = nomArticulo;
         }
         private void verificarCodigoExterno(string codigoExterno)
         {

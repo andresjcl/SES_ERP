@@ -173,6 +173,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\tranInvRp.dll</HintPath>
     </Reference>
+    <Reference Include="utilidadDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\utilidadDoc.dll</HintPath>
+    </Reference>
     <Reference Include="WaitMensaje, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\WaitMensaje.dll</HintPath>
@@ -205,6 +209,12 @@
     </Compile>
     <Compile Include="frmPlato.Designer.cs">
       <DependentUpon>frmPlato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUltimasCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUltimasCompras.Designer.cs">
+      <DependentUpon>frmUltimasCompras.cs</DependentUpon>
     </Compile>
     <Compile Include="ListaEntregasPendientes.cs">
       <SubType>Form</SubType>
@@ -320,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPlato.resx">
       <DependentUpon>frmPlato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUltimasCompras.resx">
+      <DependentUpon>frmUltimasCompras.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListaEntregasPendientes.resx">
       <DependentUpon>ListaEntregasPendientes.cs</DependentUpon>

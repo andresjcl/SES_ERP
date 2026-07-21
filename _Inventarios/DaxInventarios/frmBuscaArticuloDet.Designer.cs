@@ -46,6 +46,7 @@
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSalir = new System.Windows.Forms.Button();
             this.btnSalida = new System.Windows.Forms.Button();
             this.btnPropieddades = new System.Windows.Forms.Button();
             this.btnPendientes = new System.Windows.Forms.Button();
@@ -55,6 +56,7 @@
             this.btnCompras = new System.Windows.Forms.Button();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnActualizar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.malla)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -75,11 +77,11 @@
             this.malla.Dock = System.Windows.Forms.DockStyle.Fill;
             this.malla.GridColor = System.Drawing.Color.Silver;
             this.malla.Location = new System.Drawing.Point(0, 162);
-            this.malla.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.malla.Margin = new System.Windows.Forms.Padding(4);
             this.malla.Name = "malla";
             this.malla.ReadOnly = true;
             this.malla.RowHeadersWidth = 51;
-            this.malla.Size = new System.Drawing.Size(1252, 371);
+            this.malla.Size = new System.Drawing.Size(1491, 371);
             this.malla.TabIndex = 1;
             this.malla.DoubleClick += new System.EventHandler(this.malla_DoubleClick);
             // 
@@ -101,10 +103,10 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(1252, 89);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(1491, 89);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             // 
@@ -115,7 +117,7 @@
             this.chkConIva.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkConIva.ForeColor = System.Drawing.Color.White;
             this.chkConIva.Location = new System.Drawing.Point(789, 60);
-            this.chkConIva.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkConIva.Margin = new System.Windows.Forms.Padding(4);
             this.chkConIva.Name = "chkConIva";
             this.chkConIva.Size = new System.Drawing.Size(126, 21);
             this.chkConIva.TabIndex = 28;
@@ -128,7 +130,7 @@
             this.chkSoloExistencia.AutoSize = true;
             this.chkSoloExistencia.ForeColor = System.Drawing.Color.White;
             this.chkSoloExistencia.Location = new System.Drawing.Point(551, 60);
-            this.chkSoloExistencia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkSoloExistencia.Margin = new System.Windows.Forms.Padding(4);
             this.chkSoloExistencia.Name = "chkSoloExistencia";
             this.chkSoloExistencia.Size = new System.Drawing.Size(208, 21);
             this.chkSoloExistencia.TabIndex = 27;
@@ -143,7 +145,7 @@
             this.chkSoloVenta.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSoloVenta.ForeColor = System.Drawing.Color.White;
             this.chkSoloVenta.Location = new System.Drawing.Point(337, 60);
-            this.chkSoloVenta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkSoloVenta.Margin = new System.Windows.Forms.Padding(4);
             this.chkSoloVenta.Name = "chkSoloVenta";
             this.chkSoloVenta.Size = new System.Drawing.Size(187, 21);
             this.chkSoloVenta.TabIndex = 26;
@@ -156,7 +158,7 @@
             this.chkOrdenCodigo.AutoSize = true;
             this.chkOrdenCodigo.ForeColor = System.Drawing.Color.White;
             this.chkOrdenCodigo.Location = new System.Drawing.Point(175, 60);
-            this.chkOrdenCodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkOrdenCodigo.Margin = new System.Windows.Forms.Padding(4);
             this.chkOrdenCodigo.Name = "chkOrdenCodigo";
             this.chkOrdenCodigo.Size = new System.Drawing.Size(117, 21);
             this.chkOrdenCodigo.TabIndex = 25;
@@ -170,7 +172,7 @@
             this.chkOrdenAlfabetico.Checked = true;
             this.chkOrdenAlfabetico.ForeColor = System.Drawing.Color.White;
             this.chkOrdenAlfabetico.Location = new System.Drawing.Point(17, 60);
-            this.chkOrdenAlfabetico.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkOrdenAlfabetico.Margin = new System.Windows.Forms.Padding(4);
             this.chkOrdenAlfabetico.Name = "chkOrdenAlfabetico";
             this.chkOrdenAlfabetico.Size = new System.Drawing.Size(135, 21);
             this.chkOrdenAlfabetico.TabIndex = 24;
@@ -184,7 +186,7 @@
             this.cmbSubgrupo.ForeColor = System.Drawing.Color.Black;
             this.cmbSubgrupo.FormattingEnabled = true;
             this.cmbSubgrupo.Location = new System.Drawing.Point(939, 30);
-            this.cmbSubgrupo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbSubgrupo.Margin = new System.Windows.Forms.Padding(4);
             this.cmbSubgrupo.Name = "cmbSubgrupo";
             this.cmbSubgrupo.Size = new System.Drawing.Size(305, 24);
             this.cmbSubgrupo.TabIndex = 21;
@@ -206,7 +208,7 @@
             this.cmbGrupo.ForeColor = System.Drawing.Color.Black;
             this.cmbGrupo.FormattingEnabled = true;
             this.cmbGrupo.Location = new System.Drawing.Point(629, 30);
-            this.cmbGrupo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbGrupo.Margin = new System.Windows.Forms.Padding(4);
             this.cmbGrupo.Name = "cmbGrupo";
             this.cmbGrupo.Size = new System.Drawing.Size(305, 24);
             this.cmbGrupo.TabIndex = 19;
@@ -228,7 +230,7 @@
             this.cmbClase.ForeColor = System.Drawing.Color.Black;
             this.cmbClase.FormattingEnabled = true;
             this.cmbClase.Location = new System.Drawing.Point(320, 30);
-            this.cmbClase.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbClase.Margin = new System.Windows.Forms.Padding(4);
             this.cmbClase.Name = "cmbClase";
             this.cmbClase.Size = new System.Drawing.Size(305, 24);
             this.cmbClase.TabIndex = 17;
@@ -250,7 +252,7 @@
             this.cmbCategoria.ForeColor = System.Drawing.Color.Black;
             this.cmbCategoria.FormattingEnabled = true;
             this.cmbCategoria.Location = new System.Drawing.Point(11, 30);
-            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(305, 24);
             this.cmbCategoria.TabIndex = 15;
@@ -270,6 +272,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel1.Controls.Add(this.btnActualizar);
+            this.panel1.Controls.Add(this.btnSalir);
             this.panel1.Controls.Add(this.btnSalida);
             this.panel1.Controls.Add(this.btnPropieddades);
             this.panel1.Controls.Add(this.btnPendientes);
@@ -280,10 +284,25 @@
             this.panel1.Controls.Add(this.txtDescripcion);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 89);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1252, 73);
+            this.panel1.Size = new System.Drawing.Size(1491, 73);
             this.panel1.TabIndex = 3;
+            // 
+            // btnSalir
+            // 
+            this.btnSalir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalir.ForeColor = System.Drawing.Color.White;
+            this.btnSalir.Location = new System.Drawing.Point(1335, 23);
+            this.btnSalir.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(113, 42);
+            this.btnSalir.TabIndex = 44;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.UseVisualStyleBackColor = false;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // btnSalida
             // 
@@ -291,8 +310,8 @@
             this.btnSalida.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnSalida.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalida.ForeColor = System.Drawing.Color.White;
-            this.btnSalida.Location = new System.Drawing.Point(1129, 23);
-            this.btnSalida.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSalida.Location = new System.Drawing.Point(1214, 24);
+            this.btnSalida.Margin = new System.Windows.Forms.Padding(4);
             this.btnSalida.Name = "btnSalida";
             this.btnSalida.Size = new System.Drawing.Size(113, 42);
             this.btnSalida.TabIndex = 43;
@@ -307,7 +326,7 @@
             this.btnPropieddades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPropieddades.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnPropieddades.Location = new System.Drawing.Point(156, 7);
-            this.btnPropieddades.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPropieddades.Margin = new System.Windows.Forms.Padding(4);
             this.btnPropieddades.Name = "btnPropieddades";
             this.btnPropieddades.Size = new System.Drawing.Size(140, 31);
             this.btnPropieddades.TabIndex = 42;
@@ -323,7 +342,7 @@
             this.btnPendientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPendientes.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnPendientes.Location = new System.Drawing.Point(721, 7);
-            this.btnPendientes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPendientes.Margin = new System.Windows.Forms.Padding(4);
             this.btnPendientes.Name = "btnPendientes";
             this.btnPendientes.Size = new System.Drawing.Size(140, 31);
             this.btnPendientes.TabIndex = 41;
@@ -339,7 +358,7 @@
             this.btnMovimiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMovimiento.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnMovimiento.Location = new System.Drawing.Point(580, 7);
-            this.btnMovimiento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMovimiento.Margin = new System.Windows.Forms.Padding(4);
             this.btnMovimiento.Name = "btnMovimiento";
             this.btnMovimiento.Size = new System.Drawing.Size(140, 31);
             this.btnMovimiento.TabIndex = 40;
@@ -354,7 +373,7 @@
             this.btnDetalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDetalle.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnDetalle.Location = new System.Drawing.Point(15, 7);
-            this.btnDetalle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDetalle.Margin = new System.Windows.Forms.Padding(4);
             this.btnDetalle.Name = "btnDetalle";
             this.btnDetalle.Size = new System.Drawing.Size(140, 31);
             this.btnDetalle.TabIndex = 39;
@@ -370,7 +389,7 @@
             this.btnVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVentas.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnVentas.Location = new System.Drawing.Point(439, 7);
-            this.btnVentas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnVentas.Margin = new System.Windows.Forms.Padding(4);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(140, 31);
             this.btnVentas.TabIndex = 38;
@@ -385,7 +404,7 @@
             this.btnCompras.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCompras.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnCompras.Location = new System.Drawing.Point(297, 7);
-            this.btnCompras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCompras.Margin = new System.Windows.Forms.Padding(4);
             this.btnCompras.Name = "btnCompras";
             this.btnCompras.Size = new System.Drawing.Size(140, 31);
             this.btnCompras.TabIndex = 37;
@@ -397,24 +416,39 @@
             // 
             this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescripcion.Location = new System.Drawing.Point(16, 44);
-            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(620, 22);
             this.txtDescripcion.TabIndex = 25;
             this.txtDescripcion.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDescripcion_KeyDown);
+            // 
+            // btnActualizar
+            // 
+            this.btnActualizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnActualizar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnActualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActualizar.ForeColor = System.Drawing.Color.White;
+            this.btnActualizar.Location = new System.Drawing.Point(1093, 23);
+            this.btnActualizar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(113, 42);
+            this.btnActualizar.TabIndex = 45;
+            this.btnActualizar.Text = "Actualiza&r";
+            this.btnActualizar.UseVisualStyleBackColor = false;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // frmBuscaArticuloDet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ClientSize = new System.Drawing.Size(1252, 533);
+            this.ClientSize = new System.Drawing.Size(1491, 533);
             this.ControlBox = false;
             this.Controls.Add(this.malla);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.HelpButton = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmBuscaArticuloDet";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -456,5 +490,7 @@
         private System.Windows.Forms.Button btnVentas;
         private System.Windows.Forms.Button btnCompras;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.Button btnActualizar;
     }
 }

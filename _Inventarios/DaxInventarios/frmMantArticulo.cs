@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
+using ArtInvent;
 using DattCom;
 
 namespace DaxInvent
@@ -659,7 +660,7 @@ namespace DaxInvent
 
         private void btnMovimiento_Click(object sender, EventArgs e)
         {            
-            frmMovArt prog = new frmMovArt(txtCodigo.Text);
+            frmMovArt prog = new frmMovArt(txtCodigo.Text,txtDescripcion.Text);
             prog.ShowDialog();
             prog.Dispose();
         }
@@ -887,5 +888,62 @@ namespace DaxInvent
                 prog.Dispose();
             }
         }
-	}
+
+        private void btnCompras_Click(object sender, EventArgs e)
+        {
+            try
+            {            
+                string codigo = txtCodigo.Text;
+
+                if (string.IsNullOrEmpty(codigo))
+                {
+                    MessageBox.Show("El artículo seleccionado no tiene un código válido.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string descripcion = txtDescripcion.Text;                
+
+                frmUltimasCompras frm = new frmUltimasCompras(datosEmpresa.strConxAdcom, codigo, descripcion, "C");
+                frm.ShowDialog();
+                frm.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el historial de compras: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnVentas_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string codigo = txtCodigo.Text;
+
+                if (string.IsNullOrEmpty(codigo))
+                {
+                    MessageBox.Show("El artículo seleccionado no tiene un código válido.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string descripcion = txtDescripcion.Text;
+
+                frmUltimasCompras frm = new frmUltimasCompras(
+                    datosEmpresa.strConxAdcom,
+                    codigo,
+                    descripcion,
+                    "V"
+                );
+                frm.ShowDialog();
+                frm.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el historial de ventas: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }

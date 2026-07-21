@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using IvaRett;
 using DctosEmi;
 using adcDocumentos;
+using DaxInvent;
 
 namespace SES_ERP24
 {
@@ -607,6 +608,12 @@ namespace SES_ERP24
         {
 			if (!AutorizarLlamadas.VerificaAutorización("importarXML")) return;
 			leeDocXml.frmLeDocxml prog = new leeDocXml.frmLeDocxml();			
+			prog.Show();
+		}
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+			frmBuscaArticuloDet prog = new frmBuscaArticuloDet(datosEmpresa.strConxAdcom, datosEmpresa.strConIniSis);
 			prog.Show();
 		}
     }

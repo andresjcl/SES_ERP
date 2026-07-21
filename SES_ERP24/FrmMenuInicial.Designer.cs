@@ -143,25 +143,27 @@ namespace SES_ERP24
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(1587, 509);
+            this.pictureBox2.Location = new System.Drawing.Point(1586, 497);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(100, 68);
+            this.pictureBox2.Size = new System.Drawing.Size(101, 80);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // picDaxsof
             // 
             this.picDaxsof.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.picDaxsof.Image = ((System.Drawing.Image)(resources.GetObject("picDaxsof.Image")));
-            this.picDaxsof.Location = new System.Drawing.Point(1583, 509);
+            this.picDaxsof.Location = new System.Drawing.Point(1397, 509);
             this.picDaxsof.Margin = new System.Windows.Forms.Padding(4);
             this.picDaxsof.Name = "picDaxsof";
             this.picDaxsof.Size = new System.Drawing.Size(100, 68);
             this.picDaxsof.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picDaxsof.TabIndex = 2;
             this.picDaxsof.TabStop = false;
+            this.picDaxsof.Visible = false;
             // 
             // panelOpciones
             // 
@@ -200,7 +202,7 @@ namespace SES_ERP24
             this.menugeneral.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.menugeneral.Name = "menugeneral";
             this.menugeneral.Padding = new System.Windows.Forms.Padding(0);
-            this.menugeneral.Size = new System.Drawing.Size(333, 564);
+            this.menugeneral.Size = new System.Drawing.Size(333, 540);
             this.menugeneral.TabIndex = 15;
             // 
             // menAdministracion
