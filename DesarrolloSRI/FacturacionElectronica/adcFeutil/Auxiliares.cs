@@ -12,7 +12,105 @@ namespace DaxDocElectronicos
 {
     public class Auxiliares
     {
-		
+
+		//public ResultadoCpbtFac EjecutarProcedimientoCabeceraYDetalle(int id, string sucursal, string tipoDoc, decimal numero)
+		//{
+		//	var resultado = new ResultadoCpbtFac();
+		//	resultado.Detalles = new List<DetalleCpbtFac>();
+
+		//	using (var conn = new SqlConnection(datosEmpresa.strConxAdcom))
+		//	{
+		//		var cmd = new SqlCommand("ses_CpbtFac", conn);
+		//		cmd.CommandType = CommandType.StoredProcedure;
+
+		//		cmd.Parameters.AddWithValue("@idclavedoc", id);
+		//		cmd.Parameters.AddWithValue("@docsuc", sucursal);
+		//		cmd.Parameters.AddWithValue("@doctip", tipoDoc);
+		//		cmd.Parameters.AddWithValue("@numero", numero);
+
+		//		conn.Open();
+
+		//		using (var reader = cmd.ExecuteReader())
+		//		{
+		//			bool isFirstRow = true;
+
+		//			while (reader.Read())
+		//			{
+		//				if (isFirstRow)
+		//				{
+		//					resultado._Doc_TipoDoc = reader["Doc_TipoDoc"].ToString();
+		//					resultado._Opc_documento = reader["Opc_documento"].ToString();
+		//					resultado._Doc_numero = Convert.ToInt32(reader["Doc_numero"]);
+		//					resultado._Doc_sucursal = reader["Doc_sucursal"].ToString();
+		//					resultado._Doc_fecha = Convert.ToDateTime(reader["Doc_fecha"]);									
+		//					resultado._Doc_totciva = Convert.ToDouble(reader["Doc_totciva"]);
+		//					resultado._Doc_totsiva = Convert.ToDouble(reader["Doc_totsiva"]);
+		//					resultado._subtotal = Convert.ToDouble(reader["subtotal"]);
+		//					resultado._totalDescuento = Convert.ToDouble(reader["totDescUnitario"]);
+		//					resultado._Doc_valor = Convert.ToDouble(reader["Doc_valor"]);
+		//					resultado._Doc_NombreImp = reader["Doc_NombreImp"].ToString();
+		//					resultado._Doc_NumSop = reader["Doc_NumSop"].ToString();
+		//					resultado._doc_detalle = reader["doc_detalle"].ToString();
+		//					resultado._tipEmision = reader["tipEmision"].ToString();
+		//					if (reader["fechaAutorizacion"] != DBNull.Value && !string.IsNullOrWhiteSpace(reader["fechaAutorizacion"].ToString()))
+		//					{
+		//						resultado._fechaAutorizacion = Convert.ToDateTime(reader["fechaAutorizacion"]);
+		//					}
+		//					else
+		//					{
+		//						resultado._fechaAutorizacion = null; // o DateTime.MinValue, según tu lógica
+		//					}
+
+		//					if (reader["Doc_porceniva"] != DBNull.Value)
+		//					{
+		//						resultado._Doc_porceniva = Convert.ToDecimal(reader["Doc_porceniva"]);
+		//					}
+		//					else
+		//					{
+		//						resultado._Doc_porceniva = 0;
+		//					}
+
+		//					resultado._NroAutorizacionSri = reader["NroAutorizacionSri"].ToString();
+		//					resultado._guiaRemision = reader["guiaRemision"].ToString();
+		//					resultado._PreEntrada = reader["PreEntrada"].ToString();
+		//					resultado._Idclavedoc = Convert.ToInt32(reader["Idclavedoc"]);
+		//					resultado._tipAmbiente = reader["tipAmbiente"].ToString();
+		//					resultado._Doc_CiRuc = reader["Doc_CiRuc"].ToString();
+		//					resultado._Doc_Direccion = reader["Doc_Direccion"].ToString();
+		//					resultado._Doc_Telefono1 = reader["Doc_Telefono1"].ToString();
+		//					resultado._Doc_NroIdDoc = reader["Doc_NroIdDoc"].ToString();
+		//					resultado._Adi_TipoDocSri = reader["Adi_TipoDocSri"].ToString();
+		//					resultado._claveAcceso = reader["claveAcceso"].ToString();
+		//					resultado._TipoIdentificacion = reader["TipoIdentificacion"].ToString();
+		//					resultado._CorreoElectrónico = reader["CorreoElectrónico"].ToString();							
+		//					resultado._Tra_NroLote = reader["Tra_NroLote"].ToString();
+		//					resultado._AuxVar1 = reader["AuxVar1"].ToString();							
+		//					resultado._totDescUnitario = Convert.ToDouble(reader["totDescUnitario"].ToString());				
+		//					isFirstRow = false;
+		//				}
+
+		//				// ✅ Detalle: se llena en cada fila
+		//				resultado.Detalles.Add(new DetalleCpbtFac
+		//				{
+		//					_Tra_Codigo = reader["Tra_Codigo"].ToString(),
+		//					_Tra_nombre = reader["Tra_nombre"].ToString(),
+		//					_Tra_cantidad = Convert.ToDecimal(reader["Tra_cantidad"]),
+		//					_Tra_precuni = Convert.ToDecimal(reader["Tra_precuni"]),
+		//					_Tra_prectot = Convert.ToDecimal(reader["Tra_prectot"]),
+		//					_desctoUni = Convert.ToDecimal(reader["desctoUni"]),
+		//					_Tra_porcendes = Convert.ToDecimal(reader["Tra_porcendes"]),
+		//					//_Tra_porceniva = reader["Tra_porceniva"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Tra_porceniva"]),
+		//					_Tra_porceniva = reader["Tra_porceniva"] != DBNull.Value? Convert.ToDecimal(reader["Tra_porceniva"]): resultado._Doc_porceniva,
+		//					_Tra_valoriva = reader["Tra_valoriva"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Tra_valoriva"])
+		//				});
+		//			}
+		//		}
+		//	}
+		//	CalcularBases(resultado);
+
+		//	return resultado;
+		//}
+
 		public ResultadoCpbtFac EjecutarProcedimientoCabeceraYDetalle(int id, string sucursal, string tipoDoc, decimal numero)
 		{
 			var resultado = new ResultadoCpbtFac();
@@ -38,77 +136,109 @@ namespace DaxDocElectronicos
 					{
 						if (isFirstRow)
 						{
-							resultado._Doc_TipoDoc = reader["Doc_TipoDoc"].ToString();
-							resultado._Opc_documento = reader["Opc_documento"].ToString();
-							resultado._Doc_numero = Convert.ToInt32(reader["Doc_numero"]);
-							resultado._Doc_sucursal = reader["Doc_sucursal"].ToString();
-							resultado._Doc_fecha = Convert.ToDateTime(reader["Doc_fecha"]);									
-							resultado._Doc_totciva = Convert.ToDouble(reader["Doc_totciva"]);
-							resultado._Doc_totsiva = Convert.ToDouble(reader["Doc_totsiva"]);
-							resultado._subtotal = Convert.ToDouble(reader["subtotal"]);
-							resultado._totalDescuento = Convert.ToDouble(reader["totDescUnitario"]);
-							resultado._Doc_valor = Convert.ToDouble(reader["Doc_valor"]);
-							resultado._Doc_NombreImp = reader["Doc_NombreImp"].ToString();
-							resultado._Doc_NumSop = reader["Doc_NumSop"].ToString();
-							resultado._doc_detalle = reader["doc_detalle"].ToString();
-							resultado._tipEmision = reader["tipEmision"].ToString();
-							if (reader["fechaAutorizacion"] != DBNull.Value && !string.IsNullOrWhiteSpace(reader["fechaAutorizacion"].ToString()))
-							{
-								resultado._fechaAutorizacion = Convert.ToDateTime(reader["fechaAutorizacion"]);
-							}
-							else
-							{
-								resultado._fechaAutorizacion = null; // o DateTime.MinValue, según tu lógica
-							}
+							// ✅ MÉTODO AUXILIAR PARA OBTENER VALORES SEGUROS
+							resultado._Doc_TipoDoc = ObtenerValor<string>(reader, "Doc_TipoDoc", "");
+							resultado._Opc_documento = ObtenerValor<string>(reader, "Opc_documento", "");
+							resultado._Doc_numero = ObtenerValor<int>(reader, "Doc_numero", 0);
+							resultado._Doc_sucursal = ObtenerValor<string>(reader, "Doc_sucursal", "");
+							resultado._Doc_fecha = ObtenerValor<DateTime>(reader, "Doc_fecha", DateTime.Now);
+							resultado._Doc_totciva = ObtenerValor<double>(reader, "Doc_totciva", 0);
+							resultado._Doc_totsiva = ObtenerValor<double>(reader, "Doc_totsiva", 0);
+							resultado._subtotal = ObtenerValor<double>(reader, "subtotal", 0);
+							resultado._totalDescuento = ObtenerValor<double>(reader, "totDescUnitario", 0);
+							resultado._Doc_valor = ObtenerValor<double>(reader, "Doc_valor", 0);
+							resultado._Doc_NombreImp = ObtenerValor<string>(reader, "Doc_NombreImp", "");
+							resultado._Doc_NumSop = ObtenerValor<string>(reader, "Doc_NumSop", "");
+							resultado._doc_detalle = ObtenerValor<string>(reader, "doc_detalle", "");
+							resultado._tipEmision = ObtenerValor<string>(reader, "tipEmision", "");
 
-							if (reader["Doc_porceniva"] != DBNull.Value)
-							{
-								resultado._Doc_porceniva = Convert.ToDecimal(reader["Doc_porceniva"]);
-							}
-							else
-							{
-								resultado._Doc_porceniva = 0;
-							}
+							// ✅ FECHA CON MANEJO DE NULL
+							resultado._fechaAutorizacion = ObtenerValor<DateTime?>(reader, "fechaAutorizacion", null);
 
-							resultado._NroAutorizacionSri = reader["NroAutorizacionSri"].ToString();
-							resultado._guiaRemision = reader["guiaRemision"].ToString();
-							resultado._PreEntrada = reader["PreEntrada"].ToString();
-							resultado._Idclavedoc = Convert.ToInt32(reader["Idclavedoc"]);
-							resultado._tipAmbiente = reader["tipAmbiente"].ToString();
-							resultado._Doc_CiRuc = reader["Doc_CiRuc"].ToString();
-							resultado._Doc_Direccion = reader["Doc_Direccion"].ToString();
-							resultado._Doc_Telefono1 = reader["Doc_Telefono1"].ToString();
-							resultado._Doc_NroIdDoc = reader["Doc_NroIdDoc"].ToString();
-							resultado._Adi_TipoDocSri = reader["Adi_TipoDocSri"].ToString();
-							resultado._claveAcceso = reader["claveAcceso"].ToString();
-							resultado._TipoIdentificacion = reader["TipoIdentificacion"].ToString();
-							resultado._CorreoElectrónico = reader["CorreoElectrónico"].ToString();							
-							resultado._Tra_NroLote = reader["Tra_NroLote"].ToString();
-							resultado._AuxVar1 = reader["AuxVar1"].ToString();							
-							resultado._totDescUnitario = Convert.ToDouble(reader["totDescUnitario"].ToString());				
+							resultado._Doc_porceniva = ObtenerValor<decimal>(reader, "Doc_porceniva", 0);
+							resultado._NroAutorizacionSri = ObtenerValor<string>(reader, "NroAutorizacionSri", "");
+							resultado._guiaRemision = ObtenerValor<string>(reader, "guiaRemision", "");
+							resultado._PreEntrada = ObtenerValor<string>(reader, "PreEntrada", "");
+							resultado._Idclavedoc = ObtenerValor<int>(reader, "Idclavedoc", 0);
+							resultado._tipAmbiente = ObtenerValor<string>(reader, "tipAmbiente", "");
+							resultado._Doc_CiRuc = ObtenerValor<string>(reader, "Doc_CiRuc", "");
+							resultado._Doc_Direccion = ObtenerValor<string>(reader, "Doc_Direccion", "");
+							resultado._Doc_Telefono1 = ObtenerValor<string>(reader, "Doc_Telefono1", "");
+							resultado._Doc_NroIdDoc = ObtenerValor<string>(reader, "Doc_NroIdDoc", "");
+							resultado._Adi_TipoDocSri = ObtenerValor<string>(reader, "Adi_TipoDocSri", "");
+							resultado._claveAcceso = ObtenerValor<string>(reader, "claveAcceso", "");
+							resultado._TipoIdentificacion = ObtenerValor<string>(reader, "TipoIdentificacion", "");
+							resultado._CorreoElectrónico = ObtenerValor<string>(reader, "CorreoElectrónico", "");
+							resultado._Tra_NroLote = ObtenerValor<string>(reader, "Tra_NroLote", "");
+							resultado._AuxVar1 = ObtenerValor<string>(reader, "AuxVar1", "");
+							resultado._totDescUnitario = ObtenerValor<double>(reader, "totDescUnitario", 0);
+
 							isFirstRow = false;
 						}
 
-						// ✅ Detalle: se llena en cada fila
+						// ✅ DETALLE CON MANEJO DE DBNull
 						resultado.Detalles.Add(new DetalleCpbtFac
 						{
-							_Tra_Codigo = reader["Tra_Codigo"].ToString(),
-							_Tra_nombre = reader["Tra_nombre"].ToString(),
-							_Tra_cantidad = Convert.ToDecimal(reader["Tra_cantidad"]),
-							_Tra_precuni = Convert.ToDecimal(reader["Tra_precuni"]),
-							_Tra_prectot = Convert.ToDecimal(reader["Tra_prectot"]),
-							_desctoUni = Convert.ToDecimal(reader["desctoUni"]),
-							_Tra_porcendes = Convert.ToDecimal(reader["Tra_porcendes"]),
-							//_Tra_porceniva = reader["Tra_porceniva"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Tra_porceniva"]),
-							_Tra_porceniva = reader["Tra_porceniva"] != DBNull.Value? Convert.ToDecimal(reader["Tra_porceniva"]): resultado._Doc_porceniva,
-							_Tra_valoriva = reader["Tra_valoriva"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Tra_valoriva"])
+							_Tra_Codigo = ObtenerValor<string>(reader, "Tra_Codigo", ""),
+							_Tra_nombre = ObtenerValor<string>(reader, "Tra_nombre", ""),
+							_Tra_cantidad = ObtenerValor<decimal>(reader, "Tra_cantidad", 0),
+							_Tra_precuni = ObtenerValor<decimal>(reader, "Tra_precuni", 0),
+							_Tra_prectot = ObtenerValor<decimal>(reader, "Tra_prectot", 0),
+							_desctoUni = ObtenerValor<decimal>(reader, "desctoUni", 0),
+							_Tra_porcendes = ObtenerValor<decimal>(reader, "Tra_porcendes", 0),
+							_Tra_porceniva = ObtenerValor<decimal>(reader, "Tra_porceniva", resultado._Doc_porceniva),
+							_Tra_valoriva = ObtenerValor<decimal>(reader, "Tra_valoriva", 0)
 						});
 					}
 				}
 			}
-			CalcularBases(resultado);
 
+			CalcularBases(resultado);
 			return resultado;
+		}
+
+		// ============================================
+		// ✅ MÉTODO AUXILIAR PARA OBTENER VALORES SEGUROS
+		// ============================================
+		private T ObtenerValor<T>(SqlDataReader reader, string nombreColumna, T valorDefecto)
+		{
+			try
+			{
+				object valor = reader[nombreColumna];
+				if (valor == null || valor == DBNull.Value)
+					return valorDefecto;
+
+				// Manejar tipos anulables
+				Type tipoDestino = typeof(T);
+				if (tipoDestino.IsGenericType && tipoDestino.GetGenericTypeDefinition() == typeof(Nullable<>))
+				{
+					tipoDestino = Nullable.GetUnderlyingType(tipoDestino);
+				}
+
+				if (tipoDestino == typeof(string))
+					return (T)(object)valor.ToString();
+
+				if (tipoDestino == typeof(decimal))
+					return (T)Convert.ChangeType(Convert.ToDecimal(valor), tipoDestino);
+
+				if (tipoDestino == typeof(double))
+					return (T)Convert.ChangeType(Convert.ToDouble(valor), tipoDestino);
+
+				if (tipoDestino == typeof(int))
+					return (T)Convert.ChangeType(Convert.ToInt32(valor), tipoDestino);
+
+				if (tipoDestino == typeof(DateTime))
+					return (T)Convert.ChangeType(Convert.ToDateTime(valor), tipoDestino);
+
+				if (tipoDestino == typeof(bool))
+					return (T)Convert.ChangeType(Convert.ToBoolean(valor), tipoDestino);
+
+				return (T)Convert.ChangeType(valor, tipoDestino);
+			}
+			catch
+			{
+				return valorDefecto;
+			}
 		}
 
 		public class ResultadoCpbtFac

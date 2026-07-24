@@ -29,7 +29,7 @@ namespace IngSis
 
 
             //             ControlUsuario = CONUSER.UsuarioAct;
-            RecuerdaOpciones.leerOpciones(datosEmpresa.strConxSyscod);
+            RecuerdaOpciones.leerOpciones(datosEmpresa.strConIniSis);
             if (RecuerdaOpciones.usuario.Length > 0 && RecuerdaOpciones.clave.Length > 0)
             {
                 IdIngreso.Text = RecuerdaOpciones.usuario;
@@ -155,11 +155,37 @@ namespace IngSis
             }
         }
 
-		private void Acceso_FormClosing(object sender, FormClosingEventArgs e)
-		{
+        //private void Acceso_FormClosing(object sender, FormClosingEventArgs e)
+        //{
+        //          string conclave = ClaveSecreta.Text;
+        //          if (!chkGuardarClaves.Checked) { conclave = ""; }
+        //          RecuerdaOpciones.guardarOpciones(datosEmpresa.strConxSyscod, conclave);
+        //          if (e.CloseReason != CloseReason.ApplicationExitCall)
+        //          {
+        //              DattCom.ManejoDatosEmpresa.ResetearEmpresaRegistrada();
+        //          }
+        //      }
+
+        private void Acceso_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // ============================================
+            // DEPURACIÓN
+            // ============================================
+            //MessageBox.Show("ClaveSecreta.Text: '" + ClaveSecreta.Text + "'");
+            //MessageBox.Show("chkGuardarClaves.Checked: " + chkGuardarClaves.Checked.ToString());
+
             string conclave = ClaveSecreta.Text;
-            if (!chkGuardarClaves.Checked) { conclave = ""; }
+
+            if (!chkGuardarClaves.Checked)
+            {
+                conclave = "";
+                //MessageBox.Show("Checkbox desmarcado, clave vaciada");
+            }
+
+           // MessageBox.Show("conclave final: '" + conclave + "'");
+
             RecuerdaOpciones.guardarOpciones(datosEmpresa.strConxSyscod, conclave);
+
             if (e.CloseReason != CloseReason.ApplicationExitCall)
             {
                 DattCom.ManejoDatosEmpresa.ResetearEmpresaRegistrada();
@@ -172,54 +198,22 @@ namespace IngSis
 			{
                 DattCom.ManejoDatosEmpresa.grabarEmpresaRegistrada(DcEmp.SelectedValue.ToString(), IdIngreso.Text);
 
+                datosEmpresa.usr = IdIngreso.Text;          
+                datosEmpresa.codEmpresa = Convert.ToInt16(DcEmp.SelectedValue);      
                 datosEmpresa.usr = IdIngreso.Text;
-                //datosEmpresa.codEmpresa = Convert.ToInt16(datosEmpresa.Emp_codigo);
-                //datosEmpresa.nomEmpresa = datosEmpresa.Emp_Nombre;
-                //datosEmpresa.suc = datosEmpresa.sucursal;
-                //datosEmpresa.sucNom = datosEmpresa.suc;
-
-                datosEmpresa.codEmpresa = Convert.ToInt16(DcEmp.SelectedValue);
-                //datosEmpresa. = DcEmp.Text;
-                datosEmpresa.usr = IdIngreso.Text;
-
-                // quitar cuando se elimine definitivamente varblecomun 
-
-                //datosEmpresa.strConxAdcom = datosEmpresa.strConxAdcom;
-                //datosEmpresa.strConxIvaret = datosEmpresa.strConxIvaret;
-                //datosEmpresa.strConxDaxpro = datosEmpresa.strConxDaxpro;
-                //datosEmpresa.suc = datosEmpresa.sucursal;
-                //datosEmpresa.sucNom = datosEmpresa.SucursalNombre;
-
-                //
-
                 IngSis.EmpresaInicio.IniciaEmpresa();
             }
 			else
 			{
-                DattCom.ManejoDatosUsuario.LeerDatosUsuarioDirectorio();
-                //DattCom.datosEmpresa.sistema = datosEmpresa.sistema;
-                //DattCom.datosEmpresa.pathAppl = datosEmpresa.pathAppl;
+                DattCom.ManejoDatosUsuario.LeerDatosUsuarioDirectorio();                
                 DattCom.ManejoDatosEmpresa.grabarEmpresaRegistrada(DcEmp.SelectedValue.ToString(), IdIngreso.Text);
 
-                datosEmpresa.usr = IdIngreso.Text;
-                //datosEmpresa.codEmpresa = Convert.ToInt16(datosEmpresa.Emp_codigo);
-                //datosEmpresa.nomEmpresa = datosEmpresa.Emp_Nombre;
-                //datosEmpresa.suc = datosEmpresa.sucursal;
-                //datosEmpresa.sucNom = datosEmpresa.suc;
+                datosEmpresa.usr = IdIngreso.Text;             
 
                 datosEmpresa.codEmpresa = Convert.ToInt16(DcEmp.SelectedValue);
-                //datosEmpresa. = DcEmp.Text;
+               
                 datosEmpresa.usr = IdIngreso.Text;
 
-                // quitar cuando se elimine definitivamente varblecomun 
-
-                //datosEmpresa.strConxAdcom = datosEmpresa.strConxAdcom;
-                //datosEmpresa.strConxIvaret = datosEmpresa.strConxIvaret;
-                //datosEmpresa.strConxDaxpro = datosEmpresa.strConxDaxpro;
-                //datosEmpresa.suc = datosEmpresa.sucursal;
-                //datosEmpresa.sucNom = datosEmpresa.SucursalNombre;
-
-                //
 
                 IngSis.EmpresaInicio.IniciaEmpresa();
             }

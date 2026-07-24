@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using ClassDoc;
 using DattCom;
 using DtosMall;
+using ImpresionDoc;
 
 namespace DctosEmi
 {
@@ -1291,14 +1292,14 @@ namespace DctosEmi
 
         private void registraOpciones()
         {
-            AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString());
-            AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString());
+            AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString());
+            AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString());
         }
 
         private void recordarOpciones()
         {
-            memTipoDoc = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "TipoDoc");
-            memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega");
+            memTipoDoc = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc");
+            memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Bodega");
         }
 
         private void CargarPredefinidosDocumento()

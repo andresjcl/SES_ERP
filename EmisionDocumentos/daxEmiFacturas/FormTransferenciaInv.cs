@@ -9,7 +9,7 @@ using ctrlReferencia;
 using ClassDoc;
 using System.Drawing;
 using DattCom;
-
+using ImpresionDoc;
 
 namespace DctosEmi
 {

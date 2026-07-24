@@ -11,6 +11,7 @@ using ClassDoc;
 using System.Drawing;
 using DattCom;
 using DctosEmi;
+using ImpresionDoc;
 
 namespace adcDocumentos
 {
@@ -30,8 +31,8 @@ namespace adcDocumentos
         string FormaPagoObligatoria = "";
         DataTable dtDetalleDocumento = new DataTable();
         string numeroEgreso = "";
-        bool existeC;
-        string compExi;
+        //bool existeC;
+        //string compExi;
         string codigoC;
 
         DctosEmi.docTotals totalesDocumento = new DctosEmi.docTotals();
@@ -69,7 +70,7 @@ namespace adcDocumentos
 
         string tipoItemEnCurso = "";
         string claseItemEnCurso = "";
-        string codigoArt = "";
+        //string codigoArt = "";
         CierreDeCaja.DaxCiecaj datosCierre = new CierreDeCaja.DaxCiecaj();
 
         public FormFacPVTA(string clasdef, string tipdef, bool nuevo = false, Boolean esConsulta = false, Boolean generarFactura = false, Boolean desdeEstdoCta = false, idDocumento idDocViene = null)
@@ -1726,15 +1727,15 @@ namespace adcDocumentos
 
         private void registraOpciones()
         {
-            AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString()); 
-            if (cmbBodega.SelectedValue != null) { AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString()); }
-            if (cmbVendedor.SelectedValue != null) { AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Vendedor", cmbVendedor.SelectedValue.ToString()); }
+            AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString()); 
+            if (cmbBodega.SelectedValue != null) { AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString()); }
+            if (cmbVendedor.SelectedValue != null) { AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Vendedor", cmbVendedor.SelectedValue.ToString()); }
         }
         private void recordarOpciones()
         {
-            memTipoDoc = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "TipoDoc");
-            memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega");
-            memVendedor = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Vendedor");
+            memTipoDoc = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc");
+            memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Bodega");
+            memVendedor = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Vendedor");
         }
 
         private void FormFacPV_FormClosed(object sender, FormClosedEventArgs e)
@@ -2391,7 +2392,7 @@ namespace adcDocumentos
         {
             FrmClaveCortesia prog = new FrmClaveCortesia(" REIMPRESION DE COMANDA ");
             if( prog.IngresarClaveCortesia(DatosUsuario.Identifica)  == false) return;
-            EnviarAimpresora.imprimirDocumentoDirectamente(datADCDOC, accesosLocalizados, idDocumentoActual,"1");
+            EnviarAimpresora.imprimirDocumentoDirectamente(datADCDOC, accesosLocalizados, idDocumentoActual);
             prepararBotones();
         }
     }

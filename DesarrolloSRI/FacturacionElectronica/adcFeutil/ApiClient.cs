@@ -49,12 +49,46 @@ namespace DaxDocElectronicos
             }
             catch (WebException ex)
             {
-                using (var stream = ex.Response.GetResponseStream())
-                using (var reader = new StreamReader(stream))
+                string error = "";
+
+                // ✅ VERIFICAR QUE ex.Response NO SEA NULL
+                if (ex.Response != null)
                 {
-                    string error = reader.ReadToEnd();
-                    throw new Exception($"Error en la API: {error}");
+                    try
+                    {
+                        using (var stream = ex.Response.GetResponseStream())
+                        {
+                            if (stream != null)
+                            {
+                                using (var reader = new StreamReader(stream))
+                                {
+                                    error = reader.ReadToEnd();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        error = "Error al leer la respuesta del servidor: " + innerEx.Message;
+                    }
                 }
+                else
+                {
+                    // ✅ SI NO HAY RESPUESTA, USAR EL MENSAJE DE LA EXCEPCIÓN
+                    error = ex.Message;
+
+                    // Identificar el tipo de error
+                    if (ex.Status == WebExceptionStatus.ConnectFailure)
+                        error = "No se pudo conectar al servidor. Verifique la URL y la conexión.";
+                    else if (ex.Status == WebExceptionStatus.Timeout)
+                        error = "Tiempo de espera agotado. El servidor no responde.";
+                    else if (ex.Status == WebExceptionStatus.NameResolutionFailure)
+                        error = "No se pudo resolver el nombre del servidor. Verifique la URL.";
+                    else if (ex.Status == WebExceptionStatus.ProtocolError)
+                        error = "Error de protocolo. Verifique la URL y los parámetros.";
+                }
+
+                throw new Exception($"Error en la API: {error}");
             }
         }
     }

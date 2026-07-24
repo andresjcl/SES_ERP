@@ -1,23 +1,54 @@
-﻿Public Class Seguridad
-    Public Shared Function DeCodificar(ByVal TextoCod As String) As String
-        Dim TextoAux1 As String = TextoCod
-        Dim i As Integer
-        Dim TEXTO As String = ""
-        For i = 1 To Len(TextoAux1)
-            TEXTO = Chr(((Asc(Mid$(TextoAux1, i, 1)) - 10) Xor 46) + 3) + TEXTO
-        Next i
-        DeCodificar = TEXTO
-    End Function
+﻿Imports System.Text
+Public Class Seguridad
+    'Public Shared Function DeCodificar(ByVal TextoCod As String) As String
+    '    If String.IsNullOrEmpty(TextoCod) Then Return ""
+
+    '    Dim TextoAux1 As String = TextoCod
+    '    Dim i As Integer
+    '    Dim TEXTO As String = ""
+
+    '    For i = 1 To Len(TextoAux1)
+    '        ' Inverso de Codificar:
+    '        ' Codificar: ((Asc - 3) Xor 46) + 10
+    '        ' Decodificar: ((Asc - 10) Xor 46) + 3
+    '        Dim charCode As Integer = Asc(Mid$(TextoAux1, i, 1))
+    '        charCode = (charCode - 10) Xor 46
+    '        charCode = charCode + 3
+    '        ' ⭐ IMPORTANTE: Mantener el mismo orden inverso que en Codificar
+    '        TEXTO = Chr(charCode) + TEXTO
+    '    Next i
+
+    '    DeCodificar = TEXTO
+    'End Function
+
+    'Public Shared Function Codificar(ByVal TextoCod As String) As String
+    '    If String.IsNullOrEmpty(TextoCod) Then Return ""
+
+    '    Dim TEXTO As String = ""
+    '    Dim i As Integer
+    '    Dim charCode As Integer
+
+    '    For i = 1 To Len(TextoCod)
+    '        charCode = Asc(Mid$(TextoCod, i, 1))
+    '        ' Codificación simple: sumar 5 y XOR 20
+    '        charCode = (charCode + 5) Xor 20
+    '        TEXTO = TEXTO & Chr(charCode)
+    '    Next i
+
+    '    Return TEXTO
+    'End Function
+
 
     Public Shared Function Codificar(ByVal TextoCod As String) As String
-        Dim TextoAux1 As String = TextoCod
-        Dim i As Integer
-        Dim TEXTO As String = ""
-        For i = 1 To Len(TextoAux1)
-            TEXTO = Chr(((Asc(Mid$(TextoAux1, i, 1)) - 3) Xor 46) + 10) + TEXTO
-        Next i
-        Codificar = TEXTO
+        If String.IsNullOrEmpty(TextoCod) Then Return ""
+        Return Convert.ToBase64String(Encoding.UTF8.GetBytes(TextoCod))
     End Function
+
+    Public Shared Function DeCodificar(ByVal TextoCod As String) As String
+        If String.IsNullOrEmpty(TextoCod) Then Return ""
+        Return Encoding.UTF8.GetString(Convert.FromBase64String(TextoCod))
+    End Function
+
 
     Public Shared Function CodificarUsuario(ByVal TextoCod As String) As String
         Dim i As Integer, TEXTO As String, bb As String, b As Long

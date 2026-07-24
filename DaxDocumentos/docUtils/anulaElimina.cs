@@ -4,6 +4,8 @@ using classMenSistem;
 using AuditSis;
 using inputDialogo;
 using ClassDoc;
+using DattCom;
+
 namespace DctosEmi
 {
     public class anulaElimina
@@ -50,7 +52,7 @@ namespace DctosEmi
             string motivoAnulacion = inputDialogo.inputDialogo.ingresar("Anulación de documentos", "Digite el motivo de la anulación", "");
             if (motivoAnulacion.Length == 0) return false;
             if (ProcesarAnulacion(idDocto, tablaDatos, strDax,motivoAnulacion,comandoExterno,IdclaveCita) == false) return false;
-            AuditSis.registrar.registraEventoDoc(strSys, codEmpresa , idUsuario, "SES_ERP", Environment.MachineName, AuditSis.registrar.EvntAnula, idDocto.Sucursal, idDocto.Tipo, idDocto.numero.ToString(), valor, DateTime.Now.ToShortDateString());
+            AuditSis.registrar.registraEventoDoc(strDax, codEmpresa , idUsuario, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntAnula, idDocto.Sucursal, idDocto.Tipo, idDocto.numero.ToString(), valor, DateTime.Now.ToShortDateString());
             return true;            
         }
         public Boolean eliminarDocumento(string strDax, string strSys, ClassDoc.idDocumento idDocto, string idUsuario, Boolean EsDeLiquidacion, string nomEmpresa, string codEmpresa, string valor,string tablaDatos,string comandoExterno)
@@ -95,7 +97,7 @@ namespace DctosEmi
 
             if (mensajesErrorDocumento.ConfirmaEliminar() == false) return false;
             
-            registrar.registraEventoDoc(strSys ,codEmpresa, idUsuario, "SES_ERP", Environment.MachineName, AuditSis.registrar.EvntElimina, idDocto.Sucursal, idDocto.Tipo, idDocto.numero.ToString(), valor, DateTime.Now.ToShortDateString());
+            registrar.registraEventoDoc(strDax ,codEmpresa, idUsuario, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntElimina, idDocto.Sucursal, idDocto.Tipo, idDocto.numero.ToString(), valor, DateTime.Now.ToShortDateString());
             if (procesarEliminacion(idDocto,tablaDatos, strDax,IdclaveCita) == false) return false;
             return true;
         }

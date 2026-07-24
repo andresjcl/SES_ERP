@@ -9,6 +9,8 @@ using IvaRett;
 using DctosEmi;
 using adcDocumentos;
 using DaxInvent;
+using registraEvntos;
+
 
 namespace SES_ERP24
 {
@@ -545,7 +547,12 @@ namespace SES_ERP24
 		private void toolStripMenuItem1_Click(object sender, EventArgs e) { }
 		private void MenImagenologia_Click(object sender, EventArgs e) { }
 		private void defHorariosCajasToolStripMenuItem_Click(object sender, EventArgs e) { }
-		private void eventosDelSistemaToolStripMenuItem_Click(object sender, EventArgs e) { }
+		private void eventosDelSistemaToolStripMenuItem_Click(object sender, EventArgs e) 
+		{
+			if (!AutorizarLlamadas.VerificaAutorización("Auditoria")) return;
+			frmConsEvntos prog = new frmConsEvntos(datosEmpresa.strConxAdcom,datosEmpresa.Emp_Nombre,datosEmpresa.Emp_codigo);			
+			prog.Show();
+		}
 		private void toolStripMenuItem7_Click(object sender, EventArgs e) { }
 
         #endregion
@@ -554,11 +561,7 @@ namespace SES_ERP24
         {
 			if (!AutorizarLlamadas.VerificaAutorización("MnCrearBancos")) return;
 			DaxBan.CtasBanForm prog = new DaxBan.CtasBanForm();
-			prog.Show();
-
-
-
-			
+			prog.Show();	
 
 		}
 

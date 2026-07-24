@@ -194,15 +194,15 @@ namespace DaxConceptos
         }
         private void guardarPreferencias()
         {
-            if (cmbClase.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "MDD", datosEmpresa.suc, "DAXMED", "ClaseServicio", cmbClase.SelectedValue.ToString());
-            if (cmbGrupos.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "MDD", datosEmpresa.suc, "DAXMED", "GrupoServicio", cmbGrupos.SelectedValue.ToString());
+            if (cmbClase.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "SERVICIOS", "ClaseServicio", cmbClase.SelectedValue.ToString());
+            if (cmbGrupos.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "SERVICIOS", "GrupoServicio", cmbGrupos.SelectedValue.ToString());
         }
         private void cargarPreferencias()
         {
-            string op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "MDD", datosEmpresa.suc, "DAXMED", "ClaseServicio");
+            string op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "SERVICIOS", "ClaseServicio");
             if (op.Length > 0) cmbClase.SelectedValue = op; else cmbClase.SelectedIndex = 0;
 
-            op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "MDD", datosEmpresa.suc, "DAXMED", "GrupoServicio");
+            op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "SERVICIOS", "GrupoServicio");
             if (op.Length > 0) cmbGrupos.SelectedValue = op; else cmbGrupos.SelectedIndex = 0;
         }
 

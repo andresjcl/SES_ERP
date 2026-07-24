@@ -413,28 +413,6 @@ namespace DattCom
             return dt;
         }
 
-        public static DataTable leeParametrosEmpSes(string camposSelect)
-        {
-            DataTable dt = new DataTable();
-            try
-            {
-                // Obtener el nombre correcto de la base de datos del sistema
-                string baseDatos = datosEmpresa.nombreBaseSis ?? "Daxsys";
-
-                // Construir la consulta con la base de datos correcta
-                String ssql = "Select " + camposSelect + " FROM " + baseDatos + ".dbo.Emp_Par WHERE Emp_Codigo = @codEmp";
-
-                using (SqlDataAdapter da = new SqlDataAdapter(ssql, strConxAdcom))
-                {
-                    da.SelectCommand.Parameters.AddWithValue("@codEmp", Emp_codigo.ToString());
-                    da.Fill(dt);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error en leeParametrosEmp: " + ex.Message);
-            }
-            return dt;
-        }
+       
     }
 }

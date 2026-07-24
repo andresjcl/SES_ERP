@@ -24,10 +24,10 @@ Public Class IngresaServidor
         If MsgBox("Confirma recuperar la última conexión exitosa al servidor del sistema ?", CType(vbCritical + vbYesNo, MsgBoxStyle)) = vbYes Then
             leerArchivoConfiguracion("bin\")
 
-            'TxtServidor.Text = progini.ProfileGetItem("Conecciones", "Servidor", TxtServidor.Text, PathAppl & "bin\" & Sistema & ".bk")
-            'TxtUsuario.Text = progini.ProfileGetItem("Conecciones", "Usuario", TxtUsuario.Text, PathAppl & "bin\" & Sistema & ".bk")
-            'TxtPassword.Text = progini.ProfileGetItem("Conecciones", "Clave", TxtPassword.Text, PathAppl & "bin\" & Sistema & ".bk")
-            'TxtUrl.Text = progini.ProfileGetItem("Conecciones", "URL", TxtUrl.Text, PathAppl & "bin\" & Sistema & ".bk")
+            'TxtServidor.Text = progini.ProfileGetItem("Conecciones", "Servidor", TxtServidor.Text, PathAppl & "bin\" & sistema & ".bk")
+            'TxtUsuario.Text = progini.ProfileGetItem("Conecciones", "Usuario", TxtUsuario.Text, PathAppl & "bin\" & sistema & ".bk")
+            'TxtPassword.Text = progini.ProfileGetItem("Conecciones", "Clave", TxtPassword.Text, PathAppl & "bin\" & sistema & ".bk")
+            'TxtUrl.Text = progini.ProfileGetItem("Conecciones", "URL", TxtUrl.Text, PathAppl & "bin\" & sistema & ".bk")
             'TxtPasswordc.Text = TxtPassword.Text
         End If
     End Sub
@@ -63,10 +63,10 @@ Public Class IngresaServidor
         If cnn.State = 0 Then MsgBox("No se pudo efectuar la conexión al servidor de base de datos", MsgBoxStyle.Critical) : Exit Sub
         MsgBox("Conexión al servidor de base de datos exitosa !!", MsgBoxStyle.Exclamation)
         cnn.Close()
-        Conx = CStr(IngresoApp.ArmStr("Daxsys", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text))
+        Conx = CStr(IngresoApp.ArmStr("SysBD", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text))
         cnn.ConnectionString = Conx
         cnn.Open()
-        If cnn.State = 0 Then MsgBox("No se ha instalado la base de datos control del sistema AdcomDx en el servidor", MsgBoxStyle.Critical) : Exit Sub
+        If cnn.State = 0 Then MsgBox("No se ha instalado la base de datos control del sistema en el servidor", MsgBoxStyle.Critical) : Exit Sub
         II = Dir(TxtUrl.Text)
         If Len(II) = 0 Then MsgBox("El directorio, en el servidor, donde se encuentra instalado el sistema es inaccesible") : Exit Sub
         EsOk = True

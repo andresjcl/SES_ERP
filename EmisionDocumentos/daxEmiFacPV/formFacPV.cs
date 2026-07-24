@@ -21,6 +21,8 @@ using System.Net;
 using DaxValDocElec;
 using System.Linq;
 using DaxDocElectronicos;
+using System.ComponentModel;
+using ImpresionDoc;
 
 namespace adcDocumentos
 {
@@ -72,11 +74,11 @@ namespace adcDocumentos
 		/// variables de solicitar autorizacion eln linea
 		/// </summary>
 		
-		string PathFileE = "";
+		//string PathFileE = "";
 		string queSucE = "";
 		string queDocE = "";
 		decimal queNumE = 0;
-		short tipoEmisionE = 0;
+		//short tipoEmisionE = 0;
 		string queClaveSRIE = "";
 		double IdClaveDocFE = 0;
 		string ErroresE = "";
@@ -143,7 +145,7 @@ namespace adcDocumentos
 				if (iniciaConNuevoDOc) iniciarNuevoDocumento();
 			}
 			prepararBotones();
-			ConfiguracionCorreo.CargarConfiguracion(datosEmpresa.strConIniSis);
+			ConfiguracionCorreo.CargarConfiguracion(datosEmpresa.strConxAdcom,datosEmpresa.Emp_codigo.ToString());
 			ConfiguracionCorreo.CargarParametroSRI(datosEmpresa.strConIniSis, datosEmpresa.Emp_codigo);
 		}
 
@@ -836,7 +838,7 @@ namespace adcDocumentos
 			return lista;
 		}
 
-		private void solicitarAutorizacionSRI(string urlsri)
+		private void solicitarAutorizacionSRI(string urlsri, ref ClassDoc.AdcDoc datADCDOC)
 		{
 			var fel = new ClassFelec.AdcFelec(datosEmpresa.strConxAdcom);
 			fel = ClassFelec.AdcFelec.Buscar("");
@@ -861,6 +863,8 @@ namespace adcDocumentos
 			{
 				queClaveSRIE = queClave.ToUpper();
 
+				datADCDOC.claveSri = queClaveSRIE;
+
 				var FM = new SolicitudAutSRI.Firma();
 				FM.strFileXml = queClaveSRIE;
 				string resp = FM.FirmarArchivoXML(datosEmpresa.strConxAdcom);
@@ -884,12 +888,16 @@ namespace adcDocumentos
 						string rutaNombre = Feutilidad.PathDocumntosPdf(fel.pathCpbGenerados) + queClaveSRIE + ".PDF";
 
 						int IDCLAV = Convert.ToInt32(datADCDOC.IdClaveDoc);
-
+						// Convertir imagen a Base64
+						//string imageBase64 = Convert.ToBase64String(File.ReadAllBytes(@"\\Server-fspc\DAXSOF\ArchivosDePrograma\AdcomDx_12\Bin\Imagenes\LOGOFSPC.jpg"));
+						string imageBase64 = Convert.ToBase64String(File.ReadAllBytes(datosEmpresa.Emp_PathImagenes + "logoempresa.jpg"));
+						// 1. Ejecutar el procedimiento para obtener los datos
+						var resultado = aux.EjecutarProcedimientoCabeceraYDetalle(IDCLAV, datADCDOC.Doc_sucursal, datADCDOC.Opc_documento, datADCDOC.Doc_numero);
 						GenerarRide(urlsri);
 
 						try
 						{
-																															   //MessageBox.Show(pdfPath+" genero el pdf de la api" );
+							//MessageBox.Show(pdfPath+" genero el pdf de la api" );
 							if (string.IsNullOrWhiteSpace(ConfiguracionCorreo.CorreoDesde) || string.IsNullOrWhiteSpace(ConfiguracionCorreo.Smtp) || string.IsNullOrWhiteSpace(ConfiguracionCorreo.Usuario) || string.IsNullOrWhiteSpace(ConfiguracionCorreo.Clave) || ConfiguracionCorreo.Puerto <= 0)
 							{
 								ErroresE = $"{queSucE}-{queDocE}-{queNumE}  {queClaveSRIE} configuración de correo incompleta o no cargada.";
@@ -970,6 +978,7 @@ namespace adcDocumentos
 							ErroresE = $"Error al generar PDF: {ex.Message}";
 							almacenarErrores(ErroresE);
 						}
+
 					}
 					else
 					{
@@ -1032,7 +1041,7 @@ namespace adcDocumentos
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception )
 			{
 				// Puedes loguear el error si deseas
 				correo = "";
@@ -1301,24 +1310,124 @@ namespace adcDocumentos
 			totalizar();
 		}
 
+		//private void btnRegistra_Click(object sender, EventArgs e)
+		//{
+		//	if (validarDocumento() == true)
+		//	{
+		//		if (grabarDocumento() == true)
+		//		{
+		//			EnviarAimpresora.imprimirDocumentoDirectamente(datADCDOC, accesosLocalizados, idDocumentoActual);
+		//			//if (ConfiguracionCorreo.ParametroCargado && ConfiguracionCorreo.parametro == 1)
+		//			if (ConfiguracionCorreo.parametro == 1)
+		//			{
+		//				urlE = ConfiguracionCorreo.UrlSRI; // Aquí obtienes la URL desde la BD
+		//				solicitarAutorizacionSRI(urlE);
+		//			}
+
+		//			limpiarDatos();
+		//		}
+		//	}
+		//}
+
 		private void btnRegistra_Click(object sender, EventArgs e)
 		{
 			if (validarDocumento() == true)
 			{
 				if (grabarDocumento() == true)
 				{
-					EnviarAimpresora.imprimirDocumentoDirectamente(datADCDOC, accesosLocalizados, idDocumentoActual);
-					//if (ConfiguracionCorreo.ParametroCargado && ConfiguracionCorreo.parametro == 1)
-					if (ConfiguracionCorreo.parametro == 1)
+					if (ConfiguracionCorreo.ParametroCargado && ConfiguracionCorreo.parametro == 1)
 					{
-						urlE = ConfiguracionCorreo.UrlSRI; // Aquí obtienes la URL desde la BD
-						solicitarAutorizacionSRI(urlE);
+						urlE = ConfiguracionCorreo.UrlSRI;
+						solicitarAutorizacionSRI(urlE, ref datADCDOC);
 					}
 
-					limpiarDatos();
+					string tipoImpresion = propiedadesDoc.ObtenerTipoImpresion();
+					bool impresionExitosa = false;
+
+					// ✅ VERIFICAR SI ES IMPRESORA PDF
+					string impresora = propiedadesDoc?.Impresora_1 ?? "";
+					bool esImpresoraPDF = impresora.Contains("PDF") ||
+										  impresora.Contains("Adobe") ||
+										  impresora.Contains("Microsoft Print to PDF");
+
+					if (esImpresoraPDF)
+					{
+						// ✅ Para .NET Framework 4 usamos BackgroundWorker
+						using (BackgroundWorker bw = new BackgroundWorker())
+						{
+							bw.DoWork += (s, args) =>
+							{
+								try
+								{
+									switch (tipoImpresion)
+									{
+										case "TICKET":
+											EnviarAimpresora.ImprimirTicket(datADCDOC, accesosLocalizados, idDocumentoActual, propiedadesDoc);
+											break;
+										default:
+											EnviarAimpresora.imprimirDocumento(datADCDOC, accesosLocalizados, idDocumentoActual);
+											break;
+									}
+								}
+								catch (Exception ex)
+								{
+									// Guardar error para mostrarlo después
+									args.Result = ex;
+								}
+							};
+
+							bw.RunWorkerCompleted += (s, args) =>
+							{
+								if (args.Result is Exception ex)
+								{
+									MessageBox.Show($"Error en impresión en segundo plano: {ex.Message}",
+										"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								}
+								else
+								{
+									MessageBox.Show("La impresión del ticket se está procesando en segundo plano.\n\n" +
+										"Revise la carpeta de descargas o documentos para el archivo PDF generado.",
+										"Imprimiendo...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+								}
+							};
+
+							bw.RunWorkerAsync();
+							impresionExitosa = true;
+						}
+					}
+					else
+					{
+						// Impresión normal (impresora física)
+						switch (tipoImpresion)
+						{
+							case "RIDE":
+								impresionExitosa = EnviarAimpresora.imprimirDocumentoDirectamenteOtros(datADCDOC, accesosLocalizados, idDocumentoActual);
+								break;
+
+							case "TICKET":
+								impresionExitosa = EnviarAimpresora.ImprimirTicket(datADCDOC, accesosLocalizados, idDocumentoActual, propiedadesDoc);
+								break;
+
+							case "SISTEMA":
+							default:
+								impresionExitosa = EnviarAimpresora.imprimirDocumento(datADCDOC, accesosLocalizados, idDocumentoActual);
+								break;
+						}
+					}
+
+					if (impresionExitosa && !esImpresoraPDF)
+					{
+						limpiarDatos();
+					}
+					else if (!impresionExitosa && !esImpresoraPDF)
+					{
+						MessageBox.Show("El documento se grabó pero hubo un problema con la impresión.\n\nPuede volver a imprimir desde el historial.",
+							"Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					}
 				}
 			}
 		}
+
 		private void btnAnula_Click(object sender, EventArgs e)
 		{
 			DctosEmi.anulaElimina classAnular = new DctosEmi.anulaElimina();
@@ -1808,9 +1917,9 @@ namespace adcDocumentos
 					//					if (idDocumentoActual.idClave != 0) propiedadesDoc.GuardarNumero(ref datosEmpresa.suc, ref tipDoc, ref tipBan, txtNroID.Text, "", datosEmpresa.usr, cmbBodega.SelectedValue.ToString());
 					clasePagos.guardarPagosDocumento("ADCPAG");
 
-					ClaveElectronica.generarClaveElectronica(datADCDOC);
-					
-                    AuditSis.registrar.registraEventoDoc(datosEmpresa.strConIniSis, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX", Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+					ClaveElectronica.actualizarClaveElectronica(datADCDOC);
+
+					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
                 }
                 else
                 {
@@ -1818,7 +1927,7 @@ namespace adcDocumentos
                     if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
                     actualizaDatosPagos();
 					clasePagos.guardarPagosDocumento("ADCPAG");
-					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConIniSis, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "MDD", Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
                 }
             }
             catch (Exception ee)
@@ -2004,15 +2113,15 @@ namespace adcDocumentos
 
 		private void registraOpciones()
 		{
-			AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString());
-			AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString());
-			if (cmbVendedor.SelectedValue != null ) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Vendedor", cmbVendedor.SelectedValue.ToString());
+			AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString());
+			AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString());
+			if (cmbVendedor.SelectedValue != null ) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Vendedor", cmbVendedor.SelectedValue.ToString());
 		}
 		private void recordarOpciones()
 		{
-		   memTipoDoc = AuditSis.registrar.obtenerPreferencia (datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "TipoDoc");
-		   //memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega");
-		   memVendedor = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Vendedor");
+		   memTipoDoc = AuditSis.registrar.obtenerPreferencia (datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc");
+			//memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Bodega");
+			memVendedor = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Vendedor");
 		}
 
 		private void FormFacPV_FormClosed(object sender, FormClosedEventArgs e)

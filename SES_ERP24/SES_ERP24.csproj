@@ -26,7 +26,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>  
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -66,8 +66,7 @@
     <Reference Include="CtaCartera">
       <HintPath>..\Librerias\CtaCartera.dll</HintPath>
     </Reference>
-    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CtaMtnS">
       <HintPath>..\Librerias\CtaMtnS.dll</HintPath>
     </Reference>
     <Reference Include="ctbRepBal">
@@ -75,6 +74,9 @@
     </Reference>
     <Reference Include="DattCom">
       <HintPath>..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="DctoClase">
+      <HintPath>..\Librerias\DctoClase.dll</HintPath>
     </Reference>
     <Reference Include="directMnt, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -132,6 +134,9 @@
     <Reference Include="sesConcto, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Librerias\sesConcto.dll</HintPath>
+    </Reference>
+    <Reference Include="sesConsEvnto">
+      <HintPath>..\Librerias\sesConsEvnto.dll</HintPath>
     </Reference>
     <Reference Include="sesDctoEmi">
       <HintPath>..\Librerias\sesDctoEmi.dll</HintPath>
@@ -201,13 +206,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\_Bancos\DaxBancos\DaxBancos.csproj">
-      <Project>{50102c9d-0c51-476b-9fc9-62f7e128a883}</Project>
-      <Name>DaxBancos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\_ClassBasesDatos\adcClassDoc\ClassDoc\ClassDoc.csproj">
-      <Project>{5A5B64A4-7F44-4D1F-B986-F749C3EEBDFD}</Project>
-      <Name>ClassDoc</Name>
+    <ProjectReference Include="..\_Contabilidad\MantenimientoCtasContables\DaxMantContab.vbproj">
+      <Project>{DEBF9284-537F-4240-918F-E998D7575E15}</Project>
+      <Name>DaxMantContab</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

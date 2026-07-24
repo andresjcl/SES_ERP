@@ -304,6 +304,7 @@ namespace SES_ERP24
             this.eventosDelSistemaToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.eventosDelSistemaToolStripMenuItem.Name = "eventosDelSistemaToolStripMenuItem";
             this.eventosDelSistemaToolStripMenuItem.Size = new System.Drawing.Size(539, 34);
+            this.eventosDelSistemaToolStripMenuItem.Tag = "Auditoria";
             this.eventosDelSistemaToolStripMenuItem.Text = "EventosDelSistema";
             this.eventosDelSistemaToolStripMenuItem.Visible = false;
             this.eventosDelSistemaToolStripMenuItem.Click += new System.EventHandler(this.eventosDelSistemaToolStripMenuItem_Click);

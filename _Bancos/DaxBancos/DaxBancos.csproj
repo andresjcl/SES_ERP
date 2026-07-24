@@ -47,9 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\codSist.dll</HintPath>
     </Reference>
-    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="comercP, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CtaMtnS.dll</HintPath>
+      <HintPath>..\..\Librerias\comercP.dll</HintPath>
     </Reference>
     <Reference Include="DataGridViewPrinterApplication1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,10 +67,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\directMnt.dll</HintPath>
     </Reference>
-    <Reference Include="EmpNomR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\EmpNomR.dll</HintPath>
-    </Reference>
     <Reference Include="frmaPgo, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\frmaPgo.dll</HintPath>
@@ -86,6 +82,10 @@
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 10.0\ReportViewer\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="RetNombr, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\RetNombr.dll</HintPath>
     </Reference>
     <Reference Include="sesClasProd, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -251,9 +251,9 @@
     <None Include="Resources\Consolidar.gif" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\_Comercializacion\DaxComercializacion\DaxComercializacion.csproj">
-      <Project>{6026E351-903E-40D5-8D96-2973DE51CE40}</Project>
-      <Name>DaxComercializacion</Name>
+    <ProjectReference Include="..\..\_Contabilidad\MantenimientoCtasContables\DaxMantContab.vbproj">
+      <Project>{debf9284-537f-4240-918f-e998d7575e15}</Project>
+      <Name>DaxMantContab</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

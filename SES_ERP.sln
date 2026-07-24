@@ -197,6 +197,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SysProg", "SysProg\SysProg\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "importarData", "importarData\importarData.csproj", "{1C3E8C78-B77B-472F-93C1-D4AAE31072F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultaEventos", "ConsultaEventos\ConsultaEventos.csproj", "{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -3009,6 +3011,36 @@ Global
 		{1C3E8C78-B77B-472F-93C1-D4AAE31072F1}.SingleImage|Mixed Platforms.Build.0 = Debug|Any CPU
 		{1C3E8C78-B77B-472F-93C1-D4AAE31072F1}.SingleImage|x86.ActiveCfg = Debug|Any CPU
 		{1C3E8C78-B77B-472F-93C1-D4AAE31072F1}.SingleImage|x86.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.CD_ROM|Any CPU.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.CD_ROM|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.CD_ROM|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.CD_ROM|x86.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.CD_ROM|x86.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Debug|x86.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.DVD-5|x86.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Release|x86.ActiveCfg = Release|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.Release|x86.Build.0 = Release|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.SingleImage|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.SingleImage|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.SingleImage|x86.ActiveCfg = Debug|Any CPU
+		{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}.SingleImage|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

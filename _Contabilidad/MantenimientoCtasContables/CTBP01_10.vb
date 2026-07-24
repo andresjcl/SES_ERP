@@ -58,7 +58,7 @@ Public Class CTBP01
         Ctaaux = Nothing
     End Sub
 
-    Private Sub CTBP01_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+    Public Sub CTBP01_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         cargarParametrosEmpresa()
         CargaCtas()
         EstaEnDefinicion()

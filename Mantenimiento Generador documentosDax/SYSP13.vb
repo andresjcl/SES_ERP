@@ -81,9 +81,7 @@ Friend Class SYSP13
             Impuesto = ""
             Select Case dbDoc.SelectedValue.ToString.ToString
                 Case "FAC", "FAP", "DEV", "DEP", "NDC", "NCC", "NDP", "NCP", "PRC", "PEC", "PEP", "PRP", "REQ"
-                    'If fImpuestos.Visible = True Then
                     Impuesto = IIf(ChImp1.Checked, "1", "0").ToString + IIf(ChImp2.Checked, "1", "0").ToString + IIf(ChImp3.Checked, "1", "0").ToString + IIf(chImp4.Checked, "1", "0").ToString
-                    'End If
             End Select
 
             'Llena la clase
@@ -117,43 +115,36 @@ Friend Class SYSP13
             TTipoDoc = ""
             TipoSri = ""
             Try
-                'TTipoDoc = ComboDoc1.SelectedValue.ToString()
                 If ComboDoc1 IsNot Nothing AndAlso ComboDoc1.SelectedValue IsNot Nothing Then
                     TTipoDoc = ComboDoc1.SelectedValue.ToString()
-                Else
-                    'TTipoDoc = "SIN_VALOR" ' O cualquier valor por defecto que necesites
-                    'MessageBox.Show("Por favor, seleccione un tipo de documento.")
                 End If
             Catch
                 TTipoDoc = ""
             End Try
 
 
-            'If CONEMP.EmpresaAct.Sri = True Then
             If (TipoComprobanteSri.SelectedValue.ToString > "") Then TipoSri = TipoComprobanteSri.SelectedValue.ToString
-                'End If
 
-                With op
-                    .Documento = txtAbr.Text
-                    .nombre = txtDes.Text
-                    .TipoDoc = dbDoc.SelectedValue.ToString.ToString
-                    '.NumIni = Val(NIni)
-                    .Extenciones = ArmarExtenciones().ToString()
-                    .SNRepetir = Convert.ToInt16(IIf(chRepCodFil.Checked, "1", "0"))
-                    .SNContabilizar = Convert.ToInt16(IIf(chRefCon.Checked, "1", "0"))
-                    .noCtbLinea = IIf(chKNoEnLinea.Checked, "X", "").ToString()
-                    .Recontabiliza = IIf(Reconta.Checked, "S", "N").ToString()
-                    .SNCompDes = Convert.ToInt16(IIf(chGenComDes.Checked, "1", "0"))
-                    .SNLiquidacionGas = Convert.ToInt16(IIf(ChGenTipGas.Checked, "1", "0"))
-                    .PermiteCantidadCero = Convert.ToInt16(IIf(RegistraCantCero.Checked, "1", "0"))
+            With op
+                .Documento = txtAbr.Text
+                .nombre = txtDes.Text
+                .TipoDoc = dbDoc.SelectedValue.ToString.ToString
+                .Extenciones = ArmarExtenciones().ToString()
+                .SNRepetir = Convert.ToInt16(IIf(chRepCodFil.Checked, "1", "0"))
+                .SNContabilizar = Convert.ToInt16(IIf(chRefCon.Checked, "1", "0"))
+                .noCtbLinea = IIf(chKNoEnLinea.Checked, "X", "").ToString()
+                .Recontabiliza = IIf(Reconta.Checked, "S", "N").ToString()
+                .SNCompDes = Convert.ToInt16(IIf(chGenComDes.Checked, "1", "0"))
+                .SNLiquidacionGas = Convert.ToInt16(IIf(ChGenTipGas.Checked, "1", "0"))
+                .PermiteCantidadCero = Convert.ToInt16(IIf(RegistraCantCero.Checked, "1", "0"))
 
-                    .ImprimirForm = txtFormato.Text
-                    .ImprimirDoc = ImpDoc()
-                    .SNDefEst = 0
-                    .SNSinExist = Convert.ToInt16(IIf(chGenSinExi.Checked, "1", "0"))
+                .ImprimirForm = txtFormato.Text
+                .ImprimirDoc = ImpDoc()
+                .SNDefEst = 0
+                .SNSinExist = Convert.ToInt16(IIf(chGenSinExi.Checked, "1", "0"))
                 .TipoCosteo = TipoCosto()
-
-                '.ClasificadorCosto = CmbClasificadorCosteo.SelectedValue.ToString()
+                .ImprimirRIDE = chkImprimirRIDE.Checked 
+                .ImprimirTicket = chkImprimirTicket.Checked
 
                 If CmbClasificadorCosteo.SelectedValue IsNot Nothing Then
                     .ClasificadorCosto = CmbClasificadorCosteo.SelectedValue.ToString()
@@ -164,97 +155,125 @@ Friend Class SYSP13
 
                 .SNGuardarCosto = Convert.ToInt16(IIf(chGuaUltCom.Checked, "1", "0"))
                 .ctadebe = txtValTotDocD.Text
-                    .ctahaber = txtValTotDocH.Text
-                    .CtaValVtaInvD = txtValVenInvD.Text
-                    .CtaValVtaInvH = txtValVenInvH.Text
-                    .CtaVtaOIvaD = txtValVenOIvaD.Text
-                    .CtaVtaOIvaH = txtValVenOIvaH.Text
-                    .CtaValDescD = txtValDesD.Text
-                    .CtaValDescH = txtValDesH.Text
-                    .CtaValNetoD = txtValNetVenD.Text
-                    .CtaValNetoH = txtValNetVenH.Text
-                    .CtaIvaD = txtIvaD.Text
-                    .CtaIvaH = txtIvaH.Text
-                    .CtaOSinIvaD = txtOtrSIvaD.Text
-                    .CtaOSinIvaH = txtOtrSIvaH.Text
-                    .CtaSubTConIvaD = txtSubVenCIvaD.Text
-                    .CtaSubTConIvaH = txtSubVenCIvaH.Text
-                    .CtaTotDescInvD = txtTotDesIndD.Text
-                    .CtaTotDescInvH = txtTotDesIndH.Text
-                    .VarCtaCostoH = txtCtaCosH.Text
-                    .VarCtaCostoD = txtCtaCosD.Text
-                    .VarCtaRetBieH = txtRetBieH.Text
-                    .VarCtaRetBieD = txtRetBieD.Text
-                    .VarCtaRetSerH = txtRetSerH.Text
-                    .VarCtaRetSerD = txtRetSerD.Text
-                    .VarCtaRetFteH = txtRetFteH.Text
-                    .VarCtaRetFteD = txtRetFteD.Text
-                    .VarCtaRetFte1H = txtRetFte1H.Text
-                    .VarCtaRetFte1D = txtRetFte1D.Text
-                    .VarCtaRetFte2H = txtRetFte2H.Text
-                    .VarCtaRetFte2D = txtRetFte2D.Text
+                .ctahaber = txtValTotDocH.Text
+                .CtaValVtaInvD = txtValVenInvD.Text
+                .CtaValVtaInvH = txtValVenInvH.Text
+                .CtaVtaOIvaD = txtValVenOIvaD.Text
+                .CtaVtaOIvaH = txtValVenOIvaH.Text
+                .CtaValDescD = txtValDesD.Text
+                .CtaValDescH = txtValDesH.Text
+                .CtaValNetoD = txtValNetVenD.Text
+                .CtaValNetoH = txtValNetVenH.Text
+                .CtaIvaD = txtIvaD.Text
+                .CtaIvaH = txtIvaH.Text
+                .CtaOSinIvaD = txtOtrSIvaD.Text
+                .CtaOSinIvaH = txtOtrSIvaH.Text
+                .CtaSubTConIvaD = txtSubVenCIvaD.Text
+                .CtaSubTConIvaH = txtSubVenCIvaH.Text
+                .CtaTotDescInvD = txtTotDesIndD.Text
+                .CtaTotDescInvH = txtTotDesIndH.Text
+                .VarCtaCostoH = txtCtaCosH.Text
+                .VarCtaCostoD = txtCtaCosD.Text
+                .VarCtaRetBieH = txtRetBieH.Text
+                .VarCtaRetBieD = txtRetBieD.Text
+                .VarCtaRetSerH = txtRetSerH.Text
+                .VarCtaRetSerD = txtRetSerD.Text
+                .VarCtaRetFteH = txtRetFteH.Text
+                .VarCtaRetFteD = txtRetFteD.Text
+                .VarCtaRetFte1H = txtRetFte1H.Text
+                .VarCtaRetFte1D = txtRetFte1D.Text
+                .VarCtaRetFte2H = txtRetFte2H.Text
+                .VarCtaRetFte2D = txtRetFte2D.Text
 
-                    .SNArtIndv = Convert.ToInt16(IIf(chArt.Checked, 1, 0))
-                    .SNDescIndv = Convert.ToInt16(IIf(chDes.Checked, 1, 0))
-                    .SNOtConIva = Convert.ToInt16(IIf(chOtrCIva.Checked, 1, 0))
-                    .SNOtSinIva = Convert.ToInt16(IIf(chOtrSIva.Checked, 1, 0))
-                    .ArtSevAcf = ArtSerAcf()
-                    .Usuario = DattCom.datosEmpresa.usr
-                    .Impuestos = Impuesto
-                    .FormatoCtb = FormatoCtb.Text
-                    .FormatoElec = FormatoElec.Text
-                    .TipoSri = TipoSri
-                    .Impresora_1 = Impresora_1.Text
-                    .Impresora_2 = Impresora_2.Text
-                    .Impresora_3 = Impresora_3.Text
-                    .FormatoAux_1 = FormatoAux1.Text
-                    .FormatoAux_2 = FormatoAux2.Text
-                    .FormatoAux_3 = FormatoAux3.Text
+                .SNArtIndv = Convert.ToInt16(IIf(chArt.Checked, 1, 0))
+                .SNDescIndv = Convert.ToInt16(IIf(chDes.Checked, 1, 0))
+                .SNOtConIva = Convert.ToInt16(IIf(chOtrCIva.Checked, 1, 0))
+                .SNOtSinIva = Convert.ToInt16(IIf(chOtrSIva.Checked, 1, 0))
+                .ArtSevAcf = ArtSerAcf()
+                .Usuario = DattCom.datosEmpresa.usr
+                .Impuestos = Impuesto
+                .FormatoCtb = FormatoCtb.Text
+                .FormatoElec = FormatoElec.Text
+                .TipoSri = TipoSri
+                .Impresora_1 = Impresora_1.Text
+                .Impresora_2 = Impresora_2.Text
+                .Impresora_3 = Impresora_3.Text
+                .FormatoAux_1 = FormatoAux1.Text
+                .FormatoAux_2 = FormatoAux2.Text
+                .FormatoAux_3 = FormatoAux3.Text
 
-                    .GeneraMateriaPrima = Convert.ToInt16(IIf(GeneraSalidaMP.Checked, "1", "0"))
-                    .TipoSalidaMP = (IIf(.GeneraMateriaPrima = 1, TTipoDoc, "")).ToString()
+                .GeneraMateriaPrima = Convert.ToInt16(IIf(GeneraSalidaMP.Checked, "1", "0"))
+                .TipoSalidaMP = (IIf(.GeneraMateriaPrima = 1, TTipoDoc, "")).ToString()
 
-                    .Opc_Propietario = Convert.ToInt16(IIf(Check3.Checked, "1", "0"))
-                    .Opc_Bodega = Convert.ToInt16(IIf(Check6.Checked, "1", "0"))
-                    .Opc_IdSri = Convert.ToInt16(IIf(Check5.Checked, "1", "0"))
-                    .Opc_Autonumero = Convert.ToInt16(IIf(ChkNumerar.Checked, "1", "0"))
-                    .Opc_consolidar = Convert.ToInt16(IIf(Chpuedeconsolidar.Checked, "1", "0"))
-                    .DocumentoNoActivado = Convert.ToInt16(IIf(Check7.Checked, "1", "0"))
-                    .AutorizarPago = Convert.ToInt16(IIf(Check8.Checked, "1", "0"))
+                .Opc_Propietario = Convert.ToInt16(IIf(Check3.Checked, "1", "0"))
+                .Opc_Bodega = Convert.ToInt16(IIf(Check6.Checked, "1", "0"))
+                .Opc_IdSri = Convert.ToInt16(IIf(Check5.Checked, "1", "0"))
+                .Opc_Autonumero = Convert.ToInt16(IIf(ChkNumerar.Checked, "1", "0"))
+                .Opc_consolidar = Convert.ToInt16(IIf(Chpuedeconsolidar.Checked, "1", "0"))
+                .DocumentoNoActivado = Convert.ToInt16(IIf(Check7.Checked, "1", "0"))
+                .AutorizarPago = Convert.ToInt16(IIf(Check8.Checked, "1", "0"))
 
-                    .Opc_ctavaldesCuadre = 0
-                    .Opc_ctaCuadre = Convert.ToInt16(Val(ChkCdreTotal.Text))
-                    .Opc_ctavalvtainvCuadre = Convert.ToInt16(Val(ChkCdreArticulos.Text))
-                    .Opc_ctavtaoivaCuadre = Convert.ToInt16(Val(ChkCdreNOUSADO.Text))
-                    .Opc_ctasubtcivaCuadre = Convert.ToInt16(Val(ChkCdreConceptos.Text))
-                    .Opc_ctavalnetoCuadre = Convert.ToInt16(Val(ChkCdreActivos.Text))
-                    .Opc_ctaivaCuadre = Convert.ToInt16(Val(ChkCdreDescuentoArticulos.Text))
-                    .Opc_ctaotrosivaCuadre = Convert.ToInt16(Val(ChkCdreDescuentosServicios.Text))
-                    .Opc_ctatotdesindiCuadre = Convert.ToInt16(Val(ChkCdreImpuestos.Text))
-                    .Opc_CtaCostoCuadre = Convert.ToInt16(Val(ChkCdreCostoArticulos.Text))
-                    .Opc_CtaRetBieCuadre = Convert.ToInt16(Val(ChkCdreRetIvaBien.Text))
-                    .Opc_CtaRetSerCuadre = Convert.ToInt16(Val(ChkCdreRetIvaServ.Text))
-                    .Opc_CtaRetFteCuadre = Convert.ToInt16(Val(ChkCdreRetFte.Text))
-                    .Opc_CtaRetFte1Cuadre = Convert.ToInt16(Val(ChkCdreRetFte1.Text))
-                    .Opc_CtaRetFte2Cuadre = Convert.ToInt16(Val(ChkCdreRetFte2.Text))
-                    .Opc_LimiteCuadre = Val(Text1.Text)
-                    .DatosAuxiliares = sb.ToString
-                    .DatosAuxiliaresDet = sb1.ToString
-                    .TipoSoporteObligatorio = TxtTipSop.Text
-                    .ComandoExterno = ComandoSQL.Text
-                    If chkNoBajoCosto.Checked Then .NoPVPbajoCosto = 1 Else .NoPVPbajoCosto = 0
-                    .formulasPV = txtFormulasPVP.Text
-                    If chkElectronico.Checked Then .EsElectronico = 1 Else .EsElectronico = 0
-                    .usoImportaciones = Convert.ToInt16(IIf(chkRegistraImportaciones.Checked, 1, 0))
-                End With
-            Catch
-            End Try
+                .Opc_ctavaldesCuadre = 0
+                .Opc_ctaCuadre = Convert.ToInt16(Val(ChkCdreTotal.Text))
+                .Opc_ctavalvtainvCuadre = Convert.ToInt16(Val(ChkCdreArticulos.Text))
+                .Opc_ctavtaoivaCuadre = Convert.ToInt16(Val(ChkCdreNOUSADO.Text))
+                .Opc_ctasubtcivaCuadre = Convert.ToInt16(Val(ChkCdreConceptos.Text))
+                .Opc_ctavalnetoCuadre = Convert.ToInt16(Val(ChkCdreActivos.Text))
+                .Opc_ctaivaCuadre = Convert.ToInt16(Val(ChkCdreDescuentoArticulos.Text))
+                .Opc_ctaotrosivaCuadre = Convert.ToInt16(Val(ChkCdreDescuentosServicios.Text))
+                .Opc_ctatotdesindiCuadre = Convert.ToInt16(Val(ChkCdreImpuestos.Text))
+                .Opc_CtaCostoCuadre = Convert.ToInt16(Val(ChkCdreCostoArticulos.Text))
+                .Opc_CtaRetBieCuadre = Convert.ToInt16(Val(ChkCdreRetIvaBien.Text))
+                .Opc_CtaRetSerCuadre = Convert.ToInt16(Val(ChkCdreRetIvaServ.Text))
+                .Opc_CtaRetFteCuadre = Convert.ToInt16(Val(ChkCdreRetFte.Text))
+                .Opc_CtaRetFte1Cuadre = Convert.ToInt16(Val(ChkCdreRetFte1.Text))
+                .Opc_CtaRetFte2Cuadre = Convert.ToInt16(Val(ChkCdreRetFte2.Text))
+                .Opc_LimiteCuadre = Val(Text1.Text)
+                .DatosAuxiliares = sb.ToString
+                .DatosAuxiliaresDet = sb1.ToString
+                .TipoSoporteObligatorio = TxtTipSop.Text
+                .ComandoExterno = ComandoSQL.Text
+                If chkNoBajoCosto.Checked Then .NoPVPbajoCosto = 1 Else .NoPVPbajoCosto = 0
+                .formulasPV = txtFormulasPVP.Text
+                If chkElectronico.Checked Then .EsElectronico = 1 Else .EsElectronico = 0
+                .usoImportaciones = Convert.ToInt16(IIf(chkRegistraImportaciones.Checked, 1, 0))
+            End With
+        Catch
+        End Try
 
         If EsNuevo = 1 Then op.Guardarr() Else op.Actualizar(txtAbr.Text)
         My.Settings.Abrevbia = txtAbr.Text
 
         My.Settings.Save()
     End Sub
+
+    ' ============================================
+    ' SELECCIÓN EXCLUSIVA DE IMPRESIÓN
+    ' ============================================
+    Private Sub opImpForGen_CheckedChanged(sender As Object, e As EventArgs) Handles opImpForGen.CheckedChanged
+        If opImpForGen.Checked Then
+            ' Desmarcar los otros checkboxes
+            chkImprimirRIDE.Checked = False
+            chkImprimirTicket.Checked = False
+        End If
+    End Sub
+
+    Private Sub chkImprimirRIDE_CheckedChanged(sender As Object, e As EventArgs) Handles chkImprimirRIDE.CheckedChanged
+        If chkImprimirRIDE.Checked Then
+            ' Desmarcar los otros checkboxes
+            opImpForGen.Checked = False
+            chkImprimirTicket.Checked = False
+        End If
+    End Sub
+
+    Private Sub chkImprimirTicket_CheckedChanged(sender As Object, e As EventArgs) Handles chkImprimirTicket.CheckedChanged
+        If chkImprimirTicket.Checked Then
+            ' Desmarcar los otros checkboxes
+            opImpForGen.Checked = False
+            chkImprimirRIDE.Checked = False
+        End If
+    End Sub
+
     Private Sub limpiarChecList(ByVal lista As CheckedListBox)
         Dim i As Integer = 0
         With lista
@@ -298,6 +317,9 @@ Friend Class SYSP13
             End Try
 
         Next
+        opImpForGen.Checked = False
+        chkImprimirRIDE.Checked = False
+        chkImprimirTicket.Checked = False
     End Sub
 
     Private Sub LimpiarControl(ByVal oBJ As Control)
@@ -331,84 +353,65 @@ Friend Class SYSP13
 
 
     Private Function ArmarExtenciones() As Object
-        ' armarextenciones(tIPOdOC)
-        'Permite configurar el compòrtamiento de cada documento
-        'los tres primeros caracteres son del documento
-        'el siguiente es de si o no en contabilidad 0=No refleja y  1=Si REfleja
-        'El siguiente es de Inventario 0=No Refleja y 1=Si Refleja
-        'El siguiente caracter es de Activos Fijos 0=No Refleja y 1=Si Refleja
-        ' y el ultimo es del Estado del documento 0=No Oculto y 1=Si Oculto
-        Return dbDoc.SelectedValue.ToString & Convert.ToInt16(chRefCon.Checked).ToString() & Convert.ToInt16(chRefInv.Checked).ToString() & Convert.ToInt16(chRefAcf.Checked).ToString() & "0" 'Trim(Str(chMostrar.Value))
+        Return dbDoc.SelectedValue.ToString & Convert.ToInt16(chRefCon.Checked).ToString() & Convert.ToInt16(chRefInv.Checked).ToString() & Convert.ToInt16(chRefAcf.Checked).ToString() & "0"
     End Function
     Private Function ArmarExtenciones2(ByRef op As String) As String
         chRefCon.Checked = (Val(Mid(op, 4, 1)) <> 0)
         chRefInv.Checked = (Val(Mid(op, 5, 1)) <> 0)
         chRefAcf.Checked = (Val(Mid(op, 6, 1)) <> 0)
-        'chMostrar = val(Mid$(op, 7, 1))
         Return ""
     End Function
 
-    'Function GenDia()
-    '     If opInd Then
-    '        GenDia = "I"   ' "I" el documento en contabilidad se generara INDIVIDUALMENTE
-    '     ElseIf opMen Then
-    '        GenDia = "M"  ' "M" el documento en contabilidad se generara MENSUALMETE
-    '     ElseIf opSem Then
-    '        GenDia = "S"   ' "S" el documento en contabilidad se generara SEMANALMETE
-    '     ElseIf opQui Then
-    '        GenDia = "Q"   ' "Q" el documento en contabilidad se generara QUINCENALMENTE
-    '    ElseIf opDia Then
-    '        GenDia = "D"    ' "D" el documento en contabilidad se generara DIARIAMENTE
-    '    End If
-    'End Function
-    '
-    'Function GenDia2(op As String)
-    '     If op = "I" Then
-    '        opInd = True
-    '     ElseIf op = "M" Then
-    '        opMen = True
-    '     ElseIf op = "S" Then
-    '        opSem = True
-    '     ElseIf op = "Q" Then
-    '        opQui = True
-    '    ElseIf op = "D" Then
-    '        opDia = True
-    '    End If
-    'End Function
     Private Function ImpDoc() As String
+        ' Retorna el valor de impresión basado en los checkboxes
+        ' "N" = No imprimir, "G" = Impresión General, "" = Ninguno seleccionado
         ImpDoc = ""
-        If opImpForNin.Checked Then
-            ImpDoc = "N" ' "N" no se imrime el documento
-        ElseIf opImpForGen.Checked Then
-            ImpDoc = "G" ' "G" Se imprime con formato del TEKFORM
+
+        ' Prioridad: si ambos están seleccionados (error), dar prioridad a "G"
+        If opImpForGen.Checked Then
+            ImpDoc = "G"
+            ' Asegurar que el otro esté desmarcado
+            If opImpForNin.Checked Then
+                opImpForNin.Checked = False
+            End If
+        ElseIf opImpForNin.Checked Then
+            ImpDoc = "N"
         End If
+
         Return ImpDoc
     End Function
+
     Private Function ImpDoc2(ByRef op As String) As String
-        ImpDoc2 = ""
-        If op = "S" Then
-            '        opImpForEst = True
+        ' Carga los checkboxes basado en el valor de la base de datos
+        ' Limpia primero todos los checkboxes de impresión
+        opImpForGen.Checked = False
+        opImpForNin.Checked = False
+
+        ' Luego selecciona el que corresponda
+        If op = "G" Then
+            opImpForGen.Checked = True
         ElseIf op = "N" Then
             opImpForNin.Checked = True
-        ElseIf op = "G" Then
-            opImpForGen.Checked = True
         End If
-        Return ImpDoc2
+
+        Return ""
     End Function
+
+
     Private Function TipoCosto() As String
         TipoCosto = ""
         If opCosDig.Checked Then
-            TipoCosto = "D" ' "D" tipo de costo DIGITADO
+            TipoCosto = "D"
         ElseIf opCosPro.Checked Then
-            TipoCosto = "P" '"P" tipo de costo PROMEDIO
+            TipoCosto = "P"
         ElseIf opCosUlt.Checked Then
-            TipoCosto = "U" ' "U" tipo de costo ULTIMO
+            TipoCosto = "U"
         ElseIf opCosNin.Checked Then
-            TipoCosto = "N" '   "N" tipo de costo NINGUNO
+            TipoCosto = "N"
         ElseIf OpCosLiq.Checked Then
-            TipoCosto = "L" '   "L" tipo de costo calculado liquidando importaciones con documentos
+            TipoCosto = "L"
         ElseIf OpCosLiqClas.Checked Then
-            TipoCosto = "Q" '   "Q" tipo de costo calculado liquidando importaciones con clasificadores
+            TipoCosto = "Q"
         End If
     End Function
     Private Function TipoCosto2(ByRef op As String) As Object
@@ -429,19 +432,16 @@ Friend Class SYSP13
     End Function
     Private Function ArtSerAcf() As String
         Dim Aux As String
-        ' "A" cuando se refiere a faturar ARTICULOS
         If chFacArt.Checked Then
             Aux = "A"
         Else
             Aux = "*"
         End If
-        ' "S" cuando se refiere a SERVICIOS
         If chFacSer.Checked Then
             Aux = Aux & "S"
         Else
             Aux = Aux & "*"
         End If
-        ' "F" ACTIVOS FIJOS
         If chFacAcf.Checked Then
             Aux = Aux & "F"
         Else
@@ -468,22 +468,6 @@ Friend Class SYSP13
         End If
     End Function
 
-
-    'Private Sub btMasCtas_Click()
-    'If btMasCtas.Caption = "Mas Ctas" Then
-    '    frCtaRet.Visible = True
-    '    btMasCtas.Caption = "Atras"
-    'Else
-    '    frCtaRet.Visible = False
-    '    btMasCtas.Caption = "Mas Ctas"
-    'End If
-    '
-    'End Sub
-
-    'Private Sub btModificar_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs)
-    '    EsNuevo = 0
-    'End Sub
-
     Private Sub VerDialog()
         dgRutasOpen.Title = "Escoja un Formulario"
         dgRutasOpen.Filter = "*.fdg"
@@ -506,27 +490,6 @@ Friend Class SYSP13
         End If
         ct = Nothing
     End Function
-
-    'Private Sub BusquedaEnLinea_Click()
-    '    BuscarCta
-    'End Sub
-
-    'Private Sub Buscar()
-    '    Dim RsAux As New ADODB.Recordset
-    '    Dim COD As String
-    '    COD = "SELECT Cta_Codigo,Cta_Nombre FROM AdcCta WHERE Cta_Codigo='" & trim(Dato(1)) & "'"
-    '    RsAux.Open COD, ConxAdcom, adOpenKeyset, adLockOptimistic
-    '    If RsAux.RecordCount > 0 Then
-    '        Dato(2) = RsAux!cta_nombre
-    '    Else
-    '        Dato(1) = ""
-    '    End If
-    'End Sub
-
-    Private Sub chDefEst_Click()
-        'SSTab1.TabVisible(2) = IIf(chDefEst.Value.tostring())
-        '    Mallita.LineaEdicion
-    End Sub
 
     Private Sub LlenarTipo()
         fImpuestos.Visible = False
@@ -629,7 +592,6 @@ Friend Class SYSP13
         chRefCon.Checked = False
         chRefCon.Enabled = True
         frImpFor.Visible = True
-        '   chDefEst.Visible = False
         chRefInv.Visible = False
         chRefInv.Enabled = True
         chRefAcf.Visible = True
@@ -648,40 +610,12 @@ Friend Class SYSP13
     End Sub
 
     Private Sub CambiarEtiquetas()
-        'If dbDoc.SelectedValue.tostring = "MAF" Then
-        '    LbValVtaInv.Text = "Reexpresión costo activo"
-        '    lbValVtaOIva.Text = "Reexpresión de reexpresión acum."
-        '    lbSubVtaCIva.Text = "Reexpresión de depresiación acum."
-        '    lbValDes.Text = "Reexpresión total"
-        '    lbValNetoVta.Text = "Reexpresión del costo del activo"
-        '    lbIva.Text = "Depresiación de la reexpresión acum."
-        '    LbOtrSIva.Text = "Depresiación total"
-        '    lbTotDesInd.Visible = False
-        '    txtTotDesIndD.Visible = False
-        '    txtTotDesIndH.Visible = False
-        '    btTotDesIndD.Visible = False
-        '    btTotDesIndH.Visible = False
-        'Else
-        '    LbValVtaInv.Text = "Artículos :"
-        '    lbValVtaOIva.Text = "Cruce documentos"
-        '    lbSubVtaCIva.Text = "Servicios/Otros:"
-        '    lbValDes.Text = ""
-        '    lbValNetoVta.Text = "Activos Fijos:"
-        '    lbIva.Text = "Descuento Artículos:"
-        '    LbOtrSIva.Text = "Descuento Servicios:"
-        '    lbTotDesInd.Visible = True
-        '    txtTotDesIndD.Visible = True
-        '    txtTotDesIndH.Visible = True
-        '    btTotDesIndD.Visible = True
-        '    btTotDesIndH.Visible = True
-        'End If
-
+        ' Mantener etiquetas originales
     End Sub
 
     Private Sub LlenarBancos()
 
         chRefCon.Visible = True
-        ''chRefCon.Value = False
         chRefCon.Enabled = True
         chRefInv.Visible = False
         chRefInv.Enabled = True
@@ -691,21 +625,16 @@ Friend Class SYSP13
         chRefAcf.Visible = False
         chRefAcf.Enabled = True
         frFac.Visible = False
-        '   frCosto.Visible = False
         chGuaUltCom.Visible = False
         chGenSinExi.Visible = False
         chRepCodFil.Visible = False
-        '    FrCta.Visible = False
-        'SSTab1.TabVisible(2) = False
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
-        '    frConInd.Visible = False
     End Sub
 
     Private Sub LlenarNotaCreditoDebito()
 
         chRefCon.Visible = True
-        'chRefCon.Value = False
         chRefCon.Enabled = True
         chRefInv.Visible = False
         chRefInv.Enabled = True
@@ -715,16 +644,11 @@ Friend Class SYSP13
         chFacAcf.Enabled = True
         chRefAcf.Enabled = True
         frFac.Visible = False
-        '   frCosto.Visible = False
         chGuaUltCom.Visible = False
         chGenSinExi.Visible = False
         chRepCodFil.Visible = False
-        '   FrCta.Visible = False
-        'SSTab1.TabVisible(2) = False
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
-        '   frConInd.Visible = False
-        'If dbDoc.SelectedValue.tostring = "NCC" Or dbDoc.SelectedValue.tostring = "NDP" Then
     End Sub
 
     Private Sub LlenarRetenciones()
@@ -739,17 +663,11 @@ Friend Class SYSP13
         chFacAcf.Enabled = True
         chRefAcf.Enabled = True
         frFac.Visible = False
-        '   frCosto.Visible = False
         chGuaUltCom.Visible = False
         chGenSinExi.Visible = False
         chRepCodFil.Visible = False
-        '        CargarTipoDocumento()
-        '   FrCta.Visible = False
-        'SSTab1.TabVisible(2) = False
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
-        '   frConInd.Visible = False
-        'If dbDoc.SelectedValue.tostring = "NCC" Or dbDoc.SelectedValue.tostring = "NDP" Then
     End Sub
     Private Sub LlenarProforPedido()
 
@@ -757,7 +675,6 @@ Friend Class SYSP13
         chRefCon.Checked = False
         chRefCon.Enabled = True
         fImpuestos.Visible = True
-        '   chDefEst.Visible = False
         chRefInv.Visible = False
         chRefInv.Enabled = True
         chRefAcf.Visible = False
@@ -766,31 +683,23 @@ Friend Class SYSP13
         chFacArt.Enabled = True
         chFacSer.Enabled = True
         chFacAcf.Enabled = True
-        '   frCosto.Visible = False
         chGuaUltCom.Visible = False
         chGenSinExi.Visible = False
         chRepCodFil.Visible = True
-        '    FrCta.Visible = False
-        'SSTab1.TabVisible(2) = False
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
-        '    frConInd.Visible = False
     End Sub
 
     Private Sub LlenarIngresoEgreso()
 
         chRefCon.Visible = True
-        'chRefCon.Value = False
         chRefCon.Enabled = True
         frImpFor.Visible = True
-        '   chDefEst.Visible = False
         chRefInv.Visible = True
         chRefInv.Checked = True
         chRefInv.Enabled = False
         chRefAcf.Visible = False
         chRefAcf.Enabled = True
-        '   frFac.Visible = True
-        '   frCosto.Visible = True
         chFacArt.Checked = True
         chFacArt.Enabled = False
         chFacSer.Enabled = False
@@ -798,28 +707,19 @@ Friend Class SYSP13
         chGuaUltCom.Visible = True
         chGenSinExi.Visible = True
         chRepCodFil.Visible = True
-        ' FrCta.Visible = False
-        '   SSTab1.TabVisible(2) = False
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
-        '   frConInd.Visible = True
     End Sub
 
     Private Sub LlenarRemisiones()
 
         chRefCon.Visible = True
-        'chRefCon.Value = False
         chRefCon.Enabled = True
         frImpFor.Visible = True
-        '   chDefEst.Visible = False
         chRefInv.Visible = True
-        'chRefInv.Checked = true
         chRefInv.Enabled = True
         chRefAcf.Visible = False
         chRefAcf.Enabled = True
-        '   frFac.Visible = True
-        '   frCosto.Visible = True
-        '       CargarTipoDocumento()
         chFacArt.Checked = True
         chFacArt.Enabled = False
         chFacSer.Enabled = False
@@ -827,11 +727,8 @@ Friend Class SYSP13
         chGuaUltCom.Visible = True
         chGenSinExi.Visible = True
         chRepCodFil.Visible = True
-        ' FrCta.Visible = False
-        '   SSTab1.TabVisible(2) = False
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
-        '   frConInd.Visible = True
     End Sub
 
 
@@ -839,10 +736,8 @@ Friend Class SYSP13
 
         fImpuestos.Visible = True
         chRefCon.Visible = True
-        'chRefCon.Value = False
         chRefCon.Enabled = True
         frImpFor.Visible = True
-        'chDefEst.Visible = False
         chRefInv.Visible = True
         chRefInv.Enabled = True
         chRefAcf.Visible = True
@@ -850,44 +745,24 @@ Friend Class SYSP13
         chFacArt.Enabled = True
         chFacSer.Enabled = True
         chFacAcf.Enabled = True
-        '   FrCta.Visible = True
-        '   frFac.Visible = True
-        '   frCosto.Visible = True
         chGuaUltCom.Visible = True
         chGenSinExi.Visible = True
         chRepCodFil.Visible = True
-        '   SSTab1.TabVisible(1) = False
-        '   frConInd.Visible = True
-        '      CargarTipoDocumento()
         chRefCon_CheckStateChanged(chRefCon, New System.EventArgs())
         chRefInv_CheckStateChanged(chRefInv, New System.EventArgs())
         chkNoBajoCosto.Visible = True
     End Sub
 
-    'Private Sub conectarBDD()
-    '    Dim coneccion As New DaxLib.DaxLibBases
-    '    coneccion.TipoBase = "10"
-    '    strConxadcom = coneccion.StrAdcom
-    '    strConxIvaret = coneccion.StrIvaret
-    '    conectar.ConnectionString = coneccion.StrAdcom
-    '    conectarDaxsys.ConnectionString = coneccion.StrDaxsys
-    'End Sub
-
     Private Sub SYSP13_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
         Dim I As Integer
-        '        strConxadcom = DattCom.datosEmpresa.strConxAdcom
         cargar = True
         op = New OpcDoc
         LabGeneral_Click(eventSender, eventArgs)
         Sw = False
         Dim ssql As String = "select abreviación,'Documento tipo ' + Descripcion as Descripcion from syscod where tiporeferencia = 'Documentos' and abreviación <> '#' order by Descripcion "
-        'Dim datS As New DataTable()
-        'Dim dat As New Data.SqlClient.SqlDataAdapter(ssql, strConxadcom)
-        'dat.Fill(datS)
         dbDoc.DataSource = DattCom.SqlDatos.leerTabla(ssql, DattCom.datosEmpresa.strConxAdcom)
         dbDoc.ValueMember = "abreviación"
         dbDoc.DisplayMember = "Descripcion"
-        '        conectarDaxsys.Close()
         I = 0
         ssql = "SELECT Descripcion  FROM syscod where tiporeferencia = 'Impuestos'  and abreviación <> '#' "
         Using da As New SqlDataAdapter(ssql, DattCom.datosEmpresa.strConxAdcom)
@@ -909,19 +784,9 @@ Friend Class SYSP13
         End Using
         Dim progg As New DaxCombobx.CargCmbBox
         progg.DaxCombosDoc("INV", "", False, DattCom.datosEmpresa.strConxAdcom, ComboDoc1)
-        'ssql = "SELECT opc_documento,opc_nombre FROM AdcOpc ORDER BY Opc_tipo"
         CargarTipoDocumentoSRI()
         CargarChekList(ListCabecera, "0")
         CargarChekList(ListItems, "1")
-        'Using da As New SqlDataAdapter(ssql, strConxadcom)
-        '    Using dat1 As New DataTable()
-        '        da.Fill(datS)
-        '        ComboDoc1.DataSource = dat1
-        '        ComboDoc1.ValueMember = "opc_documento"
-        '        ComboDoc1.DisplayMember = "opc_nombre"
-        '        conectar.Close()
-        '    End Using
-        'End Using
 
         Dim prog As New DaxCombobx.CargCmbBox()
         prog.DaxCombosClasf(DattCom.datosEmpresa.strConxAdcom, CmbClasificadorCosteo)
@@ -931,18 +796,12 @@ Friend Class SYSP13
 
     Private Sub CargarChekList(ByVal checkList As CheckedListBox, ByVal ubica As String)
         Dim ssql As String = "select Nombre from AdcClasfCtb where regporconcepto='" & ubica & "'"
-        'Dim cmd As New SqlCommand(ssql, conectar)
-        'Dim dat As SqlDataReader = Nothing
-        'If conectar.State = ConnectionState.Open Then conectar.Close()
-        'conectar.Open()
-        'dat = cmd.ExecuteReader()
         Dim dat As SqlDataReader = DattCom.SqlDatos.leerBase(ssql, DattCom.datosEmpresa.strConxAdcom)
         With checkList
             While dat.Read
                 If Not IsDBNull(dat(0)) Then .Items.Add(dat(0))
             End While
         End With
-        'conectar.Close()
     End Sub
 
     Private Sub SYSP13_FormClosed(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
@@ -950,33 +809,19 @@ Friend Class SYSP13
         Me.Dispose()
     End Sub
     Private Sub cerrando()
-        'If conectar.State = ConnectionState.Closed Then conectar.Open()
-        'Dim sql As String = "begin try DROP TABLE [dbo].[adcSopOblg] end try begin catch end catch ;"
-        'DattCom.SqlDatos.ejecutarComandoAdcom(sql)
-
-        'sql = "begin try DROP VIEW [dbo].[adcSopOblg] end try begin catch end catch ;"
-        'DattCom.SqlDatos.ejecutarComando(sql, DattCom.datosEmpresa.strConxAdcom)
-
-        'sql = "SELECT Opc_documento, TipoSoporteObligatorio"
-        'sql += " into  adcSopOblg"
-        'sql += " FROM dbo.AdcOpc"
-        'sql += " WHERE Opc_tipo IN (SELECT Abreviación FROM dbo.Syscod WHERE (TipoReferencia = 'documentos') AND (SUBSTRING(Caracteristica1, 3, 1) = '2'))"
-        'sql += " AND (SUBSTRING(Opc_extension, 5, 1) = '1') AND (TipoSoporteObligatorio > '')"
-
-        'Dim dat As SqlDataReader = DattCom.SqlDatos.leerBase(sql, DattCom.datosEmpresa.strConxAdcom)
-        'DattCom.SqlDatos.ejecutarComando(sql, DattCom.datosEmpresa.strConxAdcom)
-
+        ' Limpiar recursos
     End Sub
+
     Private Sub FormatoAux1_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles FormatoAux1.KeyDown
         Dim KeyCode As Integer = eventArgs.KeyCode
         Dim Shift As Integer = eventArgs.KeyData \ &H10000
-        If KeyCode = System.Windows.Forms.Keys.F2 Then BtRut3_Click_1(eventSender, eventArgs) 'BtRut3_Click(BtRut3, New System.EventArgs())
+        If KeyCode = System.Windows.Forms.Keys.F2 Then BtRut3_Click_1(eventSender, eventArgs)
     End Sub
 
     Private Sub FormatoAux2_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles FormatoAux2.KeyDown
         Dim KeyCode As Integer = eventArgs.KeyCode
         Dim Shift As Integer = eventArgs.KeyData \ &H10000
-        If KeyCode = System.Windows.Forms.Keys.F2 Then BtRut4_Click_1(eventSender, eventArgs) 'BtRut4_Click(BtRut4, New System.EventArgs())
+        If KeyCode = System.Windows.Forms.Keys.F2 Then BtRut4_Click_1(eventSender, eventArgs)
     End Sub
 
     Private Sub FormatoAux3_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles FormatoAux3.KeyDown
@@ -988,7 +833,7 @@ Friend Class SYSP13
     Private Sub Impresora_1_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles Impresora_1.KeyDown
         Dim KeyCode As Integer = eventArgs.KeyCode
         Dim Shift As Integer = eventArgs.KeyData \ &H10000
-        If KeyCode = System.Windows.Forms.Keys.F2 Then Command1_Click(eventSender, eventArgs) 'Command1_Click(Command1, New System.EventArgs())
+        If KeyCode = System.Windows.Forms.Keys.F2 Then Command1_Click(eventSender, eventArgs)
     End Sub
 
     Private Sub Impresora_2_KeyDown(ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles Impresora_2.KeyDown
@@ -1007,13 +852,6 @@ Friend Class SYSP13
         Dim KeyCode As Integer = eventArgs.KeyCode
         Dim Shift As Integer = eventArgs.KeyData \ &H10000
         If KeyCode = System.Windows.Forms.Keys.Return Then
-
-            '         RsOpc.Find "opc_documento = '" & txtabr & "'"
-            '        a = RsOpc!opc_nombre
-            '        If RsOpc.EOF Then
-            '               Limpia
-            '               Exit Sub
-            '        End If
             op.Cargar(txtAbr.Text, "")
             If op.VerificarDocumento(txtAbr.Text) = False Then Sw = False : txtAbr.Text = "" : Exit Sub
             Sw = True
@@ -1021,75 +859,17 @@ Friend Class SYSP13
         End If
     End Sub
 
-    'Private Sub txtNumIni_KeyPress(KeyAscii As Integer)
-    'If (KeyAscii >= 48 And KeyAscii <= 59) Or (KeyAscii = 8) Or (KeyAscii = 46) Or (KeyAscii = 44")) then
-    '  txtNumIni.Locked = False
-    'Else
-    '   txtNumIni.Locked = True
-    'End If
-    'End Sub
-
-    'Private Sub CargarTipoDocumentoSRI()
-    '    Dim cmd As New SqlCommand()
-    '    Dim ssql As String = ""
-    '    Dim dat1 As SqlDataReader = Nothing
-    '    '        Dim claves As String
-    '    Dim ElCodigo As String = ""
-    '    Dim ElCodigo2 As String = ""
-    '    'On Error Resume Next
-    '    'cmd.Connection = conectarDaxsy
-    '    Select Case dbDoc.SelectedValue.ToString
-    '        Case "FAC", "DEV", "NDC", "NCC", "REM", "RTC"
-    '            ElCodigo = "2"
-    '            ElCodigo2 = "4"
-    '        Case "FAP", "DEP", "NDP", "NCP", "RTP"
-    '            ElCodigo = "1"
-    '            ElCodigo2 = "3"
-    '    End Select
-    '    Dim tieneSri As Boolean = (DattCom.datosEmpresa.AnexoTransaccional Or DattCom.datosEmpresa.Ivaret)
-    '    Label13.Visible = (tieneSri And Val(ElCodigo) <> 0)
-    '    TipoComprobanteSri.Visible = Label13.Visible
-    '    If tieneSri = True Then
-    '        'ssql = "SELECT * FROM comprobantesAutorizados WHERE secuencialTransaccion like '%" + ElCodigo + "%' or secuencialTransaccion  like '%" + ElCodigo2 + "%'"
-    '        'cmd.CommandText = ssql
-    '        'If conectarDaxsys.State = ConnectionState.Open Then conectarDaxsys.Close()
-    '        'conectarDaxsys.Open()
-    '        'dat1 = cmd.ExecuteReader()
-    '        'If Not dat1.Read And ElCodigo <> 0 Then
-    '        '    MsgBox("No se encontró la tabla del SRI de Tipos de Transaccion")
-    '        '    Exit Sub
-    '        'End If
-    '        'claves = dat1("TipoComprobante")
-    '        'conectarDaxsys.Close()
-    '        'If claves = "" And ElCodigo <> 0 Then
-    '        '    MsgBox("En tabla de tipo de transacciones, codigo " & ElCodigo.ToString() & " el tipo de documentos esta mal definido")
-    '        '    Exit Sub
-    '        'End If
-    '        'claves = SepararClaves(claves, "codigo")
-    '        ssql = " select '' as codigo,'No afecta al SRI' as TipoDeComprobante  union all "
-    '        ssql += "Select código, (substring(Ltrim(código) + '    ',0,3) + ' - ' + Descripción) as TipodeComprobante From comprobantesAutorizados WHERE secuencialTransaccion like '%" + ElCodigo + "%' or secuencialTransaccion  like '%" + ElCodigo2 + "%'"
-    '        Dim dt As New DataTable
-    '        Dim da As New SqlDataAdapter(ssql, DattCom.datosEmpresa.strConxIvaret)
-    '        da.Fill(dt)
-    '        TipoComprobanteSri.DataSource = dt
-    '        TipoComprobanteSri.ValueMember = "codigo"
-    '        TipoComprobanteSri.DisplayMember = "TipoDeComprobante"
-    '    End If
-    'End Sub
-
-
     Private Sub CargarTipoDocumentoSRI()
         Dim ssql As String = ""
         Dim ElCodigo As String = ""
         Dim ElCodigo2 As String = ""
 
-        ' Determinar códigos según el tipo de documento
         Select Case dbDoc.SelectedValue.ToString
             Case "FAC", "DEV", "NDC", "NCC", "REM", "RTC"
-                ElCodigo = "2"   ' Código para ventas
+                ElCodigo = "2"
                 ElCodigo2 = "4"
             Case "FAP", "DEP", "NDP", "NCP", "RTP"
-                ElCodigo = "1"   ' Código para compras
+                ElCodigo = "1"
                 ElCodigo2 = "3"
         End Select
 
@@ -1098,7 +878,6 @@ Friend Class SYSP13
         TipoComprobanteSri.Visible = Label13.Visible
 
         If tieneSri = True And (ElCodigo <> "" Or ElCodigo2 <> "") Then
-            ' Consulta para obtener los tipos de comprobante SRI
             ssql = " SELECT '18' as codigo, '18 - FACTURA' as TipoDeComprobante UNION ALL "
             ssql += " SELECT '01' as codigo, '01 - FACTURA' as TipoDeComprobante UNION ALL "
             ssql += " SELECT '04' as codigo, '04 - NOTA DE CREDITO' as TipoDeComprobante UNION ALL "
@@ -1106,19 +885,11 @@ Friend Class SYSP13
             ssql += " SELECT '06' as codigo, '06 - GUIA DE REMISION' as TipoDeComprobante UNION ALL "
             ssql += " SELECT '07' as codigo, '07 - COMPROBANTE DE RETENCION' as TipoDeComprobante "
 
-            ' Si tienes tabla de comprobantes autorizados, puedes agregar:
-            ' ssql += " UNION ALL "
-            ' ssql += " SELECT código, (código + ' - ' + Descripción) as TipoDeComprobante "
-            ' ssql += " FROM comprobantesAutorizados "
-            ' ssql += " WHERE secuencialTransaccion like '%" & ElCodigo & "%' "
-            ' ssql += " OR secuencialTransaccion like '%" & ElCodigo2 & "%'"
-
             Try
                 Dim dt As New DataTable
                 Dim da As New SqlDataAdapter(ssql, DattCom.datosEmpresa.strConxIvaret)
                 da.Fill(dt)
 
-                ' Agregar opción "No afecta al SRI" al inicio
                 Dim dr As DataRow = dt.NewRow()
                 dr("codigo") = ""
                 dr("TipoDeComprobante") = "No afecta al SRI"
@@ -1132,7 +903,6 @@ Friend Class SYSP13
                 MessageBox.Show("Error al cargar tipos de comprobante SRI: " & ex.Message)
             End Try
         Else
-            ' Si no hay SRI, cargar solo la opción por defecto
             Dim dt As New DataTable
             dt.Columns.Add("codigo")
             dt.Columns.Add("TipoDeComprobante")
@@ -1142,6 +912,7 @@ Friend Class SYSP13
             TipoComprobanteSri.DisplayMember = "TipoDeComprobante"
         End If
     End Sub
+
     Private Function SepararClaves(ByRef Clave As String, ByRef Campo As String) As String
         Dim I, j As Integer
         Dim Tt As Single
@@ -1179,24 +950,17 @@ Friend Class SYSP13
         LimpiaFormulario()
         EsNuevo = 1
         PonerBotones()
-        'bloquear(False)
     End Sub
 
     Sub CargarDatos()
-        'On Error Resume Next
         Dim auxCamp As String = ""
         Dim Linea As String
         Dim ssql As String = "select * from adcopc where opc_documento='" & txtAbr.Text & "'"
         Dim dat As SqlDataReader = DattCom.SqlDatos.leerBase(ssql, DattCom.datosEmpresa.strConxAdcom)
         If dat.Read Then
-            '  If Not IsDBNull(dat("Opc_documento")) Then txtAbr.Text = dat("Opc_documento")
             If Not IsDBNull(dat("opc_nombre")) Then txtDes.Text = dat("opc_nombre").ToString
 
-            ' LLENAR COMBOS
-            ' TIPO DE DOCUMENTO
             Try
-                'If dat("Opc_Tipo").ToString <> dbDoc.SelectedValue.ToString() Then dbDoc.SelectedValue = dat("Opc_Tipo").ToString
-
                 If dat("Opc_Tipo") IsNot Nothing Then
                     Dim valorOpcTipo As String = dat("Opc_Tipo").ToString()
                     Dim valorActual As String = If(dbDoc.SelectedValue IsNot Nothing, dbDoc.SelectedValue.ToString(), "")
@@ -1205,17 +969,10 @@ Friend Class SYSP13
                         dbDoc.SelectedValue = valorOpcTipo
                     End If
                 End If
-
-
-
             Catch
                 dbDoc.SelectedValue = dat("Opc_Tipo").ToString
             End Try
 
-            'TIPO DOCUMENTO SRI
-            'If TipoComprobanteSri.SelectedValue.ToString() <> dat("Opc_TipoSri").ToString() Then TipoComprobanteSri.SelectedValue = dat("Opc_TipoSri").ToString
-
-            'TIPO DOCUMENTO SRI
             Try
                 If TipoComprobanteSri IsNot Nothing Then
                     If Not IsDBNull(dat("Opc_TipoSri")) Then
@@ -1229,15 +986,11 @@ Friend Class SYSP13
                     End If
                 End If
             Catch ex As Exception
-                ' Si hay error, intentar asignar directamente
                 If TipoComprobanteSri IsNot Nothing AndAlso Not IsDBNull(dat("Opc_TipoSri")) Then
                     TipoComprobanteSri.SelectedValue = dat("Opc_TipoSri").ToString()
                 End If
             End Try
 
-
-
-            ' TIPO DE DOCUMENTO GENERA EN ARTICULOS COMPUESTOS
             If Not IsDBNull(dat("opc_GeneraMP")) Then
                 GeneraSalidaMP.Checked = Convert.ToBoolean(dat("opc_GeneraMP").ToString())
                 If Not IsDBNull(dat("TipoSalidaMP")) Then
@@ -1248,20 +1001,14 @@ Friend Class SYSP13
                 ComboDoc1.Visible = False
             End If
 
-
-            'LlenarTipo()
-
-            'If Not IsNull(!Opc_numini) Then txtNumIni = !Opc_numini
             If Not IsDBNull(dat("Opc_Extension")) Then ArmarExtenciones2(dat("Opc_Extension").ToString())
             If Not IsDBNull(dat("Opc_SnCompDes")) Then chGenComDes.Checked = Convert.ToBoolean(dat("Opc_SnCompDes"))
 
-            '      If Not IsNull(!Opc_TipoGas) Then ChGenTipGas = IIf(!Opc_TipoGas.tostring())
             If Not IsDBNull(dat("Opc_SnRepetir")) Then chRepCodFil.Checked = Convert.ToBoolean(dat("Opc_SnRepetir"))
             If Not IsDBNull(dat("opc_contabiliza")) Then chRefCon.Checked = Convert.ToBoolean(dat("opc_contabiliza"))
             If Not IsDBNull(dat("Opc_GENERARDia")) Then Reconta.Checked = (dat("Opc_GENERARDia").ToString() = "S")
             If Not IsDBNull(dat("Opc_ImpriDoc")) Then ImpDoc2(dat("Opc_ImpriDoc").ToString())
             If Not IsDBNull(dat("Opc_ImpriForm")) Then txtFormato.Text = dat("Opc_ImpriForm").ToString()
-            'If Not IsNull(!Opc_SnDefEstan) Then chDefEst = IIf(!Opc_SnDefEstan.tostring())
             If Not IsDBNull(dat("Opc_SnSinExis")) Then chGenSinExi.Checked = Convert.ToBoolean(dat("Opc_SnSinExis").ToString())
             If Not IsDBNull(dat("Opc_tipocos")) Then TipoCosto2(dat("Opc_tipocos").ToString())
             If Not IsDBNull(dat("ClasificadorCosto")) Then CmbClasificadorCosteo.SelectedValue = dat("ClasificadorCosto".ToString())
@@ -1371,6 +1118,18 @@ Friend Class SYSP13
             chkElectronico.Checked = False
             If Not IsDBNull(dat("EsElectronico")) Then chkElectronico.Checked = (Convert.ToInt16(dat("EsElectronico")) = 1)
 
+            If Not IsDBNull(dat("ImprimirRIDE")) Then
+                chkImprimirRIDE.Checked = Convert.ToBoolean(dat("ImprimirRIDE"))
+            Else
+                chkImprimirRIDE.Checked = False
+            End If
+
+            If Not IsDBNull(dat("ImprimirTicket")) Then
+                chkImprimirTicket.Checked = Convert.ToBoolean(dat("ImprimirTicket"))
+            Else
+                chkImprimirTicket.Checked = False
+            End If
+
         End If
         Sw = False
         cargar = False
@@ -1398,38 +1157,9 @@ Friend Class SYSP13
         Dim QUENOMBRE As String = ""
         Dim prog As New BuscDocAdcom
         prog.BuscaDocAdcom("T", QUECODIGO, QUENOMBRE)
-        'limpiar(Me)
         txtAbr.Text = QUECODIGO
-        txtAbr_KeyDown(txtAbr, New System.Windows.Forms.KeyEventArgs(Keys.Return)) 'btBuscar_Click(sender, e)
-        'bloquear(False)
+        txtAbr_KeyDown(txtAbr, New System.Windows.Forms.KeyEventArgs(Keys.Return))
     End Sub
-
-    'Private Sub dbDoc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles dbDoc.Click
-    '    If dbDoc.Text > "" Then LlenarTipo()
-    'End Sub
-
-    'Private Sub dbDoc_SelectedValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles dbDoc.SelectedValueChanged
-    '    'If cargar = False Then LlenarTipo()
-    'End Sub
-
-    'Private Sub BtnDocSop_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '    Dim QUECODIGO As String = ""
-    '    Dim QUENOMBRE As String = ""
-    '    Dim prog As New BuscDocAdcom
-    '    prog.BuscaDocAdcom("T", QUECODIGO, QUENOMBRE)
-    '    prog = Nothing
-    '    TxtTipSop.Text = QUECODIGO
-    '    LbNomSoporte.Text = QUENOMBRE
-    'End Sub
-
-    'Private Sub Command8_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '    Dim prog As New BuscDocAdcom
-    '    Dim QUECODIGO As String = ""
-    '    Dim QUENOMBRE As String = ""
-    '    prog.BuscaDocAdcom("C", QUECODIGO, QUENOMBRE)
-    '    prog = Nothing
-    '    Label46.Text = QUECODIGO
-    'End Sub
 
     Private Sub BtRut3_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtRut3.Click
         Dim prog As New BuscaFormasDoc
@@ -1447,7 +1177,6 @@ Friend Class SYSP13
         printer.ShowDialog()
         Impresora_1.Text = printer.PrinterSettings.PrinterName
         printer.Dispose()
-        'Impresora_1 = Printer.DeviceName
     End Sub
 
     Private Sub BtRut4_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtRut4.Click
@@ -1470,7 +1199,6 @@ Friend Class SYSP13
     Private Sub BtRut5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtRut5.Click
         Dim prog As New BuscaFormasDoc
         FormatoAux3.Text = prog.IniciaBuscaClase("")
-        'UPGRADE_NOTE: El objeto prog no se puede destruir hasta que no se realice la recolección de los elementos no utilizados. Haga clic aquí para obtener más información: 'ms-help://MS.VSCC.v90/dv_commoner/local/redirect.htm?keyword="6E35BFF6-CD74-4B09-9689-3E1A43DF8969"'
         prog = Nothing
     End Sub
 
@@ -1775,11 +1503,7 @@ Friend Class SYSP13
     End Sub
 
     Private Sub GeneraSalidaMP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GeneraSalidaMP.CheckedChanged
-        ComboDoc1.Visible = GeneraSalidaMP.Checked 
-    End Sub
-
-    Private Sub btnModificar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        'bloquear(False)
+        ComboDoc1.Visible = GeneraSalidaMP.Checked
     End Sub
 
     Private Sub Numeracion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Numeracion.Click
@@ -2013,10 +1737,11 @@ Friend Class SYSP13
     Private Sub Toolbar1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles Toolbar1.ItemClicked
 
     End Sub
+    Private Sub chDefEst_Click()
+        ' Este método se llama desde LlenarTipoDiario()
+        ' y LlenarTipoVentasCompras()
+        ' Si no tiene funcionalidad específica, puede estar vacío
+        ' o puedes implementar la lógica necesaria
+    End Sub
 
-
-    'Private Sub Button1_Click(sender As Object, e As EventArgs)
-    '    Dim prog As New daxAccs.registrar
-    '    prog.registro(CONEMP.EmpresaAct.codigo, ControlUsuario.Identifica, txtAbr.Text, "", strConxadcom, ClassConxion.strConxDaxSys)
-    'End Sub
 End Class

@@ -65,14 +65,11 @@ namespace DattCom
                 datosEmpresa.suc = comPar(matriz[13]);
                 datosEmpresa.sucNom = comPar(matriz[14]);
                 datosEmpresa.opcion = comPar(matriz[15]);
-
-                //datosEmpresa._strConIniSis = ArmStr("BdIniSis", datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                datosEmpresa._strConIniSis = ArmStr(datosEmpresa.nombreBaseSis, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                datosEmpresa._strConxAdcom = ArmStr(datosEmpresa.nombreBaseAdcom, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                //datosEmpresa.strConxDaxpro = ArmStr(datosEmpresa.nombreBaseDaxpro, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                datosEmpresa._strConxIvaret = ArmStr(datosEmpresa.nombreBaseIvaret, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                //datosEmpresa.strConIniSis6 = ArmStr("BdIniSis", datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                datosEmpresa.strConIniSis6 = ArmStr(datosEmpresa.nombreBaseSis, datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
+                
+                datosEmpresa._strConIniSis = ArmStr("SysBD", datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
+                datosEmpresa._strConxAdcom = ArmStr(datosEmpresa.nombreBaseAdcom, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);                
+                datosEmpresa._strConxIvaret = ArmStr(datosEmpresa.nombreBaseIvaret, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);              
+                datosEmpresa.strConIniSis6 = ArmStr("SysBD", datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 datosEmpresa.strConxAdcom6 = ArmStr(datosEmpresa.nombreBaseAdcom, datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 try
                 {
@@ -107,8 +104,7 @@ namespace DattCom
                 cadena = "server=" + Serv + ";";
                 cadena = cadena + "user id=" + UsuarioBd.Trim() + ";";
                 cadena = cadena + "password=" + PasswBd + ";";
-                //cadena = cadena + "database=" + Path + ";";
-                cadena = cadena + "database=" + datosEmpresa.nombreBaseSis + ";";
+                cadena = cadena + "database=" + Path + ";";
                 cadena = cadena + "pooling=false";
             }
 

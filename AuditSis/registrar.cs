@@ -7,7 +7,7 @@ namespace AuditSis
 	public class registrar
     {
         public static string EvntCrear = "CREAR";
-        public static string EvntModifica = "MODIFICCAR";
+        public static string EvntModifica = "MODIFICAR";
         public static string EvntElimina = "ELIMINAR";
         public static string EvntAnula = "ANULAR";
         static public void registraEventoUser(string strConIniSis, string Empresa, string IdUsuario, string Sistema, string Maquina, string idOpcion, string Valor, string Rfecha = "1900/01/01")
@@ -62,7 +62,7 @@ namespace AuditSis
             datosSys.Sys1 = Modulo;
             datosSys = null;
         }
-        static public void registraPreferencia(string strConIniSis, string Empresa, string IdUsuario, string Sistema, string Sucursal, string Modulo, string Opcion, string Valor, string Rfecha = "1900/01/01")
+        static public void registraPreferencia(string strConIniSis, string Empresa,string equipo, string IdUsuario, string Sistema, string Sucursal, string Modulo, string Opcion, string Valor, string Rfecha = "1900/01/01")
         {
             if (strConIniSis == "") return;
             ClassEvnts datosSys = new ClassEvnts(strConIniSis);
@@ -71,6 +71,7 @@ namespace AuditSis
             ssql += " and Sistema = '" + Sistema + "'";
             ssql += " and Sys1 ='" + Modulo + "' and Sys2 ='" + Opcion + "'";
             datosSys.Empresa = Convert.ToInt64("0" + Empresa);
+            datosSys.Equipo = equipo;
             datosSys.Fecha = Convert.ToDateTime(Rfecha);
             datosSys.Sistema = Sistema;
             datosSys.Tipo = "PR";

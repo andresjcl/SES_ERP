@@ -280,7 +280,6 @@
     <Compile Include="CopiarDocumento.cs" />
     <Compile Include="CorreoElectronico.cs" />
     <Compile Include="DatosFacturacion.cs" />
-    <Compile Include="EnviarAimpresora.cs" />
     <Compile Include="FormDevProveedor.cs">
       <SubType>Form</SubType>
     </Compile>

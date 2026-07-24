@@ -428,33 +428,38 @@ namespace ImpresionDocumentosDax
         }
 
         // Botón Previsual - Genera y muestra el PDF
+        //private void BtnPrevisual_Click(System.Object sender, System.EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Cursor.Current = Cursors.WaitCursor;
+        //        string pathPdf = ObtenerRutaPDF();
+
+        //        if (pathPdf != null)
+        //        {
+        //            Cursor.Current = Cursors.Default;
+
+        //            // Abrir el visor de PDF
+        //            using (frmPreviewPdf frm = new frmPreviewPdf(pathPdf))
+        //            {
+        //                frm.ShowDialog();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Cursor.Current = Cursors.Default;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Cursor.Current = Cursors.Default;
+        //        MessageBox.Show("Error al previsualizar el documento:\n" + ex.Message);
+        //    }
+        //}
+
         private void BtnPrevisual_Click(System.Object sender, System.EventArgs e)
         {
-            try
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                string pathPdf = ObtenerRutaPDF();
-
-                if (pathPdf != null)
-                {
-                    Cursor.Current = Cursors.Default;
-
-                    // Abrir el visor de PDF
-                    using (frmPreviewPdf frm = new frmPreviewPdf(pathPdf))
-                    {
-                        frm.ShowDialog();
-                    }
-                }
-                else
-                {
-                    Cursor.Current = Cursors.Default;
-                }
-            }
-            catch (Exception ex)
-            {
-                Cursor.Current = Cursors.Default;
-                MessageBox.Show("Error al previsualizar el documento:\n" + ex.Message);
-            }
+            ImprimirDocumento(true);
         }
 
         private void impresionDocMultiple(ClassDoc.idDocumento docid)
@@ -463,45 +468,121 @@ namespace ImpresionDocumentosDax
             ImprimirDocumento(false);
         }
 
+        //private void ImprimirDocumento(bool EsPrevisual)
+        //{
+        //    int NroFormatos = 1;
+        //    if (NroDeimpresiones == 0) NroFormatos = FormasAimprimir.Length;
+
+        //    for (int imp = 0; imp < NroFormatos; imp++)
+        //    {
+        //        impresionIniciada = false;
+        //        string[] queForma = FormasAimprimir[imp].Split(Convert.ToChar(","));
+        //        if (queForma.Length > 0 && queForma[0].Length > 0)
+        //        {
+        //            FormaImpresionDocumento = queForma[0];
+        //            if (queForma.Length > 1 && queForma[1].Length > 0)
+        //            {
+        //                PrintDocument1.DefaultPageSettings.PrinterSettings.PrinterName = queForma[1];
+        //            }
+        //            string auxx = PrepararGeneracion(EsPrevisual);
+        //            if (auxx.Substring(0, 3) == "ERR") { return; }
+
+        //            if (EsPrevisual == true)
+        //            {
+        //                PrintPreviewDialog1.Document = PrintDocument1;
+        //                PrintPreviewDialog1.ShowDialog();
+        //            }
+        //            else
+        //            {
+        //                PrintDocument1.DefaultPageSettings.PrinterSettings.Copies = Convert.ToInt16(propiedForma.NroCopias);
+        //                try
+        //                {
+        //                    PrintDocument1.Print();
+        //                }
+        //                catch { MensajeImpresora(); }
+        //            }
+        //        }
+        //    }
+        //    // Actualizamos nro de impresiones
+        //    string aux = "update " + TablaDoc + " set doc_adicional1 = isnull(doc_adicional1,0) + 1 where Doc_sucursal = '" + IdDocumento.Sucursal + "' and opc_documento = '" + IdDocumento.Tipo + "' and idclavedoc = " + IdDocumento.idClave.ToString();
+        //    DattCom.SqlDatos.ejecutarComando(aux, strConxAdcom);
+        //    Close();
+        //}
+
         private void ImprimirDocumento(bool EsPrevisual)
         {
             int NroFormatos = 1;
             if (NroDeimpresiones == 0) NroFormatos = FormasAimprimir.Length;
 
+            bool impresionExitosa = false;
+
             for (int imp = 0; imp < NroFormatos; imp++)
             {
                 impresionIniciada = false;
                 string[] queForma = FormasAimprimir[imp].Split(Convert.ToChar(","));
+
                 if (queForma.Length > 0 && queForma[0].Length > 0)
                 {
                     FormaImpresionDocumento = queForma[0];
+
                     if (queForma.Length > 1 && queForma[1].Length > 0)
                     {
                         PrintDocument1.DefaultPageSettings.PrinterSettings.PrinterName = queForma[1];
                     }
+
                     string auxx = PrepararGeneracion(EsPrevisual);
-                    if (auxx.Substring(0, 3) == "ERR") { return; }
+                    if (auxx.Substring(0, 3) == "ERR")
+                    {
+                        return;
+                    }
 
                     if (EsPrevisual == true)
                     {
+                        // ✅ PREVISUALIZACIÓN: Mostrar diálogo de previsualización
                         PrintPreviewDialog1.Document = PrintDocument1;
                         PrintPreviewDialog1.ShowDialog();
+                        impresionExitosa = true;
                     }
                     else
                     {
+                        // ✅ IMPRESIÓN: Imprimir directamente
                         PrintDocument1.DefaultPageSettings.PrinterSettings.Copies = Convert.ToInt16(propiedForma.NroCopias);
                         try
                         {
                             PrintDocument1.Print();
+                            impresionExitosa = true;
                         }
-                        catch { MensajeImpresora(); }
+                        catch
+                        {
+                            MensajeImpresora();
+                            impresionExitosa = false;
+                        }
                     }
                 }
             }
-            // Actualizamos nro de impresiones
-            string aux = "update " + TablaDoc + " set doc_adicional1 = isnull(doc_adicional1,0) + 1 where Doc_sucursal = '" + IdDocumento.Sucursal + "' and opc_documento = '" + IdDocumento.Tipo + "' and idclavedoc = " + IdDocumento.idClave.ToString();
-            DattCom.SqlDatos.ejecutarComando(aux, strConxAdcom);
-            Close();
+
+            // ✅ SOLO ACTUALIZAR Y CERRAR SI ES IMPRESIÓN (NO PREVISUALIZACIÓN)
+            if (!EsPrevisual && impresionExitosa)
+            {
+                // Actualizamos nro de impresiones
+                string aux = "update " + TablaDoc +
+                             " set doc_adicional1 = isnull(doc_adicional1,0) + 1 " +
+                             "where Doc_sucursal = '" + IdDocumento.Sucursal +
+                             "' and opc_documento = '" + IdDocumento.Tipo +
+                             "' and idclavedoc = " + IdDocumento.idClave.ToString();
+
+                DattCom.SqlDatos.ejecutarComando(aux, strConxAdcom);
+
+                // ✅ CERRAR EL FORMULARIO SOLO DESPUÉS DE IMPRIMIR
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else if (EsPrevisual)
+            {
+                // ✅ PREVISUALIZACIÓN: NO cerrar, solo mostrar mensaje de éxito
+                //MessageBox.Show("Previsualización completada", "Información",
+                //                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void printDocument1_PrintPage(System.Object sender, System.Drawing.Printing.PrintPageEventArgs e)

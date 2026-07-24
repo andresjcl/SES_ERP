@@ -39,7 +39,7 @@ namespace SES_ERP24
             }
             else
             {
-                datosEmpresa.sistema = "CNX";
+                datosEmpresa.sistema = "SES";
                 datosEmpresa.Major = major;                
                 DattCom.IngresoApp.iniciar(parm);                
                 Acceso ingreso = new Acceso(" SISTEMA CONTABLE ");

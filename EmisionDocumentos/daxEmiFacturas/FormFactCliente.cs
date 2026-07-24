@@ -22,6 +22,8 @@ using DaxDocElectronicos;
 using System.Linq;
 using static DaxDocElectronicos.Auxiliares;
 using ClassFelec;
+using System.ComponentModel;
+using ImpresionDoc;
 
 namespace DctosEmi
 {
@@ -927,122 +929,163 @@ namespace DctosEmi
 		{
 			imprimirDocumento();
 		}
-		//private void imprimirDocumento()
-		//{
-		//	if (accesosLocalizados.NroImpresiones > 0 && accesosLocalizados.NroImpresiones <= datADCDOC.Doc_Adicional1)
-		//	{ MessageBox.Show("Ha llegado al límite de impresiones permitidas", "Imprimir documentos", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
-		//	ImpresionDocumentosDax.ImprimeDocumentoDoble impProg = new ImpresionDocumentosDax.ImprimeDocumentoDoble(datosEmpresa.nombreBaseIvaret, datosEmpresa.strConxAdcom, datosEmpresa.strConxIvaret, datosEmpresa.strConxSyscod, datosEmpresa.strConxDaxpro, datosEmpresa.codEmpresa, datosEmpresa.pathServer);
-		//	int imp = impProg.ImpDoc(idDocumentoActual, "A", "", false, false);
-		//	datADCDOC.Doc_Adicional1 = imp;
-		//}
+
 
 		private void imprimirDocumento()
 		{
-			if (accesosLocalizados.NroImpresiones > 0 && accesosLocalizados.NroImpresiones <= datADCDOC.Doc_Adicional1)
+			// Verificar límite de impresiones
+			if (accesosLocalizados.NroImpresiones > 0 &&
+				accesosLocalizados.NroImpresiones <= datADCDOC.Doc_Adicional1)
 			{
-				MessageBox.Show("Ha llegado al límite de impresiones permitidas", "Imprimir documentos",
+				MessageBox.Show("Ha llegado al límite de impresiones permitidas",
+								"Imprimir documentos",
 								MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
 			// ============================================================
-			// SOLO generar el comprobante si la clave SRI está vacía
+			// OBTENER TIPO DE IMPRESIÓN Y VERIFICAR SI ES PDF
 			// ============================================================
-			if (string.IsNullOrEmpty(datADCDOC.claveSri))
+			string tipoImpresion = propiedadesDoc.ObtenerTipoImpresion();
+			string impresora = propiedadesDoc?.Impresora_1 ?? "";
+			bool esImpresoraPDF = impresora.Contains("PDF") ||
+								  impresora.Contains("Adobe") ||
+								  impresora.Contains("Microsoft Print to PDF");
+
+			// ============================================================
+			// GENERAR CLAVE SRI SOLO SI ES RIDE Y NO TIENE CLAVE
+			// ============================================================
+			if (string.IsNullOrEmpty(datADCDOC.claveSri) && tipoImpresion == "RIDE")
 			{
 				try
 				{
 					Cursor.Current = Cursors.WaitCursor;
-
-					// CORREGIDO: Usar generarClaveElectronica que retorna string, no actualizarClaveElectronica (void)
-					string claveGenerada = ClaveElectronica.generarClaveElectronica(datADCDOC);
+					string claveGenerada = datADCDOC.claveSri;
 
 					if (string.IsNullOrEmpty(claveGenerada))
 					{
 						Cursor.Current = Cursors.Default;
-						MessageBox.Show("No se pudo generar el comprobante electrónico.\nNo es posible continuar con la impresión.",
+						MessageBox.Show("No se pudo generar el comprobante electrónico.",
 										"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return;
 					}
 
-					// Actualizar datADCDOC con la nueva clave
 					datADCDOC.claveSri = claveGenerada;
-
-					// También actualizar el registro en la base de datos
 					ClaveElectronica.actualizarClaveElectronica(datADCDOC);
-
 					Cursor.Current = Cursors.Default;
 				}
 				catch (Exception ex)
 				{
 					Cursor.Current = Cursors.Default;
-					MessageBox.Show($"Error al generar el comprobante: {ex.Message}", "Error",
-									MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show($"Error al generar el comprobante: {ex.Message}",
+									"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
 
 			// ============================================================
-			// Continuar con la impresión/previsualización
+			// EJECUTAR IMPRESIÓN
 			// ============================================================
+			bool impresionExitosa = false;
 
-			// Crear la instancia
-			ImpresionDocumentosDax.ImprimeDocumentoDoble impProg = new ImpresionDocumentosDax.ImprimeDocumentoDoble(
-				datosEmpresa.nombreBaseIvaret,
-				datosEmpresa.strConxAdcom,
-				datosEmpresa.strConxIvaret,
-				datosEmpresa.strConxSyscod,
-				datosEmpresa.strConxDaxpro,
-				datosEmpresa.codEmpresa,
-				datosEmpresa.pathServer);
-
-			// Asegurar que fel esté actualizado
-			if (fel == null)
+			if (esImpresoraPDF)
 			{
-				fel = new AdcFelec(datosEmpresa.strConxAdcom);
+				// ✅ Impresión a PDF en segundo plano
+				using (BackgroundWorker bw = new BackgroundWorker())
+				{
+					bw.DoWork += (s, args) =>
+					{
+						try
+						{
+							switch (tipoImpresion)
+							{
+								case "TICKET":
+									EnviarAimpresora.ImprimirTicket(datADCDOC, accesosLocalizados,idDocumentoActual, propiedadesDoc);
+									break;
+								case "RIDE":
+									EnviarAimpresora.imprimirDocumentoDirectamenteOtros(datADCDOC,accesosLocalizados,idDocumentoActual);
+									break;
+								default:
+									EnviarAimpresora.imprimirDocumento(datADCDOC, accesosLocalizados,idDocumentoActual);
+									break;
+							}
+						}
+						catch (Exception ex)
+						{
+							args.Result = ex;
+						}
+					};
+
+					bw.RunWorkerCompleted += (s, args) =>
+					{
+						if (args.Result is Exception ex)
+						{
+							MessageBox.Show($"Error en impresión en segundo plano: {ex.Message}",
+								"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+						else
+						{
+							string mensaje = tipoImpresion == "TICKET"
+								? "Ticket guardado en la carpeta de documentos."
+								: "El documento se está procesando en segundo plano.";
+
+							MessageBox.Show(mensaje, "Imprimiendo...",
+											MessageBoxButtons.OK, MessageBoxIcon.Information);
+						}
+					};
+
+					bw.RunWorkerAsync();
+					impresionExitosa = true;
+				}
+			}
+			else
+			{
+				// ✅ Impresión física
+				impresionExitosa = EjecutarImpresionFisica(tipoImpresion);
 			}
 
-			// Buscar el documento electrónico actualizado
-			fel = AdcFelec.Buscar("");
+			// ============================================================
+			// MOSTRAR RESULTADO
+			// ============================================================
+			if (impresionExitosa && !esImpresoraPDF)
+			{
+				MessageBox.Show("Documento impreso correctamente", "Éxito",
+								MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			else if (!impresionExitosa && !esImpresoraPDF)
+			{
+				MessageBox.Show("Hubo un problema con la impresión.", "Advertencia",
+								MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
 
-			string rutaBase = fel != null ? fel.pathCpbGenerados : @"C:\CPBGenerados\";
-			string clave = datADCDOC.claveSri;  // Ahora ya debería tener la clave SRI
-			string url = ConfiguracionCorreo.UrlSRI;
+		private bool EjecutarImpresionFisica(string tipoImpresion)
+		{
+			bool resultado = false;
 
-			// Asignar la función de generación del RIDE (PDF)
-			impProg.FuncionGenerarRide = (doc, cclave, urlSRI) => {
-				string carpetaPdf = Feutilidad.PathDocumntosPdf(rutaBase);
-				string pathPdf = Path.Combine(carpetaPdf, cclave + ".PDF");
+			switch (tipoImpresion)
+			{
+				case "RIDE":
+					resultado = EnviarAimpresora.imprimirDocumentoDirectamenteOtros(datADCDOC,
+																					accesosLocalizados,
+																					idDocumentoActual);
+					break;
 
-				if (!File.Exists(pathPdf))
-				{
-					try
-					{
-						RideService rideService = new RideService();
-						string resultado = rideService.GenerarRide(doc, cclave, urlSRI);
-					}
-					catch (Exception ex)
-					{
-						System.Diagnostics.Debug.WriteLine($"Error al generar RIDE: {ex.Message}");
-					}
-				}
+				case "TICKET":
+					resultado = EnviarAimpresora.ImprimirTicket(datADCDOC, accesosLocalizados,
+																idDocumentoActual, propiedadesDoc);
+					break;
 
-				return pathPdf;
-			};
+				case "SISTEMA":
+				default:
+					ImpresionDocumentosDax.ImprimeDocumentoDoble impProg = new ImpresionDocumentosDax.ImprimeDocumentoDoble(datosEmpresa.nombreBaseIvaret, datosEmpresa.strConxAdcom, datosEmpresa.strConxIvaret, datosEmpresa.strConxSyscod, datosEmpresa.strConxDaxpro, datosEmpresa.codEmpresa, datosEmpresa.pathServer);
+					int imp = impProg.ImpDoc(idDocumentoActual, "A", "", false, false);
+					datADCDOC.Doc_Adicional1 = imp;
+					resultado = true;
+					break;
+			}
 
-			// Llamar al método con los parámetros SRI
-			int imp = impProg.ImpDocConSRI(
-				idDocumentoActual,
-				"A",
-				"",
-				false,
-				false,
-				clave,      // datADCDOC.claveSri
-				url,        // ConfiguracionCorreo.UrlSRI
-				rutaBase    // fel.pathCpbGenerados
-			);
-
-			datADCDOC.Doc_Adicional1 = imp;
+			return resultado;
 		}
 
 		// Método para generar el comprobante electrónico (solo se ejecuta si la clave SRI está vacía)
@@ -1392,31 +1435,99 @@ namespace DctosEmi
 			ingdesc.Dispose();
 			totalizar();
 		}
+				
 
 		private void btnRegistra_Click(object sender, EventArgs e)
 		{
 			if (validarDocumento() == true)
 			{
 				if (grabarDocumento() == true)
-				{					
+				{
 					if (ConfiguracionCorreo.ParametroCargado && ConfiguracionCorreo.parametro == 1)
 					{
-						urlE = ConfiguracionCorreo.UrlSRI; // Aquí obtienes la URL desde la BD
+						urlE = ConfiguracionCorreo.UrlSRI;
 						solicitarAutorizacionSRI(urlE, ref datADCDOC);
 					}
 
-					//EnviarAimpresora.imprimirDocumentoDirectamente(datADCDOC, accesosLocalizados, idDocumentoActual);
-					//limpiarDatos();
-					// ✅ 2. Imprimir y ESPERAR a que termine
-					bool impresionExitosa = EnviarAimpresora.imprimirDocumentoDirectamenteOtros(datADCDOC, accesosLocalizados, idDocumentoActual);
+					string tipoImpresion = propiedadesDoc.ObtenerTipoImpresion();
+					bool impresionExitosa = false;
 
-					// ✅ 3. SOLO limpiar si la impresión fue exitosa
-					if (impresionExitosa)
+					// ✅ VERIFICAR SI ES IMPRESORA PDF
+					string impresora = propiedadesDoc?.Impresora_1 ?? "";
+					bool esImpresoraPDF = impresora.Contains("PDF") ||
+										  impresora.Contains("Adobe") ||
+										  impresora.Contains("Microsoft Print to PDF");
+
+					if (esImpresoraPDF)
 					{
-						limpiarDatos();
-						//MessageBox.Show("Documento registrado e impreso correctamente", "Éxito",MessageBoxButtons.OK, MessageBoxIcon.Information);
+						// ✅ Para .NET Framework 4 usamos BackgroundWorker
+						using (BackgroundWorker bw = new BackgroundWorker())
+						{
+							bw.DoWork += (s, args) =>
+							{
+								try
+								{
+									switch (tipoImpresion)
+									{
+										case "TICKET":
+											EnviarAimpresora.ImprimirTicket(datADCDOC, accesosLocalizados, idDocumentoActual, propiedadesDoc);
+											break;
+										default:
+											EnviarAimpresora.imprimirDocumento(datADCDOC, accesosLocalizados, idDocumentoActual);
+											break;
+									}
+								}
+								catch (Exception ex)
+								{
+									// Guardar error para mostrarlo después
+									args.Result = ex;
+								}
+							};
+
+							bw.RunWorkerCompleted += (s, args) =>
+							{
+								if (args.Result is Exception ex)
+								{
+									MessageBox.Show($"Error en impresión en segundo plano: {ex.Message}",
+										"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								}
+								else
+								{
+									MessageBox.Show("La impresión del ticket se está procesando en segundo plano.\n\n" +
+										"Revise la carpeta de descargas o documentos para el archivo PDF generado.",
+										"Imprimiendo...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+								}
+							};
+
+							bw.RunWorkerAsync();
+							impresionExitosa = true;
+						}
 					}
 					else
+					{
+						// Impresión normal (impresora física)
+						switch (tipoImpresion)
+						{
+							case "RIDE":
+								impresionExitosa = EnviarAimpresora.imprimirDocumentoDirectamenteOtros(datADCDOC, accesosLocalizados, idDocumentoActual);
+								break;
+
+							case "TICKET":
+								impresionExitosa = EnviarAimpresora.ImprimirTicket(datADCDOC, accesosLocalizados, idDocumentoActual, propiedadesDoc);
+								break;
+
+							case "SISTEMA":
+							default:
+								impresionExitosa = EnviarAimpresora.imprimirDocumento(datADCDOC, accesosLocalizados, idDocumentoActual);
+								break;
+						}
+					}
+
+					if (impresionExitosa && !esImpresoraPDF)
+					{
+						limpiarDatos();
+					}
+					else if (!impresionExitosa && !esImpresoraPDF)
 					{
 						MessageBox.Show("El documento se grabó pero hubo un problema con la impresión.\n\nPuede volver a imprimir desde el historial.",
 							"Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1424,6 +1535,8 @@ namespace DctosEmi
 				}
 			}
 		}
+
+
 		private void btnAnula_Click(object sender, EventArgs e)
 		{
 			DctosEmi.anulaElimina classAnular = new DctosEmi.anulaElimina();
@@ -2013,9 +2126,10 @@ namespace DctosEmi
                     string tipDoc = cmbDocumento.SelectedValue.ToString();
                     //string tipBan = "";
                     //					if (idDocumentoActual.idClave != 0) propiedadesDoc.GuardarNumero(ref datosEmpresa.suc, ref tipDoc, ref tipBan, txtNroID.Text, "", datosEmpresa.usr, cmbBodega.SelectedValue.ToString());
-                    clasePagos.guardarPagosDocumento("ADCPAG");	
+                    clasePagos.guardarPagosDocumento("ADCPAG");					
+					ClaveElectronica.actualizarClaveElectronica(datADCDOC);
 
-					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConIniSis, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "MDD", Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
                 }
                 else
                 {
@@ -2023,7 +2137,8 @@ namespace DctosEmi
                     if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
                     actualizaDatosPagos();
                     clasePagos.guardarPagosDocumento("ADCPAG");
-                    AuditSis.registrar.registraEventoDoc(datosEmpresa.strConIniSis, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "MDD", Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+					
+					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
                 }
             }
             catch (Exception ee)
@@ -2220,13 +2335,7 @@ namespace DctosEmi
 		{
 			debeActualizarContacto = true;
 		}
-
-		//private void registraOpciones()
-		//{
-		//	AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX", datosEmpresa.suc, "Facturacion", "TipoDoc", cmbDocumento.SelectedValue.ToString());
-		//	AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX", datosEmpresa.suc, "Facturacion", "Bodega", cmbBodega.SelectedValue.ToString());
-		//	if (cmbVendedor.SelectedValue != null ) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Vendedor", cmbVendedor.SelectedValue.ToString());
-		//}
+		
 
 		private void registraOpciones()
 		{
@@ -2235,28 +2344,19 @@ namespace DctosEmi
 				// Registrar Tipo de Documento
 				if (cmbDocumento != null && cmbDocumento.SelectedValue != null)
 				{
-					AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod,
-						datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX",
-						datosEmpresa.suc, "Facturacion", "TipoDoc",
-						cmbDocumento.SelectedValue.ToString());
+					AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom,datosEmpresa.codEmpresa.ToString(), Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema,datosEmpresa.suc, "Facturacion", "TipoDoc",cmbDocumento.SelectedValue.ToString());
 				}
 
 				// Registrar Bodega - CON VALIDACIÓN
 				if (cmbBodega != null && cmbBodega.Items.Count > 0 && cmbBodega.SelectedValue != null)
 				{
-					AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod,
-						datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX",
-						datosEmpresa.suc, "Facturacion", "Bodega",
-						cmbBodega.SelectedValue.ToString());
+					AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom,datosEmpresa.codEmpresa.ToString(), Environment.MachineName, datosEmpresa.usr,datosEmpresa.sistema,datosEmpresa.suc, "Facturacion", "Bodega",cmbBodega.SelectedValue.ToString());
 				}
 
 				// Registrar Vendedor
 				if (cmbVendedor != null && cmbVendedor.SelectedValue != null)
 				{
-					AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod,
-						datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX",
-						datosEmpresa.suc, "Facturacion", "Vendedor",
-						cmbVendedor.SelectedValue.ToString());
+					AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom,datosEmpresa.codEmpresa.ToString(), Environment.MachineName, datosEmpresa.usr, datosEmpresa.sistema,datosEmpresa.suc, "Facturacion", "Vendedor",cmbVendedor.SelectedValue.ToString());
 				}
 			}
 			catch (Exception ex)
@@ -2267,9 +2367,9 @@ namespace DctosEmi
 		}
 		private void recordarOpciones()
 		{
-		   memTipoDoc = AuditSis.registrar.obtenerPreferencia (datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX", datosEmpresa.suc, "Facturacion", "TipoDoc");
+		   memTipoDoc = AuditSis.registrar.obtenerPreferencia (datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "TipoDoc");
 		   //memBodega = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "ADX", datosEmpresa.suc, "Facturacion", "Bodega");
-		   memVendedor = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "CNX", datosEmpresa.suc, "Facturacion", "Vendedor");
+		   memVendedor = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, datosEmpresa.suc, "Facturacion", "Vendedor");
 		}
 
 		private void FormFacPV_FormClosed(object sender, FormClosedEventArgs e)

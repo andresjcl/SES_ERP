@@ -4,12 +4,134 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using utilBasDatos;
+using System.Collections.Generic;
 
 namespace ClassDoc
 {
     [System.Runtime.InteropServices.Guid("C8E9BEF3-4611-4EBF-BB71-02D25EF8761B")]
     public class grabMallTra
     {
+        //static public void grabarMallaAdctra(DataGridView malla, AdcDoc datDoc, string strConx)
+        //{
+        //    Int32[] campos;
+        //    string[] tipos;
+        //    string sel = "SELECT * FROM AdcTra WHERE doc_sucursal = '" + datDoc.Doc_sucursal + "' and opc_documento = '" + datDoc.Opc_documento + "' and idclavedoc = " + datDoc.IdClaveDoc.ToString();
+
+        //    using (var adapter = new SqlDataAdapter(sel, strConx))
+        //    using (new SqlCommandBuilder(adapter))
+        //    {
+        //        DataTable Dtable = new DataTable();
+        //        adapter.Fill(Dtable);
+        //        campos = new Int32[Dtable.Columns.Count + 1];
+        //        tipos = new string[Dtable.Columns.Count + 1];
+        //        Int32 nroRowNew = 0;
+        //        encontrarDatosTipos(ref campos, ref tipos, Dtable, malla);
+        //        Boolean esNuevo = true;
+        //        if (Dtable.Rows.Count > 0) nroRowNew = verificaDataEnMalla(Dtable, malla);
+
+        //        Int32 cmpo = 0;
+        //        DataRow dataRowGrabar = Dtable.NewRow();
+
+        //        foreach (DataGridViewRow MallaRow in malla.Rows)
+        //        {
+        //            if (MallaRow.IsNewRow)
+        //                continue;
+
+        //            var codigoValue = MallaRow.Cells["TRA_Codigo"]?.Value;
+        //            if (codigoValue == null || codigoValue == DBNull.Value)
+        //                continue;
+
+        //            string codigo = codigoValue.ToString().Trim();
+        //            if (string.IsNullOrEmpty(codigo))
+        //                continue;
+
+        //            nroRowNew++;
+        //            dataRowGrabar = existeData(Dtable, MallaRow, ref esNuevo);
+
+        //            // ✅ MOVER TODOS LOS CAMPOS DE LA MALLA AL DATATABLE
+        //            for (int i = 0; i < Dtable.Columns.Count; i++)
+        //            {
+        //                cmpo = campos[i];
+        //                if (cmpo != 0)
+        //                    moverMallaData(MallaRow.Cells[cmpo], dataRowGrabar, i, tipos[i]);
+        //            }
+
+        //            // ✅ VERIFICAR QUE LOS COSTOS SE ESTÉN MOVIENDO CORRECTAMENTE
+        //            // Si las columnas no se mapearon automáticamente, asignarlas manualmente
+        //            if (Dtable.Columns.Contains("Tra_costuni"))
+        //            {
+        //                if (MallaRow.Cells["Tra_costuni"]?.Value != null && MallaRow.Cells["Tra_costuni"].Value != DBNull.Value)
+        //                {
+        //                    decimal costo = 0;
+        //                    decimal.TryParse(MallaRow.Cells["Tra_costuni"].Value.ToString(), out costo);
+        //                    dataRowGrabar["Tra_costuni"] = Math.Round(costo, 4);
+        //                }
+        //                else
+        //                {
+        //                    dataRowGrabar["Tra_costuni"] = 0;
+        //                }
+        //            }
+
+        //            if (Dtable.Columns.Contains("Tra_costtot"))
+        //            {
+        //                if (MallaRow.Cells["Tra_costtot"]?.Value != null && MallaRow.Cells["Tra_costtot"].Value != DBNull.Value)
+        //                {
+        //                    decimal costo = 0;
+        //                    decimal.TryParse(MallaRow.Cells["Tra_costtot"].Value.ToString(), out costo);
+        //                    dataRowGrabar["Tra_costtot"] = Math.Round(costo, 2);
+        //                }
+        //                else
+        //                {
+        //                    // Si no hay costo total, calcularlo de Tra_costuni * cantidad
+        //                    decimal costoUnitario = 0;
+        //                    if (Dtable.Columns.Contains("Tra_costuni") && dataRowGrabar["Tra_costuni"] != DBNull.Value)
+        //                        decimal.TryParse(dataRowGrabar["Tra_costuni"].ToString(), out costoUnitario);
+
+        //                    decimal cantidad = 0;
+        //                    if (MallaRow.Cells["Tra_cantidad"]?.Value != null && MallaRow.Cells["Tra_cantidad"].Value != DBNull.Value)
+        //                        decimal.TryParse(MallaRow.Cells["Tra_cantidad"].Value.ToString(), out cantidad);
+
+        //                    dataRowGrabar["Tra_costtot"] = Math.Round(costoUnitario * cantidad, 2);
+        //                }
+        //            }
+
+        //            if (esNuevo)
+        //            {
+        //                dataRowGrabar["Doc_sucursal"] = datDoc.Doc_sucursal;
+        //                dataRowGrabar["Doc_Bodega"] = datDoc.Doc_Bodega;
+        //                dataRowGrabar["Opc_documento"] = datDoc.Opc_documento;
+        //                dataRowGrabar["Doc_numero"] = datDoc.Doc_numero;
+        //                dataRowGrabar["IdClaveDoc"] = datDoc.IdClaveDoc;
+        //                dataRowGrabar["Tra_valor"] = datDoc.Doc_valor;
+        //                dataRowGrabar["Tra_DocSop"] = datDoc.Doc_DocSop;
+        //                dataRowGrabar["Tra_NumSop"] = datDoc.Doc_NumSop;
+        //                dataRowGrabar["Tra_fecha"] = datDoc.Doc_fecha;
+        //                dataRowGrabar["Tra_TipoDoc"] = datDoc.Doc_TipoDoc;
+        //                dataRowGrabar["tra_numprecio"] = 1;
+        //                dataRowGrabar["tra_multiplo"] = 1.00000000m;
+        //                dataRowGrabar["Tra_Estado"] = 1;
+        //                dataRowGrabar["Tra_Oculto"] = Convert.ToInt16(datDoc.Doc_Oculto);
+        //                dataRowGrabar["Tra_Ventas"] = datDoc.Doc_Ventas;
+        //                dataRowGrabar["Tra_Inventario"] = datDoc.Doc_Inventario;
+        //                dataRowGrabar["Tra_Compras"] = datDoc.Doc_Compras;
+        //                dataRowGrabar["Tra_Activo"] = datDoc.Doc_Activo;
+        //                dataRowGrabar["Tra_NroLoteDoc"] = datDoc.Doc_NroLoteDoc;
+        //                dataRowGrabar["tra_anio"] = datDoc.Doc_fecha.Year;
+        //                dataRowGrabar["tra_mes"] = datDoc.Doc_fecha.Month;
+        //                dataRowGrabar["tra_dia"] = datDoc.Doc_fecha.Day;
+        //                dataRowGrabar["Tra_numlinea"] = nroRowNew;
+
+        //                Dtable.Rows.Add(dataRowGrabar);
+        //            }
+        //        }
+
+        //        adapter.Update(Dtable);
+        //        adapter.Dispose();
+        //        Dtable.Dispose();
+        //    }
+        //}
+
+
         static public void grabarMallaAdctra(DataGridView malla, AdcDoc datDoc, string strConx)
         {
             Int32[] campos;
@@ -29,8 +151,10 @@ namespace ClassDoc
                 if (Dtable.Rows.Count > 0) nroRowNew = verificaDataEnMalla(Dtable, malla);
 
                 Int32 cmpo = 0;
-                DataRow dataRowGrabar = Dtable.NewRow();
 
+                // ============================================
+                // PRIMERO: RECORRER LA MALLA Y ACTUALIZAR/AGREGAR
+                // ============================================
                 foreach (DataGridViewRow MallaRow in malla.Rows)
                 {
                     if (MallaRow.IsNewRow)
@@ -45,18 +169,39 @@ namespace ClassDoc
                         continue;
 
                     nroRowNew++;
-                    dataRowGrabar = existeData(Dtable, MallaRow, ref esNuevo);
+                    esNuevo = true;
+                    DataRow dataRowGrabar = null;
+
+                    // Buscar si ya existe en el DataTable (ignorando filas eliminadas)
+                    foreach (DataRow dtRow in Dtable.Rows)
+                    {
+                        if (dtRow.RowState == DataRowState.Deleted)
+                            continue; // ⭐ SALTAR FILAS ELIMINADAS
+
+                        if (dtRow["TRA_Codigo"] != null && dtRow["TRA_Codigo"].ToString() == codigo)
+                        {
+                            dataRowGrabar = dtRow;
+                            esNuevo = false;
+                            break;
+                        }
+                    }
+
+                    // Si no existe, crear una nueva fila
+                    if (dataRowGrabar == null)
+                    {
+                        dataRowGrabar = Dtable.NewRow();
+                        esNuevo = true;
+                    }
 
                     // ✅ MOVER TODOS LOS CAMPOS DE LA MALLA AL DATATABLE
                     for (int i = 0; i < Dtable.Columns.Count; i++)
                     {
                         cmpo = campos[i];
-                        if (cmpo != 0)
+                        if (cmpo != 0 && cmpo < malla.Columns.Count)
                             moverMallaData(MallaRow.Cells[cmpo], dataRowGrabar, i, tipos[i]);
                     }
 
                     // ✅ VERIFICAR QUE LOS COSTOS SE ESTÉN MOVIENDO CORRECTAMENTE
-                    // Si las columnas no se mapearon automáticamente, asignarlas manualmente
                     if (Dtable.Columns.Contains("Tra_costuni"))
                     {
                         if (MallaRow.Cells["Tra_costuni"]?.Value != null && MallaRow.Cells["Tra_costuni"].Value != DBNull.Value)
@@ -122,11 +267,70 @@ namespace ClassDoc
 
                         Dtable.Rows.Add(dataRowGrabar);
                     }
+                    else
+                    {
+                        // Si la fila existe pero está marcada como eliminada, restaurarla
+                        if (dataRowGrabar.RowState == DataRowState.Deleted)
+                        {
+                            dataRowGrabar.RejectChanges();
+                        }
+                    }
                 }
 
-                adapter.Update(Dtable);
-                adapter.Dispose();
-                Dtable.Dispose();
+                // ============================================
+                // SEGUNDO: ELIMINAR FILAS QUE YA NO ESTÁN EN LA MALLA
+                // ============================================
+                // Crear una lista para almacenar las filas a eliminar
+                List<DataRow> filasEliminar = new List<DataRow>();
+
+                foreach (DataRow dtRow in Dtable.Rows)
+                {
+                    if (dtRow.RowState == DataRowState.Deleted)
+                        continue; // ⭐ SALTAR FILAS ELIMINADAS
+
+                    bool existeEnMalla = false;
+                    foreach (DataGridViewRow MallaRow in malla.Rows)
+                    {
+                        if (MallaRow.IsNewRow) continue;
+                        var codigoValue = MallaRow.Cells["TRA_Codigo"]?.Value;
+                        if (codigoValue == null || codigoValue == DBNull.Value) continue;
+                        string codigo = codigoValue.ToString().Trim();
+                        if (string.IsNullOrEmpty(codigo)) continue;
+
+                        if (dtRow["TRA_Codigo"] != null && dtRow["TRA_Codigo"].ToString() == codigo)
+                        {
+                            existeEnMalla = true;
+                            break;
+                        }
+                    }
+
+                    if (!existeEnMalla)
+                    {
+                        dtRow.Delete();
+                    }
+                }
+
+                // ============================================
+                // TERCERO: GUARDAR
+                // ============================================
+                try
+                {
+                    adapter.Update(Dtable);
+
+                    // ✅ ACEPTAR CAMBIOS DESPUÉS DE GUARDAR
+                    Dtable.AcceptChanges();
+                }
+                catch (Exception )
+                {
+                    // ✅ SI HAY ERROR, REVERTIR CAMBIOS
+                    Dtable.RejectChanges();
+                    throw;
+                }
+                finally
+                {
+                    adapter.Dispose();
+                    Dtable.Dispose();
+                }
             }
         }
 

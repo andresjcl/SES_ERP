@@ -72,6 +72,9 @@ Public Class OpcDoc
     Public TipoSri As String = ""
     Public formulasPV As String = ""
     Public EsElectronico As Integer = 0
+    Private _ImprimirRIDE As Boolean
+    Private _ImprimirTicket As Boolean
+
     'Public NumDupConPropietario as Integer = 0
     'Public NumDupConBodega as Integer = 0
     'Public NumDupConIdSri as Integer = 0
@@ -146,6 +149,8 @@ Public Class OpcDoc
     Private mvarNumIni As Double 'copia local
     Private mvarControlDuplica As String
 
+
+
     Public Property NumIni() As Double
         Get
             NumIni = mvarNumIni
@@ -162,6 +167,26 @@ Public Class OpcDoc
             mvarControlDuplica = Value
         End Set
     End Property
+
+    Public Property ImprimirRIDE() As Boolean
+        Get
+            Return _ImprimirRIDE
+        End Get
+        Set(ByVal value As Boolean)
+            _ImprimirRIDE = value
+        End Set
+    End Property
+
+    Public Property ImprimirTicket() As Boolean
+        Get
+            Return _ImprimirTicket
+        End Get
+        Set(ByVal value As Boolean)
+            _ImprimirTicket = value
+        End Set
+    End Property
+
+
 
     Public Function VerificarDocumento(ByRef Doc As String) As Boolean
         '        Dim conn As New SqlConnection(DattCom.datosEmpresa.strConxAdcom)
@@ -251,16 +276,14 @@ Public Class OpcDoc
             If Not IsDBNull(dat("Auxil2")) Then formulasPV = dat("Auxil2").ToString
             If Not IsDBNull(dat("Auxil3")) Then usoImportaciones = CInt(Val(dat("Auxil3")))
             If Not IsDBNull(dat("EsElectronico")) Then EsElectronico = CInt(Val(dat("EsElectronico")))
+            If Not IsDBNull(dat("ImprimirRIDE")) Then
+                ImprimirRIDE = Convert.ToBoolean(dat("ImprimirRIDE"))
+            End If
 
-            'NumDupConPropietario = LibDat.CorrijeNuloN(dat("Opc_Propietario"))
-            'NumDupConBodega = LibDat.CorrijeNuloN(dat("Opc_Bodega"))
-            'NumDupConIdSri = LibDat.CorrijeNuloN(dat("Opc_IdSri"))
-            'NroAutomatico = LibDat.CorrijeNuloN(dat("Opc_Autonumero"))
+            If Not IsDBNull(dat("ImprimirTicket")) Then
+                ImprimirTicket = Convert.ToBoolean(dat("ImprimirTicket"))
+            End If
 
-            'NumDupConPropietario = LibDat.CorrijeNuloN(dat("Opc_Propietario"))
-            'NumDupConBodega = LibDat.CorrijeNuloN(dat("Opc_Bodega"))
-            'NumDupConIdSri = LibDat.CorrijeNuloN(dat("Opc_IdSri"))
-            'NroAutomatico = LibDat.CorrijeNuloN(dat("Opc_Autonumero"))3
 
             Opc_Propietario = CInt(LibDat.CorrijeNuloN(dat("Opc_Propietario")))
             Opc_Bodega = CInt(LibDat.CorrijeNuloN(dat("Opc_Bodega")))
@@ -636,6 +659,8 @@ Public Class OpcDoc
         ssql += ",EsElectronico"
         ssql += ",FormatoElec"
         ssql += ",Auxil3"
+        ssql += ", ImprimirRIDE"
+        ssql += ", ImprimirTicket"
         ssql += ")"
 
         ssql += "values ( "
@@ -738,6 +763,8 @@ Public Class OpcDoc
         ssql += ",'" & EsElectronico.ToString & "'"
         ssql += ",'" & FormatoElec.ToString & "'"
         ssql += "," & usoImportaciones & ""
+        ssql += "," & If(ImprimirRIDE, 1, 0)
+        ssql += "," & If(ImprimirTicket, 1, 0)
         ssql += ")"
         EjecutaComand(ssql, DattCom.datosEmpresa.strConxAdcom)
     End Function
@@ -808,6 +835,7 @@ Public Class OpcDoc
         ssql += "opc_usuario='" & Trim(Usuario) & "',"
         ssql += "opc_impuestos='" & Trim(Impuestos) & "',"
         ssql += "Opc_ImpCtb='" & Trim(FormatoCtb) & "',"
+
         Try
             ssql += "Opc_TipoSri='" & TipoSri.ToString & "',"
         Catch
@@ -856,74 +884,11 @@ Public Class OpcDoc
         ssql += ", EsElectronico=" & EsElectronico.ToString()
         ssql += ", FormatoElec='" & FormatoElec & "'"
         ssql += ", Auxil3='" & usoImportaciones.ToString() & "'"
+        ssql += ", ImprimirRIDE=" & If(ImprimirRIDE, 1, 0)
+        ssql += ", ImprimirTicket=" & If(ImprimirTicket, 1, 0)
         If cod <> "" Then ssql += "where Opc_documento='" & Documento & "'"
         EjecutaComand(ssql, DattCom.datosEmpresa.strConxAdcom)
     End Sub
-
-    'Public Function GuardarNumero(TipSuc As String, TipDoc As String, TipBan As String, Optional Idsri As String = "", Optional idProveedor As String = "", Optional idEmisor As String = "", Optional idBodega As String = "", Optional numero As String = "") As Integer
-    '    'Dim CONEMP As New AdcDax.DaxSofSys
-    '    Dim conectar As New SqlConnection(DattCom.datosEmpresa.strConxAdcom)
-    '    conectar.Open()
-    '    Dim num As Integer = 0
-    '    Dim LugarEmiteDoc As String = ""
-
-    '    If TipBan > "" Then LugarEmiteDoc = TipBan Else LugarEmiteDoc = establecerLugar(TipoDoc, TipSuc, TipBan, Idsri, idProveedor, idEmisor, idBodega)
-
-    '    Dim ssql As String = "SELECT *  FROM Adcdocnum WHERE id_Documento='" & Documento & "' and id_lugar = '" & LugarEmiteDoc & "'"
-    '    Dim cmd As New SqlCommand(ssql, conectar)
-    '    Dim dat As SqlDataReader = Nothing
-    '    Dim LaFecha As Date
-    '    dat = cmd.ExecuteReader()
-    '    LaFecha = Now
-    '    ssql = ""
-    '    If dat.Read Then
-    '        If mvarNumIni > CDbl("0" + dat("ultimonumero").ToString) Then
-    '            ssql = "update AdcDocNum set"
-    '            ssql += " ultimonumero=" & mvarNumIni & ","
-    '            ssql += " UltimaFecha='" & LaFecha & "'"
-    '            ssql += " where id_Documento='" & Documento & "' and id_lugar = '" & LugarEmiteDoc & "'"
-    '        End If
-    '    Else
-    '        ssql = "insert into AdcDocNum ("
-    '        ssql += "id_documento,"
-    '        ssql += "id_lugar,"
-    '        ssql += "UltimaFecha,"
-    '        ssql += "ultimonumero)"
-    '        ssql += " values ("
-    '        ssql += "'" & Trim(Documento) & "',"
-    '        ssql += "'" & LugarEmiteDoc & "',"
-    '        ssql += "'" & LaFecha & "',"
-    '        ssql += " " & mvarNumIni
-    '        ssql += " )"
-    '    End If
-    '    conectar.Close()
-    '    If ssql <> "" Then
-    '        cmd.CommandText = ssql
-    '        conectar.Open()
-    '        cmd.ExecuteNonQuery()
-    '        conectar.Close()
-    '    End If
-    '    'CONEMP = Nothing
-    '    'Emp = Nothing
-    'End Function
-    'Public Function NumeroMayor(TipSuc As String, TipDoc As String, Optional TipBan As String = "", Optional Idsri As String = "", Optional Proveedor As String = "", Optional idEmisor As String = "") As Double
-    '    Dim lugarEmiteDoc As String
-    '    Dim conectar As New SqlConnection(DattCom.datosEmpresa.strConxAdcom)
-    '    conectar.Open()
-    '    If TipBan > "" Then lugarEmiteDoc = TipBan Else lugarEmiteDoc = establecerLugar(TipoDoc, TipSuc, TipBan, Idsri, Proveedor, idEmisor, "")
-    '    Dim ssql As String = "SELECT *  FROM Adcdocnum WHERE id_Documento='" & TipDoc & "' and id_lugar = '" & lugarEmiteDoc & "'"
-    '    Dim cmd As New SqlCommand(ssql, conectar)
-    '    Dim dat As SqlDataReader = Nothing
-    '    dat = cmd.ExecuteReader()
-    '    NumeroMayor = 0
-    '    If dat.Read Then
-    '        If Not IsDBNull(dat("ultimonumero")) Then NumeroMayor = CDbl(dat("ultimonumero"))
-    '    End If
-    '    NumeroMayor += 1
-    '    conectar.Close()
-    '    conectar.Dispose()
-    'End Function
-
 
     Public Function ArmarExtencionDocumento(ByRef Extencion As String, ByRef Clave As String, Optional ByRef QueTipoEs As Integer = CInt(False), Optional ByRef Posicion As Byte = 0) As Double
         Dim Extenciones, ArmarExtDoc, ClaveDoc As String
@@ -972,23 +937,6 @@ Public Class OpcDoc
         ArmarExtencionDocumento = CDbl(Val(ArmarExtDoc))
 
 
-        'ArmarExtDoc = "1"    ' Estado 1 = activo  2 =  anulado
-        '   ArmarExtDoc = ArmarExtDoc & mid$(Extencion, 7, 1)               ' Doc. Oculto  1 = No oculto 0= Oculto
-        '   ArmarExtDoc = ArmarExtDoc & mid$(Extencion, 4, 1)               ' Afecta a Ctb 0 = No 1= Si
-        '   ArmarExtDoc = ArmarExtDoc & mid$(ClaveDoc, 2, 1)                ' afecta  a Bancos 0=No , 1=si
-        '   If trim(mid$(ClaveDoc, 3, 1)) = "3" Then
-        '                If QueTipoEs = True Then
-        '                      ArmarExtDoc = trim(ArmarExtDoc & 2)
-        '                Else
-        '                      ArmarExtDoc = trim(ArmarExtDoc & 1)
-        '                End If
-        '   Else
-        '               ArmarExtDoc = ArmarExtDoc & mid$(ClaveDoc, 3, 1)               ' Afecta a Inv  0 = No ,1= Si y suma en inventario , 2=resta en inventario ,3 = transferenciai
-        '   End If
-        '   ArmarExtDoc = ArmarExtDoc & mid$(ClaveDoc, 4, 1)     ' Ventas a 0 = No 1= Si  y suma , 2 = resta
-        '   ArmarExtDoc = ArmarExtDoc & mid$(ClaveDoc, 5, 1)                ' Compras a 0 = No 1= Si
-        '   ArmarExtDoc = ArmarExtDoc & mid$(Extencion, 6, 1)               ' Afecta a Activo fijo  a 0 = No 1= Si
-        '   ArmarExtencionDocumento = ArmarExtDoc
     End Function
 
     Public Sub New()
@@ -1014,5 +962,30 @@ Public Class OpcDoc
             ssql = dt.Rows(0)("idTributario").ToString()
         End If
         Return ssql
+    End Function
+
+    Public Function ObtenerTipoImpresion() As String
+        ' 1. Si está marcado RIDE
+        If ImprimirRIDE Then
+            Return "RIDE"
+        End If
+
+        ' 2. Si está marcado Ticket
+        If ImprimirTicket Then
+            Return "TICKET"
+        End If
+
+        ' 3. Si tiene impresión general (Opc_Impridoc = "G")
+        If Not String.IsNullOrEmpty(ImprimirDoc) AndAlso ImprimirDoc = "G" Then
+            Return "SISTEMA"
+        End If
+
+        ' 4. Si tiene impresión "No imprimir" (Opc_Impridoc = "N")
+        If Not String.IsNullOrEmpty(ImprimirDoc) AndAlso ImprimirDoc = "N" Then
+            Return "NINGUNO"
+        End If
+
+        ' 5. Por defecto, no imprimir
+        Return "NINGUNO"
     End Function
 End Class

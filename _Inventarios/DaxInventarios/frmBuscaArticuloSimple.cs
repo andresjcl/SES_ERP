@@ -154,20 +154,20 @@ namespace DaxInvent
         }
         private void guardarPreferencias()
         {
-            if (cmbCategoria.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "DAX", datosEmpresa.suc, "BUSART", "CategoriaArticulo", cmbCategoria.SelectedValue.ToString());
-            if (cmbClase.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "DAX", datosEmpresa.suc, "BUSART", "ClaseArticulo", cmbClase.SelectedValue.ToString());
-            if (cmbGrupo.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "DAX", datosEmpresa.suc, "BUSART", "GrupoArticulo", cmbGrupo.SelectedValue.ToString());
+            if (cmbCategoria.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr + Environment.MachineName,datosEmpresa.sistema, datosEmpresa.suc, "BUSART", "CategoriaArticulo", cmbCategoria.SelectedValue.ToString());
+            if (cmbClase.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "BUSART", "ClaseArticulo", cmbClase.SelectedValue.ToString());
+            if (cmbGrupo.SelectedValue != null) AuditSis.registrar.registraPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(),Environment.MachineName, datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "BUSART", "GrupoArticulo", cmbGrupo.SelectedValue.ToString());
         }
         private void cargarPreferencias()
         {
 
-            string op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "DAX", datosEmpresa.suc, "BUSART", "CategoriaArticulo");
+            string op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "BUSART", "CategoriaArticulo");
             if (op.Length > 0) cmbCategoria.SelectedValue = op; else cmbCategoria.SelectedIndex = 0;
 
-            op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "DAX", datosEmpresa.suc, "BUSART", "ClaseArticulo");
+            op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "BUSART", "ClaseArticulo");
             if (op.Length > 0) cmbClase.SelectedValue = op; else cmbClase.SelectedIndex = 0;
 
-            op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxSyscod, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, "DAX", datosEmpresa.suc, "BUSART", "GrupoArticulo");
+            op = AuditSis.registrar.obtenerPreferencia(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr + Environment.MachineName, datosEmpresa.sistema, datosEmpresa.suc, "BUSART", "GrupoArticulo");
             if (op.Length > 0) cmbGrupo.SelectedValue = op; else cmbGrupo.SelectedIndex = 0;
 
         }

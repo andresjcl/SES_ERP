@@ -31,7 +31,7 @@ namespace DctosEmi
                 using (SqlConnection conn = new SqlConnection(datosEmpresa.strConxAdcom))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select emp_ruc from  daxsys.dbo.Emp_Datos where emp_codigo = " + datosEmpresa.codEmpresa,conn))
+                    using (SqlCommand comm = new SqlCommand("select emp_ruc from  SysBd.dbo.Emp_Datos where emp_codigo = " + datosEmpresa.codEmpresa,conn))
                     {
                         SqlDataReader dr = comm.ExecuteReader();
                         if (dr.Read())
@@ -42,7 +42,7 @@ namespace DctosEmi
                     }
                 }
             }
-            return AdcGenxml.genearClaveDocumentoElct.generar_clave_FueraDeLinea(datosDoc.Doc_fecha,TipoDocSri ,tipoEmision,datosDoc.Doc_numero.ToString(),valoresPredefinidosEmpresa.AmbienteFactElctronica.ToString(),datosDoc.Doc_CiRuc,datosDoc.Doc_NroIdDoc,Convert.ToDouble(datosDoc.IdClaveDoc),rucEmpresa);
+            return DaxDocElectronicos.genearClaveDocumentoElct.generar_clave_FueraDeLinea(datosDoc.Doc_fecha,TipoDocSri ,tipoEmision,datosDoc.Doc_numero.ToString(),valoresPredefinidosEmpresa.AmbienteFactElctronica.ToString(),datosDoc.Doc_CiRuc,datosDoc.Doc_NroIdDoc,Convert.ToDouble(datosDoc.IdClaveDoc),rucEmpresa);
         }
 
     }

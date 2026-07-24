@@ -405,17 +405,39 @@ namespace DaxInvent
         {
             Boolean existe = false;
             if (codigo == "") return;
+            //artDatos = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
+            //    artDatos = adcArticulo.AdcArt.Buscar("art_codigo = '" + codigo + "'");
+            //try
+            //{
+            //    if (artDatos.Art_codigo.Length > 0) existe = true ;
+            //}
+            //catch 
+            //{ 
+            //    existe = false;
+            //    artDatos = new adcArticulo.AdcArt();
+            //}
             artDatos = new adcArticulo.AdcArt(datosEmpresa.strConxAdcom);
-                artDatos = adcArticulo.AdcArt.Buscar("art_codigo = '" + codigo + "'");
+            artDatos = adcArticulo.AdcArt.Buscar("art_codigo = '" + codigo + "'");
+
             try
             {
-                if (artDatos.Art_codigo.Length > 0) existe = true ;
+                // ✅ VERIFICAR QUE NO SEA NULL ANTES DE ACCEDER
+                if (artDatos != null && artDatos.Art_codigo != null && artDatos.Art_codigo.Length > 0)
+                {
+                    existe = true;
+                }
+                else
+                {
+                    existe = false;
+                    artDatos = new adcArticulo.AdcArt();
+                }
             }
-            catch 
-            { 
+            catch
+            {
                 existe = false;
                 artDatos = new adcArticulo.AdcArt();
             }
+
             if (existe == false)
             {
                 if (operacion == 0)

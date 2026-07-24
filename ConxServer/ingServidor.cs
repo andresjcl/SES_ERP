@@ -57,8 +57,7 @@ namespace ConxServer
 
         private void Command1_Click(System.Object sender, System.EventArgs e)
         {
-            if (ValidaClave(TxtPassword.Text, TxtPasswordc.Text) == false) return;
-            SqlConnection cnn = new SqlConnection(ConexionSql.ArmStr("master", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
+             SqlConnection cnn = new SqlConnection(ConexionSql.ArmStr("master", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
             if (TxtServidor.Text != "")
             {
                 try { cnn.Open(); } catch { };
@@ -70,7 +69,7 @@ namespace ConxServer
             }
             MessageBox.Show("Conexión al servidor de base de datos exitosa !!", "Configuración Inicial", MessageBoxButtons.OK, MessageBoxIcon.Information);
             cnn.Close();
-            cnn = new SqlConnection(ConexionSql.ArmStr(txtBaseLicencia.Text, TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
+            cnn = new SqlConnection(ConexionSql.ArmStr("SysBd", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
 
             try { cnn.Open(); } catch { }
 
@@ -96,14 +95,14 @@ namespace ConxServer
             dt.Columns.Add("Usuario");
             dt.Columns.Add("Clave");
             dt.Columns.Add("URL");
-            dt.Columns.Add("Bds");
+            //dt.Columns.Add("Bds");
             dt.TableName = "config";
             DataRow row = dt.NewRow();
             row["Servidor"] = TxtServidor.Text;
             row["Usuario"] = TxtUsuario.Text;
             row["Clave"] = TxtPassword.Text;
             row["URL"] = TxtUrl.Text;
-            row["Bds"] = txtBaseLicencia.Text;
+            //row["Bds"] = txtBaseLicencia.Text;
             dt.Rows.Add(row);
             dt.WriteXml(PathAppl + sistema + ".xml");
             dt.WriteXml(PathAppl + @"bin\" + sistema + ".xml");
@@ -149,8 +148,8 @@ namespace ConxServer
             }
             MessageBox.Show("Conexión al servidor de base de datos exitosa !!");
             cnn.Close();
-            //cnn = new SqlConnection(ConexionSql.ArmStr(datosEmpresa.strConIniSis, TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
-            cnn = new SqlConnection(ConexionSql.ArmStr(txtBaseLicencia.Text, TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
+            cnn = new SqlConnection(ConexionSql.ArmStr("SysBd", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
+            //cnn = new SqlConnection(ConexionSql.ArmStr(txtBaseLicencia.Text, TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
             try { cnn.Open(); } catch { }
 
             if (cnn.State == 0)
