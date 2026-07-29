@@ -5,11 +5,12 @@ Imports System.Windows.Forms
 Imports DattCom
 Imports System.Data.SqlClient
 Imports System.Collections.Generic
+Imports System.Security.Cryptography
+Imports System.Text
 
 Public Class ChequeoLicencias
 
     Public Shared Function ChequearLicencias(major As Int32, PathServidor As String, PathAppl As String, QueSistema As String, Autorizaciones As String, FF As String) As Long
-        'Dim Proglib As New daaxLib.DaxLibDigDato
         Dim n As String = ""
         Dim V As String = ""
         Dim Sh As String = ""
@@ -255,6 +256,9 @@ Public Class ChequeoLicencias
         ' ============================================================
         ' SinClave - ACTIVACIÓN DE LICENCIA
         ' ============================================================
+
+
+
 SinClave:
         Dim progin As New IngresaRegistro
         AUX1 = NuevaCodificacion.ClaveParaEnviar(EmpNombre, EmpRuc, n, NombrePcX, V, QueSistema, EmpNombreBase, Now.Date)
@@ -266,12 +270,13 @@ SinClave:
             Licencias = CInt(NuevaCodificacion.DeCodificarLicencia(AUX1, Now.Date, CStr(NuevaCodificacion.ValorStr(EmpNombre)), EmpRuc, n, CStr(NuevaCodificacion.ValorStr(NombrePcX)), CStr(NuevaCodificacion.ValorStr(QueSistema)), Opciones, a, b))
             Autorizaciones = Opciones
 
-            ' ============================================================
-            ' VALIDAR QUE LA CLAVE DE CLIENTE NO HAYA SIDO USADA
-            ' ============================================================
-            If Not String.IsNullOrEmpty(AUX1) Then
+            If Licencias > 0 Then
+
+                ' ============================================================
+                ' 1. VERIFICAR SI LA CLAVE YA EXISTE EN LA TABLA
+                ' ============================================================
+                Dim claveYaExiste As Boolean = False
                 Try
-                    ' Verificar si la clave existe en la tabla (ACTIVA O INACTIVA)
                     Dim sqlCheck As String = "SELECT COUNT(*) FROM Licencias WHERE ClaveCliente = @ClaveCliente"
                     Using connCheck As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
                         connCheck.Open()
@@ -279,60 +284,55 @@ SinClave:
                             cmdCheck.Parameters.AddWithValue("@ClaveCliente", AUX1)
                             Dim count As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
                             If count > 0 Then
-                                ' La clave YA fue usada antes (ACTIVA O INACTIVA)
-                                MsgBox("❌ ESTA CLAVE DE CLIENTE YA FUE UTILIZADA" & vbCrLf & vbCrLf &
+                                claveYaExiste = True
+                            End If
+                        End Using
+                    End Using
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error verificando clave: {ex.Message}")
+                End Try
+
+                ' ============================================================
+                ' 2. SI LA CLAVE YA EXISTE, MOSTRAR MENSAJE Y SALIR
+                ' ============================================================
+                If claveYaExiste Then
+                    MsgBox("❌ ESTA CLAVE DE CLIENTE YA FUE UTILIZADA" & vbCrLf & vbCrLf &
                            "Clave: " & AUX1 & vbCrLf &
                            "Esta clave ya fue registrada en el sistema." & vbCrLf & vbCrLf &
                            "No se puede generar una nueva licencia con la misma clave." & vbCrLf &
                            "Si necesita una nueva licencia, contacte a su proveedor.",
                            MsgBoxStyle.Exclamation, "Clave Ya Utilizada")
-                                Licencias = 0
-                                ChequearLicencias = 0
-                                Return 0
-                            End If
-                        End Using
-                    End Using
-                Catch ex As Exception
-                    System.Diagnostics.Debug.WriteLine($"Error validando clave: {ex.Message}")
-                End Try
-            End If
-
-            If Licencias > 0 Then
+                    Licencias = 0
+                    ChequearLicencias = 0
+                    Return 0
+                End If
 
                 ' ============================================================
-                ' GUARDAR INFORMACIÓN DE LA LICENCIA EN datosEmpresa
+                ' 3. LA CLAVE NO EXISTE - GUARDAR NUEVA LICENCIA
                 ' ============================================================
                 datosEmpresa.TipoLicencia = Licencias
                 datosEmpresa.OpcionesLicencia = Opciones
                 datosEmpresa.ModulosActivos = Opciones
                 datosEmpresa.GruposActivos = DecodificarOpciones(Opciones)
 
-                ' OBTENER FECHA DE EXPIRACIÓN EXCLUSIVAMENTE DE LA TABLA
-                Dim fechaDesdeTabla As DateTime = ObtenerFechaExpiracionDesdeTabla(EmpRuc)
-
-                If fechaDesdeTabla <> DateTime.MinValue Then
-                    ' USAR LA FECHA DE LA TABLA (LA QUE VIENE DEL GENERADOR)
-                    datosEmpresa.FechaExpiracion = fechaDesdeTabla
-                Else
-                    ' SOLO COMO FALLBACK - NO DEBERÍA SUCEDER
-                    datosEmpresa.FechaExpiracion = CalcularFechaExpiracionPorTipo(Licencias)
-                End If
-
+                ' Calcular fecha para nueva licencia
+                datosEmpresa.FechaExpiracion = CalcularFechaExpiracionPorTipo(Licencias)
                 datosEmpresa.MaxUsuarios = ObtenerMaxUsuarios(Licencias)
 
                 ' ============================================================
-                ' GUARDAR LICENCIA EN TABLA Licencias (CON LA FECHA OBTENIDA)
+                ' 4. GUARDAR LICENCIA EN TABLA Licencias
                 ' ============================================================
                 GuardarLicenciaEnTabla(EmpRuc, EmpNombre, Licencias, Opciones, AUX1, datosEmpresa.FechaExpiracion, datosEmpresa.MaxUsuarios)
 
                 ' ============================================================
-                ' GUARDAR EN SYS_ACCESOS (ACTIVAR)
+                ' 5. GUARDAR EN SYS_ACCESOS (ACTIVAR)
                 ' ============================================================
                 AUX1 = NuevaCodificacion.CodificarLicenciaFinal(Str(Licencias), Opciones, datex, CStr(NuevaCodificacion.ValorStr(EmpNombre)), EmpRuc, n, CStr(NuevaCodificacion.ValorStr(NombrePcX)), CStr(NuevaCodificacion.ValorStr(QueSistema)), a, b)
                 Comm.CommandText = "DELETE FROM SYS_ACCESOS where (idusuario = 'Adm' or idusuario = 'Ctrl' or idusuario = 'Sys'  ) and idopcion <> 'mnuoa' and idempresa = 0 and idsistema = '" & QueSistema & "'"
                 Comm.ExecuteNonQuery()
                 ClaveFinal = Split(AUX1, "-")
                 ReDim Preserve ClaveFinal(6)
+
                 AUX1 = " INSERT INTO SYS_ACCESOS ( "
                 AUX1 += "idusuario "
                 AUX1 += ",idempresa "
@@ -368,7 +368,10 @@ SinClave:
                 AUX1 += ")"
                 Comm.CommandText = AUX1
                 Comm.ExecuteNonQuery()
+
+                MsgBox("LICENCIA ACTIVADA CORRECTAMENTE", MsgBoxStyle.Information, "Activación Exitosa")
             End If
+
             rsUsr.Close()
             rsEmp.Close()
             Comm.Dispose()
@@ -382,6 +385,10 @@ erroresingresoclave:
         MsgBox("Error registro clave: " & Err.Description & " Nro: " & Err.Number)
         Application.ExitThread()
     End Function
+
+
+
+
 
     ' ============================================================
     ' VERIFICAR SI EXISTE LICENCIA ACTIVA Y VIGENTE EN TABLA Licencias
@@ -487,7 +494,7 @@ erroresingresoclave:
     End Function
 
     ' ============================================================
-    ' CARGAR LICENCIA ACTIVA DESDE TABLA Licencias
+    ' LICENCIA INFO - CLASE AUXILIAR
     ' ============================================================
     Private Class LicenciaInfo
         Public Property TipoLicencia As Integer
@@ -496,9 +503,12 @@ erroresingresoclave:
         Public Property FechaExpiracion As DateTime
     End Class
 
+    ' ============================================================
+    ' CARGAR LICENCIA ACTIVA DESDE TABLA Licencias
+    ' ============================================================
     Private Shared Function CargarLicenciaActivaDesdeTabla(ruc As String) As LicenciaInfo
         Try
-            Dim sql As String = "SELECT TOP 1 TipoLicencia, ModulosActivos, MaxUsuarios, FechaExpiracion FROM Licencias WHERE RucEmpresa = @RucEmpresa AND Estado = 'ACTIVA' AND FechaExpiracion >= GETDATE() ORDER BY Id DESC"
+            Dim sql As String = "SELECT TOP 1 TipoLicencia, ModulosActivos, MaxUsuarios, FechaExpiracion, ClaveCliente, FirmaDigital FROM Licencias WHERE RucEmpresa = @RucEmpresa AND Estado = 'ACTIVA' AND FechaExpiracion >= GETDATE() ORDER BY Id DESC"
             Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
                 conn.Open()
                 Using cmd As New SqlClient.SqlCommand(sql, conn)
@@ -510,6 +520,41 @@ erroresingresoclave:
                             info.Opciones = reader("ModulosActivos").ToString()
                             info.MaxUsuarios = Convert.ToInt32(reader("MaxUsuarios"))
                             info.FechaExpiracion = Convert.ToDateTime(reader("FechaExpiracion"))
+
+                            ' ============================================================
+                            ' VALIDAR INTEGRIDAD DE LA LICENCIA (CONTRA MANIPULACIÓN EN BD)
+                            ' ============================================================
+                            Dim claveCliente As String = reader("ClaveCliente").ToString()
+                            Dim firmaGuardada As String = If(reader("FirmaDigital") Is DBNull.Value, "", reader("FirmaDigital").ToString())
+
+                            ' Recalcular firma con los datos actuales
+                            Dim firmaCalculada As String = GenerarFirma(ruc, info.TipoLicencia, info.FechaExpiracion, info.Opciones, claveCliente)
+
+                            ' Verificar si la firma coincide
+                            If Not String.IsNullOrEmpty(firmaGuardada) AndAlso firmaGuardada <> firmaCalculada Then
+                                ' La licencia fue manipulada en la BD
+                                System.Diagnostics.Debug.WriteLine("⚠️ ADVERTENCIA: Licencia manipulada en la base de datos")
+
+                                ' Desactivar la licencia manipulada
+                                Using connDes As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                                    DesactivarLicencia(connDes, ruc)
+                                End Using
+
+                                ' Limpiar datos
+                                datosEmpresa.TipoLicencia = 0
+                                datosEmpresa.ModulosActivos = ""
+                                datosEmpresa.GruposActivos = ""
+                                datosEmpresa.OpcionesLicencia = ""
+
+                                MsgBox("❌ LA LICENCIA HA SIDO MODIFICADA INAPROPIADAMENTE" & vbCrLf & vbCrLf &
+                                       "El sistema detectó que la licencia fue alterada en la base de datos." & vbCrLf &
+                                       "Por seguridad, la licencia ha sido desactivada." & vbCrLf & vbCrLf &
+                                       "Contacte a su proveedor para obtener una nueva licencia.",
+                                       MsgBoxStyle.Critical, "Licencia Manipulada")
+
+                                Return Nothing
+                            End If
+
                             Return info
                         End If
                     End Using
@@ -522,12 +567,12 @@ erroresingresoclave:
     End Function
 
     ' ============================================================
-    ' OBTENER FECHA DE EXPIRACIÓN DESDE TABLA Licencias (NUEVA FUNCIÓN)
+    ' OBTENER FECHA DE EXPIRACIÓN DESDE TABLA Licencias
     ' ============================================================
     Private Shared Function ObtenerFechaExpiracionDesdeTabla(ruc As String) As DateTime
         Try
             Dim sql As String = "
-                SELECT TOP 1 FechaExpiracion 
+                SELECT TOP 1 FechaExpiracion, FirmaDigital, TipoLicencia, ModulosActivos, ClaveCliente
                 FROM Licencias 
                 WHERE RucEmpresa = @RucEmpresa 
                   AND Estado = 'ACTIVA' 
@@ -537,10 +582,27 @@ erroresingresoclave:
                 conn.Open()
                 Using cmd As New SqlClient.SqlCommand(sql, conn)
                     cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
-                    Dim result As Object = cmd.ExecuteScalar()
-                    If result IsNot Nothing AndAlso result IsNot DBNull.Value Then
-                        Return Convert.ToDateTime(result)
-                    End If
+                    Using reader As SqlClient.SqlDataReader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            Dim fecha As DateTime = Convert.ToDateTime(reader("FechaExpiracion"))
+
+                            ' Validar firma
+                            Dim firmaGuardada As String = If(reader("FirmaDigital") Is DBNull.Value, "", reader("FirmaDigital").ToString())
+                            Dim tipoLicencia As Integer = Convert.ToInt32(reader("TipoLicencia"))
+                            Dim opciones As String = reader("ModulosActivos").ToString()
+                            Dim claveCliente As String = reader("ClaveCliente").ToString()
+
+                            Dim firmaCalculada As String = GenerarFirma(ruc, tipoLicencia, fecha, opciones, claveCliente)
+
+                            If Not String.IsNullOrEmpty(firmaGuardada) AndAlso firmaGuardada <> firmaCalculada Then
+                                ' Licencia manipulada
+                                System.Diagnostics.Debug.WriteLine("⚠️ Licencia manipulada detectada en ObtenerFechaExpiracionDesdeTabla")
+                                Return DateTime.MinValue
+                            End If
+
+                            Return fecha
+                        End If
+                    End Using
                 End Using
             End Using
         Catch ex As Exception
@@ -548,6 +610,113 @@ erroresingresoclave:
         End Try
         Return DateTime.MinValue
     End Function
+
+    ' ============================================================
+    ' GENERAR FIRMA DIGITAL
+    ' ============================================================
+    Private Shared Function GenerarFirma(ruc As String, licencias As Integer, fecha As DateTime, opciones As String, claveCliente As String) As String
+        Try
+            ' Crear un string con todos los datos importantes
+            Dim datos As String = ruc & "|" & licencias.ToString() & "|" & fecha.ToString("yyyyMMddHHmmss") & "|" & opciones & "|" & claveCliente
+
+            ' Agregar una clave secreta (debe estar en un lugar seguro)
+            Dim claveSecreta As String = "MiClaveSecretaParaLicencias2026"
+
+            ' Generar hash SHA256
+            Using sha As New SHA256Managed()
+                Dim bytes As Byte() = Encoding.UTF8.GetBytes(datos & claveSecreta)
+                Dim hashBytes As Byte() = sha.ComputeHash(bytes)
+                Dim hash As String = Convert.ToBase64String(hashBytes)
+                Return hash
+            End Using
+        Catch ex As Exception
+            ' Si hay error, devolver un hash simple como fallback
+            Return Encoding.UTF8.GetBytes(ruc & fecha.Ticks.ToString() & licencias.ToString()).Length.ToString()
+        End Try
+    End Function
+
+    ' ============================================================
+    ' GUARDAR LICENCIA EN TABLA Licencias
+    ' ============================================================
+    Private Shared Sub GuardarLicenciaEnTabla(ruc As String, nombre As String, licencias As Integer, opciones As String, claveCliente As String, fechaExpiracion As DateTime, maxUsuarios As Integer)
+        Try
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+
+                ' 1. Crear tabla si no existe
+                Dim sqlCreate As String = "
+                    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Licencias')
+                    BEGIN
+                        CREATE TABLE Licencias (
+                            Id INT IDENTITY(1,1) PRIMARY KEY,
+                            RucEmpresa VARCHAR(13) NOT NULL,
+                            NombreEmpresa VARCHAR(100),
+                            TipoLicencia INT NOT NULL,
+                            MaxUsuarios INT NOT NULL,
+                            FechaExpiracion DATETIME NOT NULL,
+                            ModulosActivos VARCHAR(35) NOT NULL,
+                            GruposActivos VARCHAR(500),
+                            ClaveCliente VARCHAR(50) NOT NULL,
+                            ClaveActivacion VARCHAR(50) NOT NULL,
+                            Estado VARCHAR(20) DEFAULT 'ACTIVA',
+                            FechaGeneracion DATETIME DEFAULT GETDATE(),
+                            FirmaDigital VARCHAR(500) NULL,
+                            Version INT DEFAULT 1
+                        )
+                    END"
+
+                Using cmd As New SqlClient.SqlCommand(sqlCreate, conn)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                ' 2. Desactivar licencias anteriores
+                Dim sqlDesactivar As String = "
+                    UPDATE Licencias 
+                    SET Estado = 'INACTIVA' 
+                    WHERE RucEmpresa = @RucEmpresa 
+                      AND Estado = 'ACTIVA'"
+
+                Using cmd As New SqlClient.SqlCommand(sqlDesactivar, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                ' 3. Generar firma digital
+                Dim firma As String = GenerarFirma(ruc, licencias, fechaExpiracion, opciones, claveCliente)
+
+                ' 4. Insertar nueva licencia
+                Dim gruposActivos As String = DecodificarOpciones(opciones)
+
+                Dim sqlInsert As String = "
+                    INSERT INTO Licencias (
+                        RucEmpresa, NombreEmpresa, TipoLicencia, MaxUsuarios,
+                        ClaveCliente, ClaveActivacion, ModulosActivos, GruposActivos,
+                        FechaExpiracion, Estado, FechaGeneracion, FirmaDigital, Version
+                    ) VALUES (
+                        @RucEmpresa, @NombreEmpresa, @TipoLicencia, @MaxUsuarios,
+                        @ClaveCliente, @ClaveActivacion, @ModulosActivos, @GruposActivos,
+                        @FechaExpiracion, 'ACTIVA', GETDATE(), @FirmaDigital, 1
+                    )"
+
+                Using cmd As New SqlClient.SqlCommand(sqlInsert, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    cmd.Parameters.Add(New SqlClient.SqlParameter("@NombreEmpresa", SqlDbType.VarChar, 100) With {.Value = If(String.IsNullOrEmpty(nombre), DBNull.Value, DirectCast(nombre, Object))})
+                    cmd.Parameters.AddWithValue("@TipoLicencia", licencias)
+                    cmd.Parameters.AddWithValue("@MaxUsuarios", maxUsuarios)
+                    cmd.Parameters.AddWithValue("@ClaveCliente", claveCliente)
+                    cmd.Parameters.AddWithValue("@ClaveActivacion", ObtenerClaveActivacion())
+                    cmd.Parameters.AddWithValue("@ModulosActivos", opciones)
+                    cmd.Parameters.Add(New SqlClient.SqlParameter("@GruposActivos", SqlDbType.VarChar, 500) With {.Value = If(String.IsNullOrEmpty(gruposActivos), DBNull.Value, DirectCast(gruposActivos, Object))})
+                    cmd.Parameters.AddWithValue("@FechaExpiracion", fechaExpiracion)
+                    cmd.Parameters.AddWithValue("@FirmaDigital", firma)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error guardando licencia: {ex.Message}")
+        End Try
+    End Sub
 
     ' ============================================================
     ' CALCULAR FECHA DE EXPIRACIÓN POR TIPO (FALLBACK EXTREMO)
@@ -743,83 +912,6 @@ erroresingresoclave:
         End Try
         Return "CLAVE-" & Guid.NewGuid().ToString().Substring(0, 8).ToUpper()
     End Function
-
-    ' ============================================================
-    ' GUARDAR LICENCIA EN TABLA Licencias
-    ' ============================================================
-    Private Shared Sub GuardarLicenciaEnTabla(ruc As String, nombre As String, licencias As Integer, opciones As String, claveCliente As String, fechaExpiracion As DateTime, maxUsuarios As Integer)
-        Try
-            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
-                conn.Open()
-
-                ' 1. Crear tabla si no existe
-                Dim sqlCreate As String = "
-                    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Licencias')
-                    BEGIN
-                        CREATE TABLE Licencias (
-                            Id INT IDENTITY(1,1) PRIMARY KEY,
-                            RucEmpresa VARCHAR(13) NOT NULL,
-                            NombreEmpresa VARCHAR(100),
-                            TipoLicencia INT NOT NULL,
-                            MaxUsuarios INT NOT NULL,
-                            FechaExpiracion DATETIME NOT NULL,
-                            ModulosActivos VARCHAR(35) NOT NULL,
-                            GruposActivos VARCHAR(500),
-                            ClaveCliente VARCHAR(50) NOT NULL,
-                            ClaveActivacion VARCHAR(50) NOT NULL,
-                            Estado VARCHAR(20) DEFAULT 'ACTIVA',
-                            FechaGeneracion DATETIME DEFAULT GETDATE()
-                        )
-                    END"
-
-                Using cmd As New SqlClient.SqlCommand(sqlCreate, conn)
-                    cmd.ExecuteNonQuery()
-                End Using
-
-                ' 2. Desactivar licencias anteriores
-                Dim sqlDesactivar As String = "
-                    UPDATE Licencias 
-                    SET Estado = 'INACTIVA' 
-                    WHERE RucEmpresa = @RucEmpresa 
-                      AND Estado = 'ACTIVA'"
-
-                Using cmd As New SqlClient.SqlCommand(sqlDesactivar, conn)
-                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
-                    cmd.ExecuteNonQuery()
-                End Using
-
-                ' 3. Insertar nueva licencia
-                Dim gruposActivos As String = DecodificarOpciones(opciones)
-
-                Dim sqlInsert As String = "
-                    INSERT INTO Licencias (
-                        RucEmpresa, NombreEmpresa, TipoLicencia, MaxUsuarios,
-                        ClaveCliente, ClaveActivacion, ModulosActivos, GruposActivos,
-                        FechaExpiracion, Estado, FechaGeneracion
-                    ) VALUES (
-                        @RucEmpresa, @NombreEmpresa, @TipoLicencia, @MaxUsuarios,
-                        @ClaveCliente, @ClaveActivacion, @ModulosActivos, @GruposActivos,
-                        @FechaExpiracion, 'ACTIVA', GETDATE()
-                    )"
-
-                Using cmd As New SqlClient.SqlCommand(sqlInsert, conn)
-                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
-                    cmd.Parameters.Add(New SqlClient.SqlParameter("@NombreEmpresa", SqlDbType.VarChar, 100) With {.Value = If(String.IsNullOrEmpty(nombre), DBNull.Value, DirectCast(nombre, Object))})
-                    cmd.Parameters.AddWithValue("@TipoLicencia", licencias)
-                    cmd.Parameters.AddWithValue("@MaxUsuarios", maxUsuarios)
-                    cmd.Parameters.AddWithValue("@ClaveCliente", claveCliente)
-                    cmd.Parameters.AddWithValue("@ClaveActivacion", ObtenerClaveActivacion())
-                    cmd.Parameters.AddWithValue("@ModulosActivos", opciones)
-                    cmd.Parameters.Add(New SqlClient.SqlParameter("@GruposActivos", SqlDbType.VarChar, 500) With {.Value = If(String.IsNullOrEmpty(gruposActivos), DBNull.Value, DirectCast(gruposActivos, Object))})
-                    cmd.Parameters.AddWithValue("@FechaExpiracion", fechaExpiracion)
-                    cmd.ExecuteNonQuery()
-                End Using
-            End Using
-
-        Catch ex As Exception
-            System.Diagnostics.Debug.WriteLine($"Error guardando licencia: {ex.Message}")
-        End Try
-    End Sub
 
     ' ============================================================
     ' FUNCIONES EXISTENTES (NO TOCAR)

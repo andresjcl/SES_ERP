@@ -448,8 +448,8 @@ namespace SES_ERP24
             string texto = $"Clave Cliente: {txtClaveCliente.Text}\n" +
                           $"Clave Activación: {txtClaveActivacion.Text}";
             Clipboard.SetText(texto);
-            MessageBox.Show("Claves copiadas al portapapeles", "Éxito",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("Claves copiadas al portapapeles", "Éxito",
+            //    MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // ============================================================
