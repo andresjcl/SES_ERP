@@ -256,6 +256,7 @@ namespace importarData
             if (segmentos.Count <= 1)
                 return "";
 
+            // Remover el último segmento y unir el resto
             segmentos.RemoveAt(segmentos.Count - 1);
             return string.Join("", segmentos);
         }
@@ -332,6 +333,7 @@ namespace importarData
             }
         }
 
+
         private List<CuentaValidada> ValidarEstructura(DataTable dt)
         {
             List<CuentaValidada> resultados = new List<CuentaValidada>();
@@ -379,6 +381,31 @@ namespace importarData
                     cuenta.Error = "No se pudo determinar el nivel del código";
                 }
 
+                // ✅ CORREGIDO: Asignar Cniv con el código COMPLETO hasta cada nivel
+                if (segmentos.Count > 0)
+                {
+                    // Cniv1 = primer segmento (ej: "1")
+                    cuenta.Cniv1 = segmentos[0];
+
+                    // Cniv2 = primer segmento + segundo segmento (ej: "101")
+                    if (segmentos.Count >= 2)
+                        cuenta.Cniv2 = segmentos[0] + segmentos[1];
+                    else
+                        cuenta.Cniv2 = "";
+
+                    // Cniv3 = primer segmento + segundo + tercero (ej: "10101")
+                    if (segmentos.Count >= 3)
+                        cuenta.Cniv3 = segmentos[0] + segmentos[1] + segmentos[2];
+                    else
+                        cuenta.Cniv3 = "";
+
+                    // Cniv4 = primer segmento + segundo + tercero + cuarto (ej: "1010101")
+                    if (segmentos.Count >= 4)
+                        cuenta.Cniv4 = segmentos[0] + segmentos[1] + segmentos[2] + segmentos[3];
+                    else
+                        cuenta.Cniv4 = "";
+                }
+
                 // Validar longitud según parámetros
                 if (parametrosActuales != null && nivel > 0 && nivel <= parametrosActuales.DigitosPorNivel.Count)
                 {
@@ -398,10 +425,6 @@ namespace importarData
                 if (cuenta.EsValido && segmentos.Count > 0)
                 {
                     cuenta.Grupo = ObtenerGrupo(segmentos[0]);
-                    cuenta.Cniv1 = segmentos.Count >= 1 ? segmentos[0] : "";
-                    cuenta.Cniv2 = segmentos.Count >= 2 ? segmentos[1] : "";
-                    cuenta.Cniv3 = segmentos.Count >= 3 ? segmentos[2] : "";
-                    cuenta.Cniv4 = segmentos.Count >= 4 ? segmentos[3] : "";
 
                     // Nombres de niveles
                     if (segmentos.Count >= 1)
@@ -446,7 +469,7 @@ namespace importarData
             return resultados;
         }
 
-        
+
         private void IdentificarCuentasDeDetalle(List<CuentaValidada> cuentas)
         {
             // Primero, identificar todos los códigos que son padres (tienen hijos)
@@ -492,6 +515,8 @@ namespace importarData
                 }
             }
         }
+
+
         private void MostrarResultadosValidacion()
         {
             if (mallaValidacion == null) return;
@@ -645,6 +670,7 @@ namespace importarData
 
                 try
                 {
+                    // 1. Eliminar registros existentes
                     string deleteQuery = "DELETE FROM AdcCta";
                     using (SqlCommand cmd = new SqlCommand(deleteQuery, conn, transaction))
                     {
@@ -652,21 +678,23 @@ namespace importarData
                         System.Diagnostics.Debug.WriteLine($"Registros eliminados de AdcCta: {eliminados}");
                     }
 
+                    // 2. Insertar nuevos registros
                     string insertQuery = @"
-                        INSERT INTO AdcCta (
-                            Cta_codigo, Cta_nombre, Cta_grupo, Cta_agrupacion, Cta_Nivel,
-                            CuentaPadre, Cniv1, Cniv2, Cniv3, Cniv4, NomNiv1, NomNiv2,
-                            Cta_Gasto, Cta_CostosDir, Cta_CostosInDir,
-                            FechaCierre, Estado, Cta_usuario
-                        ) VALUES (
-                            @codigo, @nombre, @grupo, @agrupacion, @nivel,
-                            @cuentaPadre, @cniv1, @cniv2, @cniv3, @cniv4, @nomNiv1, @nomNiv2,
-                            @ctaGasto, @ctaCostosDir, @ctaCostosInDir,
-                            @fechaCierre, @estado, @usuario
-                        )";
+                INSERT INTO AdcCta (
+                    Cta_codigo, Cta_nombre, Cta_grupo, Cta_agrupacion, Cta_Nivel,
+                    CuentaPadre, Cniv1, Cniv2, Cniv3, Cniv4, NomNiv1, NomNiv2,
+                    Cta_Gasto, Cta_CostosDir, Cta_CostosInDir,
+                    FechaCierre, Estado, Cta_usuario
+                ) VALUES (
+                    @codigo, @nombre, @grupo, @agrupacion, @nivel,
+                    @cuentaPadre, @cniv1, @cniv2, @cniv3, @cniv4, @nomNiv1, @nomNiv2,
+                    @ctaGasto, @ctaCostosDir, @ctaCostosInDir,
+                    @fechaCierre, @estado, @usuario
+                )";
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, conn, transaction))
                     {
+                        // Configurar parámetros
                         cmd.Parameters.Add("@codigo", SqlDbType.VarChar, 15);
                         cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 80);
                         cmd.Parameters.Add("@grupo", SqlDbType.VarChar, 1);
@@ -688,9 +716,12 @@ namespace importarData
 
                         foreach (var cuenta in cuentas)
                         {
+                            // Solo guardar cuentas válidas
+                            if (!cuenta.EsValido) continue;
+
                             cmd.Parameters["@codigo"].Value = TruncateString(cuenta.CodigoNormalizado, 15);
-                            cmd.Parameters["@nombre"].Value = TruncateString(cuenta.Nombre, 80);
-                            cmd.Parameters["@grupo"].Value = cuenta.Grupo;
+                            cmd.Parameters["@nombre"].Value = TruncateString(cuenta.Nombre ?? "", 80);
+                            cmd.Parameters["@grupo"].Value = TruncateString(cuenta.Grupo ?? "0", 1);
                             cmd.Parameters["@agrupacion"].Value = cuenta.Agrupacion;
                             cmd.Parameters["@nivel"].Value = cuenta.Nivel;
                             cmd.Parameters["@cuentaPadre"].Value = string.IsNullOrEmpty(cuenta.CuentaPadre) ? (object)DBNull.Value : TruncateString(cuenta.CuentaPadre, 50);
@@ -700,13 +731,10 @@ namespace importarData
                             cmd.Parameters["@cniv4"].Value = string.IsNullOrEmpty(cuenta.Cniv4) ? (object)DBNull.Value : TruncateString(cuenta.Cniv4, 15);
                             cmd.Parameters["@nomNiv1"].Value = string.IsNullOrEmpty(cuenta.NomNiv1) ? (object)DBNull.Value : TruncateString(cuenta.NomNiv1, 128);
                             cmd.Parameters["@nomNiv2"].Value = string.IsNullOrEmpty(cuenta.NomNiv2) ? (object)DBNull.Value : TruncateString(cuenta.NomNiv2, 128);
-
-                            // Asignar flags según el tipo de cuenta
                             cmd.Parameters["@ctaGasto"].Value = cuenta.Cta_Gasto;
                             cmd.Parameters["@ctaCostosDir"].Value = cuenta.Cta_CostosDir;
                             cmd.Parameters["@ctaCostosInDir"].Value = cuenta.Cta_CostosInDir;
-
-                            cmd.Parameters["@fechaCierre"].Value = DateTime.Now;
+                            cmd.Parameters["@fechaCierre"].Value = DateTime.Now.Date;
                             cmd.Parameters["@estado"].Value = "A";
                             cmd.Parameters["@usuario"].Value = TruncateString(usuario, 15);
 

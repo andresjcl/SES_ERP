@@ -5,16 +5,16 @@ Imports System.Data.SqlClient
 Imports DattCom
 Imports mallExp
 
-Friend Class CTBP21
-	Inherits System.Windows.Forms.Form
+Public Class CTBP21
+    Inherits System.Windows.Forms.Form
     Dim CtaAnt As String
-	Dim Tam(5, 8) As String
-	Dim TotDoc(6) As Double
-	Dim TotSuc(6) As Double
-	Dim TotGen(6) As Double
-	Dim suma As Double
-	Dim alto, Pagina As Short
-	Dim AUXIL2, Auxil, titulo As String
+    Dim Tam(5, 8) As String
+    Dim TotDoc(6) As Double
+    Dim TotSuc(6) As Double
+    Dim TotGen(6) As Double
+    Dim suma As Double
+    Dim alto, Pagina As Short
+    Dim AUXIL2, Auxil, titulo As String
     '	Dim RsCta As New ADODB.Recordset
     Dim CbNiv As Short = 1
     Dim ChTCtas As Short = 1
@@ -56,9 +56,9 @@ Friend Class CTBP21
         Dim Espacios As String
         'On Error GoTo HayErrores
         Espacios = Space(30)
-        NumNiv = Emp.CtaNumNiveles
+        NumNiv = emp.CtaNumNiveles
         For i = 1 To NumNiv
-            Tniv(i) = Val(Mid(Emp.CtaNumDigNivel, i, 1))
+            Tniv(i) = Val(Mid(emp.CtaNumDigNivel, i, 1))
         Next
 
         PosNiv(1) = 1
@@ -81,7 +81,7 @@ Friend Class CTBP21
         cod = cod & " when 2 then cta_codigo"
         cod = cod & " when 3 then cta_codigo"
         cod = cod & " when 4 then substring(cta_codigo,1," & PosNiv(4) - 1 & ") + '.' + substring (cta_codigo," & PosNiv(4) & "," & Tniv(4) & " )"
-        cod = cod & " when 5 then substring(cta_codigo,1," & PosNiv(4) - 1 & ") + '.' + substring (cta_codigo," & PosNiv(4) & "," & Tniv(4) & " ) + '.' + substring (cta_codigo," & PosNiv(5)  & "," & Tniv(5) & ") "
+        cod = cod & " when 5 then substring(cta_codigo,1," & PosNiv(4) - 1 & ") + '.' + substring (cta_codigo," & PosNiv(4) & "," & Tniv(4) & " ) + '.' + substring (cta_codigo," & PosNiv(5) & "," & Tniv(5) & ") "
         cod = cod & " when 6 then substring(cta_codigo,1," & PosNiv(4) - 1 & ") + '.' + substring (cta_codigo," & PosNiv(4) & "," & Tniv(4) & " ) + '.' + substring (cta_codigo," & PosNiv(5) & "," & Tniv(5) & ") + '.' + substring (cta_codigo," & PosNiv(6) & "," & Tniv(6) & ") "
         cod = cod & " End"
         cod = cod & " as Cuenta"

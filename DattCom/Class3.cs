@@ -38,8 +38,8 @@ namespace DattCom
                 //datosEmpresa.strConIniSis6 = IngresoApp.ArmStr("BdIniSis", datosEmpresa.Servidor, "SQL", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 //datosEmpresa.strConIniSis = IngresoApp.ArmStr(datosEmpresa.nombreBaseSis, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 //datosEmpresa.strConIniSis6 = IngresoApp.ArmStr(datosEmpresa.nombreBaseSis, datosEmpresa.Servidor, "SQL", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                datosEmpresa.strConIniSis = IngresoApp.ArmStr("SysBd", datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
-                datosEmpresa.strConIniSis6 = IngresoApp.ArmStr("SysBd", datosEmpresa.Servidor, "SQL", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
+                datosEmpresa.strConIniSis = IngresoApp.ArmStr("Daxsys", datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
+                datosEmpresa.strConIniSis6 = IngresoApp.ArmStr("Daxsys", datosEmpresa.Servidor, "SQL", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 SqlConnection ConIniSis = new SqlConnection(datosEmpresa.strConIniSis);
                 //datosEmpresa.marca = Emp_Servidor + "," + Emp_Usuario + "," + Emp_Clave;
                 try

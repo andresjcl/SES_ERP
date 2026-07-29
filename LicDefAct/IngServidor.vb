@@ -63,7 +63,7 @@ Public Class IngresaServidor
         If cnn.State = 0 Then MsgBox("No se pudo efectuar la conexión al servidor de base de datos", MsgBoxStyle.Critical) : Exit Sub
         MsgBox("Conexión al servidor de base de datos exitosa !!", MsgBoxStyle.Exclamation)
         cnn.Close()
-        Conx = CStr(IngresoApp.ArmStr("SysBD", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text))
+        Conx = CStr(IngresoApp.ArmStr("Daxsys", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text))
         cnn.ConnectionString = Conx
         cnn.Open()
         If cnn.State = 0 Then MsgBox("No se ha instalado la base de datos control del sistema en el servidor", MsgBoxStyle.Critical) : Exit Sub

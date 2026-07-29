@@ -1,6 +1,10 @@
-﻿Imports System.Windows.Forms
-Imports DattCom
+﻿Option Strict Off
+Option Explicit On
 
+Imports System.Windows.Forms
+Imports DattCom
+Imports System.Data.SqlClient
+Imports System.Collections.Generic
 
 Public Class ChequeoLicencias
 
@@ -34,12 +38,6 @@ Public Class ChequeoLicencias
         If a = 0 Then MsgBox("La dirección URL de directorios en el servidor está errada, registrela nuevamente") : Return 0
 
         NuevaCodificacion.DatosPc(PathServidor, NombrePcX, V, n, Sh)
-        'If Len(n) = 0 Then
-        '    n = CNNV(NuevaCodificacion.ValorStr(Sh), NuevaCodificacion.ValorStr(QueSistema) * CDbl(major), 3, 2, QueSistema)
-        'Else
-        '    n = NuevaCodificacion.ValorStr(n).ToString()
-        'End If
-        'NombrePcX = CStr(Val(n) * CDbl(major))
         Valido = 1
         Dim Comm As New SqlClient.SqlCommand("Select * from emp_datos where emp_defecto <> 0 ", ConxDaxSys)
         rsEmp = Comm.ExecuteReader
@@ -48,8 +46,54 @@ Public Class ChequeoLicencias
         EmpNombre = rsEmp.Item("Emp_Nombre").ToString()
         EmpNombreBase = "BdAdcomDx"
         EmpClave = CLng(rsEmp.Item("Emp_Codigo").ToString())
-        EmpRuc = Left(rsEmp.Item("Emp_RUC").ToString(), 10)
+        EmpRuc = rsEmp.Item("Emp_RUC").ToString()
         If rsEmp.IsClosed = False Then rsEmp.Close()
+
+        ' ============================================================
+        ' 1. VERIFICAR SI EXISTE UNA LICENCIA ACTIVA (NO EXPIRADA) EN TABLA Licencias
+        ' ============================================================
+        Dim licenciaActiva As Boolean = VerificarLicenciaActivaYVigenteEnTabla(EmpRuc)
+
+        If licenciaActiva Then
+            ' ============================================================
+            ' HAY LICENCIA ACTIVA Y VIGENTE - CARGARLA Y USARLA
+            ' ============================================================
+            Dim infoLicencia As LicenciaInfo = CargarLicenciaActivaDesdeTabla(EmpRuc)
+            If infoLicencia IsNot Nothing Then
+                ' VERIFICAR QUE NO HAYA EXPIRADO (DOBLE VALIDACIÓN)
+                If infoLicencia.FechaExpiracion < DateTime.Now Then
+                    ' Desactivar licencia expirada
+                    DesactivarLicencia(ConxDaxSys, EmpRuc)
+                    EliminarSysAccesos(ConxDaxSys, QueSistema)
+
+                    ' Limpiar datos
+                    datosEmpresa.TipoLicencia = 0
+                    datosEmpresa.ModulosActivos = ""
+                    datosEmpresa.GruposActivos = ""
+                    datosEmpresa.OpcionesLicencia = ""
+
+                    MsgBox("❌ SU LICENCIA HA EXPIRADO" & vbCrLf & vbCrLf &
+                           "Fecha de expiración: " & infoLicencia.FechaExpiracion.ToString("dd/MM/yyyy") & vbCrLf &
+                           "Debe ingresar una nueva clave de activación para continuar.",
+                           MsgBoxStyle.Information, "Licencia Expirada")
+
+                    GoTo SinClave
+                End If
+
+                datosEmpresa.TipoLicencia = infoLicencia.TipoLicencia
+                datosEmpresa.OpcionesLicencia = infoLicencia.Opciones
+                datosEmpresa.ModulosActivos = infoLicencia.Opciones
+                datosEmpresa.GruposActivos = DecodificarOpciones(infoLicencia.Opciones)
+                datosEmpresa.FechaExpiracion = infoLicencia.FechaExpiracion
+                datosEmpresa.MaxUsuarios = infoLicencia.MaxUsuarios
+
+                Return infoLicencia.TipoLicencia
+            End If
+        End If
+
+        ' ============================================================
+        ' 2. VERIFICAR SI EXISTE UNA LICENCIA EN SYS_ACCESOS (FALLBACK)
+        ' ============================================================
         Valido = 0
         Comm.CommandText = "select *,getdate() as FechaServ  FROM SYS_ACCESOS where (idusuario = 'Adm' or idusuario = 'Ctrl' ) and idopcion <> 'mnuoa' and idempresa = 0 and idsistema = '" & QueSistema & "'"
         Comm.Connection = ConxDaxSys
@@ -71,33 +115,117 @@ Public Class ChequeoLicencias
             Loop
             .Close()
         End With
+
+        ' ============================================================
+        ' 3. SI HAY LICENCIA EN SYS_ACCESOS, VERIFICAR EXPIRACIÓN
+        ' ============================================================
+        Dim licenciaEnSysAccesos As Boolean = False
+        If Valido = 1 Then
+            AUX1 = ""
+            For i = 1 To 6
+                If AUX1 > "" Then AUX1 += "-"
+                AUX1 += ClaveFinal(i)
+            Next i
+            ReDim ClaveFinal(0)
+            If rsUsr.IsClosed = False Then rsUsr.Close()
+            Licencias = CInt(NuevaCodificacion.DeCodificarLicencia(AUX1, datex, CStr(NuevaCodificacion.ValorStr(EmpNombre)), EmpRuc, n, CStr(NuevaCodificacion.ValorStr(NombrePcX)), CStr(NuevaCodificacion.ValorStr(QueSistema)), Opciones, a, b))
+
+            If Licencias > 0 Then
+                licenciaEnSysAccesos = True
+                datosEmpresa.auto = Opciones
+
+                datosEmpresa.TipoLicencia = Licencias
+                datosEmpresa.OpcionesLicencia = Opciones
+                datosEmpresa.ModulosActivos = Opciones
+                datosEmpresa.GruposActivos = DecodificarOpciones(Opciones)
+
+                ' OBTENER FECHA DE EXPIRACIÓN EXCLUSIVAMENTE DE LA TABLA
+                Dim fechaDesdeTabla As DateTime = ObtenerFechaExpiracionDesdeTabla(EmpRuc)
+
+                If fechaDesdeTabla <> DateTime.MinValue Then
+                    ' USAR LA FECHA DE LA TABLA (LA QUE VIENE DEL GENERADOR)
+                    datosEmpresa.FechaExpiracion = fechaDesdeTabla
+                Else
+                    ' SOLO COMO FALLBACK EXTREMO - NO DEBERÍA SUCEDER
+                    datosEmpresa.FechaExpiracion = CalcularFechaExpiracionPorTipo(Licencias)
+                End If
+
+                datosEmpresa.MaxUsuarios = ObtenerMaxUsuarios(Licencias)
+
+                ' ============================================================
+                ' VERIFICAR SI LA LICENCIA ESTÁ EXPIRADA
+                ' ============================================================
+                If datosEmpresa.FechaExpiracion < DateTime.Now Then
+                    ' Eliminar sys_Accesos
+                    EliminarSysAccesos(ConxDaxSys, QueSistema)
+
+                    ' Limpiar datos en memoria
+                    datosEmpresa.TipoLicencia = 0
+                    datosEmpresa.ModulosActivos = ""
+                    datosEmpresa.GruposActivos = ""
+                    datosEmpresa.OpcionesLicencia = ""
+
+                    ' Desactivar licencia en tabla
+                    DesactivarLicencia(ConxDaxSys, EmpRuc)
+
+                    ' Mostrar mensaje y solicitar nueva licencia
+                    MsgBox("❌ SU LICENCIA HA EXPIRADO" & vbCrLf & vbCrLf &
+                           "Fecha de expiración: " & datosEmpresa.FechaExpiracion.ToString("dd/MM/yyyy") & vbCrLf &
+                           "Debe ingresar una nueva clave de activación para continuar.",
+                           MsgBoxStyle.Information, "Licencia Expirada")
+
+                    ' Ir a SinClave para activar nueva licencia
+                    GoTo SinClave
+                End If
+
+                Return Licencias
+            End If
+        End If
+
+        ' ============================================================
+        ' 4. VERIFICAR SI EXISTE LICENCIA INACTIVA (EXPIRADA) EN TABLA
+        ' ============================================================
+        Dim licenciaInactiva As Boolean = VerificarLicenciaInactivaEnTabla(EmpRuc)
+
+        If licenciaInactiva Then
+            ' ============================================================
+            ' LICENCIA EXPIRADA - ELIMINAR SYS_ACCESOS Y SOLICITAR NUEVA
+            ' ============================================================
+
+            ' Eliminar sys_Accesos
+            EliminarSysAccesos(ConxDaxSys, QueSistema)
+
+            ' Limpiar datos en memoria
+            datosEmpresa.TipoLicencia = 0
+            datosEmpresa.ModulosActivos = ""
+            datosEmpresa.GruposActivos = ""
+            datosEmpresa.OpcionesLicencia = ""
+
+            ' Obtener fecha de expiración
+            Dim fechaExp As DateTime = ObtenerFechaExpiracionInactiva(EmpRuc)
+
+            ' Mostrar mensaje informativo
+            MsgBox("❌ SU LICENCIA HA EXPIRADO" & vbCrLf & vbCrLf &
+                   "Fecha de expiración: " & fechaExp.ToString("dd/MM/yyyy") & vbCrLf &
+                   "Debe ingresar una nueva clave de activación para continuar.",
+                   MsgBoxStyle.Information, "Licencia Expirada")
+
+            ' Ir a SinClave para activar nueva licencia
+            GoTo SinClave
+        End If
+
+        ' ============================================================
+        ' 5. SI NO HAY NINGUNA LICENCIA - IR A SinClave (ACTIVACIÓN)
+        ' ============================================================
         If Valido = 0 Then GoTo SinClave Else Valido = 0
 
-        AUX1 = ""
-        For i = 1 To 6
-            If AUX1 > "" Then AUX1 += "-"
-            AUX1 += ClaveFinal(i)
-        Next i
-        ReDim ClaveFinal(0)
-        If rsUsr.IsClosed = False Then rsUsr.Close()
-        Licencias = CInt(NuevaCodificacion.DeCodificarLicencia(AUX1, datex, CStr(NuevaCodificacion.ValorStr(EmpNombre)), EmpRuc, n, CStr(NuevaCodificacion.ValorStr(NombrePcX)), CStr(NuevaCodificacion.ValorStr(QueSistema)), Opciones, a, b))
-        'Licencias = 1
-        ChequearLicencias = Licencias
-
-        datosEmpresa.auto = Opciones
+        ' ============================================================
+        ' VALIDACIÓN DE FECHA PARA LICENCIAS > 99
+        ' ============================================================
         If Licencias > 99 Then
             Dim aa As String
-            '        If Date <> FechaServ Then
-            '            aa = "La fecha de su computador," & Format(Date, "dd/mmm/yyyy") & vbCr
-            '            aa = aa & "es diferente de la fecha del sistema, " & Format(FechaServ, "dd/mmm/yyyy")
-            '            aa = aa & "Debe correjir la fecha para continuar"
-            '            MsgBox aa
-            '        End
-            '        End If
             aa = CFV(Val(n), NuevaCodificacion.ValorStr(EmpNombre), a, b, QueSistema)
             If IsDate(aa) = True Then
-                'If CDate(aa) <> FechaServ Then
-                '    aa = ""
                 If Licencias > 400 Then
                     If Math.Abs(DateDiff("d", FechaServ, aa)) > 60 Then aa = ""
                     Licencias -= 400
@@ -124,11 +252,9 @@ Public Class ChequeoLicencias
 
         If Licencias > 0 Then Return Licencias
 
-
-        ' 99 LICENCIAS SIN LIMITE DE USUARIOS
-        ' 98 LICENCIA DE DEMOSTRACION UTILIZA SOLAMENTE 1 EMPRESA Y 1 USUARIO
-        ' 1 LICENCIA MONOUSUARIO
-
+        ' ============================================================
+        ' SinClave - ACTIVACIÓN DE LICENCIA
+        ' ============================================================
 SinClave:
         Dim progin As New IngresaRegistro
         AUX1 = NuevaCodificacion.ClaveParaEnviar(EmpNombre, EmpRuc, n, NombrePcX, V, QueSistema, EmpNombreBase, Now.Date)
@@ -139,10 +265,71 @@ SinClave:
         Else
             Licencias = CInt(NuevaCodificacion.DeCodificarLicencia(AUX1, Now.Date, CStr(NuevaCodificacion.ValorStr(EmpNombre)), EmpRuc, n, CStr(NuevaCodificacion.ValorStr(NombrePcX)), CStr(NuevaCodificacion.ValorStr(QueSistema)), Opciones, a, b))
             Autorizaciones = Opciones
+
+            ' ============================================================
+            ' VALIDAR QUE LA CLAVE DE CLIENTE NO HAYA SIDO USADA
+            ' ============================================================
+            If Not String.IsNullOrEmpty(AUX1) Then
+                Try
+                    ' Verificar si la clave existe en la tabla (ACTIVA O INACTIVA)
+                    Dim sqlCheck As String = "SELECT COUNT(*) FROM Licencias WHERE ClaveCliente = @ClaveCliente"
+                    Using connCheck As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                        connCheck.Open()
+                        Using cmdCheck As New SqlClient.SqlCommand(sqlCheck, connCheck)
+                            cmdCheck.Parameters.AddWithValue("@ClaveCliente", AUX1)
+                            Dim count As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
+                            If count > 0 Then
+                                ' La clave YA fue usada antes (ACTIVA O INACTIVA)
+                                MsgBox("❌ ESTA CLAVE DE CLIENTE YA FUE UTILIZADA" & vbCrLf & vbCrLf &
+                           "Clave: " & AUX1 & vbCrLf &
+                           "Esta clave ya fue registrada en el sistema." & vbCrLf & vbCrLf &
+                           "No se puede generar una nueva licencia con la misma clave." & vbCrLf &
+                           "Si necesita una nueva licencia, contacte a su proveedor.",
+                           MsgBoxStyle.Exclamation, "Clave Ya Utilizada")
+                                Licencias = 0
+                                ChequearLicencias = 0
+                                Return 0
+                            End If
+                        End Using
+                    End Using
+                Catch ex As Exception
+                    System.Diagnostics.Debug.WriteLine($"Error validando clave: {ex.Message}")
+                End Try
+            End If
+
             If Licencias > 0 Then
 
+                ' ============================================================
+                ' GUARDAR INFORMACIÓN DE LA LICENCIA EN datosEmpresa
+                ' ============================================================
+                datosEmpresa.TipoLicencia = Licencias
+                datosEmpresa.OpcionesLicencia = Opciones
+                datosEmpresa.ModulosActivos = Opciones
+                datosEmpresa.GruposActivos = DecodificarOpciones(Opciones)
+
+                ' OBTENER FECHA DE EXPIRACIÓN EXCLUSIVAMENTE DE LA TABLA
+                Dim fechaDesdeTabla As DateTime = ObtenerFechaExpiracionDesdeTabla(EmpRuc)
+
+                If fechaDesdeTabla <> DateTime.MinValue Then
+                    ' USAR LA FECHA DE LA TABLA (LA QUE VIENE DEL GENERADOR)
+                    datosEmpresa.FechaExpiracion = fechaDesdeTabla
+                Else
+                    ' SOLO COMO FALLBACK - NO DEBERÍA SUCEDER
+                    datosEmpresa.FechaExpiracion = CalcularFechaExpiracionPorTipo(Licencias)
+                End If
+
+                datosEmpresa.MaxUsuarios = ObtenerMaxUsuarios(Licencias)
+
+                ' ============================================================
+                ' GUARDAR LICENCIA EN TABLA Licencias (CON LA FECHA OBTENIDA)
+                ' ============================================================
+                GuardarLicenciaEnTabla(EmpRuc, EmpNombre, Licencias, Opciones, AUX1, datosEmpresa.FechaExpiracion, datosEmpresa.MaxUsuarios)
+
+                ' ============================================================
+                ' GUARDAR EN SYS_ACCESOS (ACTIVAR)
+                ' ============================================================
                 AUX1 = NuevaCodificacion.CodificarLicenciaFinal(Str(Licencias), Opciones, datex, CStr(NuevaCodificacion.ValorStr(EmpNombre)), EmpRuc, n, CStr(NuevaCodificacion.ValorStr(NombrePcX)), CStr(NuevaCodificacion.ValorStr(QueSistema)), a, b)
-                Comm.CommandText = "DELETE FROM SYS_ACCESOS where (idusuario = 'Adm' or idusuario = 'Ctrl' ) and idopcion <> 'mnuoa' and idempresa = 0 and idsistema = '" & QueSistema & "'"
+                Comm.CommandText = "DELETE FROM SYS_ACCESOS where (idusuario = 'Adm' or idusuario = 'Ctrl' or idusuario = 'Sys'  ) and idopcion <> 'mnuoa' and idempresa = 0 and idsistema = '" & QueSistema & "'"
                 Comm.ExecuteNonQuery()
                 ClaveFinal = Split(AUX1, "-")
                 ReDim Preserve ClaveFinal(6)
@@ -195,6 +382,449 @@ erroresingresoclave:
         MsgBox("Error registro clave: " & Err.Description & " Nro: " & Err.Number)
         Application.ExitThread()
     End Function
+
+    ' ============================================================
+    ' VERIFICAR SI EXISTE LICENCIA ACTIVA Y VIGENTE EN TABLA Licencias
+    ' ============================================================
+    Private Shared Function VerificarLicenciaActivaYVigenteEnTabla(ruc As String) As Boolean
+        Try
+            Dim sql As String = "SELECT COUNT(*) FROM Licencias WHERE RucEmpresa = @RucEmpresa AND Estado = 'ACTIVA' AND FechaExpiracion >= GETDATE()"
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand(sql, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                    Return count > 0
+                End Using
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error verificando licencia activa y vigente: {ex.Message}")
+            Return False
+        End Try
+    End Function
+
+    ' ============================================================
+    ' ELIMINAR SYS_ACCESOS
+    ' ============================================================
+    Private Shared Sub EliminarSysAccesos(ConxDaxSys As SqlClient.SqlConnection, QueSistema As String)
+        Try
+            Dim sqlDeleteSys As String = "
+                DELETE FROM SYS_ACCESOS 
+                WHERE IdUsuario IN ('Adm', 'Ctrl', 'System') 
+                  AND IdEmpresa = 0 
+                  AND IdSistema = '" & QueSistema & "'"
+
+            Using cmdDelete As New SqlClient.SqlCommand(sqlDeleteSys, ConxDaxSys)
+                Dim rows As Integer = cmdDelete.ExecuteNonQuery()
+                System.Diagnostics.Debug.WriteLine($"sys_Accesos eliminados: {rows}")
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error eliminando sys_Accesos: {ex.Message}")
+        End Try
+    End Sub
+
+    ' ============================================================
+    ' DESACTIVAR LICENCIA EN TABLA
+    ' ============================================================
+    Private Shared Sub DesactivarLicencia(ConxDaxSys As SqlClient.SqlConnection, EmpRuc As String)
+        Try
+            Dim sql As String = "
+                UPDATE Licencias 
+                SET Estado = 'INACTIVA' 
+                WHERE RucEmpresa = @RucEmpresa 
+                  AND Estado = 'ACTIVA'"
+
+            Using cmd As New SqlClient.SqlCommand(sql, ConxDaxSys)
+                cmd.Parameters.AddWithValue("@RucEmpresa", EmpRuc)
+                Dim rows As Integer = cmd.ExecuteNonQuery()
+                System.Diagnostics.Debug.WriteLine($"Licencias desactivadas: {rows}")
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error desactivando licencia: {ex.Message}")
+        End Try
+    End Sub
+
+    ' ============================================================
+    ' VERIFICAR SI EXISTE LICENCIA INACTIVA EN TABLA Licencias
+    ' ============================================================
+    Private Shared Function VerificarLicenciaInactivaEnTabla(ruc As String) As Boolean
+        Try
+            Dim sql As String = "SELECT COUNT(*) FROM Licencias WHERE RucEmpresa = @RucEmpresa AND Estado = 'INACTIVA'"
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand(sql, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                    Return count > 0
+                End Using
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error verificando licencia inactiva: {ex.Message}")
+            Return False
+        End Try
+    End Function
+
+    ' ============================================================
+    ' OBTENER FECHA DE EXPIRACIÓN DE LICENCIA INACTIVA
+    ' ============================================================
+    Private Shared Function ObtenerFechaExpiracionInactiva(ruc As String) As DateTime
+        Try
+            Dim sql As String = "SELECT TOP 1 FechaExpiracion FROM Licencias WHERE RucEmpresa = @RucEmpresa AND Estado = 'INACTIVA' ORDER BY Id DESC"
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand(sql, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    Dim result As Object = cmd.ExecuteScalar()
+                    If result IsNot Nothing AndAlso result IsNot DBNull.Value Then
+                        Return Convert.ToDateTime(result)
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error obteniendo fecha expiración: {ex.Message}")
+        End Try
+        Return DateTime.Now
+    End Function
+
+    ' ============================================================
+    ' CARGAR LICENCIA ACTIVA DESDE TABLA Licencias
+    ' ============================================================
+    Private Class LicenciaInfo
+        Public Property TipoLicencia As Integer
+        Public Property Opciones As String
+        Public Property MaxUsuarios As Integer
+        Public Property FechaExpiracion As DateTime
+    End Class
+
+    Private Shared Function CargarLicenciaActivaDesdeTabla(ruc As String) As LicenciaInfo
+        Try
+            Dim sql As String = "SELECT TOP 1 TipoLicencia, ModulosActivos, MaxUsuarios, FechaExpiracion FROM Licencias WHERE RucEmpresa = @RucEmpresa AND Estado = 'ACTIVA' AND FechaExpiracion >= GETDATE() ORDER BY Id DESC"
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand(sql, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    Using reader As SqlClient.SqlDataReader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            Dim info As New LicenciaInfo()
+                            info.TipoLicencia = Convert.ToInt32(reader("TipoLicencia"))
+                            info.Opciones = reader("ModulosActivos").ToString()
+                            info.MaxUsuarios = Convert.ToInt32(reader("MaxUsuarios"))
+                            info.FechaExpiracion = Convert.ToDateTime(reader("FechaExpiracion"))
+                            Return info
+                        End If
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error cargando licencia activa: {ex.Message}")
+            Return Nothing
+        End Try
+    End Function
+
+    ' ============================================================
+    ' OBTENER FECHA DE EXPIRACIÓN DESDE TABLA Licencias (NUEVA FUNCIÓN)
+    ' ============================================================
+    Private Shared Function ObtenerFechaExpiracionDesdeTabla(ruc As String) As DateTime
+        Try
+            Dim sql As String = "
+                SELECT TOP 1 FechaExpiracion 
+                FROM Licencias 
+                WHERE RucEmpresa = @RucEmpresa 
+                  AND Estado = 'ACTIVA' 
+                ORDER BY Id DESC"
+
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand(sql, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    Dim result As Object = cmd.ExecuteScalar()
+                    If result IsNot Nothing AndAlso result IsNot DBNull.Value Then
+                        Return Convert.ToDateTime(result)
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error obteniendo fecha expiración desde tabla: {ex.Message}")
+        End Try
+        Return DateTime.MinValue
+    End Function
+
+    ' ============================================================
+    ' CALCULAR FECHA DE EXPIRACIÓN POR TIPO (FALLBACK EXTREMO)
+    ' ============================================================
+    Private Shared Function CalcularFechaExpiracionPorTipo(licencias As Integer) As DateTime
+        Try
+            ' Intentar obtener fecha del servidor
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand("SELECT GETDATE()", conn)
+                    Dim fechaServidor As Object = cmd.ExecuteScalar()
+                    If fechaServidor IsNot Nothing AndAlso fechaServidor IsNot DBNull.Value Then
+                        Dim fechaBase As DateTime = Convert.ToDateTime(fechaServidor)
+                        Return CalcularSegunTipo(licencias, fechaBase)
+                    End If
+                End Using
+            End Using
+        Catch
+            ' Si todo falla, usar fecha local
+            Return CalcularSegunTipo(licencias, DateTime.Now)
+        End Try
+
+        Return DateTime.Now.AddDays(30)
+    End Function
+
+    ' ============================================================
+    ' CALCULAR SEGÚN TIPO DE LICENCIA
+    ' ============================================================
+    Private Shared Function CalcularSegunTipo(licencias As Integer, fechaBase As DateTime) As DateTime
+        Select Case licencias
+            Case 98 ' DEMO
+                Return fechaBase.AddDays(30)
+            Case 1 ' MONO
+                Return fechaBase.AddYears(10)
+            Case Else ' MULTI
+                Return fechaBase.AddYears(10)
+        End Select
+    End Function
+
+    ' ============================================================
+    ' OBTENER POSICIÓN DE UN MÓDULO (PARA TienePermiso)
+    ' ============================================================
+    Public Shared Function ObtenerPosicionModulo(claveModulo As String) As Integer
+        Dim mapaClaves As New Dictionary(Of String, Integer)()
+
+        ' Ventas (Posición 1)
+        mapaClaves.Add("PEDEmitir", 1)
+        mapaClaves.Add("FACEmitirPed", 1)
+        mapaClaves.Add("FACEmitir", 1)
+        mapaClaves.Add("FACEmitirPto", 1)
+        mapaClaves.Add("ProfEmitir", 1)
+
+        ' Compras (Posición 3)
+        mapaClaves.Add("FAPEmitir", 3)
+        mapaClaves.Add("NCPEmitir", 3)
+
+        ' Inventarios (Posición 8)
+        mapaClaves.Add("MntArticulos", 8)
+        mapaClaves.Add("IngInventario", 8)
+        mapaClaves.Add("EgrInventario", 8)
+        mapaClaves.Add("MovtArticulos", 8)
+        mapaClaves.Add("ExisBod", 8)
+        mapaClaves.Add("MntMedidas", 8)
+        mapaClaves.Add("Recostear", 8)
+        mapaClaves.Add("TransferenciaInventarios", 8)
+        mapaClaves.Add("REMEmitir", 8)
+
+        ' Directorio (Posición 6)
+        mapaClaves.Add("DGRegistros", 6)
+        mapaClaves.Add("DGReporteG", 6)
+
+        ' SRI (Posición 5)
+        mapaClaves.Add("SolicAutorizaSRI", 5)
+        mapaClaves.Add("RTPEmitir", 5)
+        mapaClaves.Add("RTCEmitir", 5)
+        mapaClaves.Add("MntTablasSRI", 5)
+        mapaClaves.Add("importarXML", 5)
+
+        ' Administración (Posición 0)
+        mapaClaves.Add("MntDocumentos", 0)
+        mapaClaves.Add("MntServiciosBco", 0)
+        mapaClaves.Add("MntServiciosCprasVta", 0)
+        mapaClaves.Add("MtnUsers", 0)
+        mapaClaves.Add("MtnEmpresa", 0)
+        mapaClaves.Add("MntFormaPago", 0)
+
+        ' Bancos (Posición 2)
+        mapaClaves.Add("DocBancos", 2)
+        mapaClaves.Add("MnConciliacionBancos", 2)
+        mapaClaves.Add("MnCrearBancos", 2)
+
+        ' Cuentas Corrientes (Posición 5)
+        mapaClaves.Add("CtaCorrListaGen", 5)
+        mapaClaves.Add("CtaCorrAnalisInd", 5)
+
+        ' Contabilidad (Posición 4)
+        mapaClaves.Add("mnplanCuentas", 4)
+        mapaClaves.Add("MntBalances", 4)
+
+        ' Importaciones (Posición 7)
+        mapaClaves.Add("IMPEmitir", 7)
+
+        ' Reportes (Posición 10)
+        mapaClaves.Add("RepListadoDoc", 10)
+
+        ' Ayudas (Posición 1)
+        mapaClaves.Add("importarDataCli", 1)
+        mapaClaves.Add("importarDataCuentas", 1)
+        mapaClaves.Add("importarDataProd", 1)
+
+        ' Auditoria (Posición 0)
+        mapaClaves.Add("Auditoria", 0)
+
+        If mapaClaves.ContainsKey(claveModulo) Then
+            Return mapaClaves(claveModulo)
+        End If
+
+        Return -1
+    End Function
+
+    ' ============================================================
+    ' DECODIFICAR OPCIONES (string de 35 bits → grupos activos)
+    ' ============================================================
+    Private Shared Function DecodificarOpciones(opciones As String) As String
+        If String.IsNullOrEmpty(opciones) OrElse opciones.Length < 35 Then
+            Return ""
+        End If
+
+        Dim mapa As Dictionary(Of Integer, String) = ObtenerMapaPosiciones()
+        Dim gruposActivos As New List(Of String)()
+
+        For i As Integer = 0 To 34
+            If i < opciones.Length AndAlso opciones(i) = "1"c Then
+                If mapa.ContainsKey(i) Then
+                    gruposActivos.Add(mapa(i))
+                End If
+            End If
+        Next
+        Return String.Join(",", gruposActivos)
+    End Function
+
+    ' ============================================================
+    ' MAPEO DE POSICIONES (DEBE COINCIDIR CON EL GENERADOR)
+    ' ============================================================
+    Private Shared Function ObtenerMapaPosiciones() As Dictionary(Of Integer, String)
+        Dim mapa As New Dictionary(Of Integer, String)()
+        mapa.Add(0, "Administración")
+        mapa.Add(1, "Ayudas")
+        mapa.Add(2, "Bancos")
+        mapa.Add(3, "Compras")
+        mapa.Add(4, "Contabilidad")
+        mapa.Add(5, "Cuentas Corrientes")
+        mapa.Add(6, "Directorio")
+        mapa.Add(7, "Importaciones")
+        mapa.Add(8, "Inventarios")
+        mapa.Add(9, "Mantenimiento Documentos")
+        mapa.Add(10, "Reportes")
+        mapa.Add(11, "SRI")
+        mapa.Add(12, "Ventas")
+        Return mapa
+    End Function
+
+    ' ============================================================
+    ' OBTENER MÁXIMO DE USUARIOS SEGÚN TIPO
+    ' ============================================================
+    Private Shared Function ObtenerMaxUsuarios(licencias As Integer) As Integer
+        Select Case licencias
+            Case 98 ' DEMO
+                Return 5
+            Case 1 ' MONO
+                Return 1
+            Case Else ' MULTI
+                Return licencias
+        End Select
+    End Function
+
+    ' ============================================================
+    ' OBTENER CLAVE DE ACTIVACIÓN
+    ' ============================================================
+    Private Shared Function ObtenerClaveActivacion() As String
+        Try
+            Dim sql As String = "SELECT TOP 1 ClaveActivacion FROM Licencias WHERE Estado = 'ACTIVA' ORDER BY Id DESC"
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+                Using cmd As New SqlClient.SqlCommand(sql, conn)
+                    Dim result = cmd.ExecuteScalar()
+                    If result IsNot Nothing Then
+                        Return result.ToString()
+                    End If
+                End Using
+            End Using
+        Catch
+        End Try
+        Return "CLAVE-" & Guid.NewGuid().ToString().Substring(0, 8).ToUpper()
+    End Function
+
+    ' ============================================================
+    ' GUARDAR LICENCIA EN TABLA Licencias
+    ' ============================================================
+    Private Shared Sub GuardarLicenciaEnTabla(ruc As String, nombre As String, licencias As Integer, opciones As String, claveCliente As String, fechaExpiracion As DateTime, maxUsuarios As Integer)
+        Try
+            Using conn As New SqlClient.SqlConnection(datosEmpresa.strConxSyscod)
+                conn.Open()
+
+                ' 1. Crear tabla si no existe
+                Dim sqlCreate As String = "
+                    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Licencias')
+                    BEGIN
+                        CREATE TABLE Licencias (
+                            Id INT IDENTITY(1,1) PRIMARY KEY,
+                            RucEmpresa VARCHAR(13) NOT NULL,
+                            NombreEmpresa VARCHAR(100),
+                            TipoLicencia INT NOT NULL,
+                            MaxUsuarios INT NOT NULL,
+                            FechaExpiracion DATETIME NOT NULL,
+                            ModulosActivos VARCHAR(35) NOT NULL,
+                            GruposActivos VARCHAR(500),
+                            ClaveCliente VARCHAR(50) NOT NULL,
+                            ClaveActivacion VARCHAR(50) NOT NULL,
+                            Estado VARCHAR(20) DEFAULT 'ACTIVA',
+                            FechaGeneracion DATETIME DEFAULT GETDATE()
+                        )
+                    END"
+
+                Using cmd As New SqlClient.SqlCommand(sqlCreate, conn)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                ' 2. Desactivar licencias anteriores
+                Dim sqlDesactivar As String = "
+                    UPDATE Licencias 
+                    SET Estado = 'INACTIVA' 
+                    WHERE RucEmpresa = @RucEmpresa 
+                      AND Estado = 'ACTIVA'"
+
+                Using cmd As New SqlClient.SqlCommand(sqlDesactivar, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                ' 3. Insertar nueva licencia
+                Dim gruposActivos As String = DecodificarOpciones(opciones)
+
+                Dim sqlInsert As String = "
+                    INSERT INTO Licencias (
+                        RucEmpresa, NombreEmpresa, TipoLicencia, MaxUsuarios,
+                        ClaveCliente, ClaveActivacion, ModulosActivos, GruposActivos,
+                        FechaExpiracion, Estado, FechaGeneracion
+                    ) VALUES (
+                        @RucEmpresa, @NombreEmpresa, @TipoLicencia, @MaxUsuarios,
+                        @ClaveCliente, @ClaveActivacion, @ModulosActivos, @GruposActivos,
+                        @FechaExpiracion, 'ACTIVA', GETDATE()
+                    )"
+
+                Using cmd As New SqlClient.SqlCommand(sqlInsert, conn)
+                    cmd.Parameters.AddWithValue("@RucEmpresa", ruc)
+                    cmd.Parameters.Add(New SqlClient.SqlParameter("@NombreEmpresa", SqlDbType.VarChar, 100) With {.Value = If(String.IsNullOrEmpty(nombre), DBNull.Value, DirectCast(nombre, Object))})
+                    cmd.Parameters.AddWithValue("@TipoLicencia", licencias)
+                    cmd.Parameters.AddWithValue("@MaxUsuarios", maxUsuarios)
+                    cmd.Parameters.AddWithValue("@ClaveCliente", claveCliente)
+                    cmd.Parameters.AddWithValue("@ClaveActivacion", ObtenerClaveActivacion())
+                    cmd.Parameters.AddWithValue("@ModulosActivos", opciones)
+                    cmd.Parameters.Add(New SqlClient.SqlParameter("@GruposActivos", SqlDbType.VarChar, 500) With {.Value = If(String.IsNullOrEmpty(gruposActivos), DBNull.Value, DirectCast(gruposActivos, Object))})
+                    cmd.Parameters.AddWithValue("@FechaExpiracion", fechaExpiracion)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error guardando licencia: {ex.Message}")
+        End Try
+    End Sub
+
+    ' ============================================================
+    ' FUNCIONES EXISTENTES (NO TOCAR)
+    ' ============================================================
+
     Private Shared Function CR(ByVal TEXTO As String) As String
         Dim i As Integer, b As String, bb As String
         Dim TexTot As String, Texto2 As String
@@ -232,9 +862,6 @@ erroresingresoclave:
             Texto2 += bb
         Next i
         Texto2 = Trim(Texto2)
-        'TexTot = ""
-        'Fechas = "99" & Mid$(Format(Date, "ddmmyyyy") & Format(Date, "mmddyyyy"), 1, 12)
-        'TexTot = CDbl(Texto2) - CDbl(Fechas) + Dias
         DCR = Texto2
     End Function
 
@@ -254,8 +881,6 @@ erroresingresoclave:
         CFV = ""
         Dim Comm As New SqlClient.SqlCommand("Select * from sys_accesos " & sSQL, ConxDaxSys)
         rs = Comm.ExecuteReader
-        '        rs.Open(, ConxDaxSys, adOpenDynamic, adLockOptimistic)
-        '       If Rs.EOF = False Then
         If rs.Read = True Then
             CFV = rs.Item("IdOpcion").ToString() & rs.Item("Accesos").ToString() & rs.Item("IdNomOpcion").ToString()
             rs.Close()
@@ -298,7 +923,6 @@ erroresingresoclave:
         sSQL &= " and IdEmpresa = 0 "
         sSQL &= " and SUBSTRING (IDOPCION,1,4) <> 'mnuo' "
         sSQL &= " and IdSistema = '" & sistema & "'"
-
 
         Dim comm As New SqlClient.SqlCommand("delete from sys_accesos " & sSQL, ConxDaxSys)
         comm.ExecuteNonQuery()
@@ -366,7 +990,6 @@ erroresingresoclave:
         Dim V2 As Long
         Dim T As String
         Dim V3 As String
-        'Dim Rss As New SqlClient.SqlDataReader
         Dim sSQL As String
         Dim FF As String
         Dim Aux1 As String
@@ -384,16 +1007,6 @@ erroresingresoclave:
         sSQL += " and IdEmpresa = 0 "
         sSQL += " and SUBSTRING (IDOPCION,1,4) <> 'mnuo' "
         sSQL += " and IdSistema = '" & sistema & "'"
-
-        'Rs.Open("Select * from sys_accesos " & sSQL, ConxDaxSys, adOpenDynamic, adLockOptimistic)
-        'If Rs.EOF = True Then Rs.AddNew()
-        'Rs!idusuario = "Sys"
-        'Rs!idempresa = 0
-        'Rs!idsistema = Sistema
-        'Rs!IdOpcion = ""
-        'Rs!IdNomOpcion = V3
-        'Rs!Accesos = ""
-        'Rs.Update()
 
         Dim comm As New SqlClient.SqlCommand("delete from sys_accesos " & sSQL, ConxDaxSys)
         comm.ExecuteNonQuery()
@@ -414,8 +1027,8 @@ erroresingresoclave:
         Aux1 += ")"
         comm.CommandText = Aux1
         comm.ExecuteNonQuery()
-        '        Rss = Nothing
         comm.Dispose()
         ConxDaxSys.Dispose()
     End Sub
+
 End Class

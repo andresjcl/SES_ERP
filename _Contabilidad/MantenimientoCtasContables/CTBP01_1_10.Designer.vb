@@ -105,9 +105,9 @@
         Me.btnMO = New System.Windows.Forms.RadioButton()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Frconceptos.SuspendLayout()
         Me.Frame3.SuspendLayout()
         Me.Frame6.SuspendLayout()
@@ -116,9 +116,9 @@
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.Panel2.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.Panel1.SuspendLayout()
-        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Button1
@@ -187,15 +187,15 @@
         Me.Frconceptos.Controls.Add(Me.Chkingresobanco)
         Me.Frconceptos.Controls.Add(Me.chkfacturacion)
         Me.Frconceptos.Controls.Add(Me.Chkcompras)
-        Me.Frconceptos.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Frconceptos.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Frconceptos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Frconceptos.ForeColor = System.Drawing.Color.Black
-        Me.Frconceptos.Location = New System.Drawing.Point(3, 145)
+        Me.Frconceptos.Location = New System.Drawing.Point(3, 115)
         Me.Frconceptos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Frconceptos.Name = "Frconceptos"
         Me.Frconceptos.Padding = New System.Windows.Forms.Padding(0)
         Me.Frconceptos.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Frconceptos.Size = New System.Drawing.Size(857, 158)
+        Me.Frconceptos.Size = New System.Drawing.Size(857, 194)
         Me.Frconceptos.TabIndex = 27
         Me.Frconceptos.TabStop = False
         Me.Frconceptos.Text = "Propiedades como concepto:"
@@ -317,7 +317,7 @@
         Me.CtaAlterna.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.CtaAlterna.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CtaAlterna.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.CtaAlterna.Location = New System.Drawing.Point(364, 11)
+        Me.CtaAlterna.Location = New System.Drawing.Point(399, 15)
         Me.CtaAlterna.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.CtaAlterna.MaxLength = 45
         Me.CtaAlterna.Name = "CtaAlterna"
@@ -624,7 +624,7 @@
         Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(281, 14)
+        Me.Label2.Location = New System.Drawing.Point(316, 18)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -687,7 +687,7 @@
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.GroupBox1.Size = New System.Drawing.Size(857, 142)
+        Me.GroupBox1.Size = New System.Drawing.Size(857, 58)
         Me.GroupBox1.TabIndex = 39
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Clasificadores contables"
@@ -706,7 +706,7 @@
         Me.Clasificadores.MultiColumn = True
         Me.Clasificadores.Name = "Clasificadores"
         Me.Clasificadores.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Clasificadores.Size = New System.Drawing.Size(849, 141)
+        Me.Clasificadores.Size = New System.Drawing.Size(849, 75)
         Me.Clasificadores.TabIndex = 37
         '
         'GroupBox2
@@ -800,10 +800,10 @@
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 177)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 171)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(871, 405)
+        Me.TabControl1.Size = New System.Drawing.Size(871, 411)
         Me.TabControl1.TabIndex = 43
         '
         'TabPage1
@@ -815,9 +815,19 @@
         Me.TabPage1.Location = New System.Drawing.Point(4, 26)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(863, 375)
+        Me.TabPage1.Size = New System.Drawing.Size(863, 381)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Funciones adicionales"
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.Formatodetalle)
+        Me.Panel2.Controls.Add(Me.Label4)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel2.Location = New System.Drawing.Point(3, 309)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(857, 69)
+        Me.Panel2.TabIndex = 40
         '
         'TabPage2
         '
@@ -848,18 +858,8 @@
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 56)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(871, 121)
+        Me.Panel1.Size = New System.Drawing.Size(871, 115)
         Me.Panel1.TabIndex = 44
-        '
-        'Panel2
-        '
-        Me.Panel2.Controls.Add(Me.Formatodetalle)
-        Me.Panel2.Controls.Add(Me.Label4)
-        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(3, 303)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(857, 69)
-        Me.Panel2.TabIndex = 40
         '
         'CTBP01_1
         '
@@ -897,11 +897,11 @@
         Me.GroupBox2.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

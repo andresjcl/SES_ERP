@@ -1,99 +1,157 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DattCom;
 
 namespace SES_ERP24
 {
-    //public class AutorizarLlamadas
-    //    {
-    //        public static bool VerificaAutorización(string idOpcion, Boolean SuprimeMensaje = false)
-    //        {
-    //            string resp = DatosUsuario.AutorizaIngreso(idOpcion);
-    //            if (resp == "")
-    //            {
-    //                if (SuprimeMensaje == false) MessageBox.Show("No tiene acceso a esta funcion \nConsulte con el Administrador del sistema","Acceso Denegado",MessageBoxButtons.OK,MessageBoxIcon.Error);
-    //                return false;
-    //            }
-    //            return true;
-    //        }
-    //    }
-
     public static class AutorizarLlamadas
     {
-        public static bool VerificaAutorización(string claveOpcion)
+        //public static bool VerificaAutorización(string opcion)
+        //{
+        //    // ============================================================
+        //    // TODOS LOS USUARIOS (INCLUYENDO ADMIN) RESPETAN LA LICENCIA
+        //    // ============================================================
+
+        //    // Si es MONO (1), permitir todo
+        //    if (DattCom.datosEmpresa.TipoLicencia == 1)
+        //        return true;
+
+        //    // Si no hay licencia válida, denegar
+        //    if (DattCom.datosEmpresa.TipoLicencia == 0 ||
+        //        string.IsNullOrEmpty(DattCom.datosEmpresa.ModulosActivos))
+        //    {
+        //        MessageBox.Show("Licencia no válida o sin módulos activos", "Error",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+
+        //    // Verificar permiso usando la posición en ModulosActivos
+        //    return TienePermisoModulo(opcion, DattCom.datosEmpresa.ModulosActivos);
+        //}
+
+        public static bool VerificaAutorización(string opcion)
         {
-            // El usuario ADMINISTRADOR tiene acceso a todo
-            string usuarioActual = DattCom.datosEmpresa.usr;
-            if (usuarioActual.ToUpper() == "ADMINISTRADOR" || usuarioActual.ToUpper() == "ADMIN")
+            // ============================================================
+            // DIAGNÓSTICO
+            // ============================================================
+            System.Diagnostics.Debug.WriteLine($"=== VerificaAutorización: {opcion} ===");
+            System.Diagnostics.Debug.WriteLine($"TipoLicencia: {DattCom.datosEmpresa.TipoLicencia}");
+            System.Diagnostics.Debug.WriteLine($"ModulosActivos: {DattCom.datosEmpresa.ModulosActivos}");
+            System.Diagnostics.Debug.WriteLine($"ModulosActivos.Length: {DattCom.datosEmpresa.ModulosActivos?.Length ?? 0}");
+
+            // Si es MONO (1), permitir todo
+            if (DattCom.datosEmpresa.TipoLicencia == 1)
             {
+                System.Diagnostics.Debug.WriteLine("MONO: Permitiendo todo");
                 return true;
             }
 
-            // Para los demás usuarios, verificar permisos
-            HashSet<string> permisos = ObtenerPermisosUsuario();
-
-            if (permisos.Contains(claveOpcion))
+            // Si no hay licencia válida, denegar
+            if (DattCom.datosEmpresa.TipoLicencia == 0 ||
+                string.IsNullOrEmpty(DattCom.datosEmpresa.ModulosActivos))
             {
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Acceso Denegado\n\nNo tiene acceso a esta función\nConsulte con el Administrador del sistema",
-                    "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                System.Diagnostics.Debug.WriteLine("Sin licencia o ModulosActivos vacío");
                 return false;
             }
+
+            // Verificar permiso usando la posición en ModulosActivos
+            bool resultado = TienePermisoModulo(opcion, DattCom.datosEmpresa.ModulosActivos);
+            System.Diagnostics.Debug.WriteLine($"Resultado para {opcion}: {resultado}");
+            return resultado;
         }
 
-        private static HashSet<string> ObtenerPermisosUsuario()
+        private static bool TienePermisoModulo(string claveModulo, string modulosActivos)
         {
-            HashSet<string> permisos = new HashSet<string>();
+            if (string.IsNullOrEmpty(modulosActivos) || modulosActivos.Length < 35)
+                return false;
 
-            try
+            int posicion = ObtenerPosicionModulo(claveModulo);
+
+            if (posicion >= 0 && posicion < modulosActivos.Length)
             {
-                string usuario = DattCom.datosEmpresa.usr;
-
-                // Limpiar nombre de usuario
-                if (!string.IsNullOrEmpty(usuario) && usuario.Contains(" "))
-                {
-                    usuario = usuario.Split(' ')[0];
-                }
-
-                int empresa = Convert.ToInt32(DattCom.datosEmpresa.Emp_codigo);
-                string sistema = "CNX";
-                string strConx = DattCom.datosEmpresa.strConIniSis;
-
-                string ssql = $@"SELECT DISTINCT IdOpcion FROM sys_Accesos 
-                           WHERE UPPER(LTRIM(RTRIM(IdUsuario))) = '{usuario.ToUpper().Trim()}' 
-                           AND IdEmpresa = {empresa} 
-                           AND IdSistema = '{sistema}' 
-                           AND Accesos = 'T'";
-
-                DataTable dtPermisos = DattCom.SqlDatos.leerTabla(ssql, strConx);
-
-                if (dtPermisos != null)
-                {
-                    foreach (DataRow row in dtPermisos.Rows)
-                    {
-                        string opcion = row["IdOpcion"].ToString().Trim();
-                        if (!string.IsNullOrEmpty(opcion))
-                        {
-                            permisos.Add(opcion);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al obtener permisos: " + ex.Message);
+                return modulosActivos[posicion] == '1';
             }
 
-            return permisos;
+            return false;
+        }
+
+        private static int ObtenerPosicionModulo(string claveModulo)
+        {
+            var mapa = new System.Collections.Generic.Dictionary<string, int>()
+            {
+                // Ventas (Posición 1)
+                {"PEDEmitir", 1},
+                {"FACEmitirPed", 1},
+                {"FACEmitir", 1},
+                {"FACEmitirPto", 1},
+                {"ProfEmitir", 1},
+                
+                // Compras (Posición 3)
+                {"FAPEmitir", 3},
+                {"NCPEmitir", 3},
+                
+                // Inventarios (Posición 8)
+                {"MntArticulos", 8},
+                {"IngInventario", 8},
+                {"EgrInventario", 8},
+                {"MovtArticulos", 8},
+                {"ExisBod", 8},
+                {"MntMedidas", 8},
+                {"Recostear", 8},
+                {"TransferenciaInventarios", 8},
+                {"REMEmitir", 8},
+                
+                // Directorio (Posición 6)
+                {"DGRegistros", 6},
+                {"DGReporteG", 6},
+                
+                // SRI (Posición 5)
+                {"SolicAutorizaSRI", 5},
+                {"RTPEmitir", 5},
+                {"RTCEmitir", 5},
+                {"MntTablasSRI", 5},
+                {"importarXML", 5},
+                
+                // Administración (Posición 0)
+                {"MntDocumentos", 0},
+                {"MntServiciosBco", 0},
+                {"MntServiciosCprasVta", 0},
+                {"MtnUsers", 0},
+                {"MtnEmpresa", 0},
+                {"MntFormaPago", 0},
+                
+                // Bancos (Posición 2)
+                {"DocBancos", 2},
+                {"MnConciliacionBancos", 2},
+                {"MnCrearBancos", 2},
+                
+                // Cuentas Corrientes (Posición 5)
+                {"CtaCorrListaGen", 5},
+                {"CtaCorrAnalisInd", 5},
+                
+                // Contabilidad (Posición 4)
+                {"mnplanCuentas", 4},
+                {"MntBalances", 4},
+                
+                // Importaciones (Posición 7)
+                {"IMPEmitir", 7},
+                
+                // Reportes (Posición 10)
+                {"RepListadoDoc", 10},
+                
+                // Ayudas (Posición 1)
+                {"importarDataCli", 1},
+                {"importarDataCuentas", 1},
+                {"importarDataProd", 1},
+                
+                // Auditoria (Posición 0 - Administración)
+                {"Auditoria", 0}
+            };
+
+            if (mapa.ContainsKey(claveModulo))
+                return mapa[claveModulo];
+
+            return -1;
         }
     }
-
 }

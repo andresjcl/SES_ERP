@@ -31,7 +31,7 @@ namespace DctosEmi
                 using (SqlConnection conn = new SqlConnection(datosEmpresa.strConxAdcom))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select emp_ruc from  SysBd.dbo.Emp_Datos where emp_codigo = " + datosEmpresa.codEmpresa,conn))
+                    using (SqlCommand comm = new SqlCommand("select emp_ruc from  Daxsys.dbo.Emp_Datos where emp_codigo = " + datosEmpresa.codEmpresa,conn))
                     {
                         SqlDataReader dr = comm.ExecuteReader();
                         if (dr.Read())

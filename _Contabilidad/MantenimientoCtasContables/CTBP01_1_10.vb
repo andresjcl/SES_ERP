@@ -1,10 +1,14 @@
-Option Strict Off
+﻿Option Strict Off
 Option Explicit On
 Imports System.Data
 Imports DaxClasificadores
 Imports DattCom
+
+
 Friend Class CTBP01_1
     Inherits System.Windows.Forms.Form
+
+    Public EsNuevo As Boolean = True
     Dim CodigoCta As String
     Dim ctaActual As New Cuenta
     Dim Sw As Boolean
@@ -15,83 +19,76 @@ Friend Class CTBP01_1
     Dim txtCta As String
     Dim Arbolito As System.Windows.Forms.TreeView
     Dim CtaPadre As String
-    'Dim Txtcc() As Windows.Forms.TextBox
     Const Nombre As String = "Maestro de Cuentas contables"
     Dim TeniaConcepto As Boolean
     Dim TxtCtrl As New Collection
     Dim txtCodCta(9) As TextBox
     Dim ConxAdcom As New SqlClient.SqlConnection
-    Public Sub CrearCuenta(ByRef codigo As String, ByRef NivelCta As Short, ByRef Grupo As Short, ByRef Accion As String, ByRef Arbol As System.Windows.Forms.TreeView)
-        Dim CtaMayor As New Cuenta
-        'Dim prog As New DaxLib.DaxLibMalla
-        'prog.ColorF(Me)
-        'prog = Nothing
 
+    ' ✅ DECLARAR EL LABEL COMO VARIABLE DE CLASE
+    Private lblCodigoCta As Label
+
+    Public Sub CrearCuenta(ByRef codigo As String, ByRef NivelCta As Short, ByRef Grupo As Short, ByRef Accion As String, ByRef Arbol As System.Windows.Forms.TreeView)
+        ' ✅ ASIGNAR VARIABLES
         Arbolito = Arbol
         CtaIni = codigo
         NivelIni = NivelCta
         GrupoIni = Grupo
-        EsNuevo = True
-        Qaccion = Accion
 
-        Dim CtaPapa As New Cuenta
-        Dim Aux() As String
-        Dim I As Integer
-        Dim j As Integer
-        Dim gg As Integer
-        Select Case Qaccion
-            Case "N"                
-                CtaPadre = QuePadreDeCta(CtaIni, NivelIni)
-                txtCta = CtaPadre
-                CtaPapa.Cargar((CtaPadre))
-                With CtaPapa
-                    gg = Val(.Grupo)
-                    If gg = 0 Then gg = 1
-                    dcGruCon.SelectedIndex = gg - 1 : dcGruCon.Enabled = False
-                    If .ModuloAuxiliar > "" Then DcModulo.Text = .ModuloAuxiliar : DcModulo.Enabled = False
-                    Select Case .TipoPresu
-                        Case "F"
-                            opMenFij.Checked = True
-                        Case "V"
-                            opMenVar.Checked = True
-                        Case Else
-                            opSinPre.Checked = True
-                    End Select
-
-                    'If Not IsNull(!cta_claveseg) Then txtCla = !cta_claveseg
-                    If .ClaveAux1 > "" Then txtC1.Text = .ClaveAux1 : txtC1.Enabled = False
-                    If .ClaveAux2 > "" Then txtC2.Text = .ClaveAux2 : txtC2.Enabled = False
-                    If .ClaveAux3 > "" Then txtC3.Text = .ClaveAux3 : txtC3.Enabled = False
-                    If .ClaveAux4 > "" Then txtC4.Text = .ClaveAux4 : txtC4.Enabled = False
-
-                    Aux = Split(.Clasificadores, ";")
-                    If UBound(Aux) > 0 Then
-                        For I = 0 To UBound(Aux)
-                            For j = 0 To Clasificadores.Items.Count - 1
-                                If Aux(I) = Clasificadores.Items(j) Then
-                                    Clasificadores.SetItemChecked(j, True)
-                                End If
-                            Next j
-                        Next I
-                    End If
-                End With
-                CtaPapa = Nothing
-            Case "I"
-                txtCta = CtaIni
-                NivelIni = NivelIni + 1
-                CtaPadre = QuePadreDeCta(CtaIni, NivelIni)
+        ' ✅ ESTABLECER SI ES NUEVO O MODIFICACIÓN
+        Select Case Accion
+            Case "N", "I"
+                EsNuevo = True
+                txtCta = codigo
             Case "M"
-                txtCta = CtaIni
                 EsNuevo = False
-                CtaPadre = QuePadreDeCta(CtaIni, NivelIni)
+                txtCta = codigo
+                CtaPadre = QuePadreDeCta(codigo, NivelCta)
+
+                ' ✅ CARGAR LA CUENTA AQUÍ (IMPORTANTE)
+                ctaActual = New Cuenta()
+                ctaActual.Cargar(codigo)
+
+                ' ✅ DEBUG: Verificar que se cargó
+                System.Diagnostics.Debug.WriteLine($"Cuenta cargada: {ctaActual.codigo} - {ctaActual.Nombre}")
+                System.Diagnostics.Debug.WriteLine($"Nivel: {ctaActual.Nivel}, Grupo: {ctaActual.Grupo}")
         End Select
 
-        'If NivelIni > 6 Or NivelIni = 0 Then Unload Me: Exit Sub
+        Qaccion = Accion
+
+        ' ✅ MOSTRAR EL FORMULARIO
         Me.ShowDialog()
     End Sub
 
+
+
+    ' ✅ MÉTODO QuePadreDeCta
+    Private Function QuePadreDeCta(ByVal ctaCodigo As String, ByVal nivel As Integer) As String
+        If nivel <= 1 Then Return ""
+
+        Dim digitosPorNivel As String = ""
+        Try
+            digitosPorNivel = emp.CtaNumDigNivel
+        Catch
+            digitosPorNivel = "12222"
+        End Try
+
+        Dim longitudPadre As Integer = 0
+        For i As Integer = 0 To nivel - 2
+            If i < digitosPorNivel.Length Then
+                longitudPadre += Val(Mid(digitosPorNivel, i + 1, 1))
+            Else
+                longitudPadre += 2
+            End If
+        Next
+
+        If longitudPadre <= 0 OrElse longitudPadre >= ctaCodigo.Length Then Return ""
+
+        Return ctaCodigo.Substring(0, longitudPadre)
+    End Function
+
     Private Sub btnsalir_Click()
-        If MsgBox("Esta seguro que desea cancelar, se perdera toda la informaci�n", 36) = MsgBoxResult.Yes Then Me.Close()
+        If MsgBox("Esta seguro que desea cancelar, se perdera toda la información", 36) = MsgBoxResult.Yes Then Me.Close()
     End Sub
 
     Private Sub Chkcompras_CheckStateChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles Chkcompras.CheckStateChanged
@@ -104,17 +101,14 @@ Friend Class CTBP01_1
 
     Private Sub chkegresobanco_CheckStateChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles chkegresobanco.CheckStateChanged
         FuncionCuenta()
-
     End Sub
 
     Private Sub chkfacturacion_CheckStateChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles chkfacturacion.CheckStateChanged
         FuncionCuenta()
-
     End Sub
 
     Private Sub Chkingresobanco_CheckStateChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles Chkingresobanco.CheckStateChanged
         FuncionCuenta()
-
     End Sub
 
     Private Sub dcGruCon_SelectedIndexChanged(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles dcGruCon.SelectedIndexChanged
@@ -126,7 +120,6 @@ Friend Class CTBP01_1
     End Sub
 
     Private Sub FuncionCuenta()
-
         If chkDeAgrupacion.CheckState = 0 Then
             Frconceptos.Enabled = True
             If Chkingresobanco.CheckState <> 0 Then
@@ -153,64 +146,158 @@ Friend Class CTBP01_1
             Chkcompras.CheckState = System.Windows.Forms.CheckState.Unchecked
             chkfacturacion.CheckState = System.Windows.Forms.CheckState.Unchecked
         End If
-
     End Sub
+
+
 
     Private Sub OrganizarNiveles()
         Dim Temp As Short = 0
         Dim I As Short = 0
-        Dim Niv As Short
         Dim CtaNumNiveles As Short
         Dim CtaNumDigNivel As String
-        'Dim linkdat As New DaxData.DaxLibDatos
-        'Creo la clase Cuenta
 
         Button1.Visible = False
-        ctaActual = New Cuenta
         limpiar()
         Temp = 1
-        CtaNumNiveles = Emp.CtaNumNiveles
-        CtaNumDigNivel = Emp.CtaNumDigNivel
-        For I = 1 To NivelIni
+
+        ' ✅ OBTENER EL NÚMERO DE NIVELES DESDE LA BASE DE DATOS (SIEMPRE)
+        Try
+            CtaNumNiveles = emp.CtaNumNiveles
+        Catch ex As Exception
+            CtaNumNiveles = 0
+        End Try
+
+        Try
+            CtaNumDigNivel = emp.CtaNumDigNivel
+        Catch ex As Exception
+            CtaNumDigNivel = ""
+        End Try
+
+        ' ✅ SI NO HAY CONFIGURACIÓN EN LA BD, USAR VALORES POR DEFECTO
+        If CtaNumNiveles <= 0 Then
+            CtaNumNiveles = 5
+            CtaNumDigNivel = "12222"
+        End If
+
+        ' ✅ SI CtaNumDigNivel ESTÁ VACÍO, USAR VALOR POR DEFECTO
+        If String.IsNullOrEmpty(CtaNumDigNivel) Then
+            CtaNumDigNivel = "12222"
+        End If
+
+        ' ✅ ASEGURAR QUE CtaNumDigNivel TENGA SUFICIENTES DÍGITOS
+        While CtaNumDigNivel.Length < CtaNumNiveles
+            CtaNumDigNivel = CtaNumDigNivel & "2"
+        End While
+
+        ' ✅ OBTENER EL CÓDIGO FUENTE
+        Dim codigoFuente As String = ""
+        If ctaActual IsNot Nothing AndAlso ctaActual.codigo <> "" Then
+            codigoFuente = ctaActual.codigo
+        ElseIf Not String.IsNullOrEmpty(CtaIni) Then
+            codigoFuente = CtaIni
+        ElseIf Not String.IsNullOrEmpty(txtCta) Then
+            codigoFuente = txtCta
+        End If
+
+        System.Diagnostics.Debug.WriteLine($"OrganizarNiveles - CtaNumNiveles: {CtaNumNiveles}, CtaNumDigNivel: {CtaNumDigNivel}, codigoFuente: {codigoFuente}")
+
+        Dim posX As Integer = 65
+
+        For I = 1 To 8
             With txtCodCta(I)
-                If I > CtaNumNiveles Then
-                    .Visible = False
+                .Visible = True
+                .MaxLength = 1
+                If I <= CtaNumNiveles AndAlso I <= CtaNumDigNivel.Length Then
+                    .MaxLength = Val(Mid(CtaNumDigNivel, I, 1))
+                    If .MaxLength <= 0 Then .MaxLength = 2
                 Else
-                    .Visible = True
-                    .MaxLength = Mid(CtaNumDigNivel, I, 1)
-                    .Text = Mid(txtCta, Temp, txtCodCta(I).MaxLength)
-                    .Width = 14 + (.MaxLength - 1) * 10
-                    ToolTip1.SetToolTip(txtCodCta(I), .MaxLength & IIf(.MaxLength = 1, " D�gito", " D�gitos"))
-                    If I > 1 Then .Left = ((txtCodCta(I - 1).Left) + 2 + (txtCodCta(I - 1).Width))
-                    Temp = Temp + .MaxLength
-                    .ReadOnly = True
+                    .MaxLength = 2
                 End If
+
+                .Width = 12 + (.MaxLength - 1) * 6 + 6
+                If .Width < 18 Then .Width = 18
+                If .Width > 28 Then .Width = 28
+                .Height = 20
+
+                .Left = posX
+                posX = posX + .Width + 2
+
+                .Top = 60
+                .Font = New Font("Segoe UI", 9, FontStyle.Bold)
+                .TextAlign = HorizontalAlignment.Center
+
+                ' ✅ ASIGNAR VALORES
+                If EsNuevo Then
+                    If I <= NivelIni AndAlso Not String.IsNullOrEmpty(txtCta) Then
+                        .Text = Mid(txtCta, Temp, .MaxLength)
+                        .ReadOnly = True
+                        .BackColor = Color.FromArgb(240, 248, 255)
+                        .ForeColor = Color.FromArgb(0, 0, 64)
+                    Else
+                        .Text = ""
+                        .ReadOnly = False
+                        .BackColor = Color.FromArgb(220, 255, 220)
+                        .ForeColor = Color.FromArgb(0, 64, 0)
+                    End If
+                Else
+                    If I <= NivelIni AndAlso Not String.IsNullOrEmpty(codigoFuente) Then
+                        If codigoFuente.Length >= Temp + .MaxLength - 1 Then
+                            .Text = Mid(codigoFuente, Temp, .MaxLength)
+                            .ReadOnly = True
+                            .BackColor = Color.FromArgb(240, 248, 255)
+                            .ForeColor = Color.FromArgb(0, 0, 64)
+                        Else
+                            .Text = ""
+                            .ReadOnly = True
+                            .BackColor = Color.FromArgb(245, 245, 245)
+                            .ForeColor = Color.FromArgb(128, 128, 128)
+                        End If
+                    Else
+                        .Text = ""
+                        .ReadOnly = True
+                        .BackColor = Color.FromArgb(245, 245, 245)
+                        .ForeColor = Color.FromArgb(128, 128, 128)
+                    End If
+                End If
+
+                .BringToFront()
             End With
+            Temp = Temp + txtCodCta(I).MaxLength
         Next
+
+        ' ✅ OCULTAR LOS QUE EXCEDEN EL NÚMERO DE NIVELES
+        For I = CtaNumNiveles + 1 To 8
+            txtCodCta(I).Visible = False
+        Next
+
+        ' ✅ CONFIGURAR EL BOTÓN GENERADOR
         If EsNuevo Then
             dcGruCon.SelectedIndex = GrupoIni - 1
             txtCodCta(NivelIni).ReadOnly = False
+            txtCodCta(NivelIni).BackColor = Color.FromArgb(220, 255, 220)
             Button1.Left = txtCodCta(NivelIni).Left
             Button1.Width = txtCodCta(NivelIni).Width
             Button1.Visible = True
             Button1.Top = txtCodCta(NivelIni).Top + txtCodCta(NivelIni).Height + 1
-            Button1.Text = NivelIni
-            If Niv <> 0 Then txtCodCta(Niv + 1).Focus()
+            Button1.Text = NivelIni.ToString()
+            Button1.BackColor = Color.FromArgb(255, 255, 200)
+            txtCodCta(NivelIni).Focus()
         Else
-            ctaActual.Cargar((CtaIni))
-            CargarDatos()
+            If ctaActual IsNot Nothing AndAlso ctaActual.codigo <> "" Then
+                CargarDatos()
+                txtNomCta.Focus()
+                txtNomCta.SelectAll()
+            End If
         End If
+
+        Me.Refresh()
     End Sub
 
+
     Private Sub existenregistros()
-        'On Error GoTo HayErrores
-        '********** Controlar los botones, hacer visibles e invisibles ********
         If RsCta.Rows.Count > 0 Then
             CargarDatos()
         End If
-        Exit Sub
-        'HayErrores:
-        '  controlaerrores
     End Sub
 
     Sub CargarDatos()
@@ -219,25 +306,48 @@ Friend Class CTBP01_1
         limpiar()
         Dim Temp, I, j As Short
 
-        If ctaActual.codigo > "" Then
+        If ctaActual IsNot Nothing AndAlso ctaActual.codigo > "" Then
             With ctaActual
                 Temp = 1
                 txtCta = .codigo
                 CodigoCta = txtCta
+
+                ' ✅ 1. CÓDIGO DE CUENTA (solo si los TextBox están vacíos)
+                For I = 1 To emp.CtaNumNiveles
+                    If I <= .Nivel Then
+                        ' ✅ Si el TextBox ya tiene texto, no sobrescribir
+                        If String.IsNullOrEmpty(txtCodCta(I).Text) Then
+                            txtCodCta(I).Text = Mid(txtCta, Temp, txtCodCta(I).MaxLength)
+                        End If
+                        Temp = Temp + txtCodCta(I).MaxLength
+                    Else
+                        txtCodCta(I).Text = ""
+                    End If
+                Next
+
+                ' ✅ 2. DATOS BÁSICOS
                 txtNomCta.Text = .Nombre
                 CtaAlterna.Text = .CodigoAlterno
-                For I = 1 To Len(txtCta)
-                    txtCodCta(Temp).Text = Mid(txtCta, I, txtCodCta(Temp).MaxLength)
-                    I = I + txtCodCta(Temp).MaxLength - 1
-                    Temp = Temp + 1
-                Next
-                chkDeAgrupacion.CheckState = IIf(.Agrupacion, 1, 0)
-                dcGruCon.SelectedIndex = CDbl(.Grupo) - 1 ' ValidarCuentaContable (Mid$(.codigo, 1, 1)) - 1
+
+                ' ✅ 3. GRUPO CONTABLE
+                dcGruCon.SelectedIndex = CDbl(.Grupo) - 1
+
+                ' ✅ 4. MODULO RELACIONADO
                 DcModulo.Text = .ModuloAuxiliar
+
+                ' ✅ 5. ES CUENTA DE AGRUPACIÓN
+                chkDeAgrupacion.CheckState = IIf(.Agrupacion, 1, 0)
+
+                ' ✅ 6. PROPIEDADES COMO CONCEPTO
                 Chkcompras.CheckState = IIf(.ConceptoCompras, 1, 0)
                 chkfacturacion.CheckState = IIf(.ConceptoVentas, 1, 0)
                 chkegresobanco.CheckState = IIf(.ConceptoBcoEgreso, 1, 0)
                 Chkingresobanco.CheckState = IIf(.ConceptoBcoIngreso, 1, 0)
+
+                ' ✅ 7. GRAVADO CON IVA / TIPO SERVICIOS SRI / TIPO BIENES SRI
+                CargarConcepto()
+
+                ' ✅ 8. TIPO DE PRESUPUESTO
                 Select Case .TipoPresu
                     Case "F"
                         opMenFij.Checked = True
@@ -246,41 +356,60 @@ Friend Class CTBP01_1
                     Case Else
                         opSinPre.Checked = True
                 End Select
-                'If Not IsNull(!cta_claveseg) Then txtCla = !cta_claveseg
+
+                ' ✅ 9. CLAVES AGRUPACIÓN NIIFS - SRI
                 txtC1.Text = .ClaveAux1
                 txtC2.Text = .ClaveAux2
                 txtC3.Text = .ClaveAux3
                 txtC4.Text = .ClaveAux4
+
+                ' ✅ 10. CLASIFICADORES CONTABLES
+                ' ✅ PRIMERO: LIMPIAR TODOS LOS CHECKS
+                For j = 0 To Clasificadores.Items.Count - 1
+                    Clasificadores.SetItemChecked(j, False)
+                Next
+
+                ' ✅ SEGUNDO: MARCAR LOS QUE CORRESPONDEN
                 Aux = Split(.Clasificadores, ";")
                 If UBound(Aux) > 0 Then
                     For I = 0 To UBound(Aux)
-                        For j = 0 To Clasificadores.Items.Count - 1
-                            If Aux(I) = Clasificadores.Items(j).ToString Then
-                                Clasificadores.SetItemChecked(j, True)
-                            End If
-                        Next j
+                        If Not String.IsNullOrEmpty(Aux(I)) Then
+                            For j = 0 To Clasificadores.Items.Count - 1
+                                If Aux(I).Trim() = Clasificadores.Items(j).ToString().Trim() Then
+                                    Clasificadores.SetItemChecked(j, True)
+                                    Exit For
+                                End If
+                            Next j
+                        End If
                     Next I
                 End If
-                Formatodetalle.Text = .Detalle
-                DcModulo.Text = .ModuloAuxiliar
-                Me.Text = Nombre & "-" & .usuario
 
-                '            If Not IsNull(!Cta_CCosto) Then Check1.Value = IIf(!Cta_CCosto = "S", 1, 0)
+                ' ✅ AJUSTAR ALTURA DESPUÉS DE MARCAR
+                AjustarAlturaCheckedListBox()
 
-                '            OpcCostos = !Cta_CostosDir
-                '            OpCostoIndirecto = !Cta_CostosInDir
-                '            OpcGasto = !Cta_Gasto
+                ' ✅ 11. EN PRODUCCIÓN EL VALOR ES DE
                 btnNoProduccion.Checked = False
-                If .tipoCosto = "MO" Then btnMO.Checked = True
-                If .tipoCosto = "CD" Then btnCD.Checked = True
-                If .tipoCosto = "CI" Then btnCI.Checked = True
+                Select Case .tipoCosto
+                    Case "MO"
+                        btnMO.Checked = True
+                    Case "CD"
+                        btnCD.Checked = True
+                    Case "CI"
+                        btnCI.Checked = True
+                    Case Else
+                        btnNoProduccion.Checked = True
+                End Select
+
+                ' ✅ 12. DETALLE
+                Formatodetalle.Text = .Detalle
+
+                ' ✅ 13. USUARIO
+                Me.Text = Nombre & "-" & .usuario
             End With
         End If
-        TeniaConcepto = False
-        If Chkcompras.CheckState <> 0 Or chkfacturacion.CheckState <> 0 Or chkegresobanco.CheckState <> 0 Or Chkingresobanco.CheckState <> 0 Then
-            CargarConcepto()
-        End If
 
+        ' ✅ 14. HABILITAR/DESHABILITAR SEGÚN AGRUPACIÓN
+        FuncionCuenta()
     End Sub
 
     Private Sub btnGuardar_Click()
@@ -289,7 +418,7 @@ Friend Class CTBP01_1
         Dim cod As String
         Dim Classi As String
         Dim TTIPOCOS As String
-        '        Dim linkdat As New DaxData.DaxLibDatos
+
         CodigoCta = CodCta()
         Lon = Len(CodigoCta)
         If ValidarCta() Then
@@ -322,15 +451,10 @@ Friend Class CTBP01_1
                 Classi = cod
                 .Nivel = Nivel(CodigoCta)
                 .usuario = DattCom.DatosUsuario.Identifica
-                '.Gasto = OpcGasto
-                '.cosDirecto = OpcCostos
-                '.CosIndirecto = OpCostoIndirecto
-                '.Ccosto = IIf(Check1.Value = 0, "", "S")
                 .ConceptoCompras = Chkcompras.CheckState
                 .ConceptoVentas = chkfacturacion.CheckState
                 .ConceptoBcoEgreso = chkegresobanco.CheckState
                 .ConceptoBcoIngreso = Chkingresobanco.CheckState
-                'If Not IsNull(!cta_claveseg) Then txtCla = !cta_claveseg
                 .Detalle = Formatodetalle.Text
                 .ModuloAuxiliar = DcModulo.Text
                 .CuentaPadre = CtaPadre
@@ -341,16 +465,14 @@ Friend Class CTBP01_1
                 TTIPOCOS = .tipoCosto
             End With
             ctaActual.Guardar()
+
             If Chkcompras.CheckState <> 0 Or chkfacturacion.CheckState <> 0 Or chkegresobanco.CheckState <> 0 Or Chkingresobanco.CheckState <> 0 Then
                 GrabarConcepto()
             End If
 
             If (chkDeAgrupacion.CheckState > 0) Then
-                '            If MsgBox("CONFIRMA REGISTRAR LAS PROPIEDADES DE ESTA CUENTA A TODAS LAS SUBCUENTAS DE NIVEL INFERIOR ?", vbYesNo + vbQuestion) = vbYes Then
-
                 cod = "UPDATE AdcCta SET "
                 cod = cod & " Cta_tipopresu = '" & Trim(TipoPre) & "' "
-                '            cod = cod & ", Cta_claveseg ='" & Trim$(txtCla) & "'"
                 cod = cod & ", Cta_claveaux1 ='" & Trim(txtC1.Text) & "' "
                 cod = cod & ", Cta_claveaux2 ='" & Trim(txtC2.Text) & "' "
                 cod = cod & ", Cta_claveaux3 ='" & Trim(txtC3.Text) & "' "
@@ -361,22 +483,9 @@ Friend Class CTBP01_1
                 cod = cod & " where substring(cta_codigo,1," & Lon & ") = '" & CodigoCta & "'"
 
                 DattCom.SqlDatos.ejecutarComando(cod, datosEmpresa.strConxAdcom)
-
-                'cod = "delete from AdcServ where AdcServ.Sev_codigo in"
-                'cod = cod & "("
-                'cod = cod & " Select AdcServ.Sev_codigo"
-                'cod = cod & " FROM         AdcServ LEFT OUTER JOIN"
-                'cod = cod & " AdcCta ON AdcServ.Sev_codigo = AdcCta.Cta_codigo"
-                'cod = cod & " where ISNULL(cta_nombre,'') > ''  and ISNULL(conceptocompras,0) = 0 and ISNULL(ConceptoVentas ,0) = 0"
-                'cod = cod & " and ISNULL(ConceptoBcoEgreso ,0) = 0 and ISNULL(ConceptoBcoIngreso ,0) = 0"
-                'cod = cod & ")"
-                'linkdat.DaxData("", cod)
             End If
-            '        End If
-
         End If
 
-        'linkdat = Nothing
         If (chkDeAgrupacion.CheckState = 0) Then
             If Qaccion = "N" Or Qaccion = "I" Then InsertarEnArbol()
             If Qaccion = "M" Then ArreglarArbol()
@@ -401,10 +510,8 @@ Friend Class CTBP01_1
             .Sev_idcta4 = ""
             .Sev_SriBien = opbienes.Checked
             .Sev_sniva = chiva.CheckState
-
             .Sev_TipoCos = ""
             .Sev_TipoSerSri = ""
-
             .sev_compras = Chkcompras.CheckState
             .sev_ventas = chkfacturacion.CheckState
             .sev_ingbanco = Chkingresobanco.CheckState
@@ -419,31 +526,35 @@ Friend Class CTBP01_1
     Private Sub CargarConcepto()
         Dim serv As New ClassDoc.Servicios(datosEmpresa.strConxAdcom)
         serv = ClassDoc.Servicios.Buscar(" Sev_codigo = '" + CodigoCta + "'")
-        With serv
-            opbienes.Checked = .Sev_SriBien
 
-            If .Sev_sniva = True Then
-                chiva.CheckState = System.Windows.Forms.CheckState.Checked
-            Else
-                chiva.CheckState = System.Windows.Forms.CheckState.Unchecked
-            End If
-
-            Chkcompras.CheckState = .sev_compras
-            chkfacturacion.CheckState = .sev_ventas
-            Chkingresobanco.CheckState = .sev_ingbanco
-            chkegresobanco.CheckState = .sev_egrbanco
-
-        End With
-        TeniaConcepto = True
+        If serv IsNot Nothing AndAlso serv.Sev_codigo > "" Then
+            With serv
+                opbienes.Checked = .Sev_SriBien
+                If .Sev_sniva = True Then
+                    chiva.CheckState = System.Windows.Forms.CheckState.Checked
+                Else
+                    chiva.CheckState = System.Windows.Forms.CheckState.Unchecked
+                End If
+                Chkcompras.CheckState = IIf(.sev_compras, 1, 0)
+                chkfacturacion.CheckState = IIf(.sev_ventas, 1, 0)
+                Chkingresobanco.CheckState = IIf(.sev_ingbanco, 1, 0)
+                chkegresobanco.CheckState = IIf(.sev_egrbanco, 1, 0)
+            End With
+            TeniaConcepto = True
+        Else
+            TeniaConcepto = False
+        End If
+        serv = Nothing
     End Sub
+
     Private Sub ArreglarArbol()
-        'Dim Aux As String
         On Error Resume Next
         Arbolito.Nodes.Remove(Arbolito.SelectedNode)
         InsertarEnArbol()
         Arbolito.Update()
         Arbolito.Sort()
     End Sub
+
     Private Sub InsertarEnArbol()
         Dim Aux As String
         On Error Resume Next
@@ -464,10 +575,10 @@ Friend Class CTBP01_1
     Private Function ValidarCta() As Boolean
         Dim I As Short
         ValidarCta = True
-        For I = 1 To Emp.CtaNumNiveles
-            If Len(txtCodCta(I).Text) < CDbl(Mid(Emp.CtaNumDigNivel, I, 1)) And txtCodCta(I).Visible = True Then
+        For I = 1 To emp.CtaNumNiveles
+            If Len(txtCodCta(I).Text) < CDbl(Mid(emp.CtaNumDigNivel, I, 1)) And txtCodCta(I).Visible = True Then
                 ValidarCta = False
-                MsgBox("Los d�gitos de la cuenta est�n mal registrados", MsgBoxStyle.Critical, Nombre)
+                MsgBox("Los dígitos de la cuenta están mal registrados", MsgBoxStyle.Critical, Nombre)
                 Exit Function
             End If
         Next I
@@ -480,72 +591,111 @@ Friend Class CTBP01_1
         If Not (Chkcompras.CheckState <> 0 Or chkfacturacion.CheckState <> 0 Or chkegresobanco.CheckState <> 0 Or Chkingresobanco.CheckState <> 0) And TeniaConcepto Then
             If serv.ServUsado(CodigoCta) = True Then MsgBox("No se puede eliminar el Concepto creado por la cuenta" & vbCr & "Existen documentos que utilizan este concepto", MsgBoxStyle.Critical) : ValidarCta = False
         End If
-        'If Nivel(CodigoCta) = Emp.CtaNumNiveles Then opCtaMov = True
         serv = Nothing
     End Function
-
-
-    'Private Function GetCta(cta As String)
-    '    Dim I As Integer
-    '    Dim Temp As Integer
-    '    Temp = Len(cta)
-    '    For I = 1 To Temp
-    '        If  Mid$(cta, I, 1) = " " Then
-    '            cta = Mid$(cta, 1, I - 1)
-    '            I = Temp
-    '        End If
-    '    Next
-    '    GetCta = cta
-    'End Function
 
     Private Function CodCta() As String
         Dim Temp As String = ""
         Dim I As Short
-        For I = 1 To Emp.CtaNumNiveles
+        For I = 1 To emp.CtaNumNiveles
             Temp = Temp & txtCodCta(I).Text
         Next
         CodCta = Temp
     End Function
 
+    'Sub limpiar()
+    '    Dim I As Short
+    '    For I = 1 To emp.CtaNumNiveles
+    '        txtCodCta(I).Text = ""
+    '    Next
+    '    txtNomCta.Text = ""
+    '    CtaAlterna.Text = ""
+    '    txtC1.Text = ""
+    '    txtC2.Text = ""
+    '    txtC3.Text = ""
+    '    txtC4.Text = ""
+    '    TeniaConcepto = False
+
+    '    chkegresobanco.CheckState = System.Windows.Forms.CheckState.Unchecked
+    '    Chkcompras.CheckState = System.Windows.Forms.CheckState.Unchecked
+    '    chkfacturacion.CheckState = System.Windows.Forms.CheckState.Unchecked
+    '    Chkingresobanco.CheckState = System.Windows.Forms.CheckState.Unchecked
+
+    '    chiva.CheckState = System.Windows.Forms.CheckState.Checked
+    '    Option1.Checked = True
+    '    opbienes.Checked = False
+
+    '    opSinPre.Checked = True
+    '    DcModulo.Text = ""
+    '    Formatodetalle.Text = ""
+
+    '    For I = 0 To Clasificadores.Items.Count - 1
+    '        Clasificadores.SetItemChecked(I, False)
+    '    Next
+
+    '    btnNoProduccion.Checked = True
+    '    btnMO.Checked = False
+    '    btnCD.Checked = False
+    '    btnCI.Checked = False
+    '    chkDeAgrupacion.CheckState = System.Windows.Forms.CheckState.Unchecked
+    'End Sub
+
     Sub limpiar()
         Dim I As Short
-        For I = 1 To Emp.CtaNumNiveles
+
+        ' ✅ LIMPIAR TEXTBOX DE CÓDIGO
+        For I = 1 To emp.CtaNumNiveles
             txtCodCta(I).Text = ""
         Next
+
+        ' ✅ LIMPIAR CAMPOS DE TEXTO
         txtNomCta.Text = ""
-        '    txtCla = ""
+        CtaAlterna.Text = ""
         txtC1.Text = ""
         txtC2.Text = ""
         txtC3.Text = ""
         txtC4.Text = ""
         TeniaConcepto = False
 
+        ' ✅ LIMPIAR PROPIEDADES COMO CONCEPTO
         chkegresobanco.CheckState = System.Windows.Forms.CheckState.Unchecked
         Chkcompras.CheckState = System.Windows.Forms.CheckState.Unchecked
         chkfacturacion.CheckState = System.Windows.Forms.CheckState.Unchecked
         Chkingresobanco.CheckState = System.Windows.Forms.CheckState.Unchecked
+
+        ' ✅ LIMPIAR TIPO DE SERVICIO SRI
         chiva.CheckState = System.Windows.Forms.CheckState.Checked
         Option1.Checked = True
+        opbienes.Checked = False
+
+        ' ✅ LIMPIAR TIPO PRESUPUESTO
         opSinPre.Checked = True
+
+        ' ✅ LIMPIAR MÓDULO Y DETALLE
         DcModulo.Text = ""
         Formatodetalle.Text = ""
 
+        ' ✅ LIMPIAR CLASIFICADORES
+        For I = 0 To Me.Clasificadores.Items.Count - 1
+            Me.Clasificadores.SetItemChecked(I, False)
+        Next
+
+        ' ✅ LIMPIAR TIPO COSTO
+        btnNoProduccion.Checked = True
+        btnMO.Checked = False
+        btnCD.Checked = False
+        btnCI.Checked = False
+
+        ' ✅ LIMPIAR AGRUPACIÓN
+        chkDeAgrupacion.CheckState = System.Windows.Forms.CheckState.Unchecked
     End Sub
 
     Function Agrupa() As Boolean
-        '    If opCtaAgr = True Then
-        '        Agrupa = True
-        '    Else
-        '        Agrupa = False
-        '    End If
     End Function
+
     Sub Agrupa2(ByRef op As Boolean)
-        If op = True Then
-            '        Me.opCtaAgr = True
-        Else
-            '        opCtaMov = True
-        End If
     End Sub
+
     Function TipoPre() As String
         If opSinPre.Checked = True Then
             TipoPre = "1"
@@ -569,25 +719,26 @@ Friend Class CTBP01_1
     Private Function Nivel(ByRef cta As String) As Short
         Dim I As Short
         Dim NumNiv As String
-        NumNiv = Emp.CtaNumDigNivel
+        NumNiv = emp.CtaNumDigNivel
         Dim OrgNiv() As Short
-        ReDim OrgNiv(Emp.CtaNumNiveles)
+        ReDim OrgNiv(emp.CtaNumNiveles)
 
-        For I = 1 To Emp.CtaNumNiveles
-            OrgNiv(I) = CShort(Mid(Emp.CtaNumDigNivel, I, 1))
+        For I = 1 To emp.CtaNumNiveles
+            OrgNiv(I) = CShort(Mid(emp.CtaNumDigNivel, I, 1))
         Next
-        If Emp.CtaNumNiveles > 1 Then OrgNiv(2) = OrgNiv(1) + OrgNiv(2)
-        If Emp.CtaNumNiveles > 2 Then OrgNiv(3) = OrgNiv(2) + OrgNiv(3)
-        If Emp.CtaNumNiveles > 3 Then OrgNiv(4) = OrgNiv(3) + OrgNiv(4)
-        If Emp.CtaNumNiveles > 4 Then OrgNiv(5) = OrgNiv(4) + OrgNiv(5)
-        If Emp.CtaNumNiveles > 5 Then OrgNiv(6) = OrgNiv(5) + OrgNiv(6)
-        For I = 1 To Emp.CtaNumNiveles
+        If emp.CtaNumNiveles > 1 Then OrgNiv(2) = OrgNiv(1) + OrgNiv(2)
+        If emp.CtaNumNiveles > 2 Then OrgNiv(3) = OrgNiv(2) + OrgNiv(3)
+        If emp.CtaNumNiveles > 3 Then OrgNiv(4) = OrgNiv(3) + OrgNiv(4)
+        If emp.CtaNumNiveles > 4 Then OrgNiv(5) = OrgNiv(4) + OrgNiv(5)
+        If emp.CtaNumNiveles > 5 Then OrgNiv(6) = OrgNiv(5) + OrgNiv(6)
+        For I = 1 To emp.CtaNumNiveles
             If Len(cta) = OrgNiv(I) Then
                 Nivel = I
-                I = Emp.CtaNumNiveles
+                I = emp.CtaNumNiveles
             End If
         Next
     End Function
+
     Private Function LeerCuenta(ByRef QueCuenta As String) As Boolean
         Dim RsCta As SqlClient.SqlDataReader = DattCom.SqlDatos.leerBase("SELECT cta_codigo FROM AdcCta WHERE Cta_Codigo='" & QueCuenta & "'", datosEmpresa.strConxAdcom)
         LeerCuenta = RsCta.Read()
@@ -600,37 +751,148 @@ Friend Class CTBP01_1
         ConxAdcom.Dispose()
     End Sub
 
-    Private Sub CTBP01_1_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
-        'Dim cca As New ClasificadorCtb()
-        Dim colClasificadores As New ClasificadoresCtb
+    Private Sub MostrarPosicionesControles()
+        Dim msg As String = "=== POSICIONES DE txtCodCta ===" & vbCrLf
 
-        'Dim Clasif As New ClasificadorCtb
+        For I As Integer = 1 To 8
+            If txtCodCta(I) IsNot Nothing Then
+                msg &= $"txtCodCta({I}): Left={txtCodCta(I).Left}, Top={txtCodCta(I).Top}, " &
+                   $"Visible={txtCodCta(I).Visible}, Text='{txtCodCta(I).Text}', " &
+                   $"MaxLength={txtCodCta(I).MaxLength}" & vbCrLf
+            Else
+                msg &= $"txtCodCta({I}): NOTHING" & vbCrLf
+            End If
+        Next
+
+        msg &= vbCrLf & "=== DATOS DE EMPRESA ===" & vbCrLf
+        msg &= $"CtaNumNiveles: {emp.CtaNumNiveles}" & vbCrLf
+        msg &= $"CtaNumDigNivel: {emp.CtaNumDigNivel}" & vbCrLf
+        msg &= $"EsNuevo: {EsNuevo}" & vbCrLf
+        msg &= $"NivelIni: {NivelIni}" & vbCrLf
+        msg &= $"CtaIni: {CtaIni}" & vbCrLf
+        msg &= $"txtCta: {txtCta}" & vbCrLf
+
+        If ctaActual IsNot Nothing Then
+            msg &= $"ctaActual.codigo: {ctaActual.codigo}" & vbCrLf
+            msg &= $"ctaActual.Nivel: {ctaActual.Nivel}" & vbCrLf
+        Else
+            msg &= "ctaActual: NOTHING" & vbCrLf
+        End If
+
+        'MsgBox(msg, MsgBoxStyle.Information, "DEPURACIÓN - POSICIONES")
+    End Sub
+
+    ' ✅ MÉTODO PARA AJUSTAR LA ALTURA DEL CheckedListBox (SIN IntegralHeight = False)
+    Private Sub AjustarAlturaCheckedListBox()
+        Try
+            ' Usar el nombre del control sin Me. si es un control del formulario
+            If Clasificadores Is Nothing Then Exit Sub
+
+            ' Esperar a que los items estén cargados
+            Application.DoEvents()
+
+            Dim itemHeight As Integer = Clasificadores.ItemHeight
+            Dim itemCount As Integer = Clasificadores.Items.Count
+
+            ' Si no hay items, ocultar o poner altura mínima
+            If itemCount = 0 Then
+                Clasificadores.Height = 20
+                Clasificadores.Visible = False
+                Exit Sub
+            End If
+
+            Clasificadores.Visible = True
+
+            ' Contar cuántos items están marcados (visibles)
+            Dim visibleCount As Integer = 0
+            For i As Integer = 0 To itemCount - 1
+                If Not String.IsNullOrEmpty(Clasificadores.Items(i).ToString()) Then
+                    visibleCount += 1
+                End If
+            Next
+
+            ' Usar el count visible o el total
+            Dim countToUse As Integer = Math.Max(visibleCount, itemCount)
+
+            ' Calcular altura (itemHeight + padding)
+            Dim padding As Integer = 4
+            Dim totalHeight As Integer = (itemHeight * countToUse) + padding
+
+            ' Limitar altura máxima (150 es suficiente para 5-6 items)
+            If totalHeight > 150 Then
+                totalHeight = 150
+            End If
+
+            ' ✅ NO FORZAR IntegralHeight = False (dejarlo como está)
+            ' Si el control tiene IntegralHeight = True, los items se mostrarán completos
+            ' Si tiene IntegralHeight = False, se mostrará con scroll si es necesario
+
+            ' Aplicar altura
+            Clasificadores.Height = totalHeight
+
+            System.Diagnostics.Debug.WriteLine($"CheckedListBox ajustado: Items={itemCount}, Altura={totalHeight}")
+
+        Catch ex As Exception
+            System.Diagnostics.Debug.WriteLine($"Error ajustando altura: {ex.Message}")
+        End Try
+    End Sub
+
+
+    Private Sub CTBP01_1_Load(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Load
+        Dim colClasificadores As New ClasificadoresCtb
         Dim I As Short
-        'Dim libb As New DaxLib.DaxLibMalla
-        'Dim libsql As New DaxLib.DaxLibBases
-        'libsql.TipoBase = "10"
-        'ConxAdcom.ConnectionString = libsql.StrAdcom
-        'ConxAdcom.Open()
-        'actualizarBase()
+
+        ' ✅ CREAR Y POSICIONAR LOS TEXTBOX (MÁS A LA DERECHA)
+        Dim posX As Integer = 65 ' ← Posición inicial más a la derecha (antes era 10)
 
         For I = 1 To 8
             txtCodCta(I) = New TextBox
             Controls.Add(txtCodCta(I))
-            txtCodCta(I).Height = 27
-            txtCodCta(I).Width = 25
-            txtCodCta(I).Left = 30 * I + 54 '+ TextCodCta.Left
-            txtCodCta(I).Top = 55
-            txtCodCta(I).Visible = False
-        Next
-        'cca.Cargar("")
-        Clasificadores.Items.Clear()
-        For Each Clasif In colClasificadores.ColClasificadoresCtb
-            Clasificadores.Items.Add(Clasif.Nombre)
-        Next Clasif
+            txtCodCta(I).Height = 15
+            txtCodCta(I).Width = 15
 
+            txtCodCta(I).Left = posX
+            posX = posX + txtCodCta(I).Width + 3
+
+            txtCodCta(I).Top = 60
+            txtCodCta(I).Visible = True
+            txtCodCta(I).ReadOnly = True
+            'txtCodCta(I).BackColor = Color.White
+            'txtCodCta(I).ForeColor = Color.Black
+            txtCodCta(I).BackColor = Color.FromArgb(240, 248, 255)  ' ✅ Azul muy claro (AliceBlue)
+            txtCodCta(I).ForeColor = Color.FromArgb(0, 0, 64)
+            txtCodCta(I).BorderStyle = BorderStyle.FixedSingle
+            txtCodCta(I).Font = New Font("Segoe UI", 9, FontStyle.Bold)
+            txtCodCta(I).TextAlign = HorizontalAlignment.Center
+            txtCodCta(I).Text = ""
+
+            txtCodCta(I).BringToFront()
+            txtCodCta(I).Refresh()
+        Next
+
+        Try
+            Dim clsCtb As New ClasificaCtb()
+            Dim clasificadores As ColClasificador = clsCtb.Cargar()
+
+            ' ✅ USAR Me.Clasificadores PARA EL CONTROL DEL FORMULARIO
+            Me.Clasificadores.Items.Clear()
+            For Each cl As Clasificador In clasificadores
+                Me.Clasificadores.Items.Add(cl.Nombre)
+            Next cl
+
+            AjustarAlturaCheckedListBox()
+
+            clsCtb = Nothing
+            clasificadores = Nothing
+        Catch ex As Exception
+            MessageBox.Show($"Error cargando clasificadores: {ex.Message}",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
+        ' ✅ CARGAR MÓDULOS AUXILIARES
         Dim BCTB As Cuenta = New Cuenta
-        Dim Aux() As String
-        Aux = Split(BCTB.ModulosAuxiliares, ";")
+        Dim Aux() As String = Split(BCTB.ModulosAuxiliares, ";")
         With DcModulo
             .Items.Clear()
             For I = 0 To UBound(Aux)
@@ -638,10 +900,9 @@ Friend Class CTBP01_1
             Next I
         End With
 
-        colClasificadores = Nothing
-        'cca = Nothing
         OrganizarNiveles()
 
+        'MostrarPosicionesControles()
     End Sub
 
     Private Sub Toolbar1_ButtonClick(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles guardar.Click, salir.Click
@@ -657,8 +918,9 @@ Friend Class CTBP01_1
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         txtCodCta_KeyDown()
     End Sub
-    Private Sub txtCodCta_KeyDown() ' ByVal eventSender As System.Object, ByVal eventArgs As System.Windows.Forms.KeyEventArgs) Handles txtCodCta.KeyDown
-        Dim Index As Short '= txtCodCta.GetIndex(eventSender)
+
+    Private Sub txtCodCta_KeyDown()
+        Dim Index As Short
         Dim rs As SqlClient.SqlDataReader
         Dim L As Short
         Dim sSql As String
@@ -666,7 +928,6 @@ Friend Class CTBP01_1
         L = Len(CtaPadre)
         If L < 1 Then L = 1
         sSql = "SELECT MAX(Cta_codigo) AS CtaM From dbo.AdcCta " & "WHERE Cta_Nivel = " & NivelIni & " AND (SUBSTRING(Cta_codigo, 1," & L & ") = '" & CtaPadre & "')"
-        'Dim linkdat As New SqlClient.SqlCommand(sSql, ConxAdcom)
         rs = SqlDatos.leerBaseAdcom(sSql)
 
         If rs.Read Then
@@ -684,11 +945,9 @@ Friend Class CTBP01_1
         End If
         rs.Close()
         rs = Nothing
-        'linkdat = Nothing
     End Sub
 
     Private Sub Clasificadores_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Clasificadores.SelectedIndexChanged
-
     End Sub
 
     Private Sub actualizarBase()
@@ -699,6 +958,5 @@ Friend Class CTBP01_1
     End Sub
 
     Private Sub chkDeAgrupacion_CheckedChanged(sender As Object, e As EventArgs) Handles chkDeAgrupacion.CheckedChanged
-        '//If (chkDeAgrupacion.Checked) Th
     End Sub
 End Class

@@ -39,7 +39,6 @@ namespace SES_ERP24
             this.mantenDocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serviciosBancosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serviciosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.defHorariosCajasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.autorizacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnManEmpresa = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,6 +108,7 @@ namespace SES_ERP24
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labFecha = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panelContenedor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picDaxsof)).BeginInit();
@@ -125,6 +125,7 @@ namespace SES_ERP24
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximizar)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // panelContenedor
@@ -202,7 +203,7 @@ namespace SES_ERP24
             this.menugeneral.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.menugeneral.Name = "menugeneral";
             this.menugeneral.Padding = new System.Windows.Forms.Padding(0);
-            this.menugeneral.Size = new System.Drawing.Size(333, 540);
+            this.menugeneral.Size = new System.Drawing.Size(333, 564);
             this.menugeneral.TabIndex = 15;
             // 
             // menAdministracion
@@ -212,7 +213,6 @@ namespace SES_ERP24
             this.mantenDocToolStripMenuItem,
             this.serviciosBancosToolStripMenuItem,
             this.serviciosToolStripMenuItem,
-            this.defHorariosCajasToolStripMenuItem,
             this.toolStripMenuItem2,
             this.autorizacionesToolStripMenuItem,
             this.btnManEmpresa,
@@ -258,16 +258,6 @@ namespace SES_ERP24
             this.serviciosToolStripMenuItem.Tag = "MntServiciosCprasVta";
             this.serviciosToolStripMenuItem.Text = "Administración de Servicios Compras/Ventas";
             this.serviciosToolStripMenuItem.Click += new System.EventHandler(this.serviciosToolStripMenuItem_Click);
-            // 
-            // defHorariosCajasToolStripMenuItem
-            // 
-            this.defHorariosCajasToolStripMenuItem.BackColor = System.Drawing.Color.DimGray;
-            this.defHorariosCajasToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.defHorariosCajasToolStripMenuItem.Name = "defHorariosCajasToolStripMenuItem";
-            this.defHorariosCajasToolStripMenuItem.Size = new System.Drawing.Size(539, 34);
-            this.defHorariosCajasToolStripMenuItem.Text = "Definición Horarios Cajas";
-            this.defHorariosCajasToolStripMenuItem.Visible = false;
-            this.defHorariosCajasToolStripMenuItem.Click += new System.EventHandler(this.defHorariosCajasToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -526,6 +516,7 @@ namespace SES_ERP24
             this.menRepInventarios.ForeColor = System.Drawing.Color.White;
             this.menRepInventarios.Name = "menRepInventarios";
             this.menRepInventarios.Size = new System.Drawing.Size(225, 34);
+            this.menRepInventarios.Tag = "RepInventarios";
             this.menRepInventarios.Text = "Inventarios";
             this.menRepInventarios.Visible = false;
             this.menRepInventarios.Click += new System.EventHandler(this.menRepInventarios_Click);
@@ -936,12 +927,13 @@ namespace SES_ERP24
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.pictureBox3);
             this.panel3.Controls.Add(this.btnClose);
             this.panel3.Controls.Add(this.btnCambSucursal);
             this.panel3.Controls.Add(this.btnCambClave);
-            this.panel3.Location = new System.Drawing.Point(1889, 48);
+            this.panel3.Location = new System.Drawing.Point(1840, 48);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(142, 44);
+            this.panel3.Size = new System.Drawing.Size(191, 44);
             this.panel3.TabIndex = 18;
             // 
             // btnClose
@@ -949,7 +941,7 @@ namespace SES_ERP24
             this.btnClose.BackColor = System.Drawing.SystemColors.Control;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Image = global::SES_ERP24.Properties.Resources.salida;
-            this.btnClose.Location = new System.Drawing.Point(98, 4);
+            this.btnClose.Location = new System.Drawing.Point(144, 4);
             this.btnClose.Margin = new System.Windows.Forms.Padding(4);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(40, 37);
@@ -963,7 +955,7 @@ namespace SES_ERP24
             this.btnCambSucursal.BackColor = System.Drawing.SystemColors.Control;
             this.btnCambSucursal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCambSucursal.Image = global::SES_ERP24.Properties.Resources.rama;
-            this.btnCambSucursal.Location = new System.Drawing.Point(51, 4);
+            this.btnCambSucursal.Location = new System.Drawing.Point(97, 4);
             this.btnCambSucursal.Margin = new System.Windows.Forms.Padding(4);
             this.btnCambSucursal.Name = "btnCambSucursal";
             this.btnCambSucursal.Size = new System.Drawing.Size(40, 37);
@@ -977,7 +969,7 @@ namespace SES_ERP24
             this.btnCambClave.BackColor = System.Drawing.SystemColors.Control;
             this.btnCambClave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCambClave.Image = global::SES_ERP24.Properties.Resources.restablecer_la_contrasena1;
-            this.btnCambClave.Location = new System.Drawing.Point(5, 4);
+            this.btnCambClave.Location = new System.Drawing.Point(51, 4);
             this.btnCambClave.Margin = new System.Windows.Forms.Padding(4);
             this.btnCambClave.Name = "btnCambClave";
             this.btnCambClave.Size = new System.Drawing.Size(40, 37);
@@ -1106,6 +1098,20 @@ namespace SES_ERP24
             this.label1.Size = new System.Drawing.Size(2036, 20);
             this.label1.TabIndex = 18;
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(8, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(40, 37);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 58;
+            this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
+            // 
             // FrmMenuInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1140,6 +1146,7 @@ namespace SES_ERP24
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximizar)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -1153,7 +1160,6 @@ namespace SES_ERP24
 		private System.Windows.Forms.ToolStripMenuItem menAdministracion;
 		private System.Windows.Forms.ToolStripMenuItem mantenDocToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem serviciosToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem defHorariosCajasToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem autorizacionesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem btnManEmpresa;
@@ -1225,5 +1231,6 @@ namespace SES_ERP24
         private System.Windows.Forms.PictureBox btnCambClave;
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.ToolStripMenuItem menTransferenciasInv;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

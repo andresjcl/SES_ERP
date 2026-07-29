@@ -24,7 +24,7 @@ namespace SES_ERP24
 
             if (parm.IndexOf("^") >= 0 || parm.IndexOf("|") >= 0)
             {
-                datosEmpresa.sistema = "CNX";
+                datosEmpresa.sistema = "SES";
                 DattCom.IngresoApp.iniciar(parm);
                 datosEmpresa.Emp_codigo = datosEmpresa.codEmpresa;
                 DattCom.ManejoDatosEmpresa.LeerDatosEmpresa(datosEmpresa.strConxSyscod, datosEmpresa.UsuarioBd, datosEmpresa.ClaveBd, datosEmpresa.Servidor);

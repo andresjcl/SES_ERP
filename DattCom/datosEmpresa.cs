@@ -64,6 +64,15 @@ namespace DattCom
 
         public static string marca = "";
 
+        public static int TipoLicencia { get; set; } = 0;
+        public static string OpcionesLicencia { get; set; } = "";
+        public static string ModulosActivos { get; set; } = "";
+        public static string GruposActivos { get; set; } = "";
+        public static int MaxUsuarios { get; set; } = 1;
+        public static DateTime FechaExpiracion { get; set; } = DateTime.MaxValue;
+
+
+
         static internal int _ambienteEnProduccion = 0;
         static internal string _pathFirmaElectronica = "";
         static internal string _pathCpbGenerados = "";
@@ -246,7 +255,7 @@ namespace DattCom
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     // Opcional: log del error
                     // MessageBox.Show($"Error al convertir fecha: {ex.Message}");
@@ -413,6 +422,179 @@ namespace DattCom
             return dt;
         }
 
-       
+
+        public static bool TienePermiso(string claveModulo)
+        {
+            // Si es administrador, siempre tiene permiso
+            if (usr.ToUpper() == "ADMINISTRADOR" || usr.ToUpper() == "ADMIN")
+                return true;
+
+            // Si es MONO (1), siempre tiene permiso
+            if (TipoLicencia == 1)
+                return true;
+
+            // Si es DEMO (98) o MULTI (99+), verificar módulos
+            if (TipoLicencia == 98 || TipoLicencia >= 99)
+            {
+                // Obtener la posición del módulo desde el mapeo fijo
+                int posicion = ObtenerPosicionModulo(claveModulo);
+
+                if (posicion >= 0 && posicion < ModulosActivos.Length)
+                {
+                    // Verificar si el bit está activo
+                    return ModulosActivos[posicion] == '1';
+                }
+            }
+
+            return false;
+        }
+
+        private static int ObtenerPosicionModulo(string claveModulo)
+        {
+            // MAPEO FIJO (DEBE COINCIDIR CON EL GENERADOR)
+            var mapaClaves = new Dictionary<string, int>()
+    {
+        // Ventas (Posición 1)
+        {"PEDEmitir", 1},
+        {"FACEmitirPed", 1},
+        {"FACEmitir", 1},
+        {"FACEmitirPto", 1},
+        {"ProfEmitir", 1},
+        
+        // Compras (Posición 3)
+        {"FAPEmitir", 3},
+        {"NCPEmitir", 3},
+        
+        // Inventarios (Posición 8)
+        {"MntArticulos", 8},
+        {"IngInventario", 8},
+        {"EgrInventario", 8},
+        {"MovtArticulos", 8},
+        {"ExisBod", 8},
+        {"MntMedidas", 8},
+        {"Recostear", 8},
+        {"TransferenciaInventarios", 8},
+        {"REMEmitir", 8},
+        
+        // Directorio (Posición 6)
+        {"DGRegistros", 6},
+        {"DGReporteG", 6},
+        
+        // SRI (Posición 5)
+        {"SolicAutorizaSRI", 5},
+        {"RTPEmitir", 5},
+        {"RTCEmitir", 5},
+        {"MntTablasSRI", 5},
+        {"importarXML", 5},
+        
+        // Administración (Posición 0)
+        {"MntDocumentos", 0},
+        {"MntServiciosBco", 0},
+        {"MntServiciosCprasVta", 0},
+        {"MtnUsers", 0},
+        {"MtnEmpresa", 0},
+        {"MntFormaPago", 0},
+        
+        // Bancos (Posición 2)
+        {"DocBancos", 2},
+        {"MnConciliacionBancos", 2},
+        {"MnCrearBancos", 2},
+        
+        // Cuentas Corrientes (Posición 5)
+        {"CtaCorrListaGen", 5},
+        {"CtaCorrAnalisInd", 5},
+        
+        // Contabilidad (Posición 4)
+        {"mnplanCuentas", 4},
+        {"MntBalances", 4},
+        
+        // Importaciones (Posición 7)
+        {"IMPEmitir", 7},
+        
+        // Reportes (Posición 10)
+        {"RepListadoDoc", 10},
+        
+        // Ayudas (Posición 1)
+        {"importarDataCli", 1},
+        {"importarDataCuentas", 1},
+        {"importarDataProd", 1}
+    };
+
+            if (mapaClaves.ContainsKey(claveModulo))
+                return mapaClaves[claveModulo];
+
+            return -1;
+        }
+
+        // ============================================================
+        // OBTENER GRUPO DE UN MÓDULO DESDE MenuSES
+        // ============================================================
+        private static string ObtenerGrupoModulo(string claveModulo)
+        {
+            try
+            {
+                string sql = $"SELECT Menuprincipal FROM MenuSES WHERE Clave = '{claveModulo}'";
+                DataTable dt = SqlDatos.leerTabla(sql, strConxSyscod);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    return dt.Rows[0]["Menuprincipal"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error obteniendo grupo: {ex.Message}");
+            }
+            return "";
+        }
+
+
+        // En datosEmpresa.cs - Agregar este método
+        public static void CargarLicenciaActiva()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Emp_RUC))
+                    return;
+
+                string ruc = Emp_RUC;
+                string sql = @"
+            SELECT TOP 1 
+                TipoLicencia,
+                MaxUsuarios,
+                FechaExpiracion,
+                ModulosActivos,
+                GruposActivos
+            FROM Licencias 
+            WHERE RucEmpresa = @RucEmpresa 
+              AND Estado = 'ACTIVA' 
+              AND FechaExpiracion >= GETDATE()
+            ORDER BY Id DESC";
+
+                using (var conn = new SqlConnection(strConxSyscod))
+                {
+                    conn.Open();
+                    using (var cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@RucEmpresa", ruc);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                TipoLicencia = Convert.ToInt32(reader["TipoLicencia"]);
+                                MaxUsuarios = Convert.ToInt32(reader["MaxUsuarios"]);
+                                FechaExpiracion = Convert.ToDateTime(reader["FechaExpiracion"]);
+                                ModulosActivos = reader["ModulosActivos"].ToString();
+                                GruposActivos = reader["GruposActivos"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error cargando licencia: {ex.Message}");
+            }
+        }
+
     }
 }

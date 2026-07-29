@@ -66,10 +66,10 @@ namespace DattCom
                 datosEmpresa.sucNom = comPar(matriz[14]);
                 datosEmpresa.opcion = comPar(matriz[15]);
                 
-                datosEmpresa._strConIniSis = ArmStr("SysBD", datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
+                datosEmpresa._strConIniSis = ArmStr("Daxsys", datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 datosEmpresa._strConxAdcom = ArmStr(datosEmpresa.nombreBaseAdcom, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);                
                 datosEmpresa._strConxIvaret = ArmStr(datosEmpresa.nombreBaseIvaret, datosEmpresa.Servidor, "10", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);              
-                datosEmpresa.strConIniSis6 = ArmStr("SysBD", datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
+                datosEmpresa.strConIniSis6 = ArmStr("Daxsys", datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 datosEmpresa.strConxAdcom6 = ArmStr(datosEmpresa.nombreBaseAdcom, datosEmpresa.Servidor, "6", datosEmpresa.ClaveBd, datosEmpresa.UsuarioBd);
                 try
                 {

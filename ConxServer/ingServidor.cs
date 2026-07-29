@@ -69,7 +69,7 @@ namespace ConxServer
             }
             MessageBox.Show("Conexión al servidor de base de datos exitosa !!", "Configuración Inicial", MessageBoxButtons.OK, MessageBoxIcon.Information);
             cnn.Close();
-            cnn = new SqlConnection(ConexionSql.ArmStr("SysBd", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
+            cnn = new SqlConnection(ConexionSql.ArmStr("Daxsys", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
 
             try { cnn.Open(); } catch { }
 
@@ -148,7 +148,7 @@ namespace ConxServer
             }
             MessageBox.Show("Conexión al servidor de base de datos exitosa !!");
             cnn.Close();
-            cnn = new SqlConnection(ConexionSql.ArmStr("SysBd", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
+            cnn = new SqlConnection(ConexionSql.ArmStr("Daxsys", TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
             //cnn = new SqlConnection(ConexionSql.ArmStr(txtBaseLicencia.Text, TxtServidor.Text, "10", TxtPassword.Text, TxtUsuario.Text));
             try { cnn.Open(); } catch { }
 

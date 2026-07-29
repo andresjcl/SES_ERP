@@ -63,7 +63,7 @@
         Me.label2.Name = "label2"
         Me.label2.ReadOnly = True
         Me.label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.label2.Size = New System.Drawing.Size(513, 13)
+        Me.label2.Size = New System.Drawing.Size(513, 15)
         Me.label2.TabIndex = 8
         '
         'Cancelar
@@ -172,20 +172,20 @@
         '
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label8.ForeColor = System.Drawing.Color.White
-        Me.Label8.Location = New System.Drawing.Point(12, 88)
+        Me.Label8.Location = New System.Drawing.Point(12, 83)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(546, 40)
+        Me.Label8.Size = New System.Drawing.Size(546, 63)
         Me.Label8.TabIndex = 1
         Me.Label8.Text = "Envíe esta clave a su proveedor del sistema para su respectiva activacion.  Ya se" &
-    "a por correo soporte@sebemisof.com o al número +593 991068007 "
+    "a por correo asistenciadax2022@gmail.com o al número +593 991068007 "
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TextBox1
         '
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(22, 156)
+        Me.TextBox1.Location = New System.Drawing.Point(22, 164)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(442, 22)
+        Me.TextBox1.Size = New System.Drawing.Size(442, 26)
         Me.TextBox1.TabIndex = 2
         '
         'Label10
@@ -194,9 +194,9 @@
         Me.Label10.BackColor = System.Drawing.Color.Transparent
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.ForeColor = System.Drawing.Color.Blue
-        Me.Label10.Location = New System.Drawing.Point(22, 44)
+        Me.Label10.Location = New System.Drawing.Point(22, 34)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(148, 16)
+        Me.Label10.Size = New System.Drawing.Size(186, 20)
         Me.Label10.TabIndex = 4
         Me.Label10.Text = "Su clave de registro es:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -207,15 +207,15 @@
         Me.Label11.BackColor = System.Drawing.Color.Transparent
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.ForeColor = System.Drawing.Color.Blue
-        Me.Label11.Location = New System.Drawing.Point(22, 138)
+        Me.Label11.Location = New System.Drawing.Point(22, 146)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(294, 16)
+        Me.Label11.Size = New System.Drawing.Size(370, 20)
         Me.Label11.TabIndex = 5
         Me.Label11.Text = "Digite la clave de activación tal como la recibió :"
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(97, 184)
+        Me.Button1.Location = New System.Drawing.Point(97, 193)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(94, 25)
         Me.Button1.TabIndex = 6
@@ -224,7 +224,7 @@
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(339, 184)
+        Me.Button2.Location = New System.Drawing.Point(339, 193)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(83, 25)
         Me.Button2.TabIndex = 7
@@ -235,10 +235,10 @@
         '
         Me.TextBox2.BackColor = System.Drawing.Color.White
         Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(25, 63)
+        Me.TextBox2.Location = New System.Drawing.Point(25, 53)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(442, 22)
+        Me.TextBox2.Size = New System.Drawing.Size(442, 26)
         Me.TextBox2.TabIndex = 8
         '
         'IngresaRegistro
