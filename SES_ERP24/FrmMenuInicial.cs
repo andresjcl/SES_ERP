@@ -48,8 +48,6 @@ namespace SES_ERP24
                     return;
                 }
 
-                System.Diagnostics.Debug.WriteLine($"🔍 Buscando licencia para RUC: {ruc}");
-
                 string sql = @"
             SELECT TOP 1 
                 TipoLicencia,
@@ -79,8 +77,16 @@ namespace SES_ERP24
                                 DattCom.datosEmpresa.ModulosActivos = reader["ModulosActivos"].ToString();
                                 DattCom.datosEmpresa.GruposActivos = reader["GruposActivos"].ToString();
 
-                                System.Diagnostics.Debug.WriteLine($"✅ Licencia cargada: Tipo={DattCom.datosEmpresa.TipoLicencia}, Modulos={DattCom.datosEmpresa.ModulosActivos}");
-                                System.Diagnostics.Debug.WriteLine($"📋 GruposActivos: {DattCom.datosEmpresa.GruposActivos}");
+                                // ============================================================
+                                // ⭐ IMPORTANTE: ASIGNAR auto CON LOS MÓDULOS ACTIVOS
+                                // ============================================================
+                                DattCom.datosEmpresa.auto = DattCom.datosEmpresa.ModulosActivos;
+
+                                System.Diagnostics.Debug.WriteLine($"✅ Licencia cargada");
+                                System.Diagnostics.Debug.WriteLine($"📌 auto: {DattCom.datosEmpresa.auto}");
+                                System.Diagnostics.Debug.WriteLine($"📌 ModulosActivos: {DattCom.datosEmpresa.ModulosActivos}");
+                                System.Diagnostics.Debug.WriteLine($"📌 AnexoTransaccional: {DattCom.datosEmpresa.AnexoTransaccional}");
+                                System.Diagnostics.Debug.WriteLine($"📌 Ivaret: {DattCom.datosEmpresa.Ivaret}");
                             }
                             else
                             {
@@ -265,79 +271,95 @@ namespace SES_ERP24
             return claves;
         }
 
+
+
         private Dictionary<string, int> ObtenerMapaClaves()
         {
+            // ============================================================
+            // MAPA DE CLAVES A POSICIONES - COINCIDE CON EL GENERADOR
+            // ============================================================
             return new Dictionary<string, int>()
-            {
-                // Administración (Posición 0)
-                {"MntDocumentos", 0},
-                {"MntServiciosBco", 0},
-                {"MntServiciosCprasVta", 0},
-                {"MtnUsers", 0},
-                {"MtnEmpresa", 0},
-                {"MntFormaPago", 0},
-                {"Auditoria", 0},
-                //{"menLicencia", 0},
-                
-                
-                // Ayudas (Posición 1)
-                {"importarDataCli", 1},
-                {"importarDataCuentas", 1},
-                {"importarDataProd", 1},
-                
-                // Bancos (Posición 2)
-                {"DocBancos", 2},
-                {"MnConciliacionBancos", 2},
-                {"MnCrearBancos", 2},
-                
-                // Compras (Posición 3)
-                {"FAPEmitir", 3},
-                {"NCPEmitir", 3},
-                
-                // Contabilidad (Posición 4)
-                {"mnplanCuentas", 4},
-                {"MntBalances", 4},
-                
-                // Cuentas Corrientes (Posición 5)
-                {"CtaCorrListaGen", 5},
-                {"CtaCorrAnalisInd", 5},
-                
-                // Directorio (Posición 6)
-                {"DGRegistros", 6},
-                {"DGReporteG", 6},
-                
-                // Importaciones (Posición 7)
-                {"IMPEmitir", 7},
-                
-                // Inventarios (Posición 8)
-                {"MntArticulos", 8},
-                {"IngInventario", 8},
-                {"EgrInventario", 8},
-                {"MovtArticulos", 8},
-                {"ExisBod", 8},
-                {"MntMedidas", 8},
-                {"Recostear", 8},
-                {"TransferenciaInventarios", 8},
-                {"REMEmitir", 8},
-                {"RepInventarios", 8},
-                
-                // Reportes (Posición 10)
-                {"RepListadoDoc", 10},
-                
-                // SRI (Posición 11)
-                {"SolicAutorizaSRI", 11},
-                {"RTPEmitir", 11},
-                {"RTCEmitir", 11},
-                {"MntTablasSRI", 11},
-                {"importarXML", 11},
-                
-                // Ventas (Posición 12)
-                {"PEDEmitir", 12},
-                {"FACEmitirPed", 12},
-                {"FACEmitir", 12},
-                {"FACEmitirPto", 12},
-                {"ProfEmitir", 12},
-            };
+    {
+        // ADMINISTRACIÓN (Posición 0)
+        {"MntDocumentos", 0},
+        {"MntServiciosBco", 0},
+        {"MntServiciosCprasVta", 0},
+        {"MtnUsers", 0},
+        {"MtnEmpresa", 0},
+        {"MntFormaPago", 0},
+        {"Auditoria", 0},
+        {"menAdministracion", 0},
+        {"MntSecuencias", 0},
+        
+        // VENTAS (Posición 1)
+        {"PEDEmitir", 1},
+        {"FACEmitirPed", 1},
+        {"FACEmitir", 1},
+        {"FACEmitirPto", 1},
+        {"ProfEmitir", 1},
+        
+        // COMPRAS (Posición 2)
+        {"FAPEmitir", 2},
+        {"NCPEmitir", 2},
+        {"IngresoFactura", 2},
+        
+        // INVENTARIOS (Posición 3)
+        {"MntArticulos", 3},
+        {"IngInventario", 3},
+        {"EgrInventario", 3},
+        {"MovtArticulos", 3},
+        {"ExisBod", 3},
+        {"MntMedidas", 3},
+        {"Recostear", 3},
+        {"TransferenciaInventarios", 3},
+        {"REMEmitir", 3},
+        {"RepInventarios", 3},
+        {"MntUso", 3},
+        {"MntAfectos", 3},
+        {"MntEncargos", 3},
+        {"MntFCT", 3},
+        
+        // BANCOS (Posición 4)
+        {"DocBancos", 4},
+        {"MnConciliacionBancos", 4},
+        {"MnCrearBancos", 4},
+        {"EmitirDocBanco", 4},
+        
+        // SRI (Posición 5)
+        {"SolicAutorizaSRI", 5},
+        {"RTPEmitir", 5},
+        {"RTCEmitir", 5},
+        {"MntTablasSRI", 5},
+        {"importarXML", 5},
+        
+        // DIRECTORIO (Posición 6)
+        {"DGRegistros", 6},
+        {"DGReporteG", 6},
+        
+        // IMPORTACIONES (Posición 7)
+        {"IMPEmitir", 7},
+        
+        // REPORTES (Posición 8)
+        {"RepListadoDoc", 8},
+        
+        // CUENTAS CORRIENTES (Posición 9)
+        {"CtaCorrListaGen", 9},
+        {"CtaCorrAnalisInd", 9},
+        
+        // CONTABILIDAD (Posición 10)
+        {"mnplanCuentas", 10},
+        {"MntBalances", 10},
+        
+        // AYUDAS (Posición 11)
+        {"importarDataCli", 11},
+        {"importarDataCuentas", 11},
+        {"importarDataProd", 11},
+        
+        // ANEXO TRANSACCIONAL (Posición 12)
+        {"AnexoTransaccional", 12},
+        {"AnexoTransSRI", 12},
+        {"AnexoTrans", 12},
+    };
         }
 
         private void AplicarFiltroPermisosAutomatico()

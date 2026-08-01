@@ -671,7 +671,8 @@ namespace ImpresionDoc
                 Email = datosEmpresa.Emp_Email,
                 NroCtrbuyteEspecial = datosEmpresa.Emp_ContrBuyEsp,
                 NroAcdoAgntRetencion = datosEmpresa.Emp_AgeRet,
-                ObligLlevarConta = datosEmpresa.Emp_Conta ? "SI" : "NO"
+                ObligLlevarConta = datosEmpresa.Emp_Conta ? "SI" : "NO",
+                NombreCom = datosEmpresa.Emp_NombreCom
             };
         }
 
@@ -682,7 +683,7 @@ namespace ImpresionDoc
 
             // ==================== ENCABEZADO ====================
             sb.AppendLine(new string('=', ancho));
-            sb.AppendLine(Centrar(empresa.Nombre, ancho));
+            sb.AppendLine(Centrar(string.IsNullOrWhiteSpace(empresa.NombreCom) ? empresa.Nombre : empresa.NombreCom, ancho));
 
             if (!string.IsNullOrEmpty(empresa.Ruc))
                 sb.AppendLine(Centrar("RUC " + empresa.Ruc, ancho));
@@ -1053,6 +1054,7 @@ namespace ImpresionDoc
             public string NroCtrbuyteEspecial { get; set; }
             public string NroAcdoAgntRetencion { get; set; }
             public string ObligLlevarConta { get; set; }
+            public string NombreCom { get; set; }
         }
 
         public class ImpresionPagoDto

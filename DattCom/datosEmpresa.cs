@@ -41,10 +41,10 @@ namespace DattCom
         static internal string _Emp_AgeRet = "";
         static internal string _Emp_ContrBuyEsp = "";
         static internal string _Emp_Regimen = "";
+        static internal string _Emp_NombreCom = "";
 
         static public string auto = "";
         public static string sistema = "";
-        //        public static Int16 codEmpresa = 0;
         public static string suc = "";
         public static string sucNom = "";
         public static string usr = "";
@@ -56,22 +56,21 @@ namespace DattCom
 
         public static string strConxAdcom6 = "";
         public static string strConIniSis6 = "";
-        public static string pathAppl = "";    // path de la aplicacion
-        public static string pathServer = "";  // path del directorio compartido para adcom en el servidor
-                                               //        public static string auto = "0";
-        public static int Major = 0;            // release
+        public static string pathAppl = "";
+        public static string pathServer = "";
+        public static int Major = 0;
         public static string opcion = "";
-
         public static string marca = "";
 
+        // ============================================================
+        // PROPIEDADES DE LICENCIA
+        // ============================================================
         public static int TipoLicencia { get; set; } = 0;
         public static string OpcionesLicencia { get; set; } = "";
         public static string ModulosActivos { get; set; } = "";
         public static string GruposActivos { get; set; } = "";
         public static int MaxUsuarios { get; set; } = 1;
         public static DateTime FechaExpiracion { get; set; } = DateTime.MaxValue;
-
-
 
         static internal int _ambienteEnProduccion = 0;
         static internal string _pathFirmaElectronica = "";
@@ -88,6 +87,106 @@ namespace DattCom
         static internal DateTime _ultimoCierre = new DateTime(1900, 1, 1);
         static private string aux = "00000000000000000000000000000000000";
 
+        // ============================================================
+        // PROPIEDADES - POSICIONES CORREGIDAS
+        // ============================================================
+
+        // ADMINISTRACIÓN (Posición 0)
+        static public bool FormasPago
+        { get { return ((auto + aux).Substring(0, 1) == val); } }
+
+        // VENTAS (Posición 1)
+        static public bool Comercial
+        { get { return ((auto + aux).Substring(1, 1) == val); } }
+
+        // BANCOS (Posición 2)
+        static public bool Bancos
+        { get { return ((auto + aux).Substring(2, 1) == val); } }
+
+        // COMPRAS (Posición 3)
+        // No tiene propiedad específica
+
+        // CONTABILIDAD (Posición 4)
+        static public bool Contabilidad
+        { get { return ((auto + aux).Substring(4, 1) == val); } }
+
+        // SRI (Posición 5) - INCLUYE IVARET Y ANEXO TRANSACCIONAL
+        static public bool Ivaret
+        { get { return ((auto + aux).Substring(5, 1) == val); } }
+
+        static public bool SRI
+        { get { return ((auto + aux).Substring(5, 1) == val); } }
+
+        // DIRECTORIO (Posición 6)
+        // No tiene propiedad específica
+
+        // IMPORTACIONES (Posición 7)
+        // No tiene propiedad específica
+
+        // INVENTARIOS (Posición 8)
+        static public bool Inventario
+        { get { return ((auto + aux).Substring(8, 1) == val); } }
+
+        // REPORTES (Posición 10)
+        // No tiene propiedad específica
+
+        // CUENTAS CORRIENTES (Posición 9)
+        static public bool CtasCorrientes
+        { get { return ((auto + aux).Substring(9, 1) == val); } }
+
+        // AYUDAS (Posición 11)
+        // No tiene propiedad específica
+
+        // ANEXO TRANSACCIONAL (Posición 12) ← CORREGIDO
+        static public bool AnexoTransaccional
+        { get { return ((auto + aux).Substring(12, 1) == val); } }
+
+        // OTRAS POSICIONES (Compatibilidad con código existente)
+        static public bool RolDePagos
+        { get { return ((auto + aux).Substring(6, 1) == val); } }
+
+        static public bool Floricola
+        { get { return ((auto + aux).Substring(7, 1) == val); } }
+
+        static public bool DaxTime
+        { get { return ((auto + aux).Substring(8, 1) == val); } }
+
+        static public bool ActivosFijos
+        { get { return ((auto + aux).Substring(9, 1) == val); } }
+
+        static public bool ControlClientes
+        { get { return ((auto + aux).Substring(10, 1) == val); } }
+
+        static public bool ControlMedico
+        { get { return ((auto + aux).Substring(11, 1) == val); } }
+
+        static public bool Produccion
+        { get { return ((auto + aux).Substring(12, 1) == val); } }
+
+        static public bool Restaurante
+        { get { return ((auto + aux).Substring(13, 1) == val); } }
+
+        static public bool Hotel
+        { get { return ((auto + aux).Substring(14, 1) == val); } }
+
+        static public bool Gestion
+        { get { return ((auto + aux).Substring(15, 1) == val); } }
+
+        static public bool Consultor
+        { get { return ((auto + aux).Substring(16, 1) == val); } }
+
+        static public bool CpbtesElectrónicos
+        { get { return ((auto + aux).Substring(17, 1) == val); } }
+
+        static public bool PuntoDeVenta
+        { get { return ((auto + aux).Substring(19, 1) == val); } }
+
+        static public bool Presupuestos
+        { get { return ((auto + aux).Substring(20, 1) == val); } }
+
+        // ============================================================
+        // PROPIEDADES EXISTENTES (NO TOCAR)
+        // ============================================================
         static public string nomEmpresa
         {
             get { return Emp_Nombre; }
@@ -187,12 +286,15 @@ namespace DattCom
             get { return _Emp_Regimen; }
         }
 
+        static public string Emp_NombreCom
+        {
+            get { return _Emp_NombreCom; }
+        }
+
         static public string Emp_Email
         {
             get { return _Emp_Email; }
         }
-
-        
 
         static public string Emp_Logotipo
         {
@@ -204,7 +306,6 @@ namespace DattCom
             get { return _Emp_PathImagenes; }
         }
 
-
         static public DateTime UltimoCierreAnual
         { get { return _ultimoCierre; } }
 
@@ -212,21 +313,6 @@ namespace DattCom
         {
             get { return _Par_RolCodMay; }
         }
-
-
-        //static public DateTime FechaLimiteDocumentos
-        //{
-        //    get
-        //    {
-        //        DateTime fecha = new DateTime(1, 1, 1900);
-        //        try
-        //        {
-        //            fecha = Convert.ToDateTime(_Par_RolCodMay);
-        //        }
-        //        catch { }
-        //        return fecha;
-        //    }
-        //}
 
         static public DateTime FechaLimiteDocumentos
         {
@@ -237,7 +323,6 @@ namespace DattCom
                 {
                     if (!string.IsNullOrEmpty(_Par_RolCodMay))
                     {
-                        // Intentar parsear con formato dd/MM/yyyy
                         if (DateTime.TryParseExact(_Par_RolCodMay, "dd/MM/yyyy",
                             CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fechaParseada))
                         {
@@ -245,7 +330,6 @@ namespace DattCom
                         }
                         else
                         {
-                            // Fallback: intentar con otros formatos comunes
                             string[] formatos = { "dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd", "dd-MM-yyyy" };
                             if (DateTime.TryParseExact(_Par_RolCodMay, formatos,
                                 CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaParseada))
@@ -255,10 +339,8 @@ namespace DattCom
                         }
                     }
                 }
-                catch (Exception )
+                catch (Exception)
                 {
-                    // Opcional: log del error
-                    // MessageBox.Show($"Error al convertir fecha: {ex.Message}");
                 }
                 return fecha;
             }
@@ -279,7 +361,6 @@ namespace DattCom
             get { return _Par_DigitosPrecios; }
         }
 
-        
         static public string path_tmpServer
         {
             get { return _path_tmpServer; }
@@ -290,13 +371,10 @@ namespace DattCom
             get { return _Emp_Dirección; }
         }
 
-        
-
         static public string CtaLocalEmail
         {
             get { return _CtaLocalEmail; }
         }
-
 
         static public int ambienteEnProduccion
         {
@@ -357,54 +435,13 @@ namespace DattCom
             get { return _strConIniSis; }
             set { _strConIniSis = value; }
         }
-        static public bool Inventario
-        { get { return ((auto + aux).Substring(0, 1) == val); } }
-        static public bool Comercial
-        { get { return ((auto + aux).Substring(1, 1) == val); } }
-        static public bool CtasCorrientes
-        { get { return ((auto + aux).Substring(2, 1) == val); } }
-        static public bool Contabilidad
-        { get { return ((auto + aux).Substring(3, 1) == val); } }
-        static public bool Bancos
-        { get { return ((auto + aux).Substring(4, 1) == val); } }
-        static public bool Ivaret
-        { get { return ((auto + aux).Substring(5, 1) == val); } }
-        static public bool RolDePagos
-        { get { return ((auto + aux).Substring(6, 1) == val); } }
-        static public bool Floricola
-        { get { return ((auto + aux).Substring(7, 1) == val); } }
-        static public bool DaxTime
-        { get { return ((auto + aux).Substring(8, 1) == val); } }
-        static public bool ActivosFijos
-        { get { return ((auto + aux).Substring(9, 1) == val); } }
-        static public bool ControlClientes
-        { get { return ((auto + aux).Substring(10, 1) == val); } }
-        static public bool ControlMedico
-        { get { return ((auto + aux).Substring(11, 1) == val); } }
-        static public bool Produccion
-        { get { return ((auto + aux).Substring(12, 1) == val); } }
-        static public bool Restaurante
-        { get { return ((auto + aux).Substring(13, 1) == val); } }
-        static public bool Hotel
-        { get { return ((auto + aux).Substring(14, 1) == val); } }
-        static public bool Gestion
-        { get { return ((auto + aux).Substring(15, 1) == val); } }
-        static public bool Consultor
-        { get { return ((auto + aux).Substring(16, 1) == val); } }
-        static public bool CpbtesElectrónicos
-        { get { return ((auto + aux).Substring(17, 1) == val); } }
-        static public bool PuntoDeVenta
-        { get { return ((auto + aux).Substring(19, 1) == val); } }
-        static public bool Presupuestos
-        { get { return ((auto + aux).Substring(20, 1) == val); } }
-        static public bool AnexoTransaccional
-        { get { return ((auto + aux).Substring(26, 1) == val); } }
 
-
-        // compatibilidad        
         static public string strConxSyscod
         { get { return strConIniSis; } }
 
+        // ============================================================
+        // MÉTODOS
+        // ============================================================
         public static DataTable leeParametrosEmp(string camposSelect)
         {
             DataTable dt = new DataTable();
@@ -422,26 +459,20 @@ namespace DattCom
             return dt;
         }
 
-
         public static bool TienePermiso(string claveModulo)
         {
-            // Si es administrador, siempre tiene permiso
             if (usr.ToUpper() == "ADMINISTRADOR" || usr.ToUpper() == "ADMIN")
                 return true;
 
-            // Si es MONO (1), siempre tiene permiso
             if (TipoLicencia == 1)
                 return true;
 
-            // Si es DEMO (98) o MULTI (99+), verificar módulos
             if (TipoLicencia == 98 || TipoLicencia >= 99)
             {
-                // Obtener la posición del módulo desde el mapeo fijo
                 int posicion = ObtenerPosicionModulo(claveModulo);
 
                 if (posicion >= 0 && posicion < ModulosActivos.Length)
                 {
-                    // Verificar si el bit está activo
                     return ModulosActivos[posicion] == '1';
                 }
             }
@@ -453,72 +484,76 @@ namespace DattCom
         {
             // MAPEO FIJO (DEBE COINCIDIR CON EL GENERADOR)
             var mapaClaves = new Dictionary<string, int>()
-    {
-        // Ventas (Posición 1)
-        {"PEDEmitir", 1},
-        {"FACEmitirPed", 1},
-        {"FACEmitir", 1},
-        {"FACEmitirPto", 1},
-        {"ProfEmitir", 1},
-        
-        // Compras (Posición 3)
-        {"FAPEmitir", 3},
-        {"NCPEmitir", 3},
-        
-        // Inventarios (Posición 8)
-        {"MntArticulos", 8},
-        {"IngInventario", 8},
-        {"EgrInventario", 8},
-        {"MovtArticulos", 8},
-        {"ExisBod", 8},
-        {"MntMedidas", 8},
-        {"Recostear", 8},
-        {"TransferenciaInventarios", 8},
-        {"REMEmitir", 8},
-        
-        // Directorio (Posición 6)
-        {"DGRegistros", 6},
-        {"DGReporteG", 6},
-        
-        // SRI (Posición 5)
-        {"SolicAutorizaSRI", 5},
-        {"RTPEmitir", 5},
-        {"RTCEmitir", 5},
-        {"MntTablasSRI", 5},
-        {"importarXML", 5},
-        
-        // Administración (Posición 0)
-        {"MntDocumentos", 0},
-        {"MntServiciosBco", 0},
-        {"MntServiciosCprasVta", 0},
-        {"MtnUsers", 0},
-        {"MtnEmpresa", 0},
-        {"MntFormaPago", 0},
-        
-        // Bancos (Posición 2)
-        {"DocBancos", 2},
-        {"MnConciliacionBancos", 2},
-        {"MnCrearBancos", 2},
-        
-        // Cuentas Corrientes (Posición 5)
-        {"CtaCorrListaGen", 5},
-        {"CtaCorrAnalisInd", 5},
-        
-        // Contabilidad (Posición 4)
-        {"mnplanCuentas", 4},
-        {"MntBalances", 4},
-        
-        // Importaciones (Posición 7)
-        {"IMPEmitir", 7},
-        
-        // Reportes (Posición 10)
-        {"RepListadoDoc", 10},
-        
-        // Ayudas (Posición 1)
-        {"importarDataCli", 1},
-        {"importarDataCuentas", 1},
-        {"importarDataProd", 1}
-    };
+            {
+                // ADMINISTRACIÓN (Posición 0)
+                {"MntDocumentos", 0},
+                {"MntServiciosBco", 0},
+                {"MntServiciosCprasVta", 0},
+                {"MtnUsers", 0},
+                {"MtnEmpresa", 0},
+                {"MntFormaPago", 0},
+                {"Auditoria", 0},
+                
+                // VENTAS (Posición 1)
+                {"PEDEmitir", 1},
+                {"FACEmitirPed", 1},
+                {"FACEmitir", 1},
+                {"FACEmitirPto", 1},
+                {"ProfEmitir", 1},
+                
+                // COMPRAS (Posición 2)
+                {"FAPEmitir", 2},
+                {"NCPEmitir", 2},
+                
+                // INVENTARIOS (Posición 3)
+                {"MntArticulos", 3},
+                {"IngInventario", 3},
+                {"EgrInventario", 3},
+                {"MovtArticulos", 3},
+                {"ExisBod", 3},
+                {"MntMedidas", 3},
+                {"Recostear", 3},
+                {"TransferenciaInventarios", 3},
+                {"REMEmitir", 3},
+                
+                // BANCOS (Posición 4)
+                {"DocBancos", 4},
+                {"MnConciliacionBancos", 4},
+                {"MnCrearBancos", 4},
+                
+                // SRI (Posición 5)
+                {"SolicAutorizaSRI", 5},
+                {"RTPEmitir", 5},
+                {"RTCEmitir", 5},
+                {"MntTablasSRI", 5},
+                {"importarXML", 5},
+                
+                // DIRECTORIO (Posición 6)
+                {"DGRegistros", 6},
+                {"DGReporteG", 6},
+                
+                // IMPORTACIONES (Posición 7)
+                {"IMPEmitir", 7},
+                
+                // REPORTES (Posición 8)
+                {"RepListadoDoc", 8},
+                
+                // CUENTAS CORRIENTES (Posición 9)
+                {"CtaCorrListaGen", 9},
+                {"CtaCorrAnalisInd", 9},
+                
+                // CONTABILIDAD (Posición 10)
+                {"mnplanCuentas", 10},
+                {"MntBalances", 10},
+                
+                // AYUDAS (Posición 11)
+                {"importarDataCli", 11},
+                {"importarDataCuentas", 11},
+                {"importarDataProd", 11},
+                
+                // ANEXO TRANSACCIONAL (Posición 12)
+                {"AnexoTransaccional", 12},
+            };
 
             if (mapaClaves.ContainsKey(claveModulo))
                 return mapaClaves[claveModulo];
@@ -526,29 +561,7 @@ namespace DattCom
             return -1;
         }
 
-        // ============================================================
-        // OBTENER GRUPO DE UN MÓDULO DESDE MenuSES
-        // ============================================================
-        private static string ObtenerGrupoModulo(string claveModulo)
-        {
-            try
-            {
-                string sql = $"SELECT Menuprincipal FROM MenuSES WHERE Clave = '{claveModulo}'";
-                DataTable dt = SqlDatos.leerTabla(sql, strConxSyscod);
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    return dt.Rows[0]["Menuprincipal"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error obteniendo grupo: {ex.Message}");
-            }
-            return "";
-        }
 
-
-        // En datosEmpresa.cs - Agregar este método
         public static void CargarLicenciaActiva()
         {
             try
@@ -585,6 +598,15 @@ namespace DattCom
                                 FechaExpiracion = Convert.ToDateTime(reader["FechaExpiracion"]);
                                 ModulosActivos = reader["ModulosActivos"].ToString();
                                 GruposActivos = reader["GruposActivos"].ToString();
+
+                                // ============================================================
+                                // ⭐ IMPORTANTE: ASIGNAR auto CON LOS MÓDULOS ACTIVOS
+                                // ============================================================
+                                auto = ModulosActivos;
+
+                                System.Diagnostics.Debug.WriteLine($"✅ Licencia cargada en datosEmpresa");
+                                System.Diagnostics.Debug.WriteLine($"📌 auto: {auto}");
+                                System.Diagnostics.Debug.WriteLine($"📌 AnexoTransaccional: {AnexoTransaccional}");
                             }
                         }
                     }
@@ -595,6 +617,5 @@ namespace DattCom
                 System.Diagnostics.Debug.WriteLine($"Error cargando licencia: {ex.Message}");
             }
         }
-
     }
 }

@@ -113,6 +113,7 @@ Public Class frmEmp
         txtAgeRet.Text = empD.Emp_AgeRet
         txtContrBuyEsp.Text = empD.Emp_ContrBuyEsp
         cboRegimen.Text = empD.Emp_Regimen
+        txtnombreComercial.Text = empD.Emp_NombreCom
 
     End Sub
 
@@ -355,6 +356,7 @@ Public Class frmEmp
         em.Emp_AgeRet = txtAgeRet.Text
         em.Emp_ContrBuyEsp = txtContrBuyEsp.Text
         em.Emp_Regimen = cboRegimen.Text
+        em.Emp_NombreCom = txtnombreComercial.Text
 
         If accion = "G" Then
             empcod = CStr(CodEmp())

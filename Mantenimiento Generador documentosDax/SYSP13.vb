@@ -123,7 +123,10 @@ Friend Class SYSP13
             End Try
 
 
-            If (TipoComprobanteSri.SelectedValue.ToString > "") Then TipoSri = TipoComprobanteSri.SelectedValue.ToString
+            'If (TipoComprobanteSri.SelectedValue.ToString > "") Then TipoSri = TipoComprobanteSri.SelectedValue.ToString
+            If TipoComprobanteSri.SelectedValue IsNot Nothing Then
+                TipoSri = TipoComprobanteSri.SelectedValue.ToString()
+            End If
 
             With op
                 .Documento = txtAbr.Text

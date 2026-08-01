@@ -32,6 +32,7 @@ Public Class Emp_datos
     Public Emp_AgeRet As String = ""          'varchar(50)
     Public Emp_ContrBuyEsp As String = ""     'varchar(50)
     Public Emp_Regimen As String = ""
+    Public Emp_NombreCom As String = ""
 
     Dim ssql As String = ""
 
@@ -67,7 +68,8 @@ Public Class Emp_datos
         ssql += " Emp_Conta ,"
         ssql += " Emp_AgeRet ,"
         ssql += " Emp_ContrBuyEsp ,"
-        ssql += " Emp_Regimen )"
+        ssql += " Emp_Regimen ,"
+        ssql += " Emp_NombreCom)"
         ssql += " values ("
         ssql += " " & Emp_codigo & ","
         ssql += "'" & Emp_Nombre & "',"
@@ -99,7 +101,8 @@ Public Class Emp_datos
         If Emp_Conta Then ssql += "1," Else ssql += "0,"
         ssql += "'" & Emp_AgeRet & "',"
         ssql += "'" & Emp_ContrBuyEsp & "',"
-        ssql += "'" & Emp_Regimen & "')"
+        ssql += "'" & Emp_Regimen & "',"
+        ssql += "'" & Emp_NombreCom & "')"
 
         DattCom.SqlDatos.ejecutarComandoIniSis(ssql)
     End Sub
@@ -137,7 +140,8 @@ Public Class Emp_datos
         If Emp_Conta Then ssql += " Emp_Conta = 1," Else ssql += " Emp_Conta = 0,"
         ssql += " Emp_AgeRet  ='" & Emp_AgeRet & "',"
         ssql += " Emp_ContrBuyEsp  ='" & Emp_ContrBuyEsp & "',"
-        ssql += " Emp_Regimen  ='" & Emp_Regimen & "'"
+        ssql += " Emp_Regimen  ='" & Emp_Regimen & "',"
+        ssql += " Emp_NombreCom  ='" & Emp_NombreCom & "'"
 
         ssql += " Where Emp_codigo  =" & EmpCod
         DattCom.SqlDatos.ejecutarComandoIniSis(ssql)
@@ -185,6 +189,7 @@ Public Class Emp_datos
             If Not IsDBNull(dat("Emp_AgeRet")) Then Emp_AgeRet = CStr(dat("Emp_AgeRet"))
             If Not IsDBNull(dat("Emp_ContrBuyEsp")) Then Emp_ContrBuyEsp = CStr(dat("Emp_ContrBuyEsp"))
             If Not IsDBNull(dat("Emp_Regimen")) Then Emp_Regimen = CStr(dat("Emp_Regimen"))
+            If Not IsDBNull(dat("Emp_NombreCom")) Then Emp_Regimen = CStr(dat("Emp_NombreCom"))
         End If
         'ConSys.Close()
     End Sub

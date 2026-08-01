@@ -10,7 +10,7 @@ namespace DattCom
         {
             if (datosEmpresa.Emp_codigo == 0) { leerCodigoRegistrado(); }
             string ssql = "SELECT Emp_Datos.Emp_codigo,   Emp_Nombre,   Emp_Ciudad,   Emp_Telefono_1,   Emp_Email,   Emp_RUC,  ";
-            ssql += "Emp_RepLegal,   Emp_Logotipo,Emp_Conta,Emp_AgeRet,Emp_ContrBuyEsp,Emp_Regimen, Par_RolCodMay,Par_SucPri,   Par_Numerodigitos, isnull(Par_CruceDocSucursal,0) as Par_CruceDocSucursal, ";
+            ssql += "Emp_RepLegal,   Emp_Logotipo,Emp_Conta,Emp_AgeRet,Emp_ContrBuyEsp,Emp_Regimen,Emp_NombreCom, Par_RolCodMay,Par_SucPri,   Par_Numerodigitos, isnull(Par_CruceDocSucursal,0) as Par_CruceDocSucursal, ";
             ssql += "Par_DigitosCostos,   Par_DigitosPrecios,   par_PathImagenes,  Emp_Par.Emp_PathImagenes, path_tmpServer, isnull(LongCodDirectorio,0) as LongCodDirectorio, ";
             ssql += "Emp_Dirección,   Emp_Contador,   CtaLocalEmail, Arch_tipo, Arch_Nom ";
             ssql += "FROM Emp_Datos LEFT OUTER JOIN Emp_Par ON Emp_Datos.Emp_codigo = emp_par.emp_codigo ";
@@ -70,6 +70,7 @@ namespace DattCom
                         datosEmpresa._Emp_AgeRet= dt.Rows[0]["Emp_AgeRet"].ToString();
                         datosEmpresa._Emp_ContrBuyEsp=dt.Rows[0]["Emp_ContrBuyEsp"].ToString();
                         datosEmpresa._Emp_Regimen = dt.Rows[0]["Emp_Regimen"].ToString();
+                        datosEmpresa._Emp_NombreCom = dt.Rows[0]["Emp_NombreCom"].ToString();
 
                         ind = 1;
                     }

@@ -564,6 +564,7 @@ erroresingresoclave:
             System.Diagnostics.Debug.WriteLine($"Error cargando licencia activa: {ex.Message}")
             Return Nothing
         End Try
+        Return Nothing
     End Function
 
     ' ============================================================
@@ -829,6 +830,9 @@ erroresingresoclave:
 
         ' Auditoria (Posición 0)
         mapaClaves.Add("Auditoria", 0)
+        mapaClaves.Add("AnexoTransaccional", 26)
+        mapaClaves.Add("MntAnexoTransaccional", 26)
+        mapaClaves.Add("ConfigAnexoTrans", 26)
 
         If mapaClaves.ContainsKey(claveModulo) Then
             Return mapaClaves(claveModulo)
