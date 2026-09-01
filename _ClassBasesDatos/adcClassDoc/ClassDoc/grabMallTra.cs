@@ -1243,10 +1243,12 @@ namespace ClassDoc
                 adctra.Tra_Inventario = datAdoc.Doc_Inventario;
                 adctra.Tra_Compras = datAdoc.Doc_Compras;
                 adctra.Tra_Activo = datAdoc.Doc_Activo;
+                adctra.Tra_numprecio = "1";
+                adctra.Tra_Individual = "N";
+                adctra.Tra_multiplo = 1;
 
                 // ============================================
-                // CALCULAR EL VALOR REAL TOTAL (14.73)
-                // Sumando todas las líneas: base + IVA
+                // PRIMERA PASADA: CALCULAR EL TOTAL REAL (SOLO PARA REFERENCIA)
                 // ============================================
                 decimal valorRealTotal = 0;
                 int lineasProcesadas = 0;
@@ -1260,28 +1262,50 @@ namespace ClassDoc
                     {
                         lineasProcesadas++;
 
-                        // Obtener base de la línea (Tra_prectot o calcular)
                         decimal baseLinea = 0;
                         if (malla.Columns.Contains("Tra_prectot") && rrow.Cells["Tra_prectot"]?.Value != null)
                         {
-                            baseLinea = Convert.ToDecimal(rrow.Cells["Tra_prectot"].Value);
+                            baseLinea = Math.Round(Convert.ToDecimal(rrow.Cells["Tra_prectot"].Value), 2);
                         }
                         else if (rrow.Cells["Cantidad"].Value != null && rrow.Cells["PvUni"].Value != null)
                         {
                             decimal cantidad = Convert.ToDecimal(rrow.Cells["Cantidad"].Value);
                             decimal precioUnitario = Convert.ToDecimal(rrow.Cells["PvUni"].Value);
-                            baseLinea = cantidad * precioUnitario;
+                            baseLinea = Math.Round(cantidad * precioUnitario, 2);
                         }
 
-                        // Obtener IVA de la línea
                         decimal ivaLinea = 0;
-                        if (malla.Columns.Contains("Tra_valoriva") && rrow.Cells["Tra_valoriva"]?.Value != null)
+                        bool tieneIva = false;
+
+                        if (rrow.Cells["iva"].Value != null)
                         {
-                            ivaLinea = Convert.ToDecimal(rrow.Cells["Tra_valoriva"].Value);
+                            tieneIva = Convert.ToBoolean(rrow.Cells["iva"].Value);
                         }
 
-                        // Sumar al total real
-                        valorRealTotal += baseLinea + ivaLinea;
+                        if (tieneIva)
+                        {
+                            if (malla.Columns.Contains("Tra_valoriva") && rrow.Cells["Tra_valoriva"]?.Value != null)
+                            {
+                                try { ivaLinea = Math.Round(Convert.ToDecimal(rrow.Cells["Tra_valoriva"].Value), 2); }
+                                catch { ivaLinea = 0; }
+                            }
+                            else
+                            {
+                                decimal porcIva = 0;
+                                if (malla.Columns.Contains("Tra_porceniva") && rrow.Cells["Tra_porceniva"]?.Value != null)
+                                {
+                                    try { porcIva = Convert.ToDecimal(rrow.Cells["Tra_porceniva"].Value); }
+                                    catch { porcIva = datAdoc.Doc_porceniva; }
+                                }
+                                else
+                                {
+                                    porcIva = datAdoc.Doc_porceniva;
+                                }
+                                ivaLinea = Math.Round(baseLinea * (porcIva / 100), 2);
+                            }
+                        }
+
+                        valorRealTotal = Math.Round(valorRealTotal + baseLinea + ivaLinea, 2);
                     }
                     catch (Exception ex)
                     {
@@ -1294,20 +1318,18 @@ namespace ClassDoc
                 Console.WriteLine($"Valor REAL calculado: {valorRealTotal}");
                 Console.WriteLine($"Líneas procesadas: {lineasProcesadas}");
 
-                // DECIDIR QUÉ VALOR USAR PARA Tra_valor
-                decimal valorParaTraValor = datAdoc.Doc_valor; // Por defecto usar XML
-
                 if (Math.Abs(valorRealTotal - datAdoc.Doc_valor) > 0.01m)
                 {
                     Console.WriteLine($"¡INCONSISTENCIA! Diferencia: {Math.Abs(valorRealTotal - datAdoc.Doc_valor)}");
-                    Console.WriteLine($"Usando valor REAL en Tra_valor: {valorRealTotal}");
-                    valorParaTraValor = valorRealTotal; // Usar valor real si hay inconsistencia
-                }
-                else
-                {
-                    Console.WriteLine($"Valores consistentes. Usando valor del XML: {datAdoc.Doc_valor}");
+                    Console.WriteLine($"✅ FORZANDO usar valor del XML: {datAdoc.Doc_valor}");
                 }
 
+                // ✅ SIEMPRE USAR EL VALOR DEL XML (29.46)
+                decimal valorParaTraValor = datAdoc.Doc_valor; // ← NUNCA CAMBIAR ESTO
+
+                // ============================================
+                // SEGUNDA PASADA: GUARDAR CADA LÍNEA
+                // ============================================
                 Int32 i = 0;
                 foreach (DataGridViewRow rrow in malla.Rows)
                 {
@@ -1325,38 +1347,98 @@ namespace ClassDoc
                             dr = table.NewRow();
                         }
 
-                        // Código y descripción
+                        // ============================================
+                        // 1. CÓDIGO Y DESCRIPCIÓN
+                        // ============================================
                         adctra.Tra_Codigo = rrow.Cells["codProductoPropio"].Value.ToString();
-                        adctra.Tra_nombre = rrow.Cells["DetalleAutilizar"].Value.ToString();
+                        adctra.Tra_nombre = rrow.Cells["DetalleAutilizar"].Value?.ToString() ?? "";
                         adctra.Tra_cantidad = Convert.ToDecimal(rrow.Cells["Cantidad"].Value);
 
-                        // Determinar si es Producto (A) o Servicio/Concepto (S)
-                        if (rrow.Cells["ConceptoProducto"].Value.ToString().ToUpper() == "PRODUCTO")
-                            adctra.Tra_quetipo = "A";
-                        else
-                            adctra.Tra_quetipo = "S";
+                        string concepto = rrow.Cells["ConceptoProducto"].Value?.ToString()?.ToUpper() ?? "PRODUCTO";
+                        adctra.Tra_quetipo = (concepto == "PRODUCTO" || concepto == "A") ? "A" : "S";
 
                         adctra.Tra_medida = "UND";
                         adctra.Tra_numlinea = i + 1;
-
-                        // NUMERO DE PRECIO - SIEMPRE "1"
                         adctra.Tra_numprecio = "1";
 
-                        // Precios por LÍNEA
-                        adctra.Tra_precuni = Convert.ToDecimal(rrow.Cells["PvUni"].Value);
-                        adctra.Tra_prectot = adctra.Tra_precuni * adctra.Tra_cantidad; // Subtotal de la línea
-                        adctra.Tra_valordes = Convert.ToDecimal(rrow.Cells["PorcDes"].Value);
+                        // ============================================
+                        // 2. PRECIOS POR LÍNEA
+                        // ============================================
+                        adctra.Tra_precuni = Math.Round(Convert.ToDecimal(rrow.Cells["PvUni"].Value), 2);
+                        adctra.Tra_prectot = Math.Round(adctra.Tra_precuni * adctra.Tra_cantidad, 2);
+
+                        try
+                        {
+                            adctra.Tra_valordes = Math.Round(Convert.ToDecimal(rrow.Cells["PorcDes"].Value), 2);
+                        }
+                        catch
+                        {
+                            adctra.Tra_valordes = 0;
+                        }
 
                         // ============================================
-                        // ¡¡¡CORRECCIÓN IMPORTANTE!!!
-                        // Tra_valor debe ser el VALOR TOTAL DE LA FACTURA
-                        // Usar el valor REAL (14.73) no el del XML (13.85)
+                        // 3. IVA POR LÍNEA
                         // ============================================
-                        adctra.Tra_valor = valorParaTraValor; // ← 14.73 para TODAS las líneas
+                        bool tieneIvaLinea = false;
+                        try
+                        {
+                            tieneIvaLinea = Convert.ToBoolean(rrow.Cells["iva"].Value);
+                        }
+                        catch
+                        {
+                            tieneIvaLinea = false;
+                        }
+                        adctra.Tra_sniva = tieneIvaLinea;
 
-                        Console.WriteLine($"Línea {i + 1}: Tra_valor = {valorParaTraValor}");
+                        decimal porcIvaLinea = 0;
+                        if (malla.Columns.Contains("Tra_porceniva") && rrow.Cells["Tra_porceniva"]?.Value != null)
+                        {
+                            try
+                            {
+                                porcIvaLinea = Convert.ToDecimal(rrow.Cells["Tra_porceniva"].Value);
+                            }
+                            catch
+                            {
+                                porcIvaLinea = tieneIvaLinea ? datAdoc.Doc_porceniva : 0;
+                            }
+                        }
+                        else
+                        {
+                            porcIvaLinea = tieneIvaLinea ? datAdoc.Doc_porceniva : 0;
+                        }
+                        adctra.Tra_porceniva = porcIvaLinea;
 
-                        // Lote y vencimiento
+                        decimal valorIvaLinea = 0;
+                        if (malla.Columns.Contains("Tra_valoriva") && rrow.Cells["Tra_valoriva"]?.Value != null)
+                        {
+                            try
+                            {
+                                valorIvaLinea = Math.Round(Convert.ToDecimal(rrow.Cells["Tra_valoriva"].Value), 2);
+                            }
+                            catch
+                            {
+                                valorIvaLinea = tieneIvaLinea ? Math.Round(adctra.Tra_prectot * (porcIvaLinea / 100), 2) : 0;
+                            }
+                        }
+                        else
+                        {
+                            valorIvaLinea = tieneIvaLinea ? Math.Round(adctra.Tra_prectot * (porcIvaLinea / 100), 2) : 0;
+                        }
+                        adctra.Tra_valoriva = valorIvaLinea;
+
+                        // ============================================
+                        // 4. Tra_valor = TOTAL DE LA FACTURA (29.46)
+                        // ✅ SIEMPRE USAR EL VALOR DEL XML
+                        // ============================================
+                        adctra.Tra_valor = valorParaTraValor; // 29.46
+
+                        Console.WriteLine($"Línea {i + 1}: Código={adctra.Tra_Codigo}, " +
+                                          $"Base={adctra.Tra_prectot}, IVA={valorIvaLinea}, " +
+                                          $"Tra_valor={adctra.Tra_valor}, Sniva={adctra.Tra_sniva}");
+
+                        // ============================================
+                        // 5. LOTE Y VENCIMIENTO
+                        // ============================================
                         adctra.Tra_NroLote = rrow.Cells["Lote"].Value?.ToString() ?? "";
                         try
                         {
@@ -1365,12 +1447,14 @@ namespace ClassDoc
                         catch { }
                         adctra.tra_codigoalterno = rrow.Cells["CodAlterno"].Value?.ToString() ?? "";
 
-                        // Porcentaje de descuento
+                        // ============================================
+                        // 6. PORCENTAJE DE DESCUENTO
+                        // ============================================
                         try
                         {
                             if (adctra.Tra_prectot > 0 && adctra.Tra_valordes > 0)
                             {
-                                adctra.Tra_porcendes = (adctra.Tra_valordes / adctra.Tra_prectot) * 100;
+                                adctra.Tra_porcendes = Math.Round((adctra.Tra_valordes / adctra.Tra_prectot) * 100, 2);
                             }
                             else
                             {
@@ -1382,50 +1466,9 @@ namespace ClassDoc
                             adctra.Tra_porcendes = 0;
                         }
 
-                        // IVA (por línea)
-                        adctra.Tra_sniva = Convert.ToBoolean(rrow.Cells["iva"].Value);
-
-                        // Porcentaje de IVA (por línea)
-                        decimal porcIva = 0;
-                        if (malla.Columns.Contains("Tra_porceniva") && rrow.Cells["Tra_porceniva"]?.Value != null)
-                        {
-                            try
-                            {
-                                porcIva = Convert.ToDecimal(rrow.Cells["Tra_porceniva"].Value);
-                            }
-                            catch
-                            {
-                                porcIva = adctra.Tra_sniva ? datAdoc.Doc_porceniva : 0;
-                            }
-                        }
-                        else
-                        {
-                            porcIva = adctra.Tra_sniva ? datAdoc.Doc_porceniva : 0;
-                        }
-                        adctra.Tra_porceniva = porcIva;
-
-                        // Valor de IVA (por línea)
-                        decimal valorIva = 0;
-                        if (malla.Columns.Contains("Tra_valoriva") && rrow.Cells["Tra_valoriva"]?.Value != null)
-                        {
-                            try
-                            {
-                                valorIva = Convert.ToDecimal(rrow.Cells["Tra_valoriva"].Value);
-                            }
-                            catch
-                            {
-                                // Calcular basado en el subtotal de la línea
-                                valorIva = adctra.Tra_sniva ? (adctra.Tra_prectot * (porcIva / 100)) : 0;
-                            }
-                        }
-                        else
-                        {
-                            // Calcular basado en el subtotal de la línea
-                            valorIva = adctra.Tra_sniva ? (adctra.Tra_prectot * (porcIva / 100)) : 0;
-                        }
-                        adctra.Tra_valoriva = valorIva;
-
-                        // Costos (por línea)
+                        // ============================================
+                        // 7. COSTOS (por línea)
+                        // ============================================
                         if (adctra.Tra_quetipo == "A") // Artículo
                         {
                             decimal costoUnitario = 0;
@@ -1433,7 +1476,7 @@ namespace ClassDoc
                             {
                                 try
                                 {
-                                    costoUnitario = Convert.ToDecimal(rrow.Cells["Tra_costuni"].Value);
+                                    costoUnitario = Math.Round(Convert.ToDecimal(rrow.Cells["Tra_costuni"].Value), 4);
                                 }
                                 catch
                                 {
@@ -1446,7 +1489,7 @@ namespace ClassDoc
                             }
 
                             adctra.Tra_costuni = costoUnitario;
-                            adctra.Tra_costtot = costoUnitario * adctra.Tra_cantidad;
+                            adctra.Tra_costtot = Math.Round(costoUnitario * adctra.Tra_cantidad, 2);
                         }
                         else // Servicio
                         {
@@ -1454,17 +1497,37 @@ namespace ClassDoc
                             adctra.Tra_costtot = 0;
                         }
 
-                        // Campos adicionales
-                        adctra.Tra_Individual = "N";
-                        adctra.Tra_multiplo = 1;
-
-                        // Campos de fecha para contabilidad
+                        // ============================================
+                        // 8. FECHAS PARA CONTABILIDAD
+                        // ============================================
                         adctra.tra_anio = datAdoc.Doc_fecha.Year;
                         adctra.tra_mes = datAdoc.Doc_fecha.Month;
                         adctra.tra_dia = datAdoc.Doc_fecha.Day;
 
-                        // Transferir a DataRow
+                        // ============================================
+                        // 9. TRANSFERIR A DATAROW Y GUARDAR
+                        // ============================================
                         adctra.moverAdctraDatarow(adctra, ref dr);
+
+                        // ✅ ASIGNACIÓN MANUAL DE CAMPOS DE IVA
+                        try
+                        {
+                            if (table.Columns.Contains("Tra_porceniva"))
+                                dr["Tra_porceniva"] = adctra.Tra_porceniva;
+
+                            if (table.Columns.Contains("Tra_valoriva"))
+                                dr["Tra_valoriva"] = adctra.Tra_valoriva;
+
+                            if (table.Columns.Contains("Tra_sniva"))
+                                dr["Tra_sniva"] = adctra.Tra_sniva;
+
+                            if (table.Columns.Contains("Tra_valor"))
+                                dr["Tra_valor"] = adctra.Tra_valor;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error asignando campos de IVA manualmente: {ex.Message}");
+                        }
 
                         if (i > table.Rows.Count - 1)
                             table.Rows.Add(dr);
@@ -1483,253 +1546,20 @@ namespace ClassDoc
                 }
 
                 // Actualizar la base de datos
-                int registrosActualizados = adapter.Update(table);
-                Console.WriteLine($"\n✅ Registros guardados en AdcTra: {registrosActualizados}");
-                Console.WriteLine($"✅ Valor guardado en Tra_valor: {valorParaTraValor}");
-
-                // Calcular y actualizar totales por tipo en adcdoc
-                CalcularYActualizarTotalesPorTipo(malla, datAdoc, cadenaConexion);
+                try
+                {
+                    int registrosActualizados = adapter.Update(table);
+                    Console.WriteLine($"\n✅ Registros guardados en AdcTra: {registrosActualizados}");
+                    Console.WriteLine($"✅ Tra_valor (total factura): {valorParaTraValor}");
+                    Console.WriteLine($"✅ Líneas guardadas: {i}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error actualizando AdcTra: {ex.Message}");
+                    throw;
+                }
             }
         }
-
-
-        //static public void grabarDetalleAdctraXML(DataGridView malla, AdcDoc datAdoc, string cadenaConexion)
-        //{
-        //	string sel = "SELECT * FROM AdcTra WHERE doc_sucursal = '" + datAdoc.Doc_sucursal + "' and opc_documento = '" + datAdoc.Opc_documento + "' and idclavedoc = " + datAdoc.IdClaveDoc.ToString();
-
-        //	using (var con = new SqlConnection(cadenaConexion))
-        //	using (var adapter = new SqlDataAdapter(sel, cadenaConexion))
-        //	using (new SqlCommandBuilder(adapter))
-        //	{
-        //		DataTable table = new DataTable();
-        //		adapter.Fill(table);
-        //		DataRow dr;
-        //		ClassDoc.AdcTra adctra = new ClassDoc.AdcTra();
-
-        //		adctra.Doc_sucursal = datAdoc.Doc_sucursal;
-        //		adctra.Opc_documento = datAdoc.Opc_documento;
-        //		adctra.Doc_numero = datAdoc.Doc_numero;
-        //		adctra.IdClaveDoc = datAdoc.IdClaveDoc;
-        //		adctra.Doc_Bodega = datAdoc.Doc_Bodega;
-        //		adctra.Tra_DocSop = datAdoc.Doc_DocSop;
-        //		adctra.Tra_NumSop = datAdoc.Doc_NumSop;
-        //		adctra.Tra_fecha = datAdoc.Doc_fecha;
-        //		adctra.Tra_TipoDoc = datAdoc.Doc_TipoDoc;
-        //		adctra.Tra_Estado = Convert.ToInt16(datAdoc.Doc_Estado);
-        //		adctra.Tra_Oculto = Convert.ToInt16(datAdoc.Doc_Oculto);
-        //		adctra.Tra_Ventas = datAdoc.Doc_Ventas;
-        //		adctra.Tra_Inventario = datAdoc.Doc_Inventario;
-        //		adctra.Tra_Compras = datAdoc.Doc_Compras;
-        //		adctra.Tra_Activo = datAdoc.Doc_Activo;
-
-        //		// VALOR TOTAL DE LA FACTURA (para todos los registros)
-        //		decimal valorTotalFactura = datAdoc.Doc_valor; // Esto es 24.85
-
-        //		Int32 i = 0;
-        //		foreach (DataGridViewRow rrow in malla.Rows)
-        //		{
-        //			if (rrow.IsNewRow) continue;
-
-        //			if (rrow.Cells["codProductoPropio"].Value != null &&
-        //				rrow.Cells["codProductoPropio"].Value.ToString() != string.Empty)
-        //			{
-        //				if (i <= table.Rows.Count - 1)
-        //				{
-        //					dr = table.Rows[i];
-        //				}
-        //				else
-        //				{
-        //					dr = table.NewRow();
-        //				}
-
-        //				// Reiniciar adctra para cada línea (importante)
-        //				adctra = new ClassDoc.AdcTra();
-
-        //				// Copiar valores comunes
-        //				adctra.Doc_sucursal = datAdoc.Doc_sucursal;
-        //				adctra.Opc_documento = datAdoc.Opc_documento;
-        //				adctra.Doc_numero = datAdoc.Doc_numero;
-        //				adctra.IdClaveDoc = datAdoc.IdClaveDoc;
-        //				adctra.Doc_Bodega = datAdoc.Doc_Bodega;
-        //				adctra.Tra_DocSop = datAdoc.Doc_DocSop;
-        //				adctra.Tra_NumSop = datAdoc.Doc_NumSop;
-        //				adctra.Tra_fecha = datAdoc.Doc_fecha;
-        //				adctra.Tra_TipoDoc = datAdoc.Doc_TipoDoc;
-        //				adctra.Tra_Estado = Convert.ToInt16(datAdoc.Doc_Estado);
-        //				adctra.Tra_Oculto = Convert.ToInt16(datAdoc.Doc_Oculto);
-        //				adctra.Tra_Ventas = datAdoc.Doc_Ventas;
-        //				adctra.Tra_Inventario = datAdoc.Doc_Inventario;
-        //				adctra.Tra_Compras = datAdoc.Doc_Compras;
-        //				adctra.Tra_Activo = datAdoc.Doc_Activo;
-
-        //				// Código y descripción
-        //				adctra.Tra_Codigo = rrow.Cells["codProductoPropio"].Value.ToString();
-        //				adctra.Tra_nombre = rrow.Cells["DetalleAutilizar"].Value.ToString();
-        //				adctra.Tra_cantidad = Convert.ToDecimal(rrow.Cells["Cantidad"].Value);
-
-        //				// Determinar si es Producto (A) o Servicio/Concepto (S)
-        //				if (rrow.Cells["ConceptoProducto"].Value.ToString().ToUpper() == "PRODUCTO")
-        //					adctra.Tra_quetipo = "A";
-        //				else
-        //					adctra.Tra_quetipo = "S";
-
-        //				adctra.Tra_medida = "UND";
-        //				adctra.Tra_numlinea = i + 1;
-
-        //				// NUMERO DE PRECIO - SIEMPRE "1"
-        //				adctra.Tra_numprecio = "1";
-
-        //				// Precios por LÍNEA (esto es por producto)
-        //				adctra.Tra_precuni = Convert.ToDecimal(rrow.Cells["PvUni"].Value);
-        //				adctra.Tra_prectot = adctra.Tra_precuni * adctra.Tra_cantidad; // Subtotal de la línea
-        //				adctra.Tra_valordes = Convert.ToDecimal(rrow.Cells["PorcDes"].Value);
-
-        //				// ¡¡¡CORRECCIÓN IMPORTANTE!!!
-        //				// Tra_valor debe ser el VALOR TOTAL DE LA FACTURA, no por línea
-        //				// Esto es lo que estás pidiendo
-        //				adctra.Tra_valor = valorTotalFactura; // ← 24.85 para TODAS las líneas
-
-        //				// Lote y vencimiento
-        //				adctra.Tra_NroLote = rrow.Cells["Lote"].Value?.ToString() ?? "";
-        //				try
-        //				{
-        //					adctra.AuxVar1 = rrow.Cells["Vence"].Value?.ToString() ?? "";
-        //				}
-        //				catch { }
-        //				adctra.tra_codigoalterno = rrow.Cells["CodAlterno"].Value?.ToString() ?? "";
-
-        //				// Porcentaje de descuento (por línea)
-        //				try
-        //				{
-        //					if (adctra.Tra_prectot > 0 && adctra.Tra_valordes > 0)
-        //					{
-        //						adctra.Tra_porcendes = (adctra.Tra_valordes / adctra.Tra_prectot) * 100;
-        //					}
-        //					else
-        //					{
-        //						adctra.Tra_porcendes = 0;
-        //					}
-        //				}
-        //				catch
-        //				{
-        //					adctra.Tra_porcendes = 0;
-        //				}
-
-        //				// IVA (por línea)
-        //				adctra.Tra_sniva = Convert.ToBoolean(rrow.Cells["iva"].Value);
-
-        //				// Porcentaje de IVA (por línea)
-        //				decimal porcIva = 0;
-        //				if (malla.Columns.Contains("Tra_porceniva") && rrow.Cells["Tra_porceniva"]?.Value != null)
-        //				{
-        //					try
-        //					{
-        //						porcIva = Convert.ToDecimal(rrow.Cells["Tra_porceniva"].Value);
-        //					}
-        //					catch
-        //					{
-        //						porcIva = adctra.Tra_sniva ? datAdoc.Doc_porceniva : 0;
-        //					}
-        //				}
-        //				else
-        //				{
-        //					porcIva = adctra.Tra_sniva ? datAdoc.Doc_porceniva : 0;
-        //				}
-        //				adctra.Tra_porceniva = porcIva;
-
-        //				// Valor de IVA (por línea)
-        //				decimal valorIva = 0;
-        //				if (malla.Columns.Contains("Tra_valoriva") && rrow.Cells["Tra_valoriva"]?.Value != null)
-        //				{
-        //					try
-        //					{
-        //						valorIva = Convert.ToDecimal(rrow.Cells["Tra_valoriva"].Value);
-        //					}
-        //					catch
-        //					{
-        //						// Calcular basado en el subtotal de la línea
-        //						valorIva = adctra.Tra_sniva ? (adctra.Tra_prectot * (porcIva / 100)) : 0;
-        //					}
-        //				}
-        //				else
-        //				{
-        //					// Calcular basado en el subtotal de la línea
-        //					valorIva = adctra.Tra_sniva ? (adctra.Tra_prectot * (porcIva / 100)) : 0;
-        //				}
-        //				adctra.Tra_valoriva = valorIva;
-
-        //				// Costos (por línea)
-        //				if (adctra.Tra_quetipo == "A") // Artículo
-        //				{
-        //					decimal costoUnitario = 0;
-        //					if (malla.Columns.Contains("Tra_costuni") && rrow.Cells["Tra_costuni"]?.Value != null)
-        //					{
-        //						try
-        //						{
-        //							costoUnitario = Convert.ToDecimal(rrow.Cells["Tra_costuni"].Value);
-        //						}
-        //						catch
-        //						{
-        //							costoUnitario = adctra.Tra_precuni;
-        //						}
-        //					}
-        //					else
-        //					{
-        //						costoUnitario = adctra.Tra_precuni;
-        //					}
-
-        //					adctra.Tra_costuni = costoUnitario;
-        //					adctra.Tra_costtot = costoUnitario * adctra.Tra_cantidad;
-        //				}
-        //				else // Servicio
-        //				{
-        //					adctra.Tra_costuni = 0;
-        //					adctra.Tra_costtot = 0;
-        //				}
-
-        //				// Campos adicionales
-        //				adctra.Tra_Individual = "N";
-        //				adctra.Tra_multiplo = 1;
-
-        //				// Campos de fecha para contabilidad
-        //				adctra.tra_anio = datAdoc.Doc_fecha.Year;
-        //				adctra.tra_mes = datAdoc.Doc_fecha.Month;
-        //				adctra.tra_dia = datAdoc.Doc_fecha.Day;
-
-        //				// DEBUG: Mostrar lo que se va a guardar
-        //				Console.WriteLine($"Línea {i + 1}:");
-        //				Console.WriteLine($"  Tra_valor (total factura): {adctra.Tra_valor}");
-        //				Console.WriteLine($"  Tra_prectot (subtotal línea): {adctra.Tra_prectot}");
-        //				Console.WriteLine($"  Tra_valoriva (IVA línea): {adctra.Tra_valoriva}");
-
-        //				// Transferir a DataRow
-        //				adctra.moverAdctraDatarow(adctra, ref dr);
-
-        //				if (i > table.Rows.Count - 1)
-        //					table.Rows.Add(dr);
-
-        //				i++;
-        //			}
-        //		}
-
-        //		// Eliminar filas sobrantes si hay menos filas en la malla
-        //		if (i < table.Rows.Count)
-        //		{
-        //			for (int j = table.Rows.Count - 1; j >= i; j--)
-        //			{
-        //				table.Rows[j].Delete();
-        //			}
-        //		}
-
-        //		// Actualizar la base de datos
-        //		int registrosActualizados = adapter.Update(table);
-        //		Console.WriteLine($"Registros guardados en AdcTra: {registrosActualizados}");
-
-        //		// Calcular y actualizar totales por tipo en adcdoc
-        //		CalcularYActualizarTotalesPorTipo(malla, datAdoc, cadenaConexion);
-        //	}
-        //}
-
 
         static private void CalcularYActualizarTotalesPorTipo(DataGridView malla, AdcDoc datAdoc, string cadenaConexion)
         {

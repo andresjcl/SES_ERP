@@ -1,5 +1,5 @@
 ﻿using DattCom;
-using DaxDocElectronicos;
+using sesDocElectronicos;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,7 +39,15 @@ namespace SolicitarAutorizacionSRI
 				}
 				else
 				{
-					docXml.WriteElementString("nombreComercial", this.util.formatoString(NombreEmpresa, 300));
+					string nombreComercial = this.util.formatoString(datosEmpresa.Emp_NombreCom, 300);
+					if (string.IsNullOrEmpty(nombreComercial))
+					{
+						docXml.WriteElementString("nombreComercial", this.util.formatoString(NombreEmpresa, 300));
+					}
+					else
+					{
+						docXml.WriteElementString("nombreComercial", nombreComercial);
+					}
 				}
 
 				docXml.WriteElementString("ruc", rucEmpresa);
@@ -83,21 +91,7 @@ namespace SolicitarAutorizacionSRI
 				if (numero1 == 0.0)
 					numero1 = Convert.ToDouble("0" + doc["totDescUnitario"].ToString());
 				docXml.WriteElementString("totalDescuento", this.util.formatoDecimal(numero1, 14, 2));
-				////int int16 = (int)Convert.ToInt16(doc["Doc_porceniva"]);
-				//docXml.WriteStartElement("totalConImpuestos");
-				//if (Convert.ToDouble(doc["Doc_totciva"]) > 0.0)
-				//{
-				//	docXml.WriteStartElement("totalImpuesto");
-				//	docXml.WriteElementString("codigo", "2");
-				//	//docXml.WriteElementString("codigoPorcentaje", datosSri.codigoIva((double)int16, strConxIvaret1));
-				//	docXml.WriteElementString("codigoPorcentaje", datosSri.codigoIva((double)int16, strConxIvaret1));
-				//	docXml.WriteElementString("baseImponible", this.util.formatoDecimal(doc["Doc_totciva"].ToString(), 14, 2));
-				//	//docXml.WriteElementString("tarifa", int16.ToString());
-				//	docXml.WriteElementString("tarifa", int16.ToString());
-				//	docXml.WriteElementString("valor", this.util.formatoDecimal(doc["Doc_valoriva"].ToString(), 14, 2));
-				//	docXml.WriteEndElement();
-				//}
-				//--------------------------------------------------------------
+				
 
 				docXml.WriteStartElement("totalConImpuestos");
 
@@ -309,13 +303,8 @@ namespace SolicitarAutorizacionSRI
 						docXml.WriteEndElement();
 					}
 				}
-				docXml.WriteEndElement();
-				if (rucEmpresa == "1792323002001" && classDatEmp.NroAgenteRetencion.Length > 0)
-				{
-					ChekAdicionales.registrarAdicionales(doc, docXml, esExportacion);
-				}
-
-				////////ChekAdicionales.registrarAdicionales(doc, docXml, esExportacion);
+				docXml.WriteEndElement();		
+				ChekAdicionales.registrarAdicionales(doc, docXml, esExportacion);
 				docXml.WriteEndElement();
 				docXml.Flush();
 				docXml.Close();

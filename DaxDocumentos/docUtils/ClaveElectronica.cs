@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using DattCom;
-using DaxDocElectronicos;
+using sesDocElectronicos;
 
 namespace DctosEmi
 {
@@ -42,7 +42,7 @@ namespace DctosEmi
                     }
                 }
             }
-            return DaxDocElectronicos.genearClaveDocumentoElct.generar_clave_FueraDeLinea(datosDoc.Doc_fecha,TipoDocSri ,tipoEmision,datosDoc.Doc_numero.ToString(),valoresPredefinidosEmpresa.AmbienteFactElctronica.ToString(),datosDoc.Doc_CiRuc,datosDoc.Doc_NroIdDoc,Convert.ToDouble(datosDoc.IdClaveDoc),rucEmpresa);
+            return genearClaveDocumentoElct.generar_clave_FueraDeLinea(datosDoc.Doc_fecha,TipoDocSri ,tipoEmision,datosDoc.Doc_numero.ToString(),valoresPredefinidosEmpresa.AmbienteFactElctronica.ToString(),datosDoc.Doc_CiRuc,datosDoc.Doc_NroIdDoc,Convert.ToDouble(datosDoc.IdClaveDoc),rucEmpresa);
         }
 
     }

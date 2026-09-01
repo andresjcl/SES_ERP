@@ -7,8 +7,8 @@
     <ProjectGuid>{9D25FBC7-46B1-43DF-9C66-071F115857DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeEnviarDocAutorizar</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeEnviarDocAutorizar</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,9 +32,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeUtility.dll</HintPath>
+      <HintPath>..\..\..\Librerias\sesCeUtility.dll</HintPath>
     </Reference>
     <Reference Include="SesGeneraPdf">
       <HintPath>..\..\..\Librerias\SesGeneraPdf.dll</HintPath>

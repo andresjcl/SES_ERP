@@ -46,24 +46,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\AuditSis.dll</HintPath>
     </Reference>
-    <Reference Include="CeEnviarDocAutorizar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeEnviarDocAutorizar.dll</HintPath>
-    </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeUtility.dll</HintPath>
-    </Reference>
     <Reference Include="CierrCajaErp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\CierrCajaErp.dll</HintPath>
     </Reference>
     <Reference Include="ClassDir">
       <HintPath>..\..\Librerias\ClassDir.dll</HintPath>
-    </Reference>
-    <Reference Include="ClassFelec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\ClassFelec.dll</HintPath>
     </Reference>
     <Reference Include="classMenSistem, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -159,6 +147,18 @@
     </Reference>
     <Reference Include="sesAcces">
       <HintPath>..\..\Librerias\sesAcces.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesCeClassElec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeEnviarDocAutorizar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesCeEnviarDocAutorizar.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesCeUtility.dll</HintPath>
     </Reference>
     <Reference Include="sesClasProd">
       <HintPath>..\..\Librerias\sesClasProd.dll</HintPath>

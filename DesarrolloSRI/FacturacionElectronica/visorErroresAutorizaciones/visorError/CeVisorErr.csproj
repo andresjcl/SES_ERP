@@ -8,8 +8,8 @@
     <ProjectGuid>{B177168E-E0CD-4221-AB17-0FA5EF8909DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DaxValDocElec</RootNamespace>
-    <AssemblyName>CeVisorErr</AssemblyName>
+    <RootNamespace>sesValDocElec</RootNamespace>
+    <AssemblyName>sesCeVisorErr</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -1,7 +1,7 @@
 ﻿using ClassFelec;
 using DattCom;
-using DaxDocElectronicos;
 using GeneradorFacturaPDF;
+using sesDocElectronicos;
 using System;
 using System.Data;
 
@@ -63,7 +63,9 @@ namespace SolicitudAutSRI
                 FacturaElectronica factura = new FacturaElectronica
                 {
                     RazonSocial = datosEmpresa.nomEmpresa,
+                    RazonSocialComercial = datosEmpresa.Emp_NombreCom,
                     RucEmisor = empRuc,
+                    RucProveedor = "1721794616001",
                     NombreCliente = row["Doc_NombreImp"].ToString(),
                     IdentificacionCliente = row["Doc_CiRuc"].ToString(),
                     DireccionCliente = row["Doc_Direccion"].ToString(),
@@ -91,20 +93,7 @@ namespace SolicitudAutSRI
 					//    Detalles = new List<DetalleFactura>() // llena con otro SELECT si es necesario
 				};
 
-				//foreach (DataRow fila in dtra.Rows)
-				//{
-				//    factura.Detalles.Add(new DetalleFactura
-				//    {
-				//        CodigoPrincipal = fila["Tra_Codigo"].ToString(),
-				//        CodigoAuxiliar = fila["codigoAuxiliar"].ToString(),
-				//        Cantidad = Convert.ToInt32(fila["Tra_cantidad"]),
-				//        Descripcion = fila["Tra_nombre"].ToString(),
-				//        PrecioUnitario = Convert.ToDecimal(fila["Tra_precuni"]),
-				//        Descuento = Convert.ToDecimal(fila["desctoUni"])
-				//    });
-				//}
-
-				// (OPCIONAL) Llenar Detalles con otro query si no están en el mismo DataTable
+				
 
 				// 4. Ruta destino
 				var fel = new ClassFelec.AdcFelec(datosEmpresa.strConxAdcom);

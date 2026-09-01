@@ -76,12 +76,13 @@ Partial Class FrmAnlMovCta
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.ToolStrip1.BackColor = System.Drawing.Color.DimGray
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
+        Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnOpciones, Me.ToolStripSeparator2, Me.btnEnviar, Me.btnDetalle, Me.btnActualizar, Me.ToolStripSeparator1, Me.btnSalir})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1081, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1441, 27)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -90,13 +91,13 @@ Partial Class FrmAnlMovCta
         Me.btnOpciones.Image = CType(resources.GetObject("btnOpciones.Image"), System.Drawing.Image)
         Me.btnOpciones.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnOpciones.Name = "btnOpciones"
-        Me.btnOpciones.Size = New System.Drawing.Size(77, 22)
+        Me.btnOpciones.Size = New System.Drawing.Size(95, 24)
         Me.btnOpciones.Text = "Opciones"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 27)
         '
         'btnEnviar
         '
@@ -104,35 +105,35 @@ Partial Class FrmAnlMovCta
         Me.btnEnviar.Image = CType(resources.GetObject("btnEnviar.Image"), System.Drawing.Image)
         Me.btnEnviar.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnEnviar.Name = "btnEnviar"
-        Me.btnEnviar.Size = New System.Drawing.Size(71, 22)
+        Me.btnEnviar.Size = New System.Drawing.Size(88, 24)
         Me.btnEnviar.Text = "Enviar"
         '
         'ImprimirToolStripMenuItem
         '
         Me.ImprimirToolStripMenuItem.Image = CType(resources.GetObject("ImprimirToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ImprimirToolStripMenuItem.Name = "ImprimirToolStripMenuItem"
-        Me.ImprimirToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.ImprimirToolStripMenuItem.Size = New System.Drawing.Size(149, 26)
         Me.ImprimirToolStripMenuItem.Text = "Imprimir"
         '
         'WordToolStripMenuItem
         '
         Me.WordToolStripMenuItem.Image = CType(resources.GetObject("WordToolStripMenuItem.Image"), System.Drawing.Image)
         Me.WordToolStripMenuItem.Name = "WordToolStripMenuItem"
-        Me.WordToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.WordToolStripMenuItem.Size = New System.Drawing.Size(149, 26)
         Me.WordToolStripMenuItem.Text = "Word"
         '
         'ExcelToolStripMenuItem
         '
         Me.ExcelToolStripMenuItem.Image = CType(resources.GetObject("ExcelToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
-        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(149, 26)
         Me.ExcelToolStripMenuItem.Text = "Excel"
         '
         'PDFToolStripMenuItem
         '
         Me.PDFToolStripMenuItem.Image = CType(resources.GetObject("PDFToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PDFToolStripMenuItem.Name = "PDFToolStripMenuItem"
-        Me.PDFToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.PDFToolStripMenuItem.Size = New System.Drawing.Size(149, 26)
         Me.PDFToolStripMenuItem.Text = "PDF"
         '
         'btnDetalle
@@ -140,7 +141,7 @@ Partial Class FrmAnlMovCta
         Me.btnDetalle.Image = CType(resources.GetObject("btnDetalle.Image"), System.Drawing.Image)
         Me.btnDetalle.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnDetalle.Name = "btnDetalle"
-        Me.btnDetalle.Size = New System.Drawing.Size(63, 22)
+        Me.btnDetalle.Size = New System.Drawing.Size(81, 24)
         Me.btnDetalle.Text = "Detalle"
         '
         'btnActualizar
@@ -148,31 +149,33 @@ Partial Class FrmAnlMovCta
         Me.btnActualizar.Image = CType(resources.GetObject("btnActualizar.Image"), System.Drawing.Image)
         Me.btnActualizar.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnActualizar.Name = "btnActualizar"
-        Me.btnActualizar.Size = New System.Drawing.Size(79, 22)
+        Me.btnActualizar.Size = New System.Drawing.Size(99, 24)
         Me.btnActualizar.Text = "Actualizar"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 27)
         '
         'btnSalir
         '
         Me.btnSalir.Image = CType(resources.GetObject("btnSalir.Image"), System.Drawing.Image)
         Me.btnSalir.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnSalir.Name = "btnSalir"
-        Me.btnSalir.Size = New System.Drawing.Size(49, 22)
+        Me.btnSalir.Size = New System.Drawing.Size(62, 24)
         Me.btnSalir.Text = "Salir"
         '
         'SplitContainer1
         '
         Me.SplitContainer1.BackColor = System.Drawing.Color.LightSteelBlue
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 25)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 27)
+        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.BackColor = System.Drawing.Color.DarkGray
         Me.SplitContainer1.Panel1.Controls.Add(Me.añoanalisis)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label5)
         Me.SplitContainer1.Panel1.Controls.Add(Me.GroupBox1)
@@ -195,23 +198,26 @@ Partial Class FrmAnlMovCta
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.malla)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1081, 544)
-        Me.SplitContainer1.SplitterDistance = 256
+        Me.SplitContainer1.Size = New System.Drawing.Size(1441, 673)
+        Me.SplitContainer1.SplitterDistance = 341
+        Me.SplitContainer1.SplitterWidth = 5
         Me.SplitContainer1.TabIndex = 1
         '
         'añoanalisis
         '
-        Me.añoanalisis.Location = New System.Drawing.Point(183, 6)
+        Me.añoanalisis.Location = New System.Drawing.Point(244, 7)
+        Me.añoanalisis.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.añoanalisis.Name = "añoanalisis"
-        Me.añoanalisis.Size = New System.Drawing.Size(53, 20)
+        Me.añoanalisis.Size = New System.Drawing.Size(69, 22)
         Me.añoanalisis.TabIndex = 22
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(152, 11)
+        Me.Label5.Location = New System.Drawing.Point(203, 14)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(29, 13)
+        Me.Label5.Size = New System.Drawing.Size(37, 17)
         Me.Label5.TabIndex = 21
         Me.Label5.Text = "Año:"
         '
@@ -220,9 +226,11 @@ Partial Class FrmAnlMovCta
         Me.GroupBox1.Controls.Add(Me.optMovimientos)
         Me.GroupBox1.Controls.Add(Me.optCreditos)
         Me.GroupBox1.Controls.Add(Me.optDebitos)
-        Me.GroupBox1.Location = New System.Drawing.Point(4, 95)
+        Me.GroupBox1.Location = New System.Drawing.Point(5, 117)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(246, 94)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Size = New System.Drawing.Size(328, 116)
         Me.GroupBox1.TabIndex = 20
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Analizar con valores de:"
@@ -231,9 +239,10 @@ Partial Class FrmAnlMovCta
         '
         Me.optMovimientos.AutoSize = True
         Me.optMovimientos.Checked = True
-        Me.optMovimientos.Location = New System.Drawing.Point(18, 19)
+        Me.optMovimientos.Location = New System.Drawing.Point(24, 23)
+        Me.optMovimientos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.optMovimientos.Name = "optMovimientos"
-        Me.optMovimientos.Size = New System.Drawing.Size(79, 17)
+        Me.optMovimientos.Size = New System.Drawing.Size(100, 21)
         Me.optMovimientos.TabIndex = 11
         Me.optMovimientos.TabStop = True
         Me.optMovimientos.Text = "Movimiento"
@@ -242,9 +251,10 @@ Partial Class FrmAnlMovCta
         'optCreditos
         '
         Me.optCreditos.AutoSize = True
-        Me.optCreditos.Location = New System.Drawing.Point(18, 65)
+        Me.optCreditos.Location = New System.Drawing.Point(24, 80)
+        Me.optCreditos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.optCreditos.Name = "optCreditos"
-        Me.optCreditos.Size = New System.Drawing.Size(63, 17)
+        Me.optCreditos.Size = New System.Drawing.Size(81, 21)
         Me.optCreditos.TabIndex = 10
         Me.optCreditos.Text = "Créditos"
         Me.optCreditos.UseVisualStyleBackColor = True
@@ -252,9 +262,10 @@ Partial Class FrmAnlMovCta
         'optDebitos
         '
         Me.optDebitos.AutoSize = True
-        Me.optDebitos.Location = New System.Drawing.Point(18, 42)
+        Me.optDebitos.Location = New System.Drawing.Point(24, 52)
+        Me.optDebitos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.optDebitos.Name = "optDebitos"
-        Me.optDebitos.Size = New System.Drawing.Size(61, 17)
+        Me.optDebitos.Size = New System.Drawing.Size(77, 21)
         Me.optDebitos.TabIndex = 9
         Me.optDebitos.Text = "Débitos"
         Me.optDebitos.UseVisualStyleBackColor = True
@@ -262,9 +273,10 @@ Partial Class FrmAnlMovCta
         'chkCtaMov
         '
         Me.chkCtaMov.AutoSize = True
-        Me.chkCtaMov.Location = New System.Drawing.Point(8, 37)
+        Me.chkCtaMov.Location = New System.Drawing.Point(11, 46)
+        Me.chkCtaMov.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.chkCtaMov.Name = "chkCtaMov"
-        Me.chkCtaMov.Size = New System.Drawing.Size(161, 17)
+        Me.chkCtaMov.Size = New System.Drawing.Size(209, 21)
         Me.chkCtaMov.TabIndex = 19
         Me.chkCtaMov.Text = "Solo Cuentas de Movimiento"
         Me.chkCtaMov.UseVisualStyleBackColor = True
@@ -272,9 +284,10 @@ Partial Class FrmAnlMovCta
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(6, 9)
+        Me.Label4.Location = New System.Drawing.Point(8, 11)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(86, 13)
+        Me.Label4.Size = New System.Drawing.Size(112, 17)
         Me.Label4.TabIndex = 18
         Me.Label4.Text = "Nivel de Cuenta:"
         '
@@ -282,17 +295,19 @@ Partial Class FrmAnlMovCta
         '
         Me.cboNivel.FormattingEnabled = True
         Me.cboNivel.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6"})
-        Me.cboNivel.Location = New System.Drawing.Point(98, 6)
+        Me.cboNivel.Location = New System.Drawing.Point(131, 7)
+        Me.cboNivel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.cboNivel.Name = "cboNivel"
-        Me.cboNivel.Size = New System.Drawing.Size(46, 21)
+        Me.cboNivel.Size = New System.Drawing.Size(60, 24)
         Me.cboNivel.TabIndex = 17
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(7, 326)
+        Me.Label3.Location = New System.Drawing.Point(9, 401)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(75, 13)
+        Me.Label3.Size = New System.Drawing.Size(100, 17)
         Me.Label3.TabIndex = 16
         Me.Label3.Text = "Clasificadores:"
         Me.Label3.Visible = False
@@ -300,18 +315,20 @@ Partial Class FrmAnlMovCta
         'cboClasDet
         '
         Me.cboClasDet.FormattingEnabled = True
-        Me.cboClasDet.Location = New System.Drawing.Point(5, 361)
+        Me.cboClasDet.Location = New System.Drawing.Point(7, 444)
+        Me.cboClasDet.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.cboClasDet.Name = "cboClasDet"
-        Me.cboClasDet.Size = New System.Drawing.Size(247, 21)
+        Me.cboClasDet.Size = New System.Drawing.Size(328, 24)
         Me.cboClasDet.TabIndex = 15
         Me.cboClasDet.Visible = False
         '
         'cboClas
         '
         Me.cboClas.FormattingEnabled = True
-        Me.cboClas.Location = New System.Drawing.Point(4, 339)
+        Me.cboClas.Location = New System.Drawing.Point(5, 417)
+        Me.cboClas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.cboClas.Name = "cboClas"
-        Me.cboClas.Size = New System.Drawing.Size(129, 21)
+        Me.cboClas.Size = New System.Drawing.Size(171, 24)
         Me.cboClas.TabIndex = 14
         Me.cboClas.Visible = False
         '
@@ -319,77 +336,86 @@ Partial Class FrmAnlMovCta
         '
         Me.lblCtaFin.BackColor = System.Drawing.Color.White
         Me.lblCtaFin.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblCtaFin.Location = New System.Drawing.Point(5, 299)
+        Me.lblCtaFin.Location = New System.Drawing.Point(7, 368)
+        Me.lblCtaFin.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCtaFin.Name = "lblCtaFin"
-        Me.lblCtaFin.Size = New System.Drawing.Size(247, 20)
+        Me.lblCtaFin.Size = New System.Drawing.Size(329, 25)
         Me.lblCtaFin.TabIndex = 13
         '
         'lblctaIni
         '
         Me.lblctaIni.BackColor = System.Drawing.Color.White
         Me.lblctaIni.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblctaIni.Location = New System.Drawing.Point(4, 237)
+        Me.lblctaIni.Location = New System.Drawing.Point(5, 292)
+        Me.lblctaIni.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblctaIni.Name = "lblctaIni"
-        Me.lblctaIni.Size = New System.Drawing.Size(248, 20)
+        Me.lblctaIni.Size = New System.Drawing.Size(331, 25)
         Me.lblctaIni.TabIndex = 12
         '
         'chkAuxiliares
         '
         Me.chkAuxiliares.AutoSize = True
-        Me.chkAuxiliares.Location = New System.Drawing.Point(8, 62)
+        Me.chkAuxiliares.Location = New System.Drawing.Point(11, 76)
+        Me.chkAuxiliares.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.chkAuxiliares.Name = "chkAuxiliares"
-        Me.chkAuxiliares.Size = New System.Drawing.Size(151, 17)
+        Me.chkAuxiliares.Size = New System.Drawing.Size(199, 21)
         Me.chkAuxiliares.TabIndex = 8
         Me.chkAuxiliares.Text = "Detallar Cuentas Auxiliares"
         Me.chkAuxiliares.UseVisualStyleBackColor = True
         '
         'btnCtaFin
         '
-        Me.btnCtaFin.Location = New System.Drawing.Point(112, 278)
+        Me.btnCtaFin.Location = New System.Drawing.Point(149, 342)
+        Me.btnCtaFin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnCtaFin.Name = "btnCtaFin"
-        Me.btnCtaFin.Size = New System.Drawing.Size(21, 21)
+        Me.btnCtaFin.Size = New System.Drawing.Size(28, 26)
         Me.btnCtaFin.TabIndex = 6
         Me.btnCtaFin.Text = "..."
         Me.btnCtaFin.UseVisualStyleBackColor = True
         '
         'txtCtaFin
         '
-        Me.txtCtaFin.Location = New System.Drawing.Point(5, 278)
+        Me.txtCtaFin.Location = New System.Drawing.Point(7, 342)
+        Me.txtCtaFin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtCtaFin.Name = "txtCtaFin"
-        Me.txtCtaFin.Size = New System.Drawing.Size(107, 20)
+        Me.txtCtaFin.Size = New System.Drawing.Size(141, 22)
         Me.txtCtaFin.TabIndex = 5
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 266)
+        Me.Label2.Location = New System.Drawing.Point(8, 327)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(69, 13)
+        Me.Label2.Size = New System.Drawing.Size(91, 17)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Cuenta Final:"
         '
         'btnCtaIni
         '
-        Me.btnCtaIni.Location = New System.Drawing.Point(112, 216)
+        Me.btnCtaIni.Location = New System.Drawing.Point(149, 266)
+        Me.btnCtaIni.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnCtaIni.Name = "btnCtaIni"
-        Me.btnCtaIni.Size = New System.Drawing.Size(21, 21)
+        Me.btnCtaIni.Size = New System.Drawing.Size(28, 26)
         Me.btnCtaIni.TabIndex = 2
         Me.btnCtaIni.Text = "..."
         Me.btnCtaIni.UseVisualStyleBackColor = True
         '
         'txtctaIni
         '
-        Me.txtctaIni.Location = New System.Drawing.Point(5, 216)
+        Me.txtctaIni.Location = New System.Drawing.Point(7, 266)
+        Me.txtctaIni.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtctaIni.Name = "txtctaIni"
-        Me.txtctaIni.Size = New System.Drawing.Size(107, 20)
+        Me.txtctaIni.Size = New System.Drawing.Size(141, 22)
         Me.txtctaIni.TabIndex = 1
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 204)
+        Me.Label1.Location = New System.Drawing.Point(8, 251)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(74, 13)
+        Me.Label1.Size = New System.Drawing.Size(96, 17)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Cuenta Inicial:"
         '
@@ -423,6 +449,7 @@ Partial Class FrmAnlMovCta
         Me.malla.EnableHeadersVisualStyles = False
         Me.malla.GridColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.malla.Location = New System.Drawing.Point(0, 0)
+        Me.malla.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.malla.Name = "malla"
         Me.malla.ReadOnly = True
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -434,30 +461,33 @@ Partial Class FrmAnlMovCta
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.malla.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.malla.RowHeadersWidth = 21
-        Me.malla.Size = New System.Drawing.Size(821, 544)
+        Me.malla.Size = New System.Drawing.Size(1095, 673)
         Me.malla.TabIndex = 0
         '
         'ContextMenuStrip1
         '
+        Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MovimientoDeLaCuentaToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(207, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(244, 28)
         '
         'MovimientoDeLaCuentaToolStripMenuItem
         '
         Me.MovimientoDeLaCuentaToolStripMenuItem.Name = "MovimientoDeLaCuentaToolStripMenuItem"
-        Me.MovimientoDeLaCuentaToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.MovimientoDeLaCuentaToolStripMenuItem.Size = New System.Drawing.Size(243, 24)
         Me.MovimientoDeLaCuentaToolStripMenuItem.Text = "Movimiento de la cuenta"
         '
         'FrmAnlMovCta
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1081, 569)
+        Me.ClientSize = New System.Drawing.Size(1441, 700)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "FrmAnlMovCta"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ANÁLISIS DE MOVIMIENTOS DE CUENTAS"
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()

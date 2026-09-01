@@ -31,7 +31,7 @@ namespace DctosEmi
 //        daxContaDoc.AsientosContables asientosContables = new daxContaDoc.AsientosContables();
         string claseDocDefault = "PEC";
 		string tipoDocDefault = "PEC";
-		decimal ivaM = 0;
+		//decimal ivaM = 0;
 
 		bool iniciaConNuevoDOc = false;
 		internal Boolean esSoloConsulta = false;

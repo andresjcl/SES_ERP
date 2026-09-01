@@ -8,8 +8,8 @@
     <ProjectGuid>{BE197E8E-1DF0-47CB-AE49-73257FB6EFB6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Daxconxfe</RootNamespace>
-    <AssemblyName>Daxconxfe</AssemblyName>
+    <RootNamespace>sesconxfe</RootNamespace>
+    <AssemblyName>sesconxfe</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,17 +35,29 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeClassElec.dll</HintPath>
-    </Reference>
-    <Reference Include="CeConfiguracion, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeConfiguracion.dll</HintPath>
+      <HintPath>..\..\..\..\Librerias\DattCom.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.Parse, Version=0.42.0.6, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Librerias\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesCeClassElec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeConfiguracion, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesCeConfiguracion.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeFirmarDoctos, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesCeFirmarDoctos.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeGeneraXml, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesCeGeneraXml.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,27 +74,6 @@
   <ItemGroup>
     <Compile Include="Adcconxfe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\firmaElectronica\CeFirmarDoctos.csproj">
-      <Project>{A3491FC8-D7C6-4F00-9A61-E24DAEC2E7DC}</Project>
-      <Name>CeFirmarDoctos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GeneralXML\CeGeneraXml.csproj">
-      <Project>{85B3A1C7-8C52-494C-8AE6-6FD093C3C897}</Project>
-      <Name>CeGeneraXml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="DaxLib">
-      <Guid>{09B321EF-9EBC-4CC9-8113-D8BE1D1C2E04}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>10</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

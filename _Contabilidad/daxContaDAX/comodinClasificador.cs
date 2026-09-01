@@ -593,43 +593,91 @@ namespace daxConta
 
 
 
-        //Private Function EsClasificador(ByVal Cuenta As String, ByRef clasificador As String, Optional ByVal ValClasificador As String) As Boolean
-        //Dim Rs As New ADODB.Recordset
-        //Dim a As Integer
-        //Dim ssql As String
-        //EsClasificador = False
-        //If Cuenta = "" Then Exit Function
-        //If clasificador = "" And ValClasificador > "" Then
-        //    If ValClasificador = ValclasAnt Then EsClasificador = True: clasificador = ClasAnt: Exit Function
-        //    ssql = "select isnull(tiporeferencia,'') as Clasificad from syscod"
-        //    ssql = ssql + " left join AdcClasfctb"
-        //    ssql = ssql + " on syscod.TipoReferencia = adcclasfctb.nombre"
-        //    ssql = ssql + " where abreviación = '" + ValClasificador + "' or descripcion = '" + ValClasificador + "' and esclasificador =1"
-        //    Rs.Open ssql, ConxAdcom, adOpenForwardOnly, adLockReadOnly
-        //    If Rs.EOF = False Then
-        //        clasificador = Rs!Clasificad
-        //    End If
-        //    Rs.Close
-        //End If
-        //If clasificador = "" Then Exit Function
-        //Set Rs = New ADODB.Recordset
-        //Rs.Open "SELECT isnull(CLASIFICADORES,'') as clasificadores FROM ADCCTA WHERE CTA_CODIGO = '" + Cuenta + "' ", ConxAdcom, adOpenForwardOnly, adLockReadOnly
-        //If Rs!Clasificadores > "" Then
-        //    a = InStr(1, Rs!Clasificadores, clasificador)
-        //Else
-        //    a = 0
-        //End If
-        //If a > 0 Then EsClasificador = True Else EsClasificador = False
-        //Rs.Close
-        //Set Rs = Nothing
-        //End Function
+        //     public void VerificarClasificadoresContablesServicios(string traOctb, string concepto,  DataGridViewRow Mrow,  ClassDoc.Servicios OpServicio,  sesSys.OpcDoc opcDoc, string QueBeneficiario, string BancoFin)
+        //     {
+        //         string[] Clasificadores;
+        //DaxClasificadores.ClasificadorCtb clasifica = new ClasificadorCtb();
+        //         string ctaContable = "";
+        //         Clasificadores = OpServicio.ClasificadorYcuenta(opcDoc, ref ctaContable).Split(Convert.ToChar(";"));
+        //         if (Clasificadores.Length > 0)
+        //         {
+        //             for (int I = 0; I < Clasificadores.Length; I++)
+        //             {
+        //                 if (Clasificadores[I] != "")
+        //                 {
+        //                     clasifica.Cargar(Clasificadores[I]);
+        //                     if (clasifica.Nombre != "")
+        //                     {
+        //                         if (traOctb == "T")  Mrow.Cells[clasifica.campotra].OwningColumn.Visible = true;
+        //                         if (traOctb == "C") Mrow.Cells[clasifica.campodia].OwningColumn.Visible = true;
+        //                     }
+        //                 }
+        //             }
+        //         }
 
+        //         //Mrow.Cells["tra_ventas"].Value = 0;
+        //         //Mrow.Cells["tra_esAnticipo"].Value = 0;
+        //         //Mrow.Cells["tra_compras"].Value = 0;
+        //         //Mrow.Cells["tra_esAnticipo"].Value = 0;
+        //         //Mrow.Cells["tra_banco"].Value = 0;
+        //         //Mrow.Cells["tra_CtasCobrar"].Value = 0;
+        //         //Mrow.Cells["tra_CtasPagar"].Value = 0;
 
-        public void VerificarClasificadoresContablesServicios(string traOctb, string concepto,  DataGridViewRow Mrow,  ClassDoc.Servicios OpServicio,  sesSys.OpcDoc opcDoc, string QueBeneficiario, string BancoFin)
+        //         if (ctaContable.Length > 0)
+        //         {
+        //             if (ctaContable.Substring(0, 1) == "&" && ctaContable.Substring(1, 4) != "CONC" && ctaContable.Substring(1, 4) != "SERV")
+        //             {
+        //                 ctaContable = VerificarComodines(ctaContable, DattCom.datosEmpresa.sucursal,"", QueBeneficiario, "", "", BancoFin, "");
+        //             }
+
+        //             CtaMtn.Cuenta ctactb = new CtaMtn.Cuenta();
+        //             ctactb.Cargar(ref ctaContable);
+        //             int TIPODOC = 1;
+        //             if (opcDoc.TipoDoc == "ING") TIPODOC = -1;
+
+        //             if (ctactb.ModuloAuxiliar == "Cuentas Cobrar Clientes")
+        //             {
+        //                 Mrow.Cells["tra_ventas"].Value = TIPODOC;
+        //             }
+        //             else if (ctactb.ModuloAuxiliar == "Cuentas Pagar Proveedores")
+        //             {
+        //                 Mrow.Cells["tra_compras"].Value = TIPODOC;
+        //             }
+        //             else if (ctactb.ModuloAuxiliar == "Anticipos Clientes")
+        //             {
+        //                 Mrow.Cells["tra_ventas"].Value = TIPODOC;
+        //                 Mrow.Cells["tra_esAnticipo"].Value = 1;
+        //             }
+        //             else if (ctactb.ModuloAuxiliar == "Anticipos Proveedores")
+        //             {
+        //                 Mrow.Cells["tra_compras"].Value = TIPODOC;
+        //                 Mrow.Cells["tra_esAnticipo"].Value = 1;
+        //             }
+        //             else if (ctactb.ModuloAuxiliar == "CajaBancos")
+        //             {
+        //                 Mrow.Cells["tra_banco"].Value = TIPODOC;
+        //             }
+        //             else if (ctactb.ModuloAuxiliar == "OtrasCuentasCobrar")
+        //             {
+        //                 Mrow.Cells["tra_CtasCobrar"].Value = TIPODOC;
+        //             }
+        //             else if (ctactb.ModuloAuxiliar == "OtrasCuentasPagar")
+        //             {
+        //                 Mrow.Cells["tra_CtasPagar"].Value = TIPODOC;
+        //             }
+        //         }
+        //         if (OpServicio.sev_compras || OpServicio.sev_ventas) return;
+        //          {
+        //             if (OpServicio.sev_cruceclientes || OpServicio.sev_cruceproveedores) { habilitarAplicacionDoc(Mrow); } else { iniciarAplicacionDoc(Mrow); }
+        //         }
+        //     }
+
+        public void VerificarClasificadoresContablesServicios(string traOctb, string concepto, DataGridViewRow Mrow, ClassDoc.Servicios OpServicio, sesSys.OpcDoc opcDoc, string QueBeneficiario, string BancoFin)
         {
             string[] Clasificadores;
-			DaxClasificadores.ClasificadorCtb clasifica = new ClasificadorCtb();
+            DaxClasificadores.ClasificadorCtb clasifica = new ClasificadorCtb();
             string ctaContable = "";
+
             Clasificadores = OpServicio.ClasificadorYcuenta(opcDoc, ref ctaContable).Split(Convert.ToChar(";"));
             if (Clasificadores.Length > 0)
             {
@@ -640,26 +688,18 @@ namespace daxConta
                         clasifica.Cargar(Clasificadores[I]);
                         if (clasifica.Nombre != "")
                         {
-                            if (traOctb == "T")  Mrow.Cells[clasifica.campotra].OwningColumn.Visible = true;
+                            if (traOctb == "T") Mrow.Cells[clasifica.campotra].OwningColumn.Visible = true;
                             if (traOctb == "C") Mrow.Cells[clasifica.campodia].OwningColumn.Visible = true;
                         }
                     }
                 }
             }
 
-            //Mrow.Cells["tra_ventas"].Value = 0;
-            //Mrow.Cells["tra_esAnticipo"].Value = 0;
-            //Mrow.Cells["tra_compras"].Value = 0;
-            //Mrow.Cells["tra_esAnticipo"].Value = 0;
-            //Mrow.Cells["tra_banco"].Value = 0;
-            //Mrow.Cells["tra_CtasCobrar"].Value = 0;
-            //Mrow.Cells["tra_CtasPagar"].Value = 0;
-
             if (ctaContable.Length > 0)
             {
                 if (ctaContable.Substring(0, 1) == "&" && ctaContable.Substring(1, 4) != "CONC" && ctaContable.Substring(1, 4) != "SERV")
                 {
-                    ctaContable = VerificarComodines(ctaContable, DattCom.datosEmpresa.sucursal,"", QueBeneficiario, "", "", BancoFin, "");
+                    ctaContable = VerificarComodines(ctaContable, DattCom.datosEmpresa.sucursal, "", QueBeneficiario, "", "", BancoFin, "");
                 }
 
                 CtaMtn.Cuenta ctactb = new CtaMtn.Cuenta();
@@ -667,42 +707,67 @@ namespace daxConta
                 int TIPODOC = 1;
                 if (opcDoc.TipoDoc == "ING") TIPODOC = -1;
 
+                // Validar y asignar valores solo si las columnas existen
                 if (ctactb.ModuloAuxiliar == "Cuentas Cobrar Clientes")
                 {
-                    Mrow.Cells["tra_ventas"].Value = TIPODOC;
+                    AsignarValorCelda(Mrow, "tra_ventas", TIPODOC);
                 }
                 else if (ctactb.ModuloAuxiliar == "Cuentas Pagar Proveedores")
                 {
-                    Mrow.Cells["tra_compras"].Value = TIPODOC;
+                    AsignarValorCelda(Mrow, "tra_compras", TIPODOC);
                 }
                 else if (ctactb.ModuloAuxiliar == "Anticipos Clientes")
                 {
-                    Mrow.Cells["tra_ventas"].Value = TIPODOC;
-                    Mrow.Cells["tra_esAnticipo"].Value = 1;
+                    AsignarValorCelda(Mrow, "tra_ventas", TIPODOC);
+                    AsignarValorCelda(Mrow, "tra_esAnticipo", 1);
                 }
                 else if (ctactb.ModuloAuxiliar == "Anticipos Proveedores")
                 {
-                    Mrow.Cells["tra_compras"].Value = TIPODOC;
-                    Mrow.Cells["tra_esAnticipo"].Value = 1;
+                    AsignarValorCelda(Mrow, "tra_compras", TIPODOC);
+                    AsignarValorCelda(Mrow, "tra_esAnticipo", 1);
                 }
                 else if (ctactb.ModuloAuxiliar == "CajaBancos")
                 {
-                    Mrow.Cells["tra_banco"].Value = TIPODOC;
+                    AsignarValorCelda(Mrow, "tra_banco", TIPODOC);
                 }
                 else if (ctactb.ModuloAuxiliar == "OtrasCuentasCobrar")
                 {
-                    Mrow.Cells["tra_CtasCobrar"].Value = TIPODOC;
+                    AsignarValorCelda(Mrow, "tra_CtasCobrar", TIPODOC);
                 }
                 else if (ctactb.ModuloAuxiliar == "OtrasCuentasPagar")
                 {
-                    Mrow.Cells["tra_CtasPagar"].Value = TIPODOC;
+                    AsignarValorCelda(Mrow, "tra_CtasPagar", TIPODOC);
                 }
             }
+
             if (OpServicio.sev_compras || OpServicio.sev_ventas) return;
-             {
-                if (OpServicio.sev_cruceclientes || OpServicio.sev_cruceproveedores) { habilitarAplicacionDoc(Mrow); } else { iniciarAplicacionDoc(Mrow); }
+            {
+                if (OpServicio.sev_cruceclientes || OpServicio.sev_cruceproveedores)
+                {
+                    habilitarAplicacionDoc(Mrow);
+                }
+                else
+                {
+                    iniciarAplicacionDoc(Mrow);
+                }
             }
         }
+
+        // Método auxiliar para asignar valores de forma segura
+        private void AsignarValorCelda(DataGridViewRow row, string nombreColumna, object valor)
+        {
+            if (row.DataGridView.Columns.Contains(nombreColumna))
+            {
+                row.Cells[nombreColumna].Value = valor;
+            }
+            else
+            {
+                // Registrar que la columna no existe (opcional)
+                System.Diagnostics.Debug.WriteLine($"Columna '{nombreColumna}' no encontrada en el DataGridView");
+            }
+        }
+
+
         private void habilitarAplicacionDoc(DataGridViewRow Mrow)
         {
             Mrow.Cells["Apl_codBenef"].OwningColumn.Visible = true;

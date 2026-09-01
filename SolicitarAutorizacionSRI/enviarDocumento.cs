@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DattCom;
 using ClassFelec;
-using DaxDocElectronicos;
+using sesDocElectronicos;
 
 namespace SolicitarAutorizacionSRI
 {
@@ -16,12 +16,12 @@ namespace SolicitarAutorizacionSRI
         public short tipoDeEmision = Convert.ToInt16((object)enviarDocumentoS.TiposEmisión.NORMAL);
         private string codigo_numerico = "";
         //private string strConxadcom = datosEmpresa.strConxAdcom;
-        private string strConxDaxpro = "";
-        private string strConxIvaret = "";
-        private string strConxDaxsys = "";
+        //private string strConxDaxpro = "";
+        //private string strConxIvaret = "";
+        //private string strConxDaxsys = "";
         public string pathFile = "";
         private string pathBmp = "";
-        private string claveContingente = "";
+        //private string claveContingente = "";
         private Feutilidad util = new Feutilidad();
         //private DaxSofSys sysEmp = new DaxSofSys();
 
@@ -30,7 +30,7 @@ namespace SolicitarAutorizacionSRI
             string rucempresAct = Convert.ToString(datosEmpresa.Emp_RUC);
             classDatEmp.cargarDatosDeNuestraEmpresa(rucempresAct, datosEmpresa.strConxAdcom);
             string str1 = "";
-            this.claveContingente = "";
+            //this.claveContingente = "";
             try
             {
                 //this.iniciarConexion();

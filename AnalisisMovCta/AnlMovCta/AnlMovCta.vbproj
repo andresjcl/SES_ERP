@@ -7,12 +7,13 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{97DD64FF-504D-4512-A0CE-2AC2B647A514}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>AnlMovCta.My.MyApplication</StartupObject>
-    <RootNamespace>AnlMovCta</RootNamespace>
-    <AssemblyName>AnlMovCta</AssemblyName>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>MovCtaAnalisis</RootNamespace>
+    <AssemblyName>MovCtaAnalisis</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsForms</MyType>
+    <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <NoWin32Manifest>False</NoWin32Manifest>
@@ -32,7 +33,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\Librerias\</OutputPath>
-    <DocumentationFile>AnlMovCta.xml</DocumentationFile>
+    <DocumentationFile>MovCtaAnalisis.xml</DocumentationFile>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -41,7 +42,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\Librerias\</OutputPath>
-    <DocumentationFile>AnlMovCta.xml</DocumentationFile>
+    <DocumentationFile>MovCtaAnalisis.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -72,37 +73,29 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="cmbSes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\cmbSes.dll</HintPath>
+    </Reference>
+    <Reference Include="CtaMtnS, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\CtaMtnS.dll</HintPath>
+    </Reference>
     <Reference Include="DataGridViewPrinterApplication1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\DesarrolloAdcomDx_11\Librerias\DataGridViewPrinterApplication1.dll</HintPath>
     </Reference>
-    <Reference Include="DaxCbos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\DesarrolloAdcomDx_11\Librerias\DaxCbos.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\..\Librerias\DattCom.dll</HintPath>
     </Reference>
-    <Reference Include="ExportarGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="mallExpS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\DesarrolloAdcomDx_11\Librerias\ExportarGrid.dll</HintPath>
+      <HintPath>..\..\Librerias\mallExpS.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.AdcDax, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="MovCtases, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\..\Librerias\Interop.AdcDax.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.DaxLib, Version=1.10.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\..\Librerias\Interop.DaxLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MantCtb, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\DesarrolloAdcomDx_11\Librerias\MantCtb.dll</HintPath>
-    </Reference>
-    <Reference Include="MovCta, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\MovCta.dll</HintPath>
+      <HintPath>..\..\Librerias\MovCtases.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -137,6 +130,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>

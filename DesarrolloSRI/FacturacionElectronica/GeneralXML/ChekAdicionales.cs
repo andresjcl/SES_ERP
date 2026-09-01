@@ -6,28 +6,22 @@ using System.Data;
 using System.Xml;
 using DattCom;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     class ChekAdicionales
     {
         internal static void registrarfuncionalidadEmisor(XmlTextWriter docXml)
         {
             try
-            {
-                //if ( classDatEmp.NroAgenteRetencion.Length > 0)
-                //    docXml.WriteElementString("agenteRetencion", classDatEmp.NroAgenteRetencion);
+            {                
                 if (datosEmpresa.Emp_AgeRet.Length > 0)
-                    docXml.WriteElementString("agenteRetencion", datosEmpresa.Emp_AgeRet);
-
+                docXml.WriteElementString("agenteRetencion", datosEmpresa.Emp_AgeRet);
             }
             catch
             {
             }
             try
             {
-                //if (!(classDatEmp.esRIMPE == "SI"))
-                //    return;
-                //docXml.WriteElementString("contribuyenteRimpe", "CONTRIBUYENTE RÉGIMEN RIMPE");
                 if (datosEmpresa.Emp_Regimen.ToUpper() == "Régimen Simplificado Para Negocios Populares" || datosEmpresa.Emp_Regimen.ToUpper() == "Régimen Simplificado Para Emprendedores")
                     return;
                 docXml.WriteElementString("contribuyenteRimpe", "CONTRIBUYENTE RÉGIMEN RIMPE");
@@ -42,6 +36,18 @@ namespace DaxDocElectronicos
             if (ChekAdicionales.tieneAdicionales(doc) <= 0 && !esExportacion)
                 return;
             docXml.WriteStartElement("infoAdicional");
+
+            try
+            {
+                docXml.WriteStartElement("campoAdicional");
+                docXml.WriteAttributeString("nombre", "RUC Proveedor");
+                docXml.WriteString("1721794616001");
+                docXml.WriteEndElement();
+            }
+            catch
+            {
+            }
+
             try
             {
                 if (doc["ExportadorHabitualDeBienes"].ToString().Length > 0)
@@ -68,65 +74,7 @@ namespace DaxDocElectronicos
             catch
             {
             }
-            //try
-            //{
-            //    if (datosEmpresa.Emp_AgeRet.Length > 0)
-            //    {
-            //        docXml.WriteStartElement("campoAdicional");
-            //        docXml.WriteAttributeString("nombre", "Agente");
-            //        docXml.WriteString("Agente de Retención NAC-DNCRASC20-00000001");
-            //        docXml.WriteEndElement();
-            //    }
-            //    //if (classDatEmp.NroAgenteRetencion.Length > 0)
-            //    //{
-            //    //    docXml.WriteStartElement("campoAdicional");
-            //    //    docXml.WriteAttributeString("nombre", "Agente");
-            //    //    docXml.WriteString("Agente de Retención NAC-DNCRASC20-00000001");
-            //    //    docXml.WriteEndElement();
-            //    //}
-            //}
-            //catch
-            //{
-            //}
-            //try
-            //{
-            //    if (doc["Doc_NumSop"].ToString().Length > 0)
-            //    {
-            //        docXml.WriteStartElement("campoAdicional");
-            //        docXml.WriteAttributeString("nombre", "pedido");
-            //        docXml.WriteString(doc["Doc_NumSop"].ToString());
-            //        docXml.WriteEndElement();
-            //    }
-            //}
-            //catch
-            //{
-            //}
-            //try
-            //{
-            //    if (doc["Doc_NroLoteDoc"].ToString().Length > 0)
-            //    {
-            //        docXml.WriteStartElement("campoAdicional");
-            //        docXml.WriteAttributeString("nombre", "ORDEN COMPRA");
-            //        docXml.WriteString(doc["Doc_NroLoteDoc"].ToString());
-            //        docXml.WriteEndElement();
-            //    }
-            //}
-            //catch
-            //{
-            //}
-            //try
-            //{
-            //    if (doc["PreEntrada"].ToString().Length > 0)
-            //    {
-            //        docXml.WriteStartElement("campoAdicional");
-            //        docXml.WriteAttributeString("nombre", "PreEntrada");
-            //        docXml.WriteString(doc["PreEntrada"].ToString());
-            //        docXml.WriteEndElement();
-            //    }
-            //}
-            //catch
-            //{
-            //}
+            
             if (esExportacion)
             {
                 try

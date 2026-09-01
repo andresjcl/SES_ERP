@@ -25,8 +25,10 @@ namespace GeneradorFacturaPDF
     public class FacturaElectronica
     {
         public string RazonSocial { get; set; }
-        public string RucEmisor { get; set; }
-        public string NombreCliente { get; set; }
+		public string RazonSocialComercial { get; set; }
+		public string RucEmisor { get; set; }
+		public string RucProveedor { get; set; }
+		public string NombreCliente { get; set; }
         public string IdentificacionCliente { get; set; }
         public string DireccionCliente { get; set; }
         public string EmailCliente { get; set; }

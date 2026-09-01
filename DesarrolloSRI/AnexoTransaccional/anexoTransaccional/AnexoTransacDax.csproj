@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F6C321C-E5A6-4B36-9BFE-28D9F506F25C}</ProjectGuid>
+    <ProjectGuid>{06CC2A28-7DC4-462C-BB43-3742EAE2D2E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>anexoTransaccional</RootNamespace>

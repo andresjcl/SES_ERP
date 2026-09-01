@@ -39,11 +39,21 @@ namespace SolicitarAutorizacionSRI
         {
             if (ChekAdicionales.tieneAdicionales(doc) <= 0 && !esExportacion)
                 return;
-            /*VERIFICAR ESTA LINEA QUE DA ERROR CUANDO NO TIENE ADICIONALES APERTURA Y CIERRE*/
-
-
-            //AQUI LE QUITE EL COMENTARIO
+            
             docXml.WriteStartElement("infoAdicional");
+
+
+            try
+            {
+                docXml.WriteStartElement("campoAdicional");
+                docXml.WriteAttributeString("nombre", "RUC Proveedor");
+                docXml.WriteString("1721794616001");
+                docXml.WriteEndElement();
+            }
+            catch
+            {
+            }
+
             try
             {
                 if (doc["ExportadorHabitualDeBienes"].ToString().Length > 0)
@@ -56,72 +66,7 @@ namespace SolicitarAutorizacionSRI
             }
             catch
             {
-            }
-            try
-            {
-                if (doc["PreEntrada"].ToString().Length > 0)
-                {
-                    docXml.WriteStartElement("campoAdicional");
-                    docXml.WriteAttributeString("nombre", "Codigo");
-                    docXml.WriteString(doc["Codigo"].ToString());
-                    docXml.WriteEndElement();
-                }
-            }
-            catch
-            {
-            }
-            try
-            {
-                if (doc["PreEntrada"].ToString().Length > 0)
-                {
-                    docXml.WriteStartElement("campoAdicional");
-                    docXml.WriteAttributeString("nombre", "Direccion");
-                    docXml.WriteString(doc["Doc_Direccion"].ToString());
-                    docXml.WriteEndElement();
-                }
-            }
-            catch
-            {
-            }
-            try
-            {
-                if (doc["PreEntrada"].ToString().Length > 0)
-                {
-                    docXml.WriteStartElement("campoAdicional");
-                    docXml.WriteAttributeString("nombre", "Telefonos");
-                    docXml.WriteString(doc["Doc_Telefono1"].ToString());
-                    docXml.WriteEndElement();
-                }
-            }
-            catch
-            {
-            }
-            try
-            {
-                if (doc["PreEntrada"].ToString().Length > 0)
-                {
-                    docXml.WriteStartElement("campoAdicional");
-                    docXml.WriteAttributeString("nombre", "Ciudad");
-                    docXml.WriteString(doc["Ciudad"].ToString());
-                    docXml.WriteEndElement();
-                }
-            }
-            catch
-            {
-            }
-            try
-            {
-                if (doc["PreEntrada"].ToString().Length > 0)
-                {
-                    docXml.WriteStartElement("campoAdicional");
-                    docXml.WriteAttributeString("nombre", "Email");
-                    docXml.WriteString(doc["CorreoElectrónico"].ToString());
-                    docXml.WriteEndElement();
-                }
-            }
-            catch
-            {
-            }
+            }          
 
             try
             {
@@ -136,20 +81,7 @@ namespace SolicitarAutorizacionSRI
             catch
             {
             }
-
-            try
-            {
-                if (doc["PreEntrada"].ToString().Length > 0)
-                {
-                    docXml.WriteStartElement("campoAdicional");
-                    docXml.WriteAttributeString("nombre", "Vendedor");
-                    docXml.WriteString(doc["VENDEDOR"].ToString());
-                    docXml.WriteEndElement();
-                }
-            }
-            catch
-            {
-            }
+           
 
 
             if (esExportacion)
@@ -189,7 +121,7 @@ namespace SolicitarAutorizacionSRI
                 {
                 }
             }
-            //Y EL CIREE
+            
             docXml.WriteEndElement();
         }
 

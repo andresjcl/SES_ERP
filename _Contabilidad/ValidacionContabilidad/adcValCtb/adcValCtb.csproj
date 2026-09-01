@@ -6,10 +6,10 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4CB55435-3DD9-488D-8A68-F59D064043EA}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>adcValCtb</RootNamespace>
-    <AssemblyName>adcValCtb</AssemblyName>
+    <RootNamespace>sesValCtb</RootNamespace>
+    <AssemblyName>sesValCtb</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Librerias\</OutputPath>
+    <OutputPath>..\..\..\Librerias\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,40 +36,39 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassDoc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\DesarrolloAdcomDx_11\Librerias\ClassDoc.dll</HintPath>
+    <Reference Include="BuscMalla">
+      <HintPath>..\..\..\Librerias\BuscMalla.dll</HintPath>
     </Reference>
     <Reference Include="compararStrings">
       <HintPath>..\..\..\UtilitariosGenerales\Librerias\compararStrings.dll</HintPath>
-    </Reference>
-    <Reference Include="daaxLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\LibreriasGenerales\Librerias\daaxLib.dll</HintPath>
     </Reference>
     <Reference Include="DataGridViewPrinterApplication1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\DesarrolloAdcomDx_11\Librerias\DataGridViewPrinterApplication1.dll</HintPath>
     </Reference>
-    <Reference Include="daxBuscMalla, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\UtilitariosGenerales\Librerias\daxBuscMalla.dll</HintPath>
+      <HintPath>..\..\..\Librerias\DattCom.dll</HintPath>
     </Reference>
     <Reference Include="DaxCbos, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\UtilitariosGenerales\Librerias\DaxCbos.dll</HintPath>
     </Reference>
-    <Reference Include="ExportarGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="DctoClase, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\DesarrolloAdcomDx_11\Librerias\ExportarGrid.dll</HintPath>
+      <HintPath>..\..\..\Librerias\DctoClase.dll</HintPath>
+    </Reference>
+    <Reference Include="mallExpS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\mallExpS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Microsoft Visual Studio 12.0\ReportViewer\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="PrySysp13, Version=12.0.5805.29965, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="sesSysp, Version=1.0.9700.42861, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\DesarrolloAdcomDx_11\Librerias\PrySysp13.dll</HintPath>
+      <HintPath>..\..\..\Librerias\sesSysp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,11 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="frmValidacionAsientos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="frmValidacionAsientos.Designer.cs">
+      <DependentUpon>frmValidacionAsientos.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -98,24 +97,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="frmValidacionAsientos.resx">
+      <DependentUpon>frmValidacionAsientos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="AdcDax">
-      <Guid>{937B4926-D99E-4795-AADD-979EC6594D05}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

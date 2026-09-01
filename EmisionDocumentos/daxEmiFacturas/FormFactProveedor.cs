@@ -877,7 +877,7 @@ namespace DctosEmi
 		{
 			string codigo = txtcedula.Text;
 			string tipo = "C";
-			string codigo1 = "";
+			//string codigo1 = "";
 			cargarDatosProveedor(codigo);
 			if (txtcedula.Text == "")
 			{
@@ -1340,88 +1340,310 @@ namespace DctosEmi
 			return true;
 		}
 
+		//    private Boolean grabarDocumento()
+		//    {
+		//        malla.EndEdit();
+		//        Boolean RESP = true;
+
+		//        string res = "";
+		//        if (debeActualizarContacto)
+		//        {
+		//            if (MessageBox.Show("Se han cambiado datos del cliente, confirma Actualizar el registro ?", "Actualizar datos de Cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+		//            {
+		//                debeActualizarContacto = false;
+		//                ActualizarDatosCliente();
+		//            }
+		//        }
+		//        try
+		//        {
+		//            if (idDocumentoActual.idClave == 0)
+		//            {
+		//                res = datADCDOC.Crear();
+
+		//                idDocumentoActual.idClave = Convert.ToDouble(datADCDOC.IdClaveDoc);
+		//                idDocumentoActual.numero = Convert.ToDouble(datADCDOC.Doc_numero);
+		//                idDocumentoActual.Sucursal = datADCDOC.Doc_sucursal;
+		//                idDocumentoActual.Tipo = datADCDOC.Opc_documento;
+		//                txtnumero.Text = datADCDOC.Doc_numero.ToString();
+
+		//                actualizaDatosPagos();
+		//                if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
+		//                string tipDoc = cmbDocumento.SelectedValue.ToString();
+
+		//                clasePagos.guardarPagosDocumento("ADCPAG");
+		//                AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+
+		//}
+		//            else
+		//            {
+		//                res = datADCDOC.Actualizar();
+		//                if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
+		//                actualizaDatosPagos();
+		//                clasePagos.guardarPagosDocumento("ADCPAG");
+		//                AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+		//            }
+		//        }
+		//        catch (Exception ee)
+		//        {
+		//            res = "ERR " + ee.Message;
+		//        }
+		//        if (res.Substring(0, 3) == "ERR")
+		//        {
+		//            MessageBox.Show("EL DOCUMENTO NO FUE GRABADO CORRECTAMENTE \n" + res);
+		//            RESP = false;
+		//        }
+		//        else
+		//        {
+		//            if (txtCodigoRet.Text != "332" && txtCodigoRet.TextLength == 0)
+		//            {
+		//                if (MessageBox.Show("Desea registrar la retención al proveedor ? ", "Registrar retención por factura", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+		//                {
+		//                    //IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocumentoActual, false);
+		//                    //prog.ShowDialog();
+		//                    //prog.Dispose();
+
+		//                    ClassDoc.idDocumento idDocRetencion = new ClassDoc.idDocumento();
+		//                    idDocRetencion.idClave = idDocumentoActual.idClave;
+		//                    idDocRetencion.numero = idDocumentoActual.numero;
+		//                    idDocRetencion.Sucursal = idDocumentoActual.Sucursal;
+		//                    idDocRetencion.Tipo = idDocumentoActual.Tipo;
+		//                    idDocRetencion.familia = idDocumentoActual.familia;
+		//                    idDocRetencion.fecha = idDocumentoActual.fecha;
+		//                    idDocRetencion.Serie = idDocumentoActual.Serie;
+
+		//                    IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocRetencion, false);
+		//                    prog.ShowDialog();
+		//                    prog.Dispose();
+		//                }
+		//            }
+		//            if (txtCodigoRet.Text == "332" && txtCodigoRet.TextLength > 1)
+		//            {
+		//                if (MessageBox.Show("El código ingresado en el codigo de retencion no es el 332 desea continuar y registrar la retención al proveedor?", "Registrar retención por factura", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+		//                {
+		//                    //IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP","RTP",1, idDocumentoActual, false);
+		//                    //prog.ShowDialog();
+		//                    //prog.Dispose();
+
+		//                    // Crear una copia del idDocumentoActual para pasarlo a la retención
+		//                    ClassDoc.idDocumento idDocRetencion = new ClassDoc.idDocumento();
+		//                    idDocRetencion.idClave = idDocumentoActual.idClave;
+		//                    idDocRetencion.numero = idDocumentoActual.numero;
+		//                    idDocRetencion.Sucursal = idDocumentoActual.Sucursal;
+		//                    idDocRetencion.Tipo = idDocumentoActual.Tipo;
+		//                    idDocRetencion.familia = idDocumentoActual.familia;
+		//                    idDocRetencion.fecha = idDocumentoActual.fecha;
+		//                    idDocRetencion.Serie = idDocumentoActual.Serie;
+
+		//                    IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocRetencion, false);
+		//                    prog.ShowDialog();
+		//                    prog.Dispose();
+		//                }
+
+		//            }
+
+
+		//        }
+		//        return RESP;
+		//    }
+
+
+
+		// ========================================================
+		// MÉTODO PARA ABRIR RETENCIÓN
+		// ========================================================
+
+
 		private Boolean grabarDocumento()
 		{
-            malla.EndEdit();
-            Boolean RESP = true;
+			malla.EndEdit();
+			Boolean RESP = true;
 
-            string res = "";
-            if (debeActualizarContacto)
-            {
-                if (MessageBox.Show("Se han cambiado datos del cliente, confirma Actualizar el registro ?", "Actualizar datos de Cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    debeActualizarContacto = false;
-                    ActualizarDatosCliente();
-                }
-            }
-            try
-            {
-                if (idDocumentoActual.idClave == 0)
-                {
-                    //DctosEmi.fijarNumeroDocumento fijnum = new DctosEmi.fijarNumeroDocumento();
-                    //datADCDOC.Doc_numero = Convert.ToDecimal(fijnum.nroDeDocumento(propiedadesDoc.tablaDatosDoc, propiedadesDoc.CodDuplica, Convert.ToBoolean(propiedadesDoc.NroAutomatico), Convert.ToDouble(txtnumero.Text), datosEmpresa.strConxAdcom, datosEmpresa.suc, cmbDocumento.SelectedValue.ToString(), txtnumero.Text, cmbBodega.SelectedValue.ToString(), codCliente, txtNroID.Text));
-                    //if (datADCDOC.Doc_numero == 0) return false;
-                    res = datADCDOC.Crear();
-					
-                    idDocumentoActual.idClave = Convert.ToDouble(datADCDOC.IdClaveDoc);
-                    idDocumentoActual.numero = Convert.ToDouble(datADCDOC.Doc_numero);
-                    idDocumentoActual.Sucursal = datADCDOC.Doc_sucursal;
-                    idDocumentoActual.Tipo = datADCDOC.Opc_documento;
+			string res = "";
+			if (debeActualizarContacto)
+			{
+				if (MessageBox.Show("Se han cambiado datos del cliente, confirma Actualizar el registro ?", "Actualizar datos de Cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+				{
+					debeActualizarContacto = false;
+					ActualizarDatosCliente();
+				}
+			}
+			try
+			{
+				if (idDocumentoActual.idClave == 0)
+				{
+					res = datADCDOC.Crear();
+
+					idDocumentoActual.idClave = Convert.ToDouble(datADCDOC.IdClaveDoc);
+					idDocumentoActual.numero = Convert.ToDouble(datADCDOC.Doc_numero);
+					idDocumentoActual.Sucursal = datADCDOC.Doc_sucursal;
+					idDocumentoActual.Tipo = datADCDOC.Opc_documento;
 					txtnumero.Text = datADCDOC.Doc_numero.ToString();
-					
-					actualizaDatosPagos();
-                    if (res.Substring(0, 3) != "ERR" ) { grabarAdctra(); }
-                    string tipDoc = cmbDocumento.SelectedValue.ToString();
-					//string tipBan = "";
-					//					if (idDocumentoActual.idClave != 0) propiedadesDoc.GuardarNumero(ref datosEmpresa.suc, ref tipDoc, ref tipBan, txtNroID.Text, "", datosEmpresa.usr, cmbBodega.SelectedValue.ToString());
-					clasePagos.guardarPagosDocumento("ADCPAG");
-                    //ClaveElectronica.actualizarClaveElectronica(datADCDOC);
-                    AuditSis.registrar.registraEventoDoc(datosEmpresa.strConIniSis, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "MDD", Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
-                }
-                else
-                {
-                    res = datADCDOC.Actualizar();
-                    if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
-                    actualizaDatosPagos();
-                    clasePagos.guardarPagosDocumento("ADCPAG");
-                    AuditSis.registrar.registraEventoDoc(datosEmpresa.strConIniSis, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, "MDD", Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
-                }
-            }
-            catch (Exception ee)
-            {
-                res = "ERR " + ee.Message;
-            }
-            if (res.Substring(0, 3) == "ERR")
-            {
-                MessageBox.Show("EL DOCUMENTO NO FUE GRABADO CORRECTAMENTE \n" + res);
-                RESP = false;
-            }
-            else
-            {
-				if (txtCodigoRet.Text!="332" && txtCodigoRet.TextLength ==0)
-				{
-					if (MessageBox.Show("Desea registrar la retención al proveedor ? ", "Registrar retención por factura", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-					{
-						IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocumentoActual, false);
-						prog.ShowDialog();
-						prog.Dispose();
-					}
-				}
-				if (txtCodigoRet.Text != "332" && txtCodigoRet.TextLength>1)
-				{
-					if (MessageBox.Show("El código ingresado en el codigo de retencion no es el 332 desea continuar y registrar la retención al proveedor?", "Registrar retención por factura", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) 
-					{
-						IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP","RTP",1, idDocumentoActual, false);
-						prog.ShowDialog();
-						prog.Dispose();
-					}
 
+					actualizaDatosPagos();
+					if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
+					string tipDoc = cmbDocumento.SelectedValue.ToString();
+
+					clasePagos.guardarPagosDocumento("ADCPAG");
+					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
 				}
-				
-                
-            }
-            return RESP;
+				else
+				{
+					res = datADCDOC.Actualizar();
+					if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
+					actualizaDatosPagos();
+					clasePagos.guardarPagosDocumento("ADCPAG");
+					AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
+				}
+
+				// ========================================================
+				// ⚠️ LA VERIFICACIÓN DE RETENCIÓN DEBE IR FUERA DEL IF
+				// ========================================================
+				// Después de grabar (nuevo o modificación), preguntar por retención
+				// SOLO si no hay errores
+				// ========================================================
+				if (res.Substring(0, 3) != "ERR")
+				{
+					string codigoRetencion = txtCodigoRet.Text.Trim();
+
+					// Si está vacío: preguntar si desea registrar retención (sin código forzado)
+					if (string.IsNullOrEmpty(codigoRetencion))
+					{
+						if (MessageBox.Show("Desea registrar la retención al proveedor?",
+							"Registrar retención por factura",
+							MessageBoxButtons.YesNo,
+							MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							AbrirRetencion("");  // Sin código forzado
+						}
+					}
+					// Si es "332": preguntar y abrir con código forzado
+					else if (codigoRetencion == "332")
+					{
+						if (MessageBox.Show("Desea registrar la retención al proveedor con código 332?",
+							"Registrar retención por factura",
+							MessageBoxButtons.YesNo,
+							MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							AbrirRetencion(codigoRetencion);  // Forzar código 332
+						}
+					}
+					else
+					{
+						// ========================================================
+						// CÓDIGO DIFERENTE DE 332: LIMPIAR Y PREGUNTAR NUEVAMENTE
+						// ========================================================
+						MessageBox.Show("No se permiten otros códigos diferentes al 332.\n" +
+										"El campo se dejará en blanco.",
+										"Código no válido",
+										MessageBoxButtons.OK,
+										MessageBoxIcon.Warning);
+
+						txtCodigoRet.Text = "";  // Limpiar el campo
+
+						// PREGUNTAR NUEVAMENTE SI DESEA REGISTRAR RETENCIÓN (sin código forzado)
+						if (MessageBox.Show("Desea registrar la retención al proveedor?",
+							"Registrar retención por factura",
+							MessageBoxButtons.YesNo,
+							MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							AbrirRetencion("");  // Sin código forzado
+						}
+					}
+				}
+				// ========================================================
+			}
+			catch (Exception ee)
+			{
+				res = "ERR " + ee.Message;
+			}
+			if (res.Substring(0, 3) == "ERR")
+			{
+				MessageBox.Show("EL DOCUMENTO NO FUE GRABADO CORRECTAMENTE \n" + res);
+				RESP = false;
+			}
+			return RESP;
 		}
+
+
+		private void AbrirRetencion(string codigoForzado)
+		{
+			// ========================================================
+			// ✅ ASIGNAR A LA VARIABLE ESTÁTICA ANTES DE CREAR LA INSTANCIA
+			// ========================================================
+			IvaRett.MantRetencion.CodigoRetencionForzadoGlobal = codigoForzado ?? "";
+
+			// ========================================================
+			// BUSCAR SI YA EXISTE UNA RETENCIÓN PARA ESTA FACTURA
+			// USANDO Doc_DocSop y Doc_NumSop (NO IdClaveDocSop)
+			// ========================================================
+			string ssql = "SELECT IdClaveDoc, Doc_sucursal, Opc_documento, Doc_numero, Doc_NroIdDoc, Doc_fecha " +
+						  "FROM ADCDOC " +
+						  "WHERE Opc_documento = 'RTP' " +
+						  "AND Doc_DocSop = '" + idDocumentoActual.Tipo + "' " +
+						  "AND Doc_NumSop = " + idDocumentoActual.numero.ToString() + " " +
+						  "AND Doc_Estado = 1";
+
+			DataTable dtRetencion = SqlDatos.leerTablaAdcom(ssql);
+
+			bool existeRetencion = false;
+			double idClaveRetencion = 0;
+			string sucRetencion = "";
+			string tipoRetencion = "";
+			double numRetencion = 0;
+			string serieRetencion = "";
+			DateTime fechaRetencion = DateTime.Now;
+
+			if (dtRetencion != null && dtRetencion.Rows.Count > 0)
+			{
+				DataRow row = dtRetencion.Rows[0];
+				existeRetencion = true;
+				idClaveRetencion = Convert.ToDouble(row["IdClaveDoc"]);
+				sucRetencion = row["Doc_sucursal"].ToString();
+				tipoRetencion = row["Opc_documento"].ToString();
+				numRetencion = Convert.ToDouble(row["Doc_numero"]);
+				serieRetencion = row["Doc_NroIdDoc"].ToString();
+				fechaRetencion = Convert.ToDateTime(row["Doc_fecha"]);
+			}
+
+			ClassDoc.idDocumento idDocRetencion = new ClassDoc.idDocumento();
+
+			if (existeRetencion && idClaveRetencion > 0)
+			{
+				// ✅ SI YA EXISTE: ABRIR LA RETENCIÓN EXISTENTE
+				idDocRetencion.idClave = idClaveRetencion;
+				idDocRetencion.numero = numRetencion;
+				idDocRetencion.Sucursal = sucRetencion;
+				idDocRetencion.Tipo = tipoRetencion;
+				idDocRetencion.familia = tipoRetencion;
+				idDocRetencion.fecha = fechaRetencion;
+				idDocRetencion.Serie = serieRetencion;
+
+				IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocRetencion, false);
+				prog.CerrarDespuesDeGrabar = true;
+				prog.ShowDialog();
+				prog.Dispose();
+			}
+			else
+			{
+				// ✅ SI NO EXISTE: CREAR NUEVA RETENCIÓN
+				idDocRetencion.idClave = idDocumentoActual.idClave;
+				idDocRetencion.numero = idDocumentoActual.numero;
+				idDocRetencion.Sucursal = idDocumentoActual.Sucursal;
+				idDocRetencion.Tipo = idDocumentoActual.Tipo;
+				idDocRetencion.familia = "FAP";
+				idDocRetencion.fecha = idDocumentoActual.fecha;
+				idDocRetencion.Serie = idDocumentoActual.Serie;
+
+				IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocRetencion, false);
+				prog.CerrarDespuesDeGrabar = true;
+				prog.ShowDialog();
+				prog.Dispose();
+			}
+
+			// ✅ LIMPIAR LA VARIABLE ESTÁTICA DESPUÉS DE USARLA
+			IvaRett.MantRetencion.CodigoRetencionForzadoGlobal = "";
+		}
+
 		private bool verificarFormaDePago()
 		{
 			double valorCredito = 0;
@@ -1804,13 +2026,11 @@ namespace DctosEmi
 				MessageBox.Show("Seleccione una fila en la malla para la consulta");
 				return;
 			}
-
-			//string controlaSig = Convert.ToString(row.Cells["SIGNO"].Value);
+		
 			int posicion = 6;
 
-			//if (Convert.ToInt32(controlaSig) == -1) controlaSig = "0"; else controlaSig = "1";
-
-			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, txtfecha.Text, "", posicion, idDocumentoActual.Sucursal);
+			var fechaAplicacion = DateTime.Now.ToString("dd/MM/yyyy");
+			CtasCorrientes.frmAplicacionesDcto prog = new CtasCorrientes.frmAplicacionesDcto(datosEmpresa.strConxAdcom, idDocumentoActual.idClave, idDocumentoActual.Tipo, Convert.ToInt64(idDocumentoActual.numero), 0, fechaAplicacion, "", posicion, idDocumentoActual.Sucursal);
 			prog.ShowDialog();
 		}
 

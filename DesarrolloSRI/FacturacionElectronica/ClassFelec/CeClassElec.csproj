@@ -8,8 +8,8 @@
     <ProjectGuid>{5D15AF55-0C39-4FBD-8B40-90044E49F633}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeClassElec</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeClassElec</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -1,6 +1,6 @@
-﻿namespace adcValCtb
+﻿namespace sesValCtb
 {
-    partial class Form1
+    partial class frmValidacionAsientos
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmValidacionAsientos));
             this.mallaDatos = new System.Windows.Forms.DataGridView();
             this.btnActualizar = new System.Windows.Forms.ToolStripButton();
             this.btnEnviar = new System.Windows.Forms.ToolStripSplitButton();
@@ -77,7 +77,8 @@
             this.mallaDatos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mallaDatos.EnableHeadersVisualStyles = false;
             this.mallaDatos.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.mallaDatos.Location = new System.Drawing.Point(0, 53);
+            this.mallaDatos.Location = new System.Drawing.Point(0, 65);
+            this.mallaDatos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mallaDatos.Name = "mallaDatos";
             this.mallaDatos.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -88,7 +89,8 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.mallaDatos.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.mallaDatos.Size = new System.Drawing.Size(901, 343);
+            this.mallaDatos.RowHeadersWidth = 51;
+            this.mallaDatos.Size = new System.Drawing.Size(1201, 422);
             this.mallaDatos.TabIndex = 4;
             this.mallaDatos.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.mallaDatos_DataError);
             this.mallaDatos.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mallaDatos_KeyDown);
@@ -100,7 +102,7 @@
             this.btnActualizar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnActualizar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(47, 50);
+            this.btnActualizar.Size = new System.Drawing.Size(59, 62);
             this.btnActualizar.Text = "Validar";
             this.btnActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
@@ -116,7 +118,7 @@
             this.btnEnviar.Image = ((System.Drawing.Image)(resources.GetObject("btnEnviar.Image")));
             this.btnEnviar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEnviar.Name = "btnEnviar";
-            this.btnEnviar.Size = new System.Drawing.Size(55, 50);
+            this.btnEnviar.Size = new System.Drawing.Size(68, 62);
             this.btnEnviar.Text = "Enviar";
             this.btnEnviar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -125,7 +127,7 @@
             this.btnexcel.Image = ((System.Drawing.Image)(resources.GetObject("btnexcel.Image")));
             this.btnexcel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnexcel.Name = "btnexcel";
-            this.btnexcel.Size = new System.Drawing.Size(158, 22);
+            this.btnexcel.Size = new System.Drawing.Size(200, 26);
             this.btnexcel.Text = "Exportar a Excel";
             this.btnexcel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnexcel.Click += new System.EventHandler(this.btnexcel_Click);
@@ -134,7 +136,7 @@
             // 
             this.btnpdf.Image = ((System.Drawing.Image)(resources.GetObject("btnpdf.Image")));
             this.btnpdf.Name = "btnpdf";
-            this.btnpdf.Size = new System.Drawing.Size(158, 22);
+            this.btnpdf.Size = new System.Drawing.Size(200, 26);
             this.btnpdf.Text = "Exportar a Pdf";
             this.btnpdf.Click += new System.EventHandler(this.btnpdf_Click);
             // 
@@ -143,7 +145,7 @@
             this.btnword.Image = ((System.Drawing.Image)(resources.GetObject("btnword.Image")));
             this.btnword.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnword.Name = "btnword";
-            this.btnword.Size = new System.Drawing.Size(158, 22);
+            this.btnword.Size = new System.Drawing.Size(200, 26);
             this.btnword.Text = "Exportar a Word";
             this.btnword.Click += new System.EventHandler(this.btnword_Click);
             // 
@@ -151,7 +153,7 @@
             // 
             this.btnImprimir.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.Image")));
             this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(158, 22);
+            this.btnImprimir.Size = new System.Drawing.Size(200, 26);
             this.btnImprimir.Text = "Imprimir";
             this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
             // 
@@ -161,14 +163,14 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(57, 50);
+            this.toolStripButton1.Size = new System.Drawing.Size(66, 62);
             this.toolStripButton1.Text = "Salir";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // menu
             // 
             this.menu.AutoSize = false;
-            this.menu.BackColor = System.Drawing.Color.SteelBlue;
+            this.menu.BackColor = System.Drawing.Color.DimGray;
             this.menu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.menu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -182,19 +184,19 @@
             this.toolStripButton1});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(901, 53);
+            this.menu.Size = new System.Drawing.Size(1201, 65);
             this.menu.TabIndex = 3;
             this.menu.Text = "    ";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 53);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 65);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 53);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 65);
             // 
             // btnSumatoria
             // 
@@ -204,7 +206,7 @@
             this.btnSumatoria.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSumatoria.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSumatoria.Name = "btnSumatoria";
-            this.btnSumatoria.Size = new System.Drawing.Size(28, 50);
+            this.btnSumatoria.Size = new System.Drawing.Size(29, 62);
             this.btnSumatoria.Text = "Suma";
             this.btnSumatoria.ToolTipText = "Obtiene el total de la suma de las celdas seleccionadas o de la columna total";
             this.btnSumatoria.Click += new System.EventHandler(this.btnSumatoria_Click);
@@ -215,31 +217,33 @@
             this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
             this.btnBuscar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(28, 50);
+            this.btnBuscar.Size = new System.Drawing.Size(29, 62);
             this.btnBuscar.ToolTipText = "Buscar y/o reeemplazar valores de la malla";
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 53);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 65);
             // 
             // cmbDocumentos
             // 
             this.cmbDocumentos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbDocumentos.FormattingEnabled = true;
-            this.cmbDocumentos.Location = new System.Drawing.Point(502, 26);
+            this.cmbDocumentos.Location = new System.Drawing.Point(669, 32);
+            this.cmbDocumentos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbDocumentos.Name = "cmbDocumentos";
-            this.cmbDocumentos.Size = new System.Drawing.Size(238, 21);
+            this.cmbDocumentos.Size = new System.Drawing.Size(316, 24);
             this.cmbDocumentos.TabIndex = 7;
             // 
             // dtDesde
             // 
             this.dtDesde.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtDesde.Location = new System.Drawing.Point(799, 3);
+            this.dtDesde.Location = new System.Drawing.Point(1065, 4);
+            this.dtDesde.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dtDesde.Name = "dtDesde";
-            this.dtDesde.Size = new System.Drawing.Size(98, 20);
+            this.dtDesde.Size = new System.Drawing.Size(129, 22);
             this.dtDesde.TabIndex = 8;
             this.dtDesde.Value = new System.DateTime(2016, 5, 16, 0, 0, 0, 0);
             // 
@@ -247,9 +251,10 @@
             // 
             this.dtHasta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtHasta.Location = new System.Drawing.Point(799, 26);
+            this.dtHasta.Location = new System.Drawing.Point(1065, 32);
+            this.dtHasta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dtHasta.Name = "dtHasta";
-            this.dtHasta.Size = new System.Drawing.Size(98, 20);
+            this.dtHasta.Size = new System.Drawing.Size(129, 22);
             this.dtHasta.TabIndex = 9;
             this.dtHasta.Value = new System.DateTime(2016, 5, 16, 0, 0, 0, 0);
             // 
@@ -257,11 +262,12 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.SteelBlue;
+            this.label2.BackColor = System.Drawing.Color.DimGray;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(751, 9);
+            this.label2.Location = new System.Drawing.Point(1001, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 13);
+            this.label2.Size = new System.Drawing.Size(61, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "Período:";
             // 
@@ -269,16 +275,17 @@
             // 
             this.cmbSucursal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbSucursal.FormattingEnabled = true;
-            this.cmbSucursal.Location = new System.Drawing.Point(502, 3);
+            this.cmbSucursal.Location = new System.Drawing.Point(669, 4);
+            this.cmbSucursal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbSucursal.Name = "cmbSucursal";
-            this.cmbSucursal.Size = new System.Drawing.Size(238, 21);
+            this.cmbSucursal.Size = new System.Drawing.Size(316, 24);
             this.cmbSucursal.TabIndex = 12;
             // 
-            // Form1
+            // frmValidacionAsientos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(901, 396);
+            this.ClientSize = new System.Drawing.Size(1201, 487);
             this.Controls.Add(this.cmbSucursal);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dtHasta);
@@ -286,7 +293,8 @@
             this.Controls.Add(this.cmbDocumentos);
             this.Controls.Add(this.mallaDatos);
             this.Controls.Add(this.menu);
-            this.Name = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "frmValidacionAsientos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VALIDACION DE DIARIOS CONTABLES";
             ((System.ComponentModel.ISupportInitialize)(this.mallaDatos)).EndInit();

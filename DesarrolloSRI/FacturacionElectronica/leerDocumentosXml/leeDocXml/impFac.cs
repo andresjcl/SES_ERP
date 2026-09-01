@@ -5,19 +5,20 @@ using System.Data.SqlClient;
 using System.Xml;
 using ClassDoc;
 using DattCom;
+using System.Linq;
+
 namespace leeDocXml
 {
     public static class impFac
     {
-
         public static void importaInfTributariaFactura(XmlNode child, AdcDoc class_AdcDoc, ref string tipoIdentificacion)
         {
             string estab = "";
             string ptoemi = "";
-            //XmlNode child = xmlDocFactura.SelectSingleNode("/factura/infoTributaria");
+            string secuencial = "";
+
             if (child != null)
             {
-                //      'Obtenemos el Elemento nombre y valor               
                 for (int i = 0; i < child.ChildNodes.Count; i++)
                 {
                     try
@@ -34,9 +35,21 @@ namespace leeDocXml
                                 break;
                             case "ruc":
                                 class_AdcDoc.Doc_CiRuc = mValor;
+
+                                // ✅ DETERMINAR TIPO DE IDENTIFICACIÓN DEL EMISOR
+                                if (mValor.Length == 13)
+                                    tipoIdentificacion = "04";  // RUC
+                                else if (mValor.Length == 10)
+                                    tipoIdentificacion = "05";  // Cédula
+                                else
+                                    tipoIdentificacion = "06";  // Pasaporte
+
+                                Console.WriteLine($"Emisor: ID={mValor}, Tipo={tipoIdentificacion}");
                                 break;
                             case "claveAcceso":
                                 class_AdcDoc.claveSri = mValor;
+                                class_AdcDoc.NroAutorizacionSri = mValor;
+                                class_AdcDoc.Adi_NroAutSri = mValor;
                                 break;
                             case "codDoc":
                                 class_AdcDoc.Adi_TipoDocSri = mValor;
@@ -48,115 +61,129 @@ namespace leeDocXml
                                 ptoemi = mValor;
                                 break;
                             case "secuencial":
+                                secuencial = mValor;
                                 class_AdcDoc.Doc_numero = Convert.ToDecimal(mValor);
                                 break;
                             case "dirMatriz":
                                 class_AdcDoc.Doc_Direccion = mValor;
                                 break;
-                            case "tipoIdentificacionComprador":
-                                tipoIdentificacion = mValor;
-                                break;
                         }
                     }
                     catch { break; }
                 }
+
                 class_AdcDoc.Doc_NroIdDoc = estab + "-" + ptoemi;
             }
         }
 
-        //public static void importaInfFactura(XmlDocument xmlDocFactura, AdcDoc class_AdcDoc, DataGridView mallaReferencia)
-        //{
-        //    XmlNode child = xmlDocFactura.SelectSingleNode("/factura/infoFactura");
-        //    if (child != null)
-        //    {
-        //        for (int i = 0; i < child.ChildNodes.Count; i++)
-        //        {
-        //            try
-        //            {
-        //                string mNombre = child.ChildNodes.Item(i).Name;
-        //                string mValor = child.ChildNodes.Item(i).InnerText;
-        //                switch (mNombre)
-        //                {
-        //                    case "fechaEmision":
-        //                        class_AdcDoc.Doc_fecha = Convert.ToDateTime(mValor);
-        //                        break;
-        //                    case "totalDescuento":
-        //                        class_AdcDoc.doc_TotDesCIva = Convert.ToDecimal(mValor);
-        //                        break;
-        //                    case "importeTotal":
-        //                        // 1. Asignar importe total
-        //                        class_AdcDoc.Doc_valor = Convert.ToDecimal(mValor); // 24.85
+        /// <summary>
+        /// Calcula los totales por tipo de producto (Artículo/Concepto) después de importar detalles
+        /// </summary>
+        public static void CalcularTotalesPorTipo(AdcDoc class_AdcDoc, DataGridView mallaReferencia)
+        {
+            try
+            {
+                decimal totArtCIva = 0;    // Artículos CON IVA
+                decimal totArtSIva = 0;    // Artículos SIN IVA
+                decimal totSerCIva = 0;    // Servicios/Conceptos CON IVA
+                decimal totSerSIva = 0;    // Servicios/Conceptos SIN IVA
 
-        //                        // 2. Buscar totalConImpuestos para calcular Doc_totciva y Doc_totsiva
-        //                        XmlNode totalConImpuestosNode = child.SelectSingleNode("totalConImpuestos");
-        //                        if (totalConImpuestosNode != null)
-        //                        {
-        //                            foreach (XmlNode impuesto in totalConImpuestosNode.ChildNodes)
-        //                            {
-        //                                if (impuesto.Name == "totalImpuesto")
-        //                                {
-        //                                    string codigo = impuesto.SelectSingleNode("codigo")?.InnerText ?? "";
-        //                                    string codigoPorcentaje = impuesto.SelectSingleNode("codigoPorcentaje")?.InnerText ?? "";
-        //                                    string tarifaStr = impuesto.SelectSingleNode("tarifa")?.InnerText ?? "0";
-        //                                    string baseStr = impuesto.SelectSingleNode("baseImponible")?.InnerText ?? "0";
+                foreach (DataGridViewRow row in mallaReferencia.Rows)
+                {
+                    if (row.IsNewRow) continue;
 
-        //                                    decimal tarifa = 0;
-        //                                    decimal baseImponible = 0;
-        //                                    decimal.TryParse(tarifaStr, out tarifa);
-        //                                    decimal.TryParse(baseStr, out baseImponible);
+                    // Obtener valores de la fila
+                    object cantidadObj = row.Cells["Cantidad"].Value;
+                    object precioObj = row.Cells["PvUni"].Value;
+                    object ivaObj = row.Cells["iva"].Value;
+                    object conceptoObj = row.Cells["ConceptoProducto"].Value;
 
-        //                                    // EVALUAR PRIMERO EL CÓDIGO PORCENTAJE
-        //                                    if (tarifa == 0)
-        //                                        tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
+                    if (cantidadObj == null || precioObj == null) continue;
 
-        //                                    if (codigo == "2") // Es IVA
-        //                                    {
-        //                                        if (tarifa > 0)
-        //                                        {
-        //                                            // Base CON IVA
-        //                                            class_AdcDoc.Doc_totciva += baseImponible; // 19.00
-        //                                            class_AdcDoc.Doc_porceniva = tarifa; // 15
-        //                                            class_AdcDoc.BaseImp1 += baseImponible;
-        //                                        }
-        //                                        else
-        //                                        {
-        //                                            // Base SIN IVA
-        //                                            class_AdcDoc.Doc_totsiva += baseImponible; // 4.00
-        //                                        }
-        //                                    }
-        //                                }
-        //                            }
+                    decimal cantidad = Convert.ToDecimal(cantidadObj);
+                    decimal precioUnitario = Convert.ToDecimal(precioObj);
+                    bool tieneIva = false;
+                    string tipoProducto = "Producto";
 
-        //                            // Calcular IVA
-        //                            if (class_AdcDoc.Doc_porceniva > 0)
-        //                            {
-        //                                class_AdcDoc.Doc_valoriva = class_AdcDoc.Doc_totciva * (class_AdcDoc.Doc_porceniva / 100); // 1.85
-        //                            }
-        //                        }
-        //                        break;
-        //                    case "moneda":
-        //                        class_AdcDoc.Moneda = mValor;
-        //                        break;
-        //                    case "totalConImpuestos":
-        //                        importarImpuestosDoc(child.ChildNodes.Item(i), class_AdcDoc);
-        //                        break;
-        //                }
-        //            }
-        //            catch { break; }
-        //        }
-        //    }
-        //}
+                    // Determinar si tiene IVA
+                    if (ivaObj != null)
+                    {
+                        if (ivaObj is bool)
+                            tieneIva = (bool)ivaObj;
+                        else if (ivaObj is string)
+                            tieneIva = (ivaObj.ToString().ToUpper() == "TRUE" || ivaObj.ToString() == "1" || ivaObj.ToString().ToUpper() == "S");
+                        else
+                            bool.TryParse(ivaObj.ToString(), out tieneIva);
+                    }
 
+                    // Determinar tipo de producto
+                    if (conceptoObj != null)
+                    {
+                        tipoProducto = conceptoObj.ToString();
+                    }
+
+                    // Determinar si es Artículo o Servicio/Concepto
+                    bool esArticulo = (tipoProducto.ToUpper() == "PRODUCTO" || tipoProducto.ToUpper() == "A");
+
+                    decimal subtotal = cantidad * precioUnitario;
+
+                    if (esArticulo)
+                    {
+                        // ES ARTÍCULO
+                        if (tieneIva)
+                            totArtCIva += subtotal;
+                        else
+                            totArtSIva += subtotal;
+                    }
+                    else
+                    {
+                        // ES SERVICIO o CONCEPTO
+                        if (tieneIva)
+                            totSerCIva += subtotal;
+                        else
+                            totSerSIva += subtotal;
+                    }
+                }
+
+                // ✅ ASIGNAR VALORES A LA CLASE AdcDoc
+                class_AdcDoc.Doc_TotArtCIva = totArtCIva;
+                class_AdcDoc.Doc_TotArtSIva = totArtSIva;
+                class_AdcDoc.Doc_TotSerCIva = totSerCIva;
+                class_AdcDoc.Doc_TotSerSIva = totSerSIva;
+
+                // DEBUG: Mostrar en consola
+                Console.WriteLine("\n=== TOTALES POR TIPO DE PRODUCTO ===");
+                Console.WriteLine($"  Artículos CON IVA: {totArtCIva:F2}");
+                Console.WriteLine($"  Artículos SIN IVA: {totArtSIva:F2}");
+                Console.WriteLine($"  Servicios CON IVA: {totSerCIva:F2}");
+                Console.WriteLine($"  Servicios SIN IVA: {totSerSIva:F2}");
+
+                // Verificar consistencia con Doc_totciva y Doc_totsiva
+                decimal totalBases = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_totsiva;
+                decimal totalCalculado = totArtCIva + totArtSIva + totSerCIva + totSerSIva;
+
+                if (Math.Abs(totalBases - totalCalculado) > 0.01m)
+                {
+                    Console.WriteLine($"⚠️ ADVERTENCIA: Total bases ({totalBases:F2}) vs Total por tipo ({totalCalculado:F2})");
+                    Console.WriteLine($"   Diferencia: {Math.Abs(totalBases - totalCalculado):F2}");
+                }
+                else
+                {
+                    Console.WriteLine($"✅ Totales consistentes: {totalBases:F2} = {totalCalculado:F2}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error en CalcularTotalesPorTipo: {ex.Message}");
+            }
+        }
+
+       
         public static void importaInfFactura(XmlDocument xmlDocFactura, AdcDoc class_AdcDoc, DataGridView mallaReferencia)
         {
             XmlNode child = xmlDocFactura.SelectSingleNode("/factura/infoFactura");
             if (child != null)
             {
-                // Variables para almacenar valores del XML
-                decimal importeTotalXml = 0;
-                decimal totalSinImpuestosXml = 0;
-                decimal totalDescuentoXml = 0;
-
                 for (int i = 0; i < child.ChildNodes.Count; i++)
                 {
                     try
@@ -164,158 +191,149 @@ namespace leeDocXml
                         string mNombre = child.ChildNodes.Item(i).Name;
                         string mValor = child.ChildNodes.Item(i).InnerText;
 
-                        Console.WriteLine($"Procesando campo: {mNombre} = {mValor}");
-
                         switch (mNombre)
                         {
                             case "fechaEmision":
                                 class_AdcDoc.Doc_fecha = Convert.ToDateTime(mValor);
-                                Console.WriteLine($"  Asignado Doc_fecha: {class_AdcDoc.Doc_fecha}");
                                 break;
-
-                            case "totalDescuento":
-                                totalDescuentoXml = Convert.ToDecimal(mValor);
-                                class_AdcDoc.doc_TotDesCIva = totalDescuentoXml;
-                                Console.WriteLine($"  Asignado doc_TotDesCIva: {totalDescuentoXml}");
-                                break;
-
                             case "totalSinImpuestos":
-                                totalSinImpuestosXml = Convert.ToDecimal(mValor);
-                                // Guardar temporalmente - se ajustará después
-                                class_AdcDoc.Doc_totciva = totalSinImpuestosXml;
-                                Console.WriteLine($"  Temporal Doc_totciva: {totalSinImpuestosXml}");
+                                // ✅ Total sin impuestos (base imponible total)
+                                class_AdcDoc.Doc_totciva = Convert.ToDecimal(mValor);
+                                Console.WriteLine($"totalSinImpuestos (XML): {mValor}");
                                 break;
-
                             case "importeTotal":
-                                importeTotalXml = Convert.ToDecimal(mValor);
-                                class_AdcDoc.Doc_valor = importeTotalXml;
-                                Console.WriteLine($"  Asignado Doc_valor (XML): {importeTotalXml}");
+                                // ✅ Importe total (con impuestos)
+                                class_AdcDoc.Doc_valor = Convert.ToDecimal(mValor);
+                                Console.WriteLine($"importeTotal (XML): {mValor}");
                                 break;
-
                             case "moneda":
                                 class_AdcDoc.Moneda = mValor;
-                                Console.WriteLine($"  Asignado Moneda: {mValor}");
                                 break;
-
                             case "totalConImpuestos":
-                                Console.WriteLine("  Procesando totalConImpuestos...");
+                                // ✅ Procesar impuestos
                                 importarImpuestosDoc(child.ChildNodes.Item(i), class_AdcDoc);
                                 break;
-
-                            case "razonSocialComprador":
-                                class_AdcDoc.Doc_NombreImp = mValor;
-                                Console.WriteLine($"  Asignado Doc_NombreImp: {mValor}");
-                                break;
-
                             case "identificacionComprador":
                                 class_AdcDoc.Doc_CiRuc = mValor;
-                                Console.WriteLine($"  Asignado Doc_CiRuc: {mValor}");
+                                Console.WriteLine($"Comprador: Identificacion={mValor}");
                                 break;
-
+                            case "razonSocialComprador":
+                                // ✅ Nombre en MAYÚSCULAS
+                                class_AdcDoc.Doc_NombreImp = mValor.ToUpper();
+                                Console.WriteLine($"Comprador: Nombre={class_AdcDoc.Doc_NombreImp}");
+                                break;
                             case "direccionComprador":
                                 class_AdcDoc.Doc_Direccion = mValor;
-                                Console.WriteLine($"  Asignado Doc_Direccion: {mValor}");
+                                Console.WriteLine($"Comprador: Direccion={mValor}");
                                 break;
-
                             case "obligadoContabilidad":
                                 class_AdcDoc.Doc_Contabilidad = (mValor.ToUpper() == "SI") ? 1 : 0;
-                                Console.WriteLine($"  Asignado Doc_Contabilidad: {class_AdcDoc.Doc_Contabilidad}");
-                                break;
-
-                            case "propina":
-                                class_AdcDoc.AuxNum1 = Convert.ToDecimal(mValor);
-                                Console.WriteLine($"  Asignado AuxNum1 (propina): {mValor}");
-                                break;
-
-                            case "dirEstablecimiento":
-                                class_AdcDoc.AuxVar1 = mValor;
-                                Console.WriteLine($"  Asignado AuxVar1: {mValor}");
                                 break;
                         }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error procesando {child.ChildNodes.Item(i).Name}: {ex.Message}");
-                        continue; // Continuar con siguiente campo
+                        Console.WriteLine($"Error en importaInfFactura: {ex.Message}");
                     }
                 }
-
-                // ============================================
-                // VALIDACIÓN Y AJUSTE DE CONSISTENCIA
-                // ============================================
-                Console.WriteLine("\n=== VALIDACIÓN DE CONSISTENCIA ===");
-                Console.WriteLine($"Total sin impuestos (XML): {totalSinImpuestosXml}");
-                Console.WriteLine($"Importe total (XML): {importeTotalXml}");
-                Console.WriteLine($"Doc_totciva (base con IVA): {class_AdcDoc.Doc_totciva}");
-                Console.WriteLine($"Doc_totsiva (base sin IVA): {class_AdcDoc.Doc_totsiva}");
-                Console.WriteLine($"Doc_valoriva (IVA total): {class_AdcDoc.Doc_valoriva}");
-                Console.WriteLine($"Doc_porceniva (% IVA): {class_AdcDoc.Doc_porceniva}");
-
-                // Calcular total según bases + IVA
-                decimal totalCalculado = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_totsiva + class_AdcDoc.Doc_valoriva;
-                Console.WriteLine($"Total calculado (bases + IVA): {totalCalculado}");
-
-                // Verificar si hay inconsistencia entre el XML y los cálculos
-                if (Math.Abs(importeTotalXml - totalCalculado) > 0.01m)
-                {
-                    Console.WriteLine($"¡INCONSISTENCIA DETECTADA!");
-                    Console.WriteLine($"  XML dice: {importeTotalXml}");
-                    Console.WriteLine($"  Cálculo dice: {totalCalculado}");
-                    Console.WriteLine($"  Diferencia: {Math.Abs(importeTotalXml - totalCalculado)}");
-
-                    // Guardar ambos valores para referencia
-                    class_AdcDoc.AuxNum2 = totalCalculado; // Valor real calculado
-                    Console.WriteLine($"  Guardando valor real en AuxNum2: {totalCalculado}");
-
-                    // Si el IVA es 0 pero debería tener, recalcular
-                    if (class_AdcDoc.Doc_valoriva == 0 && class_AdcDoc.Doc_porceniva > 0 && class_AdcDoc.Doc_totciva > 0)
-                    {
-                        decimal ivaCalculado = class_AdcDoc.Doc_totciva * (class_AdcDoc.Doc_porceniva / 100);
-                        Console.WriteLine($"  Recalculando IVA: {class_AdcDoc.Doc_totciva} * {class_AdcDoc.Doc_porceniva}% = {ivaCalculado}");
-                        class_AdcDoc.Doc_valoriva = ivaCalculado;
-                        totalCalculado = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_totsiva + class_AdcDoc.Doc_valoriva;
-                        Console.WriteLine($"  Nuevo total calculado: {totalCalculado}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("✅ Totales consistentes");
-                }
-
-                // Asegurar que Doc_totciva + Doc_totsiva = totalSinImpuestosXml
-                decimal totalBases = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_totsiva;
-                if (Math.Abs(totalSinImpuestosXml - totalBases) > 0.01m)
-                {
-                    Console.WriteLine($"Ajustando bases para coincidir con totalSinImpuestos ({totalSinImpuestosXml})");
-
-                    // Si solo hay base con IVA, asignar todo a Doc_totciva
-                    if (class_AdcDoc.Doc_porceniva > 0 && class_AdcDoc.Doc_totsiva == 0)
-                    {
-                        class_AdcDoc.Doc_totciva = totalSinImpuestosXml;
-                        Console.WriteLine($"  Ajustado Doc_totciva a: {totalSinImpuestosXml}");
-                    }
-                    // Si hay ambas bases, mantener proporción
-                    else if (class_AdcDoc.Doc_totciva > 0 && class_AdcDoc.Doc_totsiva > 0)
-                    {
-                        decimal factor = totalSinImpuestosXml / totalBases;
-                        class_AdcDoc.Doc_totciva = class_AdcDoc.Doc_totciva * factor;
-                        class_AdcDoc.Doc_totsiva = class_AdcDoc.Doc_totsiva * factor;
-                        Console.WriteLine($"  Ajustadas bases proporcionalmente: Doc_totciva={class_AdcDoc.Doc_totciva}, Doc_totsiva={class_AdcDoc.Doc_totsiva}");
-                    }
-                }
-
-                Console.WriteLine("\n=== VALORES FINALES ===");
-                Console.WriteLine($"Doc_valor: {class_AdcDoc.Doc_valor}");
-                Console.WriteLine($"Doc_totciva: {class_AdcDoc.Doc_totciva}");
-                Console.WriteLine($"Doc_totsiva: {class_AdcDoc.Doc_totsiva}");
-                Console.WriteLine($"Doc_valoriva: {class_AdcDoc.Doc_valoriva}");
-                Console.WriteLine($"Doc_porceniva: {class_AdcDoc.Doc_porceniva}");
-            }
-            else
-            {
-                Console.WriteLine("ERROR: No se encontró nodo infoFactura en el XML");
             }
         }
+
+        //private static void importarImpuestosDoc(XmlNode childPago, AdcDoc docDax)
+        //{
+        //    if (childPago == null)
+        //    {
+        //        Console.WriteLine("  No hay nodo totalConImpuestos");
+        //        return;
+        //    }
+
+        //    decimal totalConIva = 0;
+        //    decimal totalSinIva = 0;
+        //    decimal totalIva = 0;
+        //    decimal porcIvaPrincipal = 0;
+        //    decimal baseImponibleTotal = 0;
+
+        //    Console.WriteLine($"  Procesando {childPago.ChildNodes.Count} impuestos...");
+
+        //    foreach (XmlNode impuesto in childPago.ChildNodes)
+        //    {
+        //        if (impuesto.Name == "totalImpuesto")
+        //        {
+        //            string codigo = "";
+        //            string codigoPorcentaje = "";
+        //            decimal tarifa = 0;
+        //            decimal valor = 0;
+        //            decimal baseImponible = 0;
+
+        //            foreach (XmlNode campo in impuesto.ChildNodes)
+        //            {
+        //                switch (campo.Name)
+        //                {
+        //                    case "codigo":
+        //                        codigo = campo.InnerText.Trim();
+        //                        Console.WriteLine($"    Código: {codigo}");
+        //                        break;
+        //                    case "codigoPorcentaje":
+        //                        codigoPorcentaje = campo.InnerText.Trim();
+        //                        Console.WriteLine($"    Código Porcentaje: {codigoPorcentaje}");
+        //                        break;
+        //                    case "baseImponible":
+        //                        decimal.TryParse(campo.InnerText.Replace(",", "."), out baseImponible);
+        //                        baseImponibleTotal += baseImponible;
+        //                        Console.WriteLine($"    Base Imponible: {baseImponible}");
+        //                        break;
+        //                    case "tarifa":
+        //                        decimal.TryParse(campo.InnerText.Replace(",", "."), out tarifa);
+        //                        Console.WriteLine($"    Tarifa: {tarifa}");
+        //                        break;
+        //                    case "valor":
+        //                        decimal.TryParse(campo.InnerText.Replace(",", "."), out valor);
+        //                        totalIva += valor;
+        //                        Console.WriteLine($"    Valor: {valor}");
+        //                        break;
+        //                }
+        //            }
+
+        //            // SOLO IVA (código 2)
+        //            if (codigo == "2")
+        //            {
+        //                // Si tarifa viene como 0, obtenerla del códigoPorcentaje
+        //                if (tarifa == 0)
+        //                {
+        //                    tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
+        //                    Console.WriteLine($"    Tarifa desde código {codigoPorcentaje}: {tarifa}%");
+        //                }
+
+        //                // Si tiene tarifa > 0, es CON IVA
+        //                if (tarifa > 0)
+        //                {
+        //                    totalConIva += baseImponible;
+
+        //                    if (porcIvaPrincipal == 0 && tarifa > 0)
+        //                    {
+        //                        porcIvaPrincipal = tarifa;
+        //                    }
+        //                    Console.WriteLine($"    Base CON IVA ({tarifa}%): +{baseImponible}");
+        //                }
+        //                else
+        //                {
+        //                    // Tarifa = 0, es SIN IVA
+        //                    totalSinIva += baseImponible;
+        //                    Console.WriteLine($"    Base SIN IVA: +{baseImponible}");
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    // ✅ ASIGNAR VALORES CORRECTAMENTE
+        //    docDax.Doc_totciva = totalConIva;        // Base CON IVA (25.62)
+        //    docDax.Doc_totsiva = totalSinIva;        // Base SIN IVA (0)
+        //    docDax.Doc_valoriva = totalIva;          // Total IVA (3.84)
+        //    docDax.Doc_porceniva = porcIvaPrincipal; // Porcentaje IVA (15)
+        //    docDax.BaseImp1 = totalConIva;           // ✅ BaseImp1 = base CON IVA (25.62)
+
+        //    Console.WriteLine($"  ✅ Resultados: ConIVA={totalConIva}, SinIVA={totalSinIva}, IVA={totalIva}, %IVA={porcIvaPrincipal}, BaseImp1={totalConIva}");
+        //}
 
         private static void importarImpuestosDoc(XmlNode childPago, AdcDoc docDax)
         {
@@ -325,12 +343,8 @@ namespace leeDocXml
                 return;
             }
 
-            decimal totalConIva = 0;
-            decimal totalSinIva = 0;
             decimal totalIva = 0;
             decimal porcIvaPrincipal = 0;
-
-            Console.WriteLine($"  Procesando {childPago.ChildNodes.Count} impuestos...");
 
             foreach (XmlNode impuesto in childPago.ChildNodes)
             {
@@ -348,96 +362,122 @@ namespace leeDocXml
                         {
                             case "codigo":
                                 codigo = campo.InnerText.Trim();
-                                Console.WriteLine($"    Código: {codigo}");
                                 break;
-
                             case "codigoPorcentaje":
                                 codigoPorcentaje = campo.InnerText.Trim();
-                                Console.WriteLine($"    Código Porcentaje: {codigoPorcentaje}");
                                 break;
-
                             case "baseImponible":
                                 decimal.TryParse(campo.InnerText.Replace(",", "."), out baseImponible);
-                                Console.WriteLine($"    Base Imponible: {baseImponible}");
                                 break;
-
                             case "tarifa":
                                 decimal.TryParse(campo.InnerText.Replace(",", "."), out tarifa);
-                                Console.WriteLine($"    Tarifa: {tarifa}");
                                 break;
-
                             case "valor":
+                                // ✅ USAR EL VALOR EXACTO DEL XML (3.84)
                                 decimal.TryParse(campo.InnerText.Replace(",", "."), out valor);
-                                Console.WriteLine($"    Valor: {valor}");
+                                totalIva += valor;
                                 break;
                         }
                     }
 
-                    // SOLO IVA (código 2)
                     if (codigo == "2")
                     {
-                        // Si tarifa viene como 0, obtenerla del códigoPorcentaje
                         if (tarifa == 0)
                         {
                             tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
-                            Console.WriteLine($"    Tarifa desde código {codigoPorcentaje}: {tarifa}%");
                         }
 
-                        // Si tiene tarifa > 0, es base CON IVA
-                        if (tarifa > 0)
+                        if (porcIvaPrincipal == 0 && tarifa > 0)
                         {
-                            totalConIva += baseImponible;
-                            totalIva += valor;
-
-                            // Guardar el porcentaje principal (el primero que encuentre > 0)
-                            if (porcIvaPrincipal == 0 && tarifa > 0)
-                            {
-                                porcIvaPrincipal = tarifa;
-                            }
-
-                            Console.WriteLine($"    Base CON IVA ({tarifa}%): +{baseImponible}, IVA: +{valor}");
-                        }
-                        else
-                        {
-                            // Tarifa = 0, es base SIN IVA
-                            totalSinIva += baseImponible;
-                            Console.WriteLine($"    Base SIN IVA: +{baseImponible}");
+                            porcIvaPrincipal = tarifa;
                         }
                     }
                 }
             }
 
-            // Asignar valores a la clase
-            docDax.Doc_totciva = totalConIva;      // Base gravable CON IVA
-            docDax.Doc_totsiva = totalSinIva;      // Base NO gravable SIN IVA
-            docDax.Doc_valoriva = totalIva;        // Total IVA
-            docDax.Doc_porceniva = porcIvaPrincipal; // Porcentaje principal
+            // ✅ ASIGNAR VALORES DEL XML (NO RECALCULAR)
+            docDax.Doc_valoriva = totalIva;        // 3.84
+            docDax.Doc_porceniva = porcIvaPrincipal; // 15
+        }
+        public static string GenerarCodigoIdentificacion(string identificacion, string tipoId)
+        {
+            if (string.IsNullOrEmpty(identificacion))
+                return "";
 
-            Console.WriteLine($"  Resultados: ConIVA={totalConIva}, SinIVA={totalSinIva}, IVA={totalIva}, %IVA={porcIvaPrincipal}");
+            string prefijo = ObtenerPrefijoSegunTipo(tipoId);
+            string codigoBase = identificacion.Trim();
+
+            // ✅ LIMPIAR CARACTERES NO NUMÉRICOS (para RUC y Cédula)
+            // Pero para Pasaporte puede tener letras, así que no limpiamos todo
+
+            // ✅ SI ES RUC (13 dígitos), tomar primeros 10 dígitos
+            if (tipoId == "04" && codigoBase.Length >= 13)
+            {
+                // Solo tomar números para RUC
+                string soloNumeros = new string(codigoBase.Where(char.IsDigit).ToArray());
+                if (soloNumeros.Length >= 10)
+                    codigoBase = soloNumeros.Substring(0, 10);
+                else
+                    codigoBase = soloNumeros.PadRight(10, '0');
+            }
+            // ✅ SI ES CÉDULA (10 dígitos), usar todos
+            else if (tipoId == "05")
+            {
+                // Solo tomar números para Cédula
+                string soloNumeros = new string(codigoBase.Where(char.IsDigit).ToArray());
+                if (soloNumeros.Length >= 10)
+                    codigoBase = soloNumeros.Substring(0, 10);
+                else
+                    codigoBase = soloNumeros.PadRight(10, '0');
+            }
+            // ✅ SI ES PASAPORTE, tomar máximo 10 caracteres
+            else if (tipoId == "06")
+            {
+                if (codigoBase.Length > 10)
+                    codigoBase = codigoBase.Substring(0, 10);
+                else
+                    codigoBase = codigoBase.PadRight(10, ' ').Trim();
+            }
+            else
+            {
+                // Por defecto, tomar primeros 10 caracteres
+                if (codigoBase.Length > 10)
+                    codigoBase = codigoBase.Substring(0, 10);
+            }
+
+            // ✅ EL CÓDIGO COMPLETO: PREFIJO + BASE (máximo 11 caracteres)
+            string codigoCompleto = prefijo + codigoBase;
+
+            // ✅ ASEGURAR QUE NO SUPERE 15 CARACTERES (varchar(15))
+            if (codigoCompleto.Length > 15)
+                codigoCompleto = codigoCompleto.Substring(0, 15);
+
+            return codigoCompleto;
         }
 
-        private static decimal obtenerTarifaDesdeCodigo(string cod)
+        /// <summary>
+        /// Obtiene el prefijo según el tipo de identificación
+        /// </summary>
+        public static string ObtenerPrefijoSegunTipo(string tipoId)
         {
-            switch (cod)
+            switch (tipoId)
             {
-                case "0": return 0;    // 0%
-                case "2": return 12;   // 12%
-                case "3": return 14;   // 14%
-                case "4": return 15;   // 15% ← Este es tu caso
-                case "5": return 13;   // 13%
-                case "6": return 8;    // 8%
-                case "7": return 5;    // 5%
-                case "8": return 10;   // 10%
-                case "9": return 0;    // 0% - Exento
-                default: return 0;
+                case "04": return "R";  // RUC
+                case "05": return "C";  // Cédula
+                case "06": return "P";  // Pasaporte
+                default: return "R";    // Por defecto RUC
             }
         }
 
         public static void importaDetallesFactura(XmlDocument xmlDocFactura, AdcTra class_AdcTra, AdcDoc class_AdcDoc, DataGridView mallaReferencia)
         {
+            Console.WriteLine("\n=== INICIANDO IMPORTACIÓN DE DETALLES ===");
+
             XmlNode childDet = xmlDocFactura.SelectSingleNode("/factura/detalles");
             if (childDet != null)
             {
+                Console.WriteLine($"📋 Nodos detalles encontrados: {childDet.ChildNodes.Count}");
+
                 if (childDet.ChildNodes.Count == 0) return;
 
                 for (int i = 0; i < childDet.ChildNodes.Count; i++)
@@ -445,11 +485,15 @@ namespace leeDocXml
                     try
                     {
                         XmlNode child = childDet.ChildNodes[i];
+                        Console.WriteLine($"\n--- Detalle {i + 1} ---");
+                        Console.WriteLine($"Nodo: {child.Name}");
+
                         if (child.Name == "detalle")
                         {
                             class_AdcTra = new AdcTra();
                             decimal precioTotalSinImpuesto = 0;
                             decimal porcIva = 0;
+                            decimal valorIva = 0;
                             bool tieneIva = false;
 
                             for (int j = 0; j < child.ChildNodes.Count; j++)
@@ -458,6 +502,8 @@ namespace leeDocXml
                                 {
                                     string mNombre = child.ChildNodes.Item(j).Name;
                                     string mValor = child.ChildNodes.Item(j).InnerText;
+
+                                    Console.WriteLine($"  Campo: {mNombre} = {mValor}");
 
                                     switch (mNombre)
                                     {
@@ -483,7 +529,7 @@ namespace leeDocXml
 
                                         case "cantidad":
                                             class_AdcTra.Tra_cantidad = Convert.ToDecimal(mValor);
-                                            class_AdcTra.Tra_numprecio = "1"; // ← AQUÍ
+                                            class_AdcTra.Tra_numprecio = "1";
                                             break;
 
                                         case "precioUnitario":
@@ -497,30 +543,31 @@ namespace leeDocXml
                                         case "precioTotalSinImpuesto":
                                             precioTotalSinImpuesto = Convert.ToDecimal(mValor);
                                             class_AdcTra.Tra_prectot = precioTotalSinImpuesto;
+                                            Console.WriteLine($"  ✅ Base sin IVA: {precioTotalSinImpuesto}");
                                             break;
 
                                         case "impuestos":
+                                            Console.WriteLine("  🔍 Procesando impuestos...");
                                             XmlNode childImp = child.ChildNodes[j];
                                             if (childImp.ChildNodes.Count > 0)
                                             {
-                                                // Obtener porcentaje de IVA
-                                                porcIva = importarImpuestosTra(childImp);
+                                                decimal baseImponible = 0;
+                                                ObtenerDatosIVA(childImp, ref porcIva, ref valorIva, ref baseImponible);
+
                                                 tieneIva = (porcIva > 0);
+
+                                                Console.WriteLine($"  📊 Resultado IVA: tieneIva={tieneIva}, porcIva={porcIva}, valorIva={valorIva}");
+
                                                 class_AdcTra.Tra_sniva = tieneIva;
                                                 class_AdcTra.Tra_porceniva = porcIva;
+                                                class_AdcTra.Tra_valoriva = valorIva;
+                                                class_AdcTra.Tra_valor = precioTotalSinImpuesto + valorIva;
 
-                                                // Calcular el valor del IVA para esta línea
-                                                if (tieneIva && precioTotalSinImpuesto > 0)
-                                                {
-                                                    decimal valorIva = precioTotalSinImpuesto * (porcIva / 100);
-                                                    class_AdcTra.Tra_valoriva = valorIva;
-                                                    class_AdcTra.Tra_valor = precioTotalSinImpuesto + valorIva; // ← AQUÍ
-                                                }
-                                                else
-                                                {
-                                                    class_AdcTra.Tra_valoriva = 0;
-                                                    class_AdcTra.Tra_valor = precioTotalSinImpuesto; // ← AQUÍ
-                                                }
+                                                Console.WriteLine($"  ✅ Total línea: {class_AdcTra.Tra_valor}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("  ⚠️ No hay nodos impuestos");
                                             }
                                             break;
 
@@ -531,25 +578,137 @@ namespace leeDocXml
                                             break;
                                     }
                                 }
-                                catch { break; }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"  ❌ Error en campo {j}: {ex.Message}");
+                                    break;
+                                }
                             }
 
-                            // Si no se procesaron impuestos, calcular valores por defecto
                             if (class_AdcTra.Tra_valor == 0)
                             {
-                                class_AdcTra.Tra_valor = precioTotalSinImpuesto; // ← AQUÍ
+                                Console.WriteLine($"  ⚠️ Tra_valor es 0, asignando default: {precioTotalSinImpuesto}");
+                                class_AdcTra.Tra_valor = precioTotalSinImpuesto;
+                                class_AdcTra.Tra_sniva = false;
+                                class_AdcTra.Tra_porceniva = 0;
+                                class_AdcTra.Tra_valoriva = 0;
                             }
 
-                            // Calcular costos (para artículos)
-                            CalcularCostosParaArticulo(ref class_AdcTra, class_AdcDoc);
+                            Console.WriteLine($"  📋 Valores finales:");
+                            Console.WriteLine($"    Tra_sniva: {class_AdcTra.Tra_sniva}");
+                            Console.WriteLine($"    Tra_porceniva: {class_AdcTra.Tra_porceniva}");
+                            Console.WriteLine($"    Tra_valoriva: {class_AdcTra.Tra_valoriva}");
+                            Console.WriteLine($"    Tra_valor: {class_AdcTra.Tra_valor}");
 
+                            CalcularCostosParaArticulo(ref class_AdcTra, class_AdcDoc);
                             guardaDetalle(class_AdcTra, class_AdcDoc, mallaReferencia);
                         }
                     }
-                    catch { break; }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"❌ Error en detalle {i}: {ex.Message}");
+                        break;
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("❌ No se encontró el nodo /factura/detalles");
+            }
+
+            Console.WriteLine("=== FIN IMPORTACIÓN DE DETALLES ===\n");
         }
+
+
+        private static void ObtenerDatosIVA(XmlNode nodeImpuestos, ref decimal porcentaje, ref decimal valor, ref decimal baseImponible)
+        {
+            porcentaje = 0;
+            valor = 0;
+            baseImponible = 0;
+
+            if (nodeImpuestos == null)
+            {
+                Console.WriteLine("  ❌ nodeImpuestos es NULL");
+                return;
+            }
+
+            Console.WriteLine($"  🔍 Procesando nodo impuestos con {nodeImpuestos.ChildNodes.Count} hijos");
+
+            foreach (XmlNode impuesto in nodeImpuestos.ChildNodes)
+            {
+                Console.WriteLine($"    📌 Nodo: {impuesto.Name}");
+
+                if (impuesto.Name == "impuesto")
+                {
+                    string codigo = "";
+                    string codigoPorcentaje = "";
+                    decimal tarifa = 0;
+                    decimal val = 0;
+                    decimal baseImp = 0;
+
+                    foreach (XmlNode campo in impuesto.ChildNodes)
+                    {
+                        Console.WriteLine($"      🔹 Campo: {campo.Name} = {campo.InnerText}");
+
+                        switch (campo.Name)
+                        {
+                            case "codigo":
+                                codigo = campo.InnerText.Trim();
+                                break;
+                            case "codigoPorcentaje":
+                                codigoPorcentaje = campo.InnerText.Trim();
+                                break;
+                            case "tarifa":
+                                decimal.TryParse(campo.InnerText.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out tarifa);
+                                break;
+                            case "baseImponible":
+                                decimal.TryParse(campo.InnerText.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out baseImp);
+                                break;
+                            case "valor":
+                                decimal.TryParse(campo.InnerText.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out val);
+                                break;
+                        }
+                    }
+
+                    Console.WriteLine($"    📊 Código={codigo}, Tarifa={tarifa}, Valor={val}, Base={baseImp}");
+
+                    if (codigo == "2")
+                    {
+                        if (tarifa == 0 && !string.IsNullOrEmpty(codigoPorcentaje))
+                        {
+                            tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
+                        }
+
+                        porcentaje = tarifa;
+                        valor = val;
+                        baseImponible = baseImp;
+
+                        Console.WriteLine($"    ✅ IVA ENCONTRADO: tarifa={tarifa}%, valor={val}, base={baseImp}");
+                        return;
+                    }
+                }
+            }
+
+            Console.WriteLine($"  ⚠️ No se encontró IVA (código 2) en este detalle");
+        }
+
+        private static decimal obtenerTarifaDesdeCodigo(string cod)
+        {
+            switch (cod)
+            {
+                case "0": return 0;    // 0%
+                case "2": return 12;   // 12%
+                case "3": return 14;   // 14%
+                case "4": return 15;   // 15%
+                case "5": return 13;   // 13%
+                case "6": return 8;    // 8%
+                case "7": return 5;    // 5%
+                case "8": return 10;   // 10%
+                case "9": return 0;    // 0% - Exento
+                default: return 0;
+            }
+        }
+
         private static void CalcularCostosParaArticulo(ref AdcTra adcTra, AdcDoc adcDoc)
         {
             // Determinar si es artículo o servicio (podrías tener otra lógica aquí)
@@ -631,50 +790,6 @@ namespace leeDocXml
             return 0;
         }
 
-        //private static void guardaDetalle(AdcTra adcTra, AdcDoc adcDoc, DataGridView mallaReferencia)
-        //{
-        //    Boolean esConcepto = true;
-        //    string valConcepto = "S";
-        //    Int32 ind = 0;
-        //    if (adcTra.Tra_Codigo == "" && adcTra.Tra_nombre == "") return;
-
-        //    if (adcTra.Tra_Codigo == "") adcTra.Tra_Codigo = adcTra.Tra_nombre;
-        //    if (adcTra.Tra_nombre == "") adcTra.Tra_nombre = adcTra.Tra_Codigo;
-
-        //    mallaReferencia.Rows.Add();
-
-        //    ind = mallaReferencia.Rows.Count - 1;
-        //    mallaReferencia.Rows[ind].Cells["ProductoProveedor"].Value = adcTra.Tra_Codigo;
-        //    mallaReferencia.Rows[ind].Cells["DetalleProveedor"].Value = adcTra.Tra_nombre;
-        //    mallaReferencia.Rows[ind].Cells["usarDetalle"].Value = "Proveedor";
-        //    mallaReferencia.Rows[ind].Cells["DetalleAutilizar"].Value = adcTra.Tra_nombre;
-
-        //    mallaReferencia.Rows[ind].Cells["Cantidad"].Value = adcTra.Tra_cantidad;
-        //    mallaReferencia.Rows[ind].Cells["PvUni"].Value = adcTra.Tra_precuni;
-        //    mallaReferencia.Rows[ind].Cells["iva"].Value = adcTra.Tra_sniva;
-        //    mallaReferencia.Rows[ind].Cells["PorcDes"].Value = adcTra.Tra_valordes;
-
-        //    mallaReferencia.Rows[ind].Cells["Lote"].Value = adcTra.Tra_NroLote;
-        //    mallaReferencia.Rows[ind].Cells["Vence"].Value = adcTra.AuxVar1;
-        //    mallaReferencia.Rows[ind].Cells["CodAlterno"].Value = adcTra.tra_codigoalterno;
-
-        //    string strAux = articuloAdcom(adcTra.Tra_Codigo, adcDoc.Doc_CiRuc, ref esConcepto);
-
-        //    if (esConcepto == false) valConcepto = "A";
-        //    if (strAux != "")
-        //    {
-        //        mallaReferencia.Rows[ind].Cells["codProductoPropio"].Value = strAux;
-        //    }
-        //    else
-        //    {
-
-        //    }
-        //    mallaReferencia.Rows[ind].Cells["ConceptoProducto"].Value = valConcepto;
-        //    //DataRow row = Dt_adctra.NewRow();
-        //    //adcTra.moverAdctraDatarow(adcTra,ref row);
-        //    //Dt_adctra.Rows.Add(row);
-        //}
-
         private static void guardaDetalle(AdcTra adcTra, AdcDoc adcDoc, DataGridView mallaReferencia)
         {
             Boolean esConcepto = true;
@@ -692,7 +807,7 @@ namespace leeDocXml
             mallaReferencia.Rows.Add();
             ind = mallaReferencia.Rows.Count - 1;
 
-            // CAMPOS PRINCIPALES
+            // ✅ CAMPOS PRINCIPALES
             mallaReferencia.Rows[ind].Cells["ProductoProveedor"].Value = adcTra.Tra_Codigo;
             mallaReferencia.Rows[ind].Cells["DetalleProveedor"].Value = adcTra.Tra_nombre;
             mallaReferencia.Rows[ind].Cells["usarDetalle"].Value = "Proveedor";
@@ -700,10 +815,12 @@ namespace leeDocXml
 
             mallaReferencia.Rows[ind].Cells["Cantidad"].Value = adcTra.Tra_cantidad;
             mallaReferencia.Rows[ind].Cells["PvUni"].Value = adcTra.Tra_precuni;
+
+            // ✅ IVA - ASIGNAR CORRECTAMENTE
             mallaReferencia.Rows[ind].Cells["iva"].Value = adcTra.Tra_sniva;
             mallaReferencia.Rows[ind].Cells["PorcDes"].Value = adcTra.Tra_valordes;
 
-            // CAMPOS DE IVA
+            // ✅ CAMPOS DE IVA (porcentaje y valor)
             if (mallaReferencia.Columns.Contains("Tra_porceniva"))
             {
                 mallaReferencia.Rows[ind].Cells["Tra_porceniva"].Value = adcTra.Tra_porceniva;
@@ -714,7 +831,7 @@ namespace leeDocXml
                 mallaReferencia.Rows[ind].Cells["Tra_valoriva"].Value = adcTra.Tra_valoriva;
             }
 
-            // CAMPOS DE VALOR TOTAL
+            // ✅ CAMPO VALOR TOTAL (base + IVA)
             if (mallaReferencia.Columns.Contains("Tra_valor"))
             {
                 mallaReferencia.Rows[ind].Cells["Tra_valor"].Value = adcTra.Tra_valor;
@@ -735,6 +852,7 @@ namespace leeDocXml
             mallaReferencia.Rows[ind].Cells["Vence"].Value = adcTra.AuxVar1;
             mallaReferencia.Rows[ind].Cells["CodAlterno"].Value = adcTra.tra_codigoalterno;
 
+            // Determinar si es Artículo o Concepto
             string strAux = articuloAdcom(adcTra.Tra_Codigo, adcDoc.Doc_CiRuc, ref esConcepto);
 
             if (!esConcepto)
@@ -746,6 +864,9 @@ namespace leeDocXml
             }
 
             mallaReferencia.Rows[ind].Cells["ConceptoProducto"].Value = valConcepto;
+
+            // ✅ DEBUG
+            Console.WriteLine($"  Fila {ind}: {adcTra.Tra_Codigo}, IVA={adcTra.Tra_sniva}, %IVA={adcTra.Tra_porceniva}, ValorIVA={adcTra.Tra_valoriva}, Total={adcTra.Tra_valor}");
         }
 
         private static string articuloAdcom(string prodProveedor, string codProveedor, ref Boolean esConcepto)
@@ -760,212 +881,6 @@ namespace leeDocXml
                 return dt.Rows[0]["codigoAdcomDax"].ToString();
             }
         }
-
-        //private static void importarImpuestosDoc(XmlNode childPago, AdcDoc docDax)
-        //{
-        //    if (childPago.ChildNodes.Count == 0) return;
-        //    string[] codigo = new string[childPago.ChildNodes.Count];
-        //    string[] codPorcentaje = new string[childPago.ChildNodes.Count];
-        //    string[] baseImponible = new string[childPago.ChildNodes.Count];
-        //    string[] tarifa = new string[childPago.ChildNodes.Count];
-        //    string[] valor = new string[childPago.ChildNodes.Count];
-        //    int validos = 0;
-        //    XmlNode child;
-        //    if (childPago != null)
-        //    {
-        //        //      'Obtenemos el Elemento nombre y valor               
-        //        for (int i = 0; i < childPago.ChildNodes.Count; i++)
-        //        {
-        //            try
-        //            {
-        //                child = childPago.ChildNodes.Item(i);
-        //                for (int j = 0; j < child.ChildNodes.Count; j++)
-        //                {
-        //                    validos++;
-        //                    try
-        //                    {
-        //                        string mNombre = child.ChildNodes.Item(j).Name;
-        //                        string mValor = child.ChildNodes.Item(j).InnerText;
-        //                        switch (mNombre)
-        //                        {
-        //                            case "codigo":
-        //                                codigo[i] = mValor;
-        //                                break;
-        //                            case "codigoPorcentaje":
-        //                                codPorcentaje[i] = mValor;
-        //                                break;
-        //                            case "baseImponible":
-        //                                baseImponible[i] = mValor;
-        //                                break;
-        //                            case "tarifa":
-        //                                tarifa[i] = mValor;
-        //                                break;
-        //                            case "valor":
-        //                                valor[i] = mValor;
-        //                                break;
-        //                        }
-        //                    }
-        //                    catch { break; }
-        //                }
-        //            }
-        //            catch { break; }
-        //        }
-        //        if (validos > 0)
-        //        {
-        //            for (int i = 0; i < validos; i++)
-        //            {
-        //                decimal porcIva = 0;
-        //                decimal valorIva = 0;
-        //                try
-        //                {
-        //                    valorIva = Convert.ToDecimal(valor[0]);
-        //                    porcIva = Convert.ToDecimal(tarifa[0]);
-        //                }
-        //                catch { }
-        //                docDax.Doc_valoriva = valorIva;
-        //                docDax.Doc_porceniva = porcIva;
-        //            }
-        //        }
-        //    }
-
-        //}
-
-        //private static void importarImpuestosDoc(XmlNode childPago, AdcDoc docDax)
-        //{
-        //    if (childPago == null) return;
-
-        //    foreach (XmlNode impuesto in childPago.ChildNodes)
-        //    {
-        //        string codigo = "";
-        //        string codigoPorcentaje = "";
-        //        decimal tarifa = 0;
-        //        decimal valor = 0;
-
-        //        foreach (XmlNode campo in impuesto.ChildNodes)
-        //        {
-        //            switch (campo.Name)
-        //            {
-        //                case "codigo":
-        //                    codigo = campo.InnerText.Trim();
-        //                    break;
-
-        //                case "codigoPorcentaje":
-        //                    codigoPorcentaje = campo.InnerText.Trim();
-        //                    break;
-
-        //                case "tarifa":
-        //                    decimal.TryParse(campo.InnerText.Replace(",", "."), out tarifa);
-        //                    break;
-
-        //                case "valor":
-        //                    decimal.TryParse(campo.InnerText.Replace(",", "."), out valor);
-        //                    break;
-        //            }
-        //        }
-
-        //        // ✅ SOLO IVA
-        //        if (codigo == "2")
-        //        {
-        //            // si no vino tarifa → calcular por codigoPorcentaje
-        //            if (tarifa == 0)
-        //                tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
-
-        //            docDax.Doc_porceniva = tarifa;
-        //            docDax.Doc_valoriva = valor;
-        //        }
-        //    }
-        //}
-
-        //private static decimal obtenerTarifaDesdeCodigo(string cod)
-        //{
-        //    switch (cod)
-        //    {
-        //        case "0": return 0;    // 0% - No tiene IVA
-        //        case "2": return 12;   // 12% - IVA 12%
-        //        case "3": return 14;   // 14% - IVA 14%
-        //        case "4": return 15;   // 15% - IVA 15% ← TU CASO
-        //        case "5": return 13;   // 13% - IVA 13%
-        //        case "6": return 8;    // 8% - IVA 8%
-        //        case "7": return 5;    // 5% - IVA 5%
-        //        case "8": return 10;   // 10% - IVA 10%
-        //        case "9": return 0;    // 0% - Exento
-        //        default: return 0;
-        //    }
-        //}
-
-
-  //      public static Boolean importarImpuestosTra(XmlNode childDetalle)
-		//{
-		//	if (childDetalle == null) return false;
-		//	if (childDetalle.ChildNodes.Count == 0) return false;
-		//	string impCodigo = "0";
-		//	double impValor = 0;
-		//	XmlNode child;
-		//	if (childDetalle != null)
-		//	{
-		//		//      'Obtenemos el Elemento nombre y valor               
-		//		for (int i = 0; i < childDetalle.ChildNodes.Count; i++)
-		//		{
-		//			try
-		//			{
-		//				child = childDetalle.ChildNodes.Item(i);
-		//				for (int j = 0; j < child.ChildNodes.Count; j++)
-		//				{
-		//					try
-		//					{
-		//						string mNombre = child.ChildNodes.Item(j).Name;
-		//						string mValor = child.ChildNodes.Item(j).InnerText;
-		//						switch (mNombre)
-		//						{
-		//							case "codigo":
-		//								impCodigo = mValor;
-		//								break;
-		//							case "tarifa":
-		//								impValor = Convert.ToDouble(mValor);
-		//								break;
-		//						}
-		//					}
-		//					catch { break; }
-		//				}
-		//			}
-		//			catch { break; }
-		//		}
-		//		if (impCodigo == "2" && impValor > 0) return true;
-		//	}
-		//	return false;
-		//}
-
-		//public static decimal importarImpuestosTra(XmlNode childDetalle)
-  //      {
-  //          if (childDetalle == null) return 0;
-
-  //          foreach (XmlNode impuesto in childDetalle.ChildNodes)
-  //          {
-  //              string codigo = "";
-  //              decimal tarifa = 0;
-
-  //              foreach (XmlNode campo in impuesto.ChildNodes)
-  //              {
-  //                  switch (campo.Name)
-  //                  {
-  //                      case "codigo":
-  //                          codigo = campo.InnerText;
-  //                          break;
-
-  //                      case "tarifa":
-  //                          decimal.TryParse(campo.InnerText, out tarifa);
-  //                          break;
-  //                  }
-  //              }
-
-  //              // IVA
-  //              if (codigo == "2")
-  //                  return tarifa; // ← devuelve 15
-  //          }
-
-  //          return 0;
-  //      }
-
 
 
         public static Boolean importardetallesAdicionalesTra(XmlNode childDetalle, AdcTra classAdctra)
@@ -1018,5 +933,32 @@ namespace leeDocXml
             return false;
         }
 
+
+        public static void ImportarEmailAdicional(XmlDocument xmlDocFactura, AdcDoc class_AdcDoc)
+        {
+            try
+            {
+                XmlNodeList campos = xmlDocFactura.SelectNodes("/factura/infoAdicional/campoAdicional");
+                if (campos != null)
+                {
+                    foreach (XmlNode campo in campos)
+                    {
+                        string nombre = campo.Attributes["nombre"]?.Value ?? "";
+                        if (nombre.Equals("Correo", StringComparison.OrdinalIgnoreCase))
+                        {
+                            class_AdcDoc.AuxVar9 = campo.InnerText.Trim();
+                            Console.WriteLine($"  Email importado: {class_AdcDoc.AuxVar9}");
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error importando email: {ex.Message}");
+            }
+        }
     }
+
 }
+

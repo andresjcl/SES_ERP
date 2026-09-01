@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace adcValCtb
+namespace sesValCtb
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace adcValCtb
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form1 prog = new Form1();
+            frmValidacionAsientos prog = new frmValidacionAsientos();
             prog.ShowDialog();
         }
     }

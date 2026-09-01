@@ -1,7 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Windows.Forms
 Imports DattCom
-Imports ClaseAdicionalesAyuda
+
 
 Public Class DEEP01
     'Dim DaaxLibNom As New daaxLib.DaxLibNom

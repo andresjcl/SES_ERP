@@ -20,7 +20,7 @@ using es.mityc.firmaJava.libreria.utilidades;
 
 using sviudes.blogspot.com;
 using org.w3c.dom;
-using DaxDocElectronicos;
+using sesDocElectronicos;
 
 namespace SolicitudAutSRI
 {

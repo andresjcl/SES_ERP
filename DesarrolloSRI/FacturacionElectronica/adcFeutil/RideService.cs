@@ -1,5 +1,4 @@
 ﻿using ClassDoc;
-using ClassFelec;
 using DattCom;
 using System;
 using System.Collections.Generic;
@@ -7,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using IvaRett;
-using static DaxDocElectronicos.Auxiliares;
+using static sesDocElectronicos.Auxiliares;
 using System.Windows.Forms;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class RideService
     {
@@ -93,7 +92,9 @@ namespace DaxDocElectronicos
             var facturaRequest = new FacturaRequest
             {
                 RucEmisor = datosEmpresa.Emp_RUC,
+                RucProveedor = "1721794616001",
                 RazonSocialEmisor = datosEmpresa.Emp_Nombre,
+                RazonSocialComercial= datosEmpresa.Emp_NombreCom,
                 DireccionMatriz = datosEmpresa.Emp_Dirección,
                 DireccionSucursal = datosEmpresa.Emp_Dirección,
                 EmailEmisor = datosEmpresa.Emp_Email,
@@ -106,6 +107,7 @@ namespace DaxDocElectronicos
 
                 NumeroFactura = resultado._Doc_NroIdDoc + "-" + resultado._Doc_numero.ToString("000000000"),
                 NumeroAutorizacion = resultado._NroAutorizacionSri,
+
 
                 FechaAutorizacion = resultado._fechaAutorizacion.HasValue
            ? resultado._fechaAutorizacion.Value.ToString("yyyy-MM-ddTHH:mm:ss")

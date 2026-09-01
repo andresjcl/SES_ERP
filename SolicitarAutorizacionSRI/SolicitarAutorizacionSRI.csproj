@@ -50,10 +50,6 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Librerias\CeUtility.dll</HintPath>
-    </Reference>
     <Reference Include="ClassFelec">
       <HintPath>..\Librerias\ClassFelec.dll</HintPath>
     </Reference>
@@ -152,6 +148,10 @@
     <Reference Include="serializer-2.7.1, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Librerias\serializer-2.7.1.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\sesCeUtility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

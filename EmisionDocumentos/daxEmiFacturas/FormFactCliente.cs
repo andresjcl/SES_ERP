@@ -20,10 +20,9 @@ using System.Net.Mail;
 using System.Net;
 using DaxDocElectronicos;
 using System.Linq;
-using static DaxDocElectronicos.Auxiliares;
-using ClassFelec;
 using System.ComponentModel;
 using ImpresionDoc;
+using sesDocElectronicos;
 
 namespace DctosEmi
 {
@@ -72,20 +71,20 @@ namespace DctosEmi
 		string memVendedor = "";
 		string memBodega = "";
 
-		string queSucF = "";
-		string queDocF = "";
-		decimal queNumF = 0;
-		decimal IdClaveDocF = 0;
+		//string queSucF = "";
+		//string queDocF = "";
+		//decimal queNumF = 0;
+		//decimal IdClaveDocF = 0;
 
 		string PathFile = "";
 		short tipoEmision = 0;
 
 		public string urlE = "";
-		string PathFileE = "";
+		//string PathFileE = "";
 		string queSucE = "";
 		string queDocE = "";
 		decimal queNumE = 0;
-		short tipoEmisionE = 0;
+		//short tipoEmisionE = 0;
 		string queClaveSRIE = "";
 		double IdClaveDocFE = 0;
 		string ErroresE = "";
@@ -1175,14 +1174,7 @@ namespace DctosEmi
 			if (validarDocumento() == true)
 			{
 				if (grabarDocumento() == true)
-					{
-					//if (ConfiguracionCorreo.ParametroCargado && ConfiguracionCorreo.parametro == 1)
-					//if (ConfiguracionCorreo.parametro == 1)
-					//{
-						//urlE = ConfiguracionCorreo.UrlSRI; // Aquí obtienes la URL desde la BD
-						//solicitarAutorizacionSRI(urlE);
-					//}
-
+				{			
 					limpiarDatos();
 				}
 			}
@@ -1191,8 +1183,8 @@ namespace DctosEmi
 		
 		private void solicitarAutorizacionSRI(string urlsri, ref ClassDoc.AdcDoc datADCDOC)
 		{
-			var fel = new ClassFelec.AdcFelec(datosEmpresa.strConxAdcom);
-			fel = ClassFelec.AdcFelec.Buscar("");
+			var fel = new AdcFelec(datosEmpresa.strConxAdcom);
+			fel = AdcFelec.Buscar("");
 
 			string queClave = "";
 			tipoEmision = 1;
@@ -2555,8 +2547,8 @@ namespace DctosEmi
 
 		private void generarpdf(string urlsri)
 		{
-			var fel = new ClassFelec.AdcFelec(datosEmpresa.strConxAdcom);
-			fel = ClassFelec.AdcFelec.Buscar("");
+			var fel = new AdcFelec(datosEmpresa.strConxAdcom);
+			fel = AdcFelec.Buscar("");
 
 			PathFile = fel.pathCpbFirmados + queClaveSRIE + ".xml";
 			string pathAutorizados = fel.pathCpbAutorizados + queClaveSRIE + ".xml";

@@ -8,32 +8,31 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.Sql;
 using System.Data.SqlClient;
+using DattCom;
+using DaxMallaLib;
 
-namespace adcValCtb
+namespace sesValCtb
 {
-    public partial class Form1 : Form
+    public partial class frmValidacionAsientos : Form
     {
         string strConxAdcom;
         string strConxDaxsys;
-        Int64 periodo = 0;
-        string nombrePeriodo = "";
-        string Cabecera;
-        string detalleDoc;
+        //Int64 periodo = 0;
+        //string nombrePeriodo = "";
+        //string Cabecera;
+        //string detalleDoc;
         DateTime fechaIniPeriodo=DateTime.Now;
-        DateTime fechaFinPeriodo=DateTime.Now;
-        AdcDax.DaxSofSys defemp = new AdcDax.DaxSofSys();
+        DateTime fechaFinPeriodo=DateTime.Now;        
         int estadoProceso = 0;  // 0 iniciando  1 cargado contabilidad
-        public Form1()
+        public frmValidacionAsientos()
         {
             InitializeComponent();
             try
-            {
-                daaxLib.DaxLibBases dlib = new daaxLib.DaxLibBases();
-                dlib.TipoBase = "10";
-                strConxAdcom = dlib.StrAdcom();
-                strConxDaxsys = dlib.StrDaxsys();
+            {               
+                strConxAdcom =datosEmpresa.strConxAdcom;
+                strConxDaxsys = datosEmpresa.strConIniSis;
                 ponerBotones();
-                cargarCombos(defemp.EmpresaAct.codigo);
+                cargarCombos(datosEmpresa.Emp_codigo);
             }
             catch { this.Close(); return; }
         }
@@ -50,7 +49,7 @@ namespace adcValCtb
             if (cmbDocumentos.SelectedValue.ToString() != "0") doc=cmbDocumentos.SelectedValue.ToString();
             string SUC ="";
             if(cmbSucursal.SelectedValue.ToString() != "0") SUC =cmbSucursal.SelectedValue.ToString();
-            string sSql = "ADC_ValCtb '" + doc + "','" + SUC + "','" + dtDesde.Text + "','" + dtHasta.Text + "','" + defemp.EmpresaAct.ConUltAnu.ToShortDateString() + "'";
+            string sSql = "ADC_ValCtb '" + doc + "','" + SUC + "','" + dtDesde.Text + "','" + dtHasta.Text + "','" +datosEmpresa.Par_RolCodMay + "'";
             SqlDataAdapter misqlDa = new SqlDataAdapter(sSql, strConxAdcom);
             DataTable dato = new DataTable();
             misqlDa.Fill(dato);
@@ -76,8 +75,8 @@ namespace adcValCtb
 
         private void btnexcel_Click(object sender, EventArgs e)
         {
-            ExportarGrid.Form1 exp = new ExportarGrid.Form1();
-            String Empresa = defemp.EmpresaAct.nombre;
+            mallExp.Form1 exp = new mallExp.Form1();
+            String Empresa = datosEmpresa.Emp_Nombre;
             exp.Exportar(mallaDatos, "E", Empresa, "Directorio");
         }
 
@@ -94,31 +93,21 @@ namespace adcValCtb
 
         private void btnpdf_Click(object sender, EventArgs e)
         {
-            ExportarGrid.Form1 exp = new ExportarGrid.Form1();
-            String Empresa = defemp.EmpresaAct.nombre;
+            mallExp.Form1 exp = new mallExp.Form1();
+            String Empresa = datosEmpresa.Emp_Nombre;
             exp.Exportar(mallaDatos, "P", Empresa, "Directorio");
         }
 
         private void btnword_Click(object sender, EventArgs e)
         {
-            ExportarGrid.Form1 exp = new ExportarGrid.Form1();
-            String Empresa = defemp.EmpresaAct.nombre;
+            mallExp.Form1 exp = new mallExp.Form1();
+            String Empresa = datosEmpresa.Emp_Nombre;
             exp.Exportar(mallaDatos, "W", Empresa, "Directorio");
         }
 
         private void btnAbrir_Click(object sender, EventArgs e)
         {
-        //RolPer.frmBuscarPeriodo  busk = new  RolPer.frmBuscarPeriodo();
-        //periodo =Convert.ToInt32 ( busk.Buscar(strConxAdcom));
-
-        //Cabecera = "Contabilización nómina  " + txtPeriodo.Text;
-        //if (periodo == 0) return;
-        //this.UseWaitCursor = true ;
-        //this.Cursor = Cursors.WaitCursor;
-        //CargarFechasPeriodo(periodo);
-        //cargarMalla();
-        //this.UseWaitCursor = false ;
-        //this.Cursor = Cursors.Default;
+        
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
@@ -134,7 +123,7 @@ namespace adcValCtb
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             this.mallaDatos.DataError -= new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.mallaDatos_DataError);
-            daxBuscMalla.Form1 libBuscar = new daxBuscMalla.Form1(mallaDatos,false);
+            frmBuscMall libBuscar = new frmBuscMall(mallaDatos,false);
             libBuscar.ShowDialog();
             libBuscar.Dispose();
             this.mallaDatos.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.mallaDatos_DataError);
@@ -149,18 +138,23 @@ namespace adcValCtb
         {
             sumarCeldas();
         }
+        //private void sumarCeldas()
+        //{
+        //    classBuscMalla summ = new classBuscMalla();
+        //    summ.sumarMalla(mallaDatos);
+        //    summ = null;
+        //}
+
         private void sumarCeldas()
         {
-            daxBuscMalla.classBuscMalla summ = new daxBuscMalla.classBuscMalla();
-            summ.sumarMalla(mallaDatos);
-            summ = null;
+            classBuscMalla.sumarMalla(mallaDatos);
         }
 
         private void mallaDatos_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F3 && daxBuscMalla.Form1.buscoEnMalla != "")
+            if (e.KeyCode == Keys.F3 && frmBuscMall.buscoEnMalla != "")
             {
-                daxBuscMalla.Form1 libBuscar = new daxBuscMalla.Form1(mallaDatos, false, true);
+                frmBuscMall libBuscar = new frmBuscMall(mallaDatos, false, true);
                 libBuscar.ShowDialog();
                 libBuscar.Dispose();
             }                

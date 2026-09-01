@@ -2,6 +2,7 @@
 using DattCom;
 using DaxDocElectronicos;
 using leeDocXml;
+using sesDocElectronicos;
 using SesFelec;
 using SolicitudAutSRI;
 using System;

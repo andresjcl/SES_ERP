@@ -23,6 +23,7 @@ using System.Linq;
 using DaxDocElectronicos;
 using System.ComponentModel;
 using ImpresionDoc;
+using sesDocElectronicos;
 
 namespace adcDocumentos
 {
@@ -840,8 +841,8 @@ namespace adcDocumentos
 
 		private void solicitarAutorizacionSRI(string urlsri, ref ClassDoc.AdcDoc datADCDOC)
 		{
-			var fel = new ClassFelec.AdcFelec(datosEmpresa.strConxAdcom);
-			fel = ClassFelec.AdcFelec.Buscar("");
+			var fel = new AdcFelec(datosEmpresa.strConxAdcom);
+			fel = AdcFelec.Buscar("");
 
 			string queClave = "";
 			tipoEmision = 1;

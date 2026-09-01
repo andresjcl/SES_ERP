@@ -1035,5 +1035,19 @@ namespace SES_ERP24
             frmGestionLicencia prog = new frmGestionLicencia();
             prog.Show();
         }
+
+        private void menuValidacionMov_Click(object sender, EventArgs e)
+        {
+            if (!AutorizarLlamadas.VerificaAutorización("menuValidacionAsientos")) return;
+            sesValCtb.frmValidacionAsientos prog = new sesValCtb.frmValidacionAsientos();
+            prog.Show();
+        }
+
+        private void menuAnalisiMovCuenta_Click(object sender, EventArgs e)
+        {
+            if (!AutorizarLlamadas.VerificaAutorización("menuAnalisiMovCuenta")) return;
+            MovCtaAnalisis.FrmAnlMovCta prog = new MovCtaAnalisis.FrmAnlMovCta();            
+            prog.Show();
+        }
     }
 }

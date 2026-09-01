@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using DaxDocElectronicos;
 using System.IO;
 using SolicitudAutSRI;
 using ClassFelec;
 using DattCom;
+using sesDocElectronicos;
 
 namespace ImpresionDocumentosDax
 {

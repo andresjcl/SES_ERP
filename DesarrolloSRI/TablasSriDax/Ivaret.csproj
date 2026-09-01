@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="DatosRetencion.cs" />
     <Compile Include="DocImpuestos.cs" />
+    <Compile Include="EstructuraMallaRetencion.cs" />
     <Compile Include="FrmBuscar.cs">
       <SubType>Form</SubType>
     </Compile>

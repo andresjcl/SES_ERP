@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{00794B81-91E7-43B4-8A63-E4E4623A5400}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeConfiguracion</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeConfiguracion</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\Librerias\</OutputPath>
-    <DocumentationFile>CeConfiguracion.xml</DocumentationFile>
+    <DocumentationFile>sesCeConfiguracion.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -30,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Librerias\</OutputPath>
-    <DocumentationFile>CeConfiguracion.xml</DocumentationFile>
+    <DocumentationFile>sesCeConfiguracion.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -49,14 +49,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeClassElec.dll</HintPath>
-    </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeUtility.dll</HintPath>
-    </Reference>
     <Reference Include="ClassDaxMail, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Librerias\ClassDaxMail.dll</HintPath>
@@ -64,6 +56,18 @@
     <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Librerias\DattCom.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeClassElec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeCodifica, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeCodifica.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeUtility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -95,6 +99,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -128,13 +133,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DaxFelec\daxnumm\CeCodifica.vbproj">
-      <Project>{e5127a42-fe76-4666-bb7a-29ba15daadf9}</Project>
-      <Name>CeCodifica</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

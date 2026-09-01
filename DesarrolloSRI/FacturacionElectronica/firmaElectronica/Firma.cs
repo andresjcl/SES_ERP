@@ -20,7 +20,7 @@ using es.mityc.firmaJava.libreria.utilidades;
 using sviudes.blogspot.com;
 using org.w3c.dom;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class Firma
     {
@@ -66,8 +66,8 @@ namespace DaxDocElectronicos
         {
                 //DaxLib.DaxLibBases dxlib = new DaxLib.DaxLibBases();
                 //dxlib.TipoBase = "10";
-                DaxDocElectronicos.AdcFelec fel = new DaxDocElectronicos.AdcFelec(strConxAdcom);
-                fel = DaxDocElectronicos.AdcFelec.Buscar("");
+                AdcFelec fel = new AdcFelec(strConxAdcom);
+                fel = AdcFelec.Buscar("");
                 strPathCertificado = fel.pathFirmaElectronica;
                 strPassword = fel.claveFirma;
                 strPathXMLEntrada = fel.pathCpbGenerados + strFileXml + ".xml";

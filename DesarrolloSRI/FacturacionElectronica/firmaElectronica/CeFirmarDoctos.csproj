@@ -8,10 +8,11 @@
     <ProjectGuid>{A3491FC8-D7C6-4F00-9A61-E24DAEC2E7DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeFirmarDoctos</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeFirmarDoctos</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -48,18 +49,6 @@
     </Reference>
     <Reference Include="bctsp-jdk15-1.43">
       <HintPath>external libraries\deps\bctsp-jdk15-1.43.dll</HintPath>
-    </Reference>
-    <Reference Include="CeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeClassElec.dll</HintPath>
-    </Reference>
-    <Reference Include="CeCodifica, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeCodifica.dll</HintPath>
-    </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeUtility.dll</HintPath>
     </Reference>
     <Reference Include="commons-codec-1.2">
       <HintPath>external libraries\deps\commons-codec-1.2.dll</HintPath>
@@ -122,6 +111,18 @@
     <Reference Include="serializer-2.7.1">
       <HintPath>external libraries\deps\serializer-2.7.1.dll</HintPath>
     </Reference>
+    <Reference Include="sesCeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeClassElec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeCodifica, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeCodifica.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeUtility.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -145,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Firma.cs" />
-    <Compile Include="FirmaC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,18 +166,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="DaxLib">
-      <Guid>{09B321EF-9EBC-4CC9-8113-D8BE1D1C2E04}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>10</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>False</Private>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

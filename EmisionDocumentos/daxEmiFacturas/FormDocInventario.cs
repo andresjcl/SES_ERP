@@ -56,7 +56,7 @@ namespace DctosEmi
 		string memTipoDoc = "";
 		//string memVendedor = "";
 		string memBodega = "";
-		decimal ivaM = 0;
+		//decimal ivaM = 0;
 		public FormDocInventario(string clasdef, string tipdef, bool nuevo = false, Boolean esConsulta = false, Boolean generarFactura = false, Boolean desdeEstdoCta = false, idDocumento idDocViene = null, string sisMedico = "")
 		{
 			InitializeComponent();
@@ -551,7 +551,7 @@ namespace DctosEmi
 						}
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					// Si hay error, intentar con el método alternativo
 					try
@@ -1909,7 +1909,7 @@ namespace DctosEmi
 						row.Cells["Tra_prectot"].Value = Math.Round(totalLinea, valoresPredefinidosEmpresa.nroDigitosEnPrecios);
 					}
 				}
-				catch (Exception ex)
+				catch (Exception )
 				{
 					// Si hay error en la línea, la ignoramos
 					continue;

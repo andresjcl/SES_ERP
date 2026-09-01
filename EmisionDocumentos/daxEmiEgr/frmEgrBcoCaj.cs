@@ -779,6 +779,11 @@ namespace DctosEmi
             //            progCtb.GenerarContabilidadDocumento(datADCDOC, (DataTable)malla.DataSource, propiedadesDoc, null, "");
             progCtb.Dispose();
         }
+
+        private void frmEgrBcoCaj_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

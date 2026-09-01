@@ -8,8 +8,8 @@
     <ProjectGuid>{85B3A1C7-8C52-494C-8AE6-6FD093C3C897}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeGeneraXml</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeGeneraXml</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,19 +33,19 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeClassElec.dll</HintPath>
-    </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeUtility.dll</HintPath>
-    </Reference>
-    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DattCom, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Librerias\DattCom.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="sesCeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeClassElec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Librerias\sesCeUtility.dll</HintPath>
+    </Reference>
     <Reference Include="SesGeneraPdf">
       <HintPath>..\..\..\Librerias\SesGeneraPdf.dll</HintPath>
     </Reference>

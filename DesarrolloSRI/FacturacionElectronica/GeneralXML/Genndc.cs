@@ -5,14 +5,14 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 using DattCom;
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class Genndc
     {
 
         Char cc = Convert.ToChar("0");
         Char bb = Convert.ToChar(" ");
-        DaxDocElectronicos.Feutilidad util = new DaxDocElectronicos.Feutilidad();
+        Feutilidad util = new Feutilidad();
         //datosSri datsri = new datosSri ();
         public string crear_notaDebito_xml_sri(ref DataRow doc, ref DataTable dtra, string pathfile, string clv, Int16 ambiente, Int16 tipoEmision)
         // generar el archivo xml por facturacion para enviar al sri
@@ -31,7 +31,22 @@ namespace DaxDocElectronicos
             docXml.WriteElementString("ambiente", util.formatoNumero(ambiente.ToString(), 1));
             docXml.WriteElementString("tipoEmision", util.formatoNumero(tipoEmision.ToString(), 1));
             docXml.WriteElementString("razonSocial", util.formatoString(datosEmpresa.Emp_Nombre , 300));
-            docXml.WriteElementString("nombreComercial", util.formatoString(datosEmpresa.Emp_Nombre, 300));
+            if (datosEmpresa.Emp_RUC == "1792323002001")
+            {
+                docXml.WriteElementString("nombreComercial", this.util.formatoString("DASTRIFARM", 300));
+            }
+            else
+            {
+                string nombreComercial = this.util.formatoString(datosEmpresa.Emp_NombreCom, 300);
+                if (string.IsNullOrEmpty(nombreComercial))
+                {
+                    docXml.WriteElementString("nombreComercial", this.util.formatoString(datosEmpresa.Emp_Nombre, 300));
+                }
+                else
+                {
+                    docXml.WriteElementString("nombreComercial", nombreComercial);
+                }
+            }
             docXml.WriteElementString("ruc", datosEmpresa.Emp_RUC);
             docXml.WriteElementString("claveAcceso", clv);
             docXml.WriteElementString("codDoc", util.tipoComprobanteSri(doc["DOC_TipoDoc"].ToString()));
@@ -75,12 +90,7 @@ namespace DaxDocElectronicos
             docXml.WriteElementString("identificacionComprador", doc["Doc_CiRuc"].ToString());
 
 
-            //if (doc["NroCtrbuyteEspecial"].ToString().Length > 2)
-            //{ docXml.WriteElementString("contribuyenteEspecial", doc["NroCtrbuyteEspecial"].ToString()); }
-
-            //if (doc["ObligLlevarConta"].ToString().Length > 0)
-            //{ docXml.WriteElementString("obligadoContabilidad", util.ObligadoLlevarContabilidad(Convert.ToBoolean(doc["ObligLlevarConta"].ToString()))); }
-
+            
             if (datosEmpresa.Emp_ContrBuyEsp.Length > 2) docXml.WriteElementString("contribuyenteEspecial", datosEmpresa.Emp_ContrBuyEsp);
 
             docXml.WriteElementString("obligadoContabilidad", datosEmpresa.Emp_Conta ? "SI" : "NO");
@@ -105,9 +115,7 @@ namespace DaxDocElectronicos
             }
             //}
             docXml.WriteElementString("totalSinImpuestos", util.formatoDecimal(Convert.ToDouble(doc["subtotal"]), 14, 2));
-            //docXml.WriteElementString("valorModificacion", util.formatoDecimal(Convert.ToDouble("0" + doc["doc_valor"].ToString()), 14, 2));
-
-            //docXml.WriteElementString("moneda", "DOLAR");
+            
 
 
             docXml.WriteStartElement("impuestos");
@@ -134,13 +142,7 @@ namespace DaxDocElectronicos
             docXml.WriteEndElement();
             }
 
-            //docXml.WriteStartElement("totalImpuesto");
-            //    docXml.WriteElementString("codigo","0");
-            //    docXml.WriteElementString("codigoPorcentaje","0");
-            //    docXml.WriteElementString("baseImponible","0");
-            //    docXml.WriteElementString("tarifa","0");
-            //    docXml.WriteElementString("valor","0");
-            //docXml.WriteEndElement();
+           
 
             docXml.WriteEndElement(); //impuestos
             docXml.WriteElementString("valorTotal", doc["Doc_valor"].ToString());

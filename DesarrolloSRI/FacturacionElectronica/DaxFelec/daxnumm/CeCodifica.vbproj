@@ -9,8 +9,8 @@
     </SchemaVersion>
     <ProjectGuid>{E5127A42-FE76-4666-BB7A-29BA15DAADF9}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeCodifica</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeCodifica</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -20,8 +20,8 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\Librerias\</OutputPath>
-    <DocumentationFile>CeCodifica.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\Librerias\</OutputPath>
+    <DocumentationFile>sesCeCodifica.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\Librerias\</OutputPath>
-    <DocumentationFile>CeCodifica.xml</DocumentationFile>
+    <DocumentationFile>sesCeCodifica.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -73,6 +73,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>

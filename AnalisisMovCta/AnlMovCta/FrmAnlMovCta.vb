@@ -1,53 +1,64 @@
 ﻿Imports System.Data
 Imports System.Data.SqlClient
-Imports DaxCbos 
+Imports DattCom
+Imports DaxCombobx
+
 Public Class FrmAnlMovCta
-    Dim cb As New DaxCbos.DaxCombobx
-    Dim carga As Boolean = False
-    Dim nivel As String = ""
-    Dim SoloCtaMov As Integer = 0
-    Dim detCtaAux As Integer = 0
-    Dim ctaIni As String = ""
-    Dim ctaFin As String = ""
-    Dim clas As String = ""
-    Dim tipoClas As String = ""
-    Dim registro As String = "M"
-    Dim botonOP As Integer = 0
-    Dim posRow As Long
-    Dim posCol As Long
-    Dim dat As New DataTable()
+    Private cb As New CargCmbBox()
+    Private carga As Boolean = False
+    Private nivel As String = ""
+    Private SoloCtaMov As Integer = 0
+    Private detCtaAux As Integer = 0
+    Private ctaIni As String = ""
+    Private ctaFin As String = ""
+    Private clas As String = ""
+    Private tipoClas As String = ""
+    Private registro As String = "M"
+    Private botonOP As Integer = 0
+    Private posRow As Long
+    Private posCol As Long
+    Private dat As New DataTable()
     ' M --> Movimientos
     ' D --> Debitos
     ' C --> Creditos
 
 #Region "Datos Iniciales"
     Private Sub FrmAnlMovCta_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim Libdat As New daaxLib.DaxLibBases
-        Libdat.TipoBase = "10"
-        conectarBDD()
-        carga = True
-        cb.DaxCombosClasf(Libdat.StrAdcom, cboClas)
-        cboNivel.SelectedItem = "5"
-        carga = False
-        Libdat = Nothing
-        añoanalisis.Text = CStr(Year(Now))
+        Try
+            conectarBDD()
+            carga = True
+            cb.DaxCombosClasf(datosEmpresa.strConxAdcom, cboClas)
+            cboNivel.SelectedItem = "5"
+            carga = False
+            añoanalisis.Text = CStr(Year(Now))
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar el formulario: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
     Private Sub cboClas_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboClas.SelectedIndexChanged
-        borrarmalla()
-        cboClasDet.DataSource = Nothing
-        If carga = True Then Exit Sub
-        Dim Libdat As New daaxLib.DaxLibBases
-        Libdat.TipoBase = "10"
-        If CStr(cboClas.SelectedValue) <> "0" Then cb.DaxCombosReferencia(CStr(cboClas.SelectedValue), Libdat.StrDaxsys, cboClasDet)
+        Try
+            borrarMalla()
+            cboClasDet.DataSource = Nothing
+            If carga = True Then Exit Sub
+            If cboClas.SelectedValue IsNot Nothing AndAlso CStr(cboClas.SelectedValue) <> "0" Then
+                cb.DaxCombosReferencia(CStr(cboClas.SelectedValue), datosEmpresa.strConIniSis, cboClasDet)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar clasificadores: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
     Private Sub btnCtaIni_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCtaIni.Click
-        borrarmalla()
+        borrarMalla()
         BuscaCta(txtctaIni, lblctaIni)
     End Sub
+
     Private Sub btnCtaFin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCtaFin.Click
-        borrarmalla()
+        borrarMalla()
         BuscaCta(txtCtaFin, lblCtaFin)
     End Sub
+
     Private Sub btnOpciones_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpciones.Click
         If botonOP = 0 Then
             btnOpciones.Checked = False
@@ -58,29 +69,26 @@ Public Class FrmAnlMovCta
         End If
         SplitContainer1.Panel1Collapsed = Not btnOpciones.Checked
     End Sub
-    Private Sub BuscaCta(ByVal txt As TextBox, ByVal lbl As Label)
+
+    Private Shared Sub BuscaCta(ByVal txt As TextBox, ByVal lbl As Label)
         Dim nombre = "", cod As String = ""
-        Dim cta As New MantCtb.BuscaCta
+        Dim cta As New CtaMtn.BuscaCta()
         cod = cta.BuscaCtaCtb(nombre, "")
         txt.Text = cod
         lbl.Text = nombre
-        'Dim cmd As New SqlCommand("select cta_nombre from adccta where cta_codigo='" & txt.Text & "'", conectar)
-        'Dim dat As SqlDataReader = Nothing
-        'cerrarConeccion()
-        'conectar.Open()
-        'dat = cmd.ExecuteReader
-        'If dat.Read Then
-        '    If Not IsDBNull(dat(0)) Then lbl.Text = CStr(dat(0))
-        'End If
     End Sub
+
     Private Sub chkAuxiliares_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAuxiliares.CheckedChanged
-        borrarmalla()
+        borrarMalla()
         If chkAuxiliares.Checked = True Then
-            txtCtaFin.Text = "" : lblCtaFin.Text = ""
-            txtCtaFin.Enabled = False : lblCtaFin.Enabled = False
+            txtCtaFin.Text = ""
+            lblCtaFin.Text = ""
+            txtCtaFin.Enabled = False
+            lblCtaFin.Enabled = False
             btnCtaFin.Enabled = False
         Else
-            txtCtaFin.Enabled = True : lblCtaFin.Enabled = True
+            txtCtaFin.Enabled = True
+            lblCtaFin.Enabled = True
             btnCtaFin.Enabled = True
         End If
     End Sub
@@ -88,38 +96,37 @@ Public Class FrmAnlMovCta
 
 #Region "Cambios"
     Private Sub cboNivel_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboNivel.SelectedIndexChanged
-
-        borrarmalla()
+        borrarMalla()
     End Sub
 
     Private Sub chkCtaMov_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCtaMov.CheckedChanged
-        borrarmalla()
+        borrarMalla()
     End Sub
 
     Private Sub txtctaIni_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtctaIni.TextChanged
-        borrarmalla()
+        borrarMalla()
     End Sub
 
     Private Sub txtCtaFin_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCtaFin.TextChanged
-        borrarmalla()
+        borrarMalla()
     End Sub
 
     Private Sub cboClasDet_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboClasDet.SelectedIndexChanged
-        borrarmalla()
+        borrarMalla()
     End Sub
 
     Private Sub optDebitos_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optDebitos.CheckedChanged
-        borrarmalla()
+        borrarMalla()
         registro = "D"
     End Sub
 
     Private Sub optCreditos_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optCreditos.CheckedChanged
-        borrarmalla()
+        borrarMalla()
         registro = "C"
     End Sub
 
     Private Sub optMovimientos_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optMovimientos.CheckedChanged
-        borrarmalla()
+        borrarMalla()
         registro = "M"
     End Sub
 #End Region
@@ -128,151 +135,218 @@ Public Class FrmAnlMovCta
     Private Sub btnActualizar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnActualizar.Click
         CargarMalla()
     End Sub
-    Private Sub LeerOp()
-        On Error Resume Next
-        nivel = cboNivel.Text
-        If nivel = Nothing Then nivel = CStr(4) : cboNivel.Text = CStr(4)
-        If CDbl(nivel) = 0 Then nivel = CStr(4) : cboNivel.Text = CStr(4)
 
-        If chkCtaMov.Checked = True Then SoloCtaMov = 1 Else SoloCtaMov = 0
-        If chkAuxiliares.Checked = True Then detCtaAux = 1 Else detCtaAux = 0
-        ctaIni = txtctaIni.Text
-        ctaFin = txtCtaFin.Text
-        If ctaIni <> "" And ctaFin = "" Then ctaFin = ctaIni
-        clas = cboClas.SelectedValue.ToString
-        If clas <> "0" Then tipoClas = cboClasDet.SelectedValue.ToString
+    Private Sub LeerOp()
+        Try
+            nivel = cboNivel.Text
+            If String.IsNullOrEmpty(nivel) Then
+                nivel = "4"
+                cboNivel.Text = "4"
+            End If
+            If CDbl(nivel) = 0 Then
+                nivel = "4"
+                cboNivel.Text = "4"
+            End If
+
+            SoloCtaMov = If(chkCtaMov.Checked, 1, 0)
+            detCtaAux = If(chkAuxiliares.Checked, 1, 0)
+            ctaIni = txtctaIni.Text
+            ctaFin = txtCtaFin.Text
+            If ctaIni <> "" And ctaFin = "" Then ctaFin = ctaIni
+
+            If cboClas.SelectedValue IsNot Nothing Then
+                clas = cboClas.SelectedValue.ToString()
+                If clas <> "0" And cboClasDet.SelectedValue IsNot Nothing Then
+                    tipoClas = cboClasDet.SelectedValue.ToString()
+                Else
+                    tipoClas = ""
+                End If
+            Else
+                clas = ""
+                tipoClas = ""
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error al leer opciones: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
     Private Sub CargarMalla()
-        On Error Resume Next
-        Dim cont As Integer = 0
-        dat = New DataTable
-        LeerOp()
-        Dim ssql As String = "exec Adc_AnlCta " & nivel & "," & SoloCtaMov & "," & detCtaAux & ",'" & ctaIni & "','" & ctaFin & "','" & clas & "','" & tipoClas & "','" & registro & "'," & añoanalisis.Text
-        Dim cmd As New SqlClient.SqlDataAdapter(ssql, conectar)
-        If conectar.State = ConnectionState.Closed Then conectar.Open()
-        cmd.Fill(dat)
-        dat.Rows.Add()
-        dat.Rows.Add()
-        Dim FILA As Integer = dat.Rows.Count - 1
-        Totales(dat)
-        With malla
-            .DataSource = dat
-            .Columns(14).DefaultCellStyle.BackColor = Color.AliceBlue
-            .Rows(FILA).Cells(1).Value = "TOTALES"
-            .Rows(FILA).DefaultCellStyle.BackColor = Color.AliceBlue
-            .Columns("Código").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-            .Columns("Nombre_Cuenta").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-        End With
-        'While dat.Read
-        '    With malla
-        '        .Rows.Add()
-        '        .Rows(cont).Cells(0).Value = dat("cta_codigo")
-        '        .Rows(cont).Cells(1).Value = dat("dia_ctaNombre")
-        '        .Rows(cont).Cells(2).Value = dat("Enero")
-        '        .Rows(cont).Cells(3).Value = dat("Febrero")
-        '        .Rows(cont).Cells(4).Value = dat("Marzo")
-        '        .Rows(cont).Cells(5).Value = dat("Abril")
-        '        .Rows(cont).Cells(6).Value = dat("Mayo")
-        '        .Rows(cont).Cells(7).Value = dat("Junio")
-        '        .Rows(cont).Cells(8).Value = dat("Julio")
-        '        .Rows(cont).Cells(9).Value = dat("Agosto")
-        '        .Rows(cont).Cells(10).Value = dat("Septiembre")
-        '        .Rows(cont).Cells(11).Value = dat("Octubre")
-        '        .Rows(cont).Cells(12).Value = dat("Noviembre")
-        '        .Rows(cont).Cells(13).Value = dat("Diciembre")
-        '        cont += 1
-        '    End With
-        'End While
-        conectar.Close()
+        Try
+            dat = New DataTable()
+            LeerOp()
+
+            ' Usar parámetros para evitar inyección SQL
+            Using conn As New SqlConnection(datosEmpresa.strConxAdcom)
+                Using cmd As New SqlCommand("Adc_AnlCta", conn)
+                    cmd.CommandType = CommandType.StoredProcedure
+
+                    ' Agregar parámetros
+                    cmd.Parameters.AddWithValue("@nivel", nivel)
+                    cmd.Parameters.AddWithValue("@SoloCtaMov", SoloCtaMov)
+                    cmd.Parameters.AddWithValue("@detCtaAux", detCtaAux)
+                    cmd.Parameters.AddWithValue("@ctaIni", If(String.IsNullOrEmpty(ctaIni), "", ctaIni))
+                    cmd.Parameters.AddWithValue("@ctaFin", If(String.IsNullOrEmpty(ctaFin), "", ctaFin))
+                    cmd.Parameters.AddWithValue("@clas", If(String.IsNullOrEmpty(clas), "", clas))
+                    cmd.Parameters.AddWithValue("@tipoClas", If(String.IsNullOrEmpty(tipoClas), "", tipoClas))
+                    cmd.Parameters.AddWithValue("@registro", registro)
+                    cmd.Parameters.AddWithValue("@anio", añoanalisis.Text)
+
+                    Using da As New SqlDataAdapter(cmd)
+                        If conn.State = ConnectionState.Closed Then conn.Open()
+                        da.Fill(dat)
+                    End Using
+                End Using
+            End Using
+
+            ' Agregar filas de totales
+            dat.Rows.Add()
+            dat.Rows.Add()
+            Dim FILA As Integer = dat.Rows.Count - 1
+            Totales(dat)
+
+            ' Asignar datos al DataGridView
+            With malla
+                .DataSource = dat
+                .Columns(14).DefaultCellStyle.BackColor = Color.AliceBlue
+                .Rows(FILA).Cells(1).Value = "TOTALES"
+                .Rows(FILA).DefaultCellStyle.BackColor = Color.AliceBlue
+                .Columns("Código").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+                .Columns("Nombre_Cuenta").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+            End With
+
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar datos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
     Private Sub Totales(ByRef DAT As DataTable)
-        Dim tot As Double = 0.0
-        Dim tot1 As Double = 0.0
-        Dim fila As Integer = DAT.Rows.Count - 1
-        With DAT
-            '.Rows.Add(1)
-            '    fila = .RowCount - 1
-            'For l = 0 To .Rows.Count - 2
-            '    tot1 = 0
-            '    For k = 2 To 13
-            '        tot1 += .Rows(l)(k).Value
-            '    Next
-            '    .Rows(l)(14).Value = tot1
-            'Next
-            For i = 2 To 14
-                tot = 0
-                For j = 0 To .Rows.Count - 2
-                    tot += CDbl(.Rows(j)(i).ToString & "0")
+        Try
+            Dim tot As Double = 0.0
+            Dim fila As Integer = DAT.Rows.Count - 1
+
+            With DAT
+                For i As Integer = 2 To 14
+                    tot = 0
+                    For j As Integer = 0 To .Rows.Count - 2
+                        If Not IsDBNull(.Rows(j)(i)) AndAlso .Rows(j)(i) IsNot Nothing Then
+                            tot += CDbl(.Rows(j)(i).ToString())
+                        End If
+                    Next
+                    .Rows(fila)(i) = tot
                 Next
-                .Rows(fila)(i) = tot
-            Next
-        End With
+            End With
+        Catch ex As Exception
+            MessageBox.Show("Error al calcular totales: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 #End Region
 
 #Region "Detalle"
+    Private Sub btnDetalle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDetalle.Click
+        Try
+            If malla.RowCount < 1 Then Exit Sub
 
+            Dim PROG As New MovCtases.MvtoCtas()
+            Dim Mesini As Int32 = CInt(posCol - 1)
+            Dim MesFin As Int32 = 1
+
+            If posCol < 2 Then Mesini = 1
+            If posCol = 13 Then Mesini = 12
+            If posCol = 14 Then
+                Mesini = 1
+                MesFin = 12
+            End If
+
+            Dim fecha1 As New Date(CInt(añoanalisis.Text), Mesini, 1)
+            Dim fecha2 As Date = DateAdd(DateInterval.Month, MesFin, fecha1)
+            fecha2 = DateAdd(DateInterval.Day, -1, fecha2)
+
+            PROG.MvCtas(CStr(malla.Rows(CInt(posRow)).Cells(0).Value), fecha1, fecha2, "")
+            PROG = Nothing
+        Catch ex As Exception
+            MessageBox.Show("Error al mostrar detalle: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 #End Region
 
 #Region "Enviar"
-
+    Private Sub btnEnviar_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEnviar.ButtonClick
+        btnEnviar.ShowDropDown()
+    End Sub
 #End Region
 
 #Region "Salir"
     Private Sub btnSalir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSalir.Click
-        Me.Dispose()
+        Try
+            cerrarConeccion()
+            Me.Dispose()
+        Catch ex As Exception
+            ' Ignorar errores al cerrar
+        End Try
     End Sub
 #End Region
 
 #Region "Imprimir"
-    Private Sub btnEnviar_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEnviar.ButtonClick
-        btnEnviar.ShowDropDown()
-    End Sub
     Private Sub ImprimirToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImprimirToolStripMenuItem.Click
-        Dim imp As New DataGridViewPrinterApplication1.frmMain
-        Dim tit2 As String = ""
-        imp.imprimir(malla, "Análisis de Movimientos de Cuentas", tit2, SYSEMP.EmpresaAct.nombre)
+        Try
+            Using imp As New DataGridViewPrinterApplication1.frmMain()
+                Dim tit2 As String = ""
+                imp.imprimir(malla, "Análisis de Movimientos de Cuentas", tit2, datosEmpresa.Emp_Nombre)
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error al imprimir: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub WordToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WordToolStripMenuItem.Click
-        Dim exp As New ExportarGrid.Form1
-        exp.Exportar(malla, "W", SYSEMP.EmpresaAct.nombre, "Análisis de Movimientos de Cuentas")
+        Try
+            Using exp As New mallExp.Form1()
+                exp.Exportar(malla, "W", datosEmpresa.Emp_Nombre, "Análisis de Movimientos de Cuentas")
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error al exportar a Word: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub ExcelToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExcelToolStripMenuItem.Click
-        Dim exp As New ExportarGrid.Form1
-        exp.Exportar(malla, "E", SYSEMP.EmpresaAct.nombre, "Análisis de Movimientos de Cuentas")
+        Try
+            Using exp As New mallExp.Form1()
+                exp.Exportar(malla, "E", datosEmpresa.Emp_Nombre, "Análisis de Movimientos de Cuentas")
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error al exportar a Excel: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub PDFToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PDFToolStripMenuItem.Click
-        Dim exp As New ExportarGrid.Form1
-        exp.Exportar(malla, "P", SYSEMP.EmpresaAct.nombre, "Análisis de Movimientos de Cuentas")
+        Try
+            Using exp As New mallExp.Form1()
+                exp.Exportar(malla, "P", datosEmpresa.Emp_Nombre, "Análisis de Movimientos de Cuentas")
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error al exportar a PDF: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 #End Region
 
+#Region "Eventos del DataGridView"
     Private Sub malla_CellEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles malla.CellEnter
-        posRow = e.RowIndex
-        posCol = e.ColumnIndex
+        If e.RowIndex >= 0 And e.ColumnIndex >= 0 Then
+            posRow = e.RowIndex
+            posCol = e.ColumnIndex
+        End If
     End Sub
+#End Region
 
-    Private Sub btnDetalle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDetalle.Click
-        If malla.RowCount < 1 Then Exit Sub
-        Dim PROG As New MovCta.MvtoCtas
-        Dim Mesini As Int32 = CInt(posCol - 1)
-        Dim MesFin As Int32 = 1
-        If posCol < 2 Then Mesini = 1
-        If posCol = 13 Then Mesini = 12
-        If posCol = 14 Then Mesini = 1 : MesFin = 12
-
-        Dim fecha1 As New Date(CInt(añoanalisis.Text), Mesini, 1)
-        Dim fecha2 As Date = DateAdd(DateInterval.Month, MesFin, fecha1)
-        fecha2 = DateAdd(DateInterval.Day, -1, fecha2)
-        PROG.MvCtas(CStr(malla.Rows(CInt(posRow)).Cells(0).Value), fecha1, fecha2, "")
-        PROG = Nothing
-
-    End Sub
+#Region "Funciones Auxiliares"
     Private Sub borrarMalla()
-        malla.DataSource = Nothing
-        dat = New DataTable
+        Try
+            malla.DataSource = Nothing
+            dat = New DataTable()
+        Catch ex As Exception
+            ' Ignorar errores al limpiar
+        End Try
     End Sub
+#End Region
+
 End Class

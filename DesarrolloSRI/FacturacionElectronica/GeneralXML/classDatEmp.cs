@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Text;
 using DattCom;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public static class classDatEmp
     {

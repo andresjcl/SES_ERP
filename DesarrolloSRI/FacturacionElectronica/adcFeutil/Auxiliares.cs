@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class Auxiliares
     {

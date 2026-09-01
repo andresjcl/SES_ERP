@@ -1,11 +1,10 @@
 ﻿using DattCom;
-using DaxDocElectronicos;
 using System;
 using System.Data;
 using System.Text;
 using System.Xml;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class GenRem
     {
@@ -35,13 +34,21 @@ namespace DaxDocElectronicos
                 docXml.WriteElementString(nameof(ambiente), this.util.formatoNumero(ambiente.ToString(), 1));
                 docXml.WriteElementString(nameof(tipoEmision), this.util.formatoNumero(tipoEmision.ToString(), 1));
                 docXml.WriteElementString("razonSocial", this.util.formatoString(datosEmpresa.Emp_Nombre, 300));
-                if (datosEmpresa.Emp_RUC  == "1792323002001")
+                if (datosEmpresa.Emp_RUC == "1792323002001")
                 {
                     docXml.WriteElementString("nombreComercial", this.util.formatoString("DASTRIFARM", 300));
                 }
                 else
                 {
-                    docXml.WriteElementString("nombreComercial", this.util.formatoString(datosEmpresa.Emp_Nombre, 300));
+                    string nombreComercial = this.util.formatoString(datosEmpresa.Emp_NombreCom, 300);
+                    if (string.IsNullOrEmpty(nombreComercial))
+                    {
+                        docXml.WriteElementString("nombreComercial", this.util.formatoString(datosEmpresa.Emp_Nombre, 300));
+                    }
+                    else
+                    {
+                        docXml.WriteElementString("nombreComercial", nombreComercial);
+                    }
                 }
                 docXml.WriteElementString("ruc", datosEmpresa.Emp_RUC);
                 docXml.WriteElementString("claveAcceso", clv);
@@ -108,12 +115,8 @@ namespace DaxDocElectronicos
                 }
                 docXml.WriteEndElement();
                 docXml.WriteEndElement();
-                docXml.WriteEndElement();
-                if (datosEmpresa.Emp_RUC == "1792323002001" && classDatEmp.NroAgenteRetencion.Length > 0)
-                {
-                    ChekAdicionales.registrarAdicionales(doc, docXml, false);
-                }
-                //ChekAdicionales.registrarAdicionales(doc, docXml, false);
+                docXml.WriteEndElement();               
+                ChekAdicionales.registrarAdicionales(doc, docXml, false);
                 docXml.WriteEndElement();
                 docXml.Flush();
                 docXml.Close();

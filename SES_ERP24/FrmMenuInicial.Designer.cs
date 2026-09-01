@@ -80,6 +80,8 @@ namespace SES_ERP24
             this.mnContabilidad = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlanCuentas = new System.Windows.Forms.ToolStripMenuItem();
             this.mnBalances = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuValidacionMov = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAnalisiMovCuenta = new System.Windows.Forms.ToolStripMenuItem();
             this.MenCtasCorrientes = new System.Windows.Forms.ToolStripMenuItem();
             this.btnlistaGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAnalisisIndividual = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,6 +97,7 @@ namespace SES_ERP24
             this.menImportarProductos = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.btnCambSucursal = new System.Windows.Forms.PictureBox();
             this.btnCambClave = new System.Windows.Forms.PictureBox();
@@ -108,7 +111,6 @@ namespace SES_ERP24
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labFecha = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panelContenedor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picDaxsof)).BeginInit();
@@ -116,6 +118,7 @@ namespace SES_ERP24
             this.menugeneral.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCambSucursal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCambClave)).BeginInit();
@@ -125,7 +128,6 @@ namespace SES_ERP24
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximizar)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // panelContenedor
@@ -137,14 +139,14 @@ namespace SES_ERP24
             this.panelContenedor.Location = new System.Drawing.Point(333, 96);
             this.panelContenedor.Margin = new System.Windows.Forms.Padding(0);
             this.panelContenedor.Name = "panelContenedor";
-            this.panelContenedor.Size = new System.Drawing.Size(1703, 589);
+            this.panelContenedor.Size = new System.Drawing.Size(1616, 589);
             this.panelContenedor.TabIndex = 17;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(1586, 497);
+            this.pictureBox2.Location = new System.Drawing.Point(1499, 497);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(101, 80);
@@ -157,7 +159,7 @@ namespace SES_ERP24
             // 
             this.picDaxsof.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.picDaxsof.Image = ((System.Drawing.Image)(resources.GetObject("picDaxsof.Image")));
-            this.picDaxsof.Location = new System.Drawing.Point(1397, 509);
+            this.picDaxsof.Location = new System.Drawing.Point(1379, 509);
             this.picDaxsof.Margin = new System.Windows.Forms.Padding(4);
             this.picDaxsof.Name = "picDaxsof";
             this.picDaxsof.Size = new System.Drawing.Size(100, 68);
@@ -203,7 +205,7 @@ namespace SES_ERP24
             this.menugeneral.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.menugeneral.Name = "menugeneral";
             this.menugeneral.Padding = new System.Windows.Forms.Padding(0);
-            this.menugeneral.Size = new System.Drawing.Size(333, 564);
+            this.menugeneral.Size = new System.Drawing.Size(333, 540);
             this.menugeneral.TabIndex = 15;
             // 
             // menAdministracion
@@ -714,7 +716,9 @@ namespace SES_ERP24
             this.mnContabilidad.BackColor = System.Drawing.Color.DimGray;
             this.mnContabilidad.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuPlanCuentas,
-            this.mnBalances});
+            this.mnBalances,
+            this.menuValidacionMov,
+            this.menuAnalisiMovCuenta});
             this.mnContabilidad.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mnContabilidad.ForeColor = System.Drawing.Color.White;
             this.mnContabilidad.Image = global::SES_ERP24.Properties.Resources.contabilidad_c;
@@ -731,7 +735,7 @@ namespace SES_ERP24
             this.mnuPlanCuentas.BackColor = System.Drawing.Color.DimGray;
             this.mnuPlanCuentas.ForeColor = System.Drawing.Color.White;
             this.mnuPlanCuentas.Name = "mnuPlanCuentas";
-            this.mnuPlanCuentas.Size = new System.Drawing.Size(258, 34);
+            this.mnuPlanCuentas.Size = new System.Drawing.Size(447, 34);
             this.mnuPlanCuentas.Tag = "mnplanCuentas";
             this.mnuPlanCuentas.Text = "Plan de Cuentas";
             this.mnuPlanCuentas.Click += new System.EventHandler(this.mnuPlanCuentas_Click);
@@ -741,10 +745,30 @@ namespace SES_ERP24
             this.mnBalances.BackColor = System.Drawing.Color.DimGray;
             this.mnBalances.ForeColor = System.Drawing.Color.White;
             this.mnBalances.Name = "mnBalances";
-            this.mnBalances.Size = new System.Drawing.Size(258, 34);
+            this.mnBalances.Size = new System.Drawing.Size(447, 34);
             this.mnBalances.Tag = "MntBalances";
             this.mnBalances.Text = "Balances";
             this.mnBalances.Click += new System.EventHandler(this.mnBalances_Click);
+            // 
+            // menuValidacionMov
+            // 
+            this.menuValidacionMov.BackColor = System.Drawing.Color.DimGray;
+            this.menuValidacionMov.ForeColor = System.Drawing.Color.White;
+            this.menuValidacionMov.Name = "menuValidacionMov";
+            this.menuValidacionMov.Size = new System.Drawing.Size(447, 34);
+            this.menuValidacionMov.Tag = "menuValidacionAsientos";
+            this.menuValidacionMov.Text = "Validación Asientos";
+            this.menuValidacionMov.Click += new System.EventHandler(this.menuValidacionMov_Click);
+            // 
+            // menuAnalisiMovCuenta
+            // 
+            this.menuAnalisiMovCuenta.BackColor = System.Drawing.Color.DimGray;
+            this.menuAnalisiMovCuenta.ForeColor = System.Drawing.Color.White;
+            this.menuAnalisiMovCuenta.Name = "menuAnalisiMovCuenta";
+            this.menuAnalisiMovCuenta.Size = new System.Drawing.Size(447, 34);
+            this.menuAnalisiMovCuenta.Tag = "menuAnalisiMovCuenta";
+            this.menuAnalisiMovCuenta.Text = "Análisis de Movimientos de Cuenta";
+            this.menuAnalisiMovCuenta.Click += new System.EventHandler(this.menuAnalisiMovCuenta_Click);
             // 
             // MenCtasCorrientes
             // 
@@ -922,19 +946,35 @@ namespace SES_ERP24
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2036, 96);
+            this.panel1.Size = new System.Drawing.Size(1949, 96);
             this.panel1.TabIndex = 15;
             // 
             // panel3
             // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.pictureBox3);
             this.panel3.Controls.Add(this.btnClose);
             this.panel3.Controls.Add(this.btnCambSucursal);
             this.panel3.Controls.Add(this.btnCambClave);
-            this.panel3.Location = new System.Drawing.Point(1840, 48);
+            this.panel3.Location = new System.Drawing.Point(1764, 48);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(191, 44);
+            this.panel3.Size = new System.Drawing.Size(193, 44);
             this.panel3.TabIndex = 18;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(8, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(40, 37);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 58;
+            this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // btnClose
             // 
@@ -996,7 +1036,7 @@ namespace SES_ERP24
             this.labNombreProfesionalAtiende.Location = new System.Drawing.Point(333, 46);
             this.labNombreProfesionalAtiende.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labNombreProfesionalAtiende.Name = "labNombreProfesionalAtiende";
-            this.labNombreProfesionalAtiende.Size = new System.Drawing.Size(1703, 41);
+            this.labNombreProfesionalAtiende.Size = new System.Drawing.Size(1616, 41);
             this.labNombreProfesionalAtiende.TabIndex = 12;
             this.labNombreProfesionalAtiende.Text = "Ingrese al sistema para identIficar el profesional que atiende la consulta o el e" +
     "xámen";
@@ -1010,7 +1050,7 @@ namespace SES_ERP24
             this.label3.Location = new System.Drawing.Point(333, 0);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1703, 46);
+            this.label3.Size = new System.Drawing.Size(1616, 46);
             this.label3.TabIndex = 2;
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1018,7 +1058,7 @@ namespace SES_ERP24
             // 
             this.btnNormal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNormal.Image = ((System.Drawing.Image)(resources.GetObject("btnNormal.Image")));
-            this.btnNormal.Location = new System.Drawing.Point(1953, 7);
+            this.btnNormal.Location = new System.Drawing.Point(1866, 7);
             this.btnNormal.Margin = new System.Windows.Forms.Padding(4);
             this.btnNormal.Name = "btnNormal";
             this.btnNormal.Size = new System.Drawing.Size(29, 20);
@@ -1031,7 +1071,7 @@ namespace SES_ERP24
             // 
             this.btnMinimizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMinimizar.Image = ((System.Drawing.Image)(resources.GetObject("btnMinimizar.Image")));
-            this.btnMinimizar.Location = new System.Drawing.Point(1991, 7);
+            this.btnMinimizar.Location = new System.Drawing.Point(1904, 7);
             this.btnMinimizar.Margin = new System.Windows.Forms.Padding(4);
             this.btnMinimizar.Name = "btnMinimizar";
             this.btnMinimizar.Size = new System.Drawing.Size(29, 20);
@@ -1044,7 +1084,7 @@ namespace SES_ERP24
             // 
             this.btnMaximizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMaximizar.Image = ((System.Drawing.Image)(resources.GetObject("btnMaximizar.Image")));
-            this.btnMaximizar.Location = new System.Drawing.Point(1953, 7);
+            this.btnMaximizar.Location = new System.Drawing.Point(1866, 7);
             this.btnMaximizar.Margin = new System.Windows.Forms.Padding(4);
             this.btnMaximizar.Name = "btnMaximizar";
             this.btnMaximizar.Size = new System.Drawing.Size(29, 20);
@@ -1095,28 +1135,14 @@ namespace SES_ERP24
             this.label1.Location = new System.Drawing.Point(0, 685);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(2036, 20);
+            this.label1.Size = new System.Drawing.Size(1949, 20);
             this.label1.TabIndex = 18;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(8, 4);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(40, 37);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 58;
-            this.pictureBox3.TabStop = false;
-            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // FrmMenuInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2036, 705);
+            this.ClientSize = new System.Drawing.Size(1949, 705);
             this.Controls.Add(this.panelContenedor);
             this.Controls.Add(this.panelOpciones);
             this.Controls.Add(this.panel1);
@@ -1137,6 +1163,7 @@ namespace SES_ERP24
             this.menugeneral.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCambSucursal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCambClave)).EndInit();
@@ -1146,7 +1173,6 @@ namespace SES_ERP24
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximizar)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -1232,5 +1258,7 @@ namespace SES_ERP24
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.ToolStripMenuItem menTransferenciasInv;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.ToolStripMenuItem menuValidacionMov;
+        private System.Windows.Forms.ToolStripMenuItem menuAnalisiMovCuenta;
     }
 }

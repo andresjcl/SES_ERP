@@ -1734,7 +1734,7 @@ namespace DctosEmi
 				// Habilitar/deshabilitar botón de pagos
 				btnPagos.Enabled = (totalesDocumento.TotVta > 0);
 			}
-			catch (Exception ex)
+			catch (Exception )
 			{
 				// En caso de error, mostrar valores en cero
 				establecerTotalesEnCero();
@@ -1836,10 +1836,10 @@ namespace DctosEmi
 				// Deshabilitar botón de pagos
 				btnPagos.Enabled = false;
 			}
-			catch (Exception ex)
+			catch (Exception )
 			{
 				// Fallback: Establecer valores directamente en los controles
-				string formato = "#,0.00";
+				//string formato = "#,0.00";
 
 				labTotDescuentoIva.Text = "0.00";
 				labTotdescuentoSinIva.Text = "0.00";
@@ -1883,10 +1883,10 @@ namespace DctosEmi
 				labTotalVenta.Text = (totalesDocumento.TotCiva + totalesDocumento.TotSiva).ToString(formato);
 				labSubtotal.Text = (totalesDocumento.Subtotalciva + totalesDocumento.SubTotalSIva).ToString(formato);
 			}
-			catch (Exception ex)
+			catch (Exception )
 			{
 				// En caso de error, establecer valores en cero
-				string formato = "#,0.00";
+				//string formato = "#,0.00";
 
 				labTotDescuentoIva.Text = "0.00";
 				labTotdescuentoSinIva.Text = "0.00";

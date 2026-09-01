@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static DaxDocElectronicos.Auxiliares;
+using static sesDocElectronicos.Auxiliares;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class FacturaRequest
     {
         public List<IvaInfo> IvaInfoList { get; set; } = new List<IvaInfo>();
         public string RucEmisor { get; set; }
         public string RazonSocialEmisor { get; set; }
+        public string RucProveedor { get; set; }
+        public string RazonSocialComercial { get; set; }
         public string DireccionMatriz { get; set; }
         public string DireccionSucursal { get; set; }
         public string EmailEmisor { get; set; }

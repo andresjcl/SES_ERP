@@ -56,25 +56,60 @@ namespace leeDocXml
                     else if (tipDocXml == "RTC") importarRetencionCliente(child);
                 }
             }}
+
+
         private void importarFactura(XmlNode child)
         {
             cmbBodegaAdcom.Visible = true;
-            if  (tipoDocEnAdcom != tipDocXml) llenarComboDocumentos("FAP");
+            if (tipoDocEnAdcom != tipDocXml) llenarComboDocumentos("FAP");
+
             impFac.importaInfTributariaFactura(child, class_AdcDoc, ref tipoIdentificacion);
             if (existeDocumento(class_AdcDoc)) { return; }
+
             proceso = 1;
             Botones();
+
             impFac.importaInfFactura(docDocumento, class_AdcDoc, mallaReferencia);
+            impFac.ImportarEmailAdicional(docDocumento, class_AdcDoc);
+
             diseñaMalla.construirMalla(mallaReferencia);
             visualizarCabezeraDocumento(class_AdcDoc);
             impFac.importaDetallesFactura(docDocumento, class_AdcTra, class_AdcDoc, mallaReferencia);
-            // CALCULAR TOTALES POR TIPO DESPUÉS DE IMPORTAR
-            CalcularTotalesPorTipo(class_AdcDoc, mallaReferencia);
+
+            // ✅ CALCULAR TOTALES POR TIPO DESPUÉS DE IMPORTAR DETALLES
+            impFac.CalcularTotalesPorTipo(class_AdcDoc, mallaReferencia);
+
+            // ✅ RECALCULAR TOTALES GENERALES
+            CalcularTotalesGenerales(class_AdcDoc);
 
             validacion val = new validacion();
             DaxDocProov docprov = new DaxDocProov(datosEmpresa.strConxAdcom);
             docprov = DaxDocProov.Buscar(" idProveedor = '" + class_AdcDoc.Doc_codper.ToString() + "' and idDocProveedor = '" + class_AdcDoc.Adi_TipoDocSri + "'");
             val.validarFactura(mallaReferencia, docprov);
+        }
+
+        //private void CalcularTotalesGenerales(AdcDoc class_AdcDoc)
+        //{
+        //    // ✅ Asegurar que Doc_valor = Doc_totciva + Doc_valoriva
+        //    class_AdcDoc.Doc_valor = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_valoriva;
+
+        //    Console.WriteLine($"Totales generales:");
+        //    Console.WriteLine($"  Doc_totciva (base): {class_AdcDoc.Doc_totciva}");
+        //    Console.WriteLine($"  Doc_valoriva (IVA): {class_AdcDoc.Doc_valoriva}");
+        //    Console.WriteLine($"  Doc_valor (total): {class_AdcDoc.Doc_valor}");
+        //}
+        private void CalcularTotalesGenerales(AdcDoc class_AdcDoc)
+        {
+            // ✅ NO RECALCULAR, USAR EL VALOR DEL XML
+            // class_AdcDoc.Doc_valor YA VIENE DEL XML (29.46)
+            // class_AdcDoc.Doc_totciva YA VIENE DEL XML (25.62)
+            // class_AdcDoc.Doc_valoriva YA VIENE DEL XML (3.84)
+
+            Console.WriteLine($"Totales generales (desde XML):");
+            Console.WriteLine($"  Doc_totciva (base): {class_AdcDoc.Doc_totciva}");
+            Console.WriteLine($"  Doc_valoriva (IVA): {class_AdcDoc.Doc_valoriva}");
+            Console.WriteLine($"  Doc_valor (total): {class_AdcDoc.Doc_valor}");
+            Console.WriteLine($"  Verificación: {class_AdcDoc.Doc_totciva} + {class_AdcDoc.Doc_valoriva} = {class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_valoriva} (XML dice {class_AdcDoc.Doc_valor})");
         }
 
 
@@ -207,6 +242,7 @@ namespace leeDocXml
             catch { }
             Botones();
         }
+
         private void verificarProveedor()
         {
             directMnt.DirectorioAlex dirlis = new directMnt.DirectorioAlex();
@@ -214,22 +250,74 @@ namespace leeDocXml
             bool CliPro = false;
             string SoloCodigo = "";
             dirlis.CargarAlex(ref codproov, ref CliPro, ref SoloCodigo);
+
             if (dirlis.codigo != null && dirlis.codigo.Length != 0)
             {
                 txtCodDirectorioAdcom.Text = dirlis.codigo;
                 txtEmail.Text = dirlis.correoElectronico;
                 txtEmail.Enabled = false;
                 crearProveedor = false;
+                Console.WriteLine($"Proveedor existe: {dirlis.codigo}");
             }
             else
             {
-                txtCodDirectorioAdcom.Text = txtRuc.Text.Substring(0, 10);
+                // ✅ GENERAR CÓDIGO SEGÚN EL TIPO DE IDENTIFICACIÓN
+                string codigoGenerado = impFac.GenerarCodigoIdentificacion(txtRuc.Text, tipoIdentificacion);
+
+                // ✅ VERIFICAR SI EL CÓDIGO GENERADO YA EXISTE
+                if (ExisteCodigoEnDirectorio(codigoGenerado))
+                {
+                    int contador = 1;
+                    string codigoUnico = codigoGenerado;
+                    while (ExisteCodigoEnDirectorio(codigoUnico))
+                    {
+                        codigoUnico = codigoGenerado + contador.ToString();
+                        contador++;
+                        if (contador > 99) break;
+                    }
+                    txtCodDirectorioAdcom.Text = codigoUnico;
+                    Console.WriteLine($"Código {codigoGenerado} ya existe, usando {codigoUnico}");
+                }
+                else
+                {
+                    txtCodDirectorioAdcom.Text = codigoGenerado;
+                }
+
                 txtEmail.Enabled = true;
                 crearProveedor = true;
+
+                Console.WriteLine($"Nuevo proveedor: Código={txtCodDirectorioAdcom.Text}, ID={txtRuc.Text}, Tipo={tipoIdentificacion}");
             }
         }
 
-          private void mallaReferencia_KeyDown(object sender, KeyEventArgs e)
+        private bool ExisteCodigoEnDirectorio(string codigo)
+        {
+            try
+            {
+                string ssql = "SELECT COUNT(*) FROM Identificacion WHERE Codigo = '" + codigo + "'";
+                using (SqlCommand cmd = new SqlCommand(ssql, new SqlConnection(datosEmpresa.strConxAdcom)))
+                {
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static string ObtenerPrefijoSegunTipo(string tipoId)
+        {
+            switch (tipoId)
+            {
+                case "04": return "R";  // RUC
+                case "05": return "C";  // Cédula
+                case "06": return "P";  // Pasaporte
+                default: return "R";    // Por defecto RUC
+            }
+        }
+        private void mallaReferencia_KeyDown(object sender, KeyEventArgs e)
           {
               if (mallaReferencia.CurrentCell == null) return;
               string colName = mallaReferencia.Columns[mallaReferencia.CurrentCell.ColumnIndex].Name;
@@ -314,7 +402,8 @@ namespace leeDocXml
               mallaReferencia.Rows[celda.RowIndex].Cells["DetalleCatalogo"].Value=nombre;
               mallaReferencia.Rows[celda.RowIndex].Cells["ConceptoProducto"].Value = "Producto";
               mallaReferencia.Rows[celda.RowIndex].Cells["usarDetalle"].Value = "Catálogo";
-          }
+              mallaReferencia.Rows[celda.RowIndex].Cells["DetalleAutilizar"].Value = nombre;
+        }
 
         private string buscaConcepto()
           {
@@ -335,7 +424,8 @@ namespace leeDocXml
               mallaReferencia.Rows[celda.RowIndex].Cells["DetalleCatalogo"].Value = nombre;
               mallaReferencia.Rows[celda.RowIndex].Cells["ConceptoProducto"].Value = "Concepto";
               mallaReferencia.Rows[celda.RowIndex].Cells["usarDetalle"].Value = "Catálogo";
-          }
+              mallaReferencia.Rows[celda.RowIndex].Cells["DetalleAutilizar"].Value = nombre;
+        }
 
           private void mallaReferencia_CellEndEdit(object sender, DataGridViewCellEventArgs e)
           {
@@ -598,52 +688,37 @@ namespace leeDocXml
                 chkSumarItems.Visible = chkTodosCodigoIgual.Checked;
             }
 
-        private void CalcularTotalesPorTipo(AdcDoc class_AdcDoc, DataGridView mallaReferencia)
+        /// <summary>
+        /// Calcula los totales por tipo de producto (Artículo/Concepto) después de importar detalles
+        /// </summary>
+        public static void CalcularTotalesPorTipo(AdcDoc class_AdcDoc, DataGridView mallaReferencia)
         {
             try
             {
                 decimal totArtCIva = 0;    // Artículos CON IVA
                 decimal totArtSIva = 0;    // Artículos SIN IVA
-                decimal totSerCIva = 0;    // Servicios CON IVA
-                decimal totSerSIva = 0;    // Servicios SIN IVA
+                decimal totSerCIva = 0;    // Servicios/Conceptos CON IVA
+                decimal totSerSIva = 0;    // Servicios/Conceptos SIN IVA
 
                 foreach (DataGridViewRow row in mallaReferencia.Rows)
                 {
-                    // Saltar filas vacías
                     if (row.IsNewRow) continue;
 
-                    // Obtener valores de la fila
                     object cantidadObj = row.Cells["Cantidad"].Value;
                     object precioObj = row.Cells["PvUni"].Value;
                     object ivaObj = row.Cells["iva"].Value;
                     object conceptoObj = row.Cells["ConceptoProducto"].Value;
 
-                    // Si no hay cantidad o precio, continuar
                     if (cantidadObj == null || precioObj == null) continue;
 
-                    // Convertir valores
-                    decimal cantidad = 0;
-                    decimal precioUnitario = 0;
-                    bool tieneIva = false;
-                    string tipoProducto = "Producto"; // Valor por defecto
-
-                    try
-                    {
-                        cantidad = Convert.ToDecimal(cantidadObj);
-                        precioUnitario = Convert.ToDecimal(precioObj);
-                        tieneIva = (ivaObj != null && Convert.ToBoolean(ivaObj));
-                        tipoProducto = conceptoObj?.ToString() ?? "Producto";
-                    }
-                    catch
-                    {
-                        continue; // Si hay error en conversión, saltar esta fila
-                    }
+                    decimal cantidad = Convert.ToDecimal(cantidadObj);
+                    decimal precioUnitario = Convert.ToDecimal(precioObj);
+                    bool tieneIva = (ivaObj != null && Convert.ToBoolean(ivaObj));
+                    string tipoProducto = conceptoObj?.ToString() ?? "Producto";
 
                     decimal subtotal = cantidad * precioUnitario;
 
-                    // Determinar si es Artículo o Servicio basado en "ConceptoProducto"
-                    // "Producto" = Artículo (inventariable)
-                    // "Concepto" = Servicio (no inventariable)
+                    // Determinar si es Artículo o Servicio/Concepto
                     if (tipoProducto == "Producto")
                     {
                         // ES ARTÍCULO
@@ -662,34 +737,23 @@ namespace leeDocXml
                     }
                 }
 
-                // Asignar a la clase AdcDoc
+                // ✅ ASIGNAR VALORES
                 class_AdcDoc.Doc_TotArtCIva = totArtCIva;
                 class_AdcDoc.Doc_TotArtSIva = totArtSIva;
                 class_AdcDoc.Doc_TotSerCIva = totSerCIva;
                 class_AdcDoc.Doc_TotSerSIva = totSerSIva;
 
-                // DEBUG: Mostrar en consola (opcional)
-                Console.WriteLine($"Totales calculados:");
-                Console.WriteLine($"  Artículos con IVA: {totArtCIva}");
-                Console.WriteLine($"  Artículos sin IVA: {totArtSIva}");
-                Console.WriteLine($"  Servicios con IVA: {totSerCIva}");
-                Console.WriteLine($"  Servicios sin IVA: {totSerSIva}");
-
-                // Verificar consistencia (opcional)
-                decimal totalCalculado = totArtCIva + totArtSIva + totSerCIva + totSerSIva;
-                decimal totalBases = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_totsiva;
-
-                if (Math.Abs(totalBases - totalCalculado) > 0.01m)
-                {
-                    Console.WriteLine($"ADVERTENCIA: Total bases ({totalBases}) vs Total por tipo ({totalCalculado})");
-                }
+                Console.WriteLine($"Totales por tipo:");
+                Console.WriteLine($"  Artículos CON IVA: {totArtCIva}");
+                Console.WriteLine($"  Artículos SIN IVA: {totArtSIva}");
+                Console.WriteLine($"  Servicios CON IVA: {totSerCIva}");
+                Console.WriteLine($"  Servicios SIN IVA: {totSerSIva}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error en CalcularTotalesPorTipo: {ex.Message}");
             }
         }
-
         private void mallaReferencia_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && proceso == 1)

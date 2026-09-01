@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.ComponentModel;
 using Microsoft.VisualBasic.Devices;
 using DattCom;
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 
 {
     public class GenerarDocumentoXML
@@ -27,7 +27,7 @@ namespace DaxDocElectronicos
              
         string pathFile = "";
         string pathBmp = "";
-        DaxDocElectronicos.Feutilidad util = new DaxDocElectronicos.Feutilidad();
+        Feutilidad util = new Feutilidad();
         public string documentoAenviar(string suc_comprobante, string tipo_comprobante, string numero_comrpobante, double idclaveDoc,ref string PathCpbte,string claseDoc, string empRuc , short empDigitosPrecios, string empPatAppl,Int16 EmisionTipo, Boolean esOnLine)
         {
             string claveAcceso = "";
@@ -64,7 +64,7 @@ namespace DaxDocElectronicos
                 {
                     GenFactura xmlprog = new GenFactura();
                     //NombreVerificador = "factura.xsd";
-                    xmlprog.crear_factura_xml_sri(ref dr, ref adcdoc, pathFile, claveAcceso, TipoDeAmbiente, tipoDeEmision, empDigitosPrecios,datosEmpresa.Emp_Nombre , datosEmpresa.Emp_RUC, datosEmpresa.Emp_Dirección , datosEmpresa.nombreBaseIvaret, strConxadcom);
+                    xmlprog.crear_factura_xml_sri(ref dr, ref adcdoc, pathFile, claveAcceso, TipoDeAmbiente, tipoDeEmision, empDigitosPrecios,datosEmpresa.Emp_Nombre , datosEmpresa.Emp_NombreCom, datosEmpresa.Emp_RUC, datosEmpresa.Emp_Dirección , datosEmpresa.nombreBaseIvaret, strConxadcom);
                 }
                 else if (tipoDocumentoAdcom == "REM")
                 {
@@ -95,7 +95,7 @@ namespace DaxDocElectronicos
                 {
                     GenLiqcom xmlprog = new GenLiqcom();
                     //NombreVerificador = "liquidacionCompras.xsd";
-                    xmlprog.crear_LiquidacionCompra (ref dr, ref adcdoc, pathFile, claveAcceso, TipoDeAmbiente, tipoDeEmision, empDigitosPrecios, datosEmpresa.Emp_Nombre , datosEmpresa.Emp_RUC, datosEmpresa.Emp_Dirección, datosEmpresa.nombreBaseIvaret, strConxadcom);
+                    xmlprog.crear_LiquidacionCompra (ref dr, ref adcdoc, pathFile, claveAcceso, TipoDeAmbiente, tipoDeEmision, empDigitosPrecios, datosEmpresa.Emp_Nombre , datosEmpresa.Emp_NombreCom, datosEmpresa.Emp_RUC, datosEmpresa.Emp_Dirección, datosEmpresa.nombreBaseIvaret, strConxadcom);
                 }
                 if (claveAcceso.Length < 3) return claveAcceso;
                 if (claveAcceso.Substring(0, 3).ToUpper() == "ERR") return claveAcceso;
@@ -141,8 +141,8 @@ namespace DaxDocElectronicos
 
          private Boolean iniciarVariablesExternas()
          {             
-             DaxDocElectronicos.AdcFelec fel = new DaxDocElectronicos.AdcFelec(strConxadcom);
-             fel = DaxDocElectronicos.AdcFelec.Buscar("");
+             AdcFelec fel = new AdcFelec(strConxadcom);
+             fel = AdcFelec.Buscar("");
              if (fel != null)
              {
                  pathFile = fel.pathCpbGenerados;
@@ -164,7 +164,7 @@ namespace DaxDocElectronicos
     }
     public static class genearClaveDocumentoElct
     {
-        static DaxDocElectronicos.Feutilidad util = new DaxDocElectronicos.Feutilidad();
+        static Feutilidad util = new Feutilidad();
         public static string generar_clave_accesoNormal( DateTime fecha_emision, string tipo_comprobante,string ruc,Int16 ambiente,string serie, string numero_comrpobante, string codigo_numerico,Int16 tipo_emision,string str)
              {
                 string clave="";

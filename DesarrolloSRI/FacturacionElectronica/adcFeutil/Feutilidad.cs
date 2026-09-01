@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class Feutilidad
     {
@@ -245,26 +245,6 @@ namespace DaxDocElectronicos
             }
             return resp;
         }
-        //public void strLeerDocumentoNcc(ref string adcdoc, ref string adctra, string suc_comprobante, string tipo_comprobante, string idclaveDoc)
-        //{
-        //    string ssqlDoc = "adc_CpbtNcc " + idclaveDoc.ToString() + ",'" + suc_comprobante + "','" + tipo_comprobante + "'";
-
-        //    adcdoc = ssqlDoc;
-        //    //adctra = ssqlTra;
-        //}
-        //public void strLeerDocumentoRem(ref string adcdoc, ref string adctra, string suc_comprobante, string tipo_comprobante, string idclaveDoc)
-        //{
-        //    string ssqlDoc = "adc_CpbtRem " + idclaveDoc.ToString() + ",'" + suc_comprobante + "','" + tipo_comprobante + "'";
-
-        //    adcdoc = ssqlDoc;
-        //    //adctra = ssqlTra;
-
-        //}
-        //public void strLeerDocumentoRet(ref string adcdoc, ref string adctra, string suc_comprobante, string tipo_comprobante, string idclaveDoc)
-        //{
-        //    string ssqlDoc = "adc_CpbtRet " + idclaveDoc.ToString() + ",'" + suc_comprobante + "','" + tipo_comprobante + "'";
-        //    adcdoc = ssqlDoc;
-        //}
-
+       
     }
 }

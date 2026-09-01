@@ -7,8 +7,8 @@
     <ProjectGuid>{30C1C42B-A8FF-4DDF-AE5F-B08466E0AD38}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DaxDocElectronicos</RootNamespace>
-    <AssemblyName>CeImportarXml</AssemblyName>
+    <RootNamespace>sesDocElectronicos</RootNamespace>
+    <AssemblyName>sesCeImportarXml</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -42,14 +42,6 @@
     <Reference Include="AuditSis">
       <HintPath>..\..\..\..\Librerias\AuditSis.dll</HintPath>
     </Reference>
-    <Reference Include="CeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeClassElec.dll</HintPath>
-    </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Librerias\CeUtility.dll</HintPath>
-    </Reference>
     <Reference Include="ClassDir">
       <HintPath>..\..\..\..\Librerias\ClassDir.dll</HintPath>
     </Reference>
@@ -71,6 +63,18 @@
     </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="sesCeClassElec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesCeClassElec.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesCeUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="sesDctoEmi, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Librerias\sesDctoEmi.dll</HintPath>
     </Reference>
     <Reference Include="sesLook">
       <HintPath>..\..\..\..\Librerias\sesLook.dll</HintPath>
@@ -124,7 +128,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Fakes Include="Fakes\AdcClassDir.fakes" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,10 +145,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\EmisionDocumentos\daxEmiFacturas\daxEmiDocmtos.csproj">
-      <Project>{83B0CFE2-09B6-48ED-BE92-6BFC316A5A38}</Project>
-      <Name>daxEmiDocmtos</Name>
-    </ProjectReference>
+    <Folder Include="Fakes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

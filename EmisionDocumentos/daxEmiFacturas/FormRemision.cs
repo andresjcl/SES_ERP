@@ -53,7 +53,7 @@ namespace DctosEmi
         double IdClaveDocSustento = 0;
         DateTime docSustentoFecha = new DateTime(1900, 1, 1);
         string docSustentoNumId = "";
-        Boolean saltaEventosMalla = false;
+        //Boolean saltaEventosMalla = false;
 
         string formatoNumero = "##0.00";
 
@@ -1183,7 +1183,7 @@ namespace DctosEmi
                                                     malla.BeginEdit(true);
                                                 }
                                             }
-                                            catch (Exception ex)
+                                            catch (Exception )
                                             {
                                                 malla.Focus();
                                                 SendKeys.SendWait("{TAB}");

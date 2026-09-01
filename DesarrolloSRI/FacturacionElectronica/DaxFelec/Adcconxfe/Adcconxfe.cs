@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DattCom;
+using sesDocElectronicos;
+using System;
 using System.Text;
 namespace Daxconxfe
 {
@@ -7,14 +9,14 @@ namespace Daxconxfe
         public string pedirAutorizacionSri(string suc_documento, string opc_documento, double idclavedoc, string doc_numero, string claseDoc, string empRuc, short empDigitosPrecios, string empPatAppl, Int16 tipoEmision,Boolean esOnLine,string strConxAdcom)
         {            
             string pathfile = "";            
-            DaxDocElectronicos.GenerarDocumentoXML genxml = new DaxDocElectronicos.GenerarDocumentoXML();
+            GenerarDocumentoXML genxml = new GenerarDocumentoXML();
             string queClave = genxml.documentoAenviar(suc_documento, opc_documento, doc_numero, idclavedoc, ref pathfile,claseDoc,empRuc ,empDigitosPrecios,empPatAppl,tipoEmision,esOnLine);
             string resp = queClave;
             genxml = null;
 
             if (queClave.Substring(0, 3).ToUpper() != "ERR" && queClave.Length > 0)
             {
-                DaxDocElectronicos.Firma FM = new DaxDocElectronicos.Firma();
+                Firma FM = new Firma();
                 FM.strFileXml = queClave;
                 string firma = FM.FirmarArchivoXML(strConxAdcom);
                 FM = null;
@@ -22,10 +24,10 @@ namespace Daxconxfe
                 {
                     try
                     {
-                        DaxLib.DaxLibBases dxlib = new DaxLib.DaxLibBases();
-                        dxlib.TipoBase = "10";
-                        DaxDocElectronicos.AdcFelec fel = new DaxDocElectronicos.AdcFelec(dxlib.StrAdcom());
-                        fel = DaxDocElectronicos.AdcFelec.Buscar("");
+                       // DaxLib.DaxLibBases dxlib = new DaxLib.DaxLibBases();
+                        //dxlib.TipoBase = "10";
+                        AdcFelec fel = new AdcFelec(datosEmpresa.strConxAdcom);
+                        fel = AdcFelec.Buscar("");
                         
                         string PathFile = fel.pathCpbFirmados + queClave + ".xml";
                         string pathAutorizados = fel.pathCpbAutorizados + queClave + ".xml";
@@ -40,7 +42,7 @@ namespace Daxconxfe
                         { 
                             resp = queClave; 
                         }
-                        dxlib = null;
+                        //dxlib = null;
                         fel = null;
                     }
                     catch (Exception ex)

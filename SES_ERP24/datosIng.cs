@@ -111,6 +111,8 @@ namespace SES_ERP24
                 {"RTCEmitir", 5},
                 {"MntTablasSRI", 5},
                 {"importarXML", 5},
+                {"AnexoTransaccional", 5},
+
                 
                 // Administración (Posición 0)
                 {"MntDocumentos", 0},
@@ -132,6 +134,8 @@ namespace SES_ERP24
                 // Contabilidad (Posición 4)
                 {"mnplanCuentas", 4},
                 {"MntBalances", 4},
+                {"menuValidacionAsientos", 4},
+                {"menuAnalisiMovCuenta", 4},
                 
                 // Importaciones (Posición 7)
                 {"IMPEmitir", 7},

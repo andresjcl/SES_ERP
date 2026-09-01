@@ -42,10 +42,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DesarrolloSRI\FacturacionElectronica\DaxCelec\obj\Debug\AxInterop.AcroPDFLib.dll</HintPath>
     </Reference>
-    <Reference Include="CeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Librerias\CeUtility.dll</HintPath>
-    </Reference>
     <Reference Include="ClassFelec, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\ClassFelec.dll</HintPath>
@@ -91,6 +87,10 @@
     <Reference Include="sesAcces, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Librerias\sesAcces.dll</HintPath>
+    </Reference>
+    <Reference Include="sesCeUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Librerias\sesCeUtility.dll</HintPath>
     </Reference>
     <Reference Include="sesSysp, Version=12.0.8958.42699, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

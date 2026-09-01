@@ -20,7 +20,7 @@ namespace DctosEmi
 
             ssqlTra += ",tra_quetipo,tra_esCuenta,Tra_individual,tra_costuni,Tra_CostTot,tra_multiplo";
             ssqlTra += ",tra_numprecio,0.0000 as Existencia,0.0000 as limiteDescuento,0.0000 as descuentoArticulo";
-            ssqlTra += ",0.0000 as precioArticulo,'' as medidaArticulo,'S' as Serv,'' as Cmb,TRA_SNIVA,AuxVar3";
+            ssqlTra += ",0.0000 as precioArticulo,'' as medidaArticulo,'S' as Serv,'' as Cmb,Tra_compras,AuxVar3";
 
             ssqlTra += " from " + TablaTra + " where doc_sucursal = '" + suc + "' and opc_documento ='" + tip + "' and idclavedoc = " + idClave.ToString();
             ssqlTra += " order by opc_documento,idclavedoc,tra_numlinea";

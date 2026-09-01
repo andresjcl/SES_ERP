@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.Data;
 using System.Xml;
-using DaxDocElectronicos;
+
 using DattCom;
 
-namespace DaxDocElectronicos
+namespace sesDocElectronicos
 {
     public class GenLiqcom
     {
@@ -26,6 +25,7 @@ namespace DaxDocElectronicos
           short tipoEmision,
           short decimales,
           string NombreEmpresa,
+           string NombreEmpresaComercial,
           string rucEmpresa,
           string DireccionEmpresa,
           string nombreBaseDatosIvaret,
@@ -52,7 +52,15 @@ namespace DaxDocElectronicos
                 }
                 else
                 {
-                    docXml.WriteElementString("nombreComercial", this.util.formatoString(NombreEmpresa, 300));
+                    string nombreComercial = this.util.formatoString(NombreEmpresaComercial, 300);
+                    if (string.IsNullOrEmpty(nombreComercial))
+                    {
+                        docXml.WriteElementString("nombreComercial", this.util.formatoString(NombreEmpresa, 300));
+                    }
+                    else
+                    {
+                        docXml.WriteElementString("nombreComercial", nombreComercial);
+                    }
                 }
                 docXml.WriteElementString("ruc", rucEmpresa);
                 docXml.WriteElementString("claveAcceso", clv);
@@ -249,12 +257,8 @@ namespace DaxDocElectronicos
                         docXml.WriteEndElement();
                     }
                     docXml.WriteEndElement();
-                }
-                if (rucEmpresa == "1792323002001" && classDatEmp.NroAgenteRetencion.Length > 0)
-                {
-                    ChekAdicionales.registrarAdicionales(doc, docXml, false);
-                }
-                ////ChekAdicionales.registrarAdicionales(doc, docXml, false);
+                }                
+                ChekAdicionales.registrarAdicionales(doc, docXml, false);
                 docXml.WriteEndElement();
                 docXml.Flush();
                 docXml.Close();

@@ -4,7 +4,8 @@ using System.Data.SqlClient;
 using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
-using DaxDocElectronicos;
+using sesDocElectronicos;
+
 namespace atsgenxml
 {
     public class atsGenCom
@@ -91,8 +92,8 @@ namespace atsgenxml
                             docXml.WriteElementString("tipoProv", util.formatoNumero(row["tipoProv"].ToString(), 2));
                         if (fechaInicial.Year * 100 + fechaInicial.Month >= 201605)
                         {
-                            RetNombre.AdcNomb prog = new RetNombre.AdcNomb();
-                            string Nombre = prog.RetornaNombreDirectorio(row["idProv"].ToString(), SysEmpDatt.datosEmpresa.strConxAdcom);
+                           EmpNomR.AdcNomb prog = new EmpNomR.AdcNomb();
+                            string Nombre = prog.RetornaNombreDirectorio(row["idProv"].ToString(), DattCom.datosEmpresa.strConxAdcom);
                             docXml.WriteElementString("denoProv", Nombre.ToString());
                         }
                         }
