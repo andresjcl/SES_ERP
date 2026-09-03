@@ -1,4 +1,8 @@
-﻿namespace IngSis
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;  // ← ESTO FALTA
+
+namespace IngSis
 {
     partial class Acceso
     {
@@ -27,6 +31,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnMostrarPass = new System.Windows.Forms.Button();
             this.panelPassword = new System.Windows.Forms.Panel();
+            this.lblSubtitulo = new System.Windows.Forms.Label();
+            this.lineaDecorativa = new System.Windows.Forms.Panel();
             this.panelPassword.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -35,7 +41,7 @@
             this.Label3.AutoSize = true;
             this.Label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.Label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.Label3.Location = new System.Drawing.Point(35, 330);
+            this.Label3.Location = new System.Drawing.Point(35, 373);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(103, 20);
             this.Label3.TabIndex = 6;
@@ -50,9 +56,9 @@
             this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSalir.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSalir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(181)))));
-            this.btnSalir.Location = new System.Drawing.Point(35, 299);
+            this.btnSalir.Location = new System.Drawing.Point(0, 339);
             this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(243, 25);
+            this.btnSalir.Size = new System.Drawing.Size(210, 25);
             this.btnSalir.TabIndex = 5;
             this.btnSalir.Text = "❌ Salir del sistema";
             this.btnSalir.UseVisualStyleBackColor = false;
@@ -66,9 +72,9 @@
             this.BtnContinuar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnContinuar.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.BtnContinuar.ForeColor = System.Drawing.Color.White;
-            this.BtnContinuar.Location = new System.Drawing.Point(35, 246);
+            this.BtnContinuar.Location = new System.Drawing.Point(35, 286);
             this.BtnContinuar.Name = "BtnContinuar";
-            this.BtnContinuar.Size = new System.Drawing.Size(400, 45);
+            this.BtnContinuar.Size = new System.Drawing.Size(410, 45);
             this.BtnContinuar.TabIndex = 4;
             this.BtnContinuar.Text = "INICIAR SESIÓN";
             this.BtnContinuar.UseVisualStyleBackColor = false;
@@ -79,9 +85,9 @@
             this.DcEmp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.DcEmp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DcEmp.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.DcEmp.Location = new System.Drawing.Point(35, 355);
+            this.DcEmp.Location = new System.Drawing.Point(35, 398);
             this.DcEmp.Name = "DcEmp";
-            this.DcEmp.Size = new System.Drawing.Size(400, 31);
+            this.DcEmp.Size = new System.Drawing.Size(410, 31);
             this.DcEmp.TabIndex = 6;
             this.DcEmp.Click += new System.EventHandler(this.DcEmp_Click);
             // 
@@ -90,7 +96,7 @@
             this.chkGuardarClaves.AutoSize = true;
             this.chkGuardarClaves.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.chkGuardarClaves.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.chkGuardarClaves.Location = new System.Drawing.Point(35, 211);
+            this.chkGuardarClaves.Location = new System.Drawing.Point(35, 258);
             this.chkGuardarClaves.Name = "chkGuardarClaves";
             this.chkGuardarClaves.Size = new System.Drawing.Size(120, 24);
             this.chkGuardarClaves.TabIndex = 3;
@@ -100,22 +106,23 @@
             // ClaveSecreta
             // 
             this.ClaveSecreta.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
-            this.ClaveSecreta.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ClaveSecreta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ClaveSecreta.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.ClaveSecreta.Location = new System.Drawing.Point(0, -55);
+            this.ClaveSecreta.Location = new System.Drawing.Point(5, 0);
             this.ClaveSecreta.Name = "ClaveSecreta";
             this.ClaveSecreta.PasswordChar = '●';
-            this.ClaveSecreta.Size = new System.Drawing.Size(360, 25);
+            this.ClaveSecreta.Size = new System.Drawing.Size(365, 32);
             this.ClaveSecreta.TabIndex = 2;
+            this.ClaveSecreta.TextChanged += new System.EventHandler(this.ClaveSecreta_TextChanged);
             // 
             // IdIngreso
             // 
             this.IdIngreso.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.IdIngreso.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.IdIngreso.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.IdIngreso.Location = new System.Drawing.Point(35, 85);
+            this.IdIngreso.Location = new System.Drawing.Point(35, 145);
             this.IdIngreso.Name = "IdIngreso";
-            this.IdIngreso.Size = new System.Drawing.Size(400, 32);
+            this.IdIngreso.Size = new System.Drawing.Size(410, 32);
             this.IdIngreso.TabIndex = 1;
             this.IdIngreso.TextChanged += new System.EventHandler(this.IdIngreso_TextChanged);
             this.IdIngreso.Enter += new System.EventHandler(this.IdIngreso_Enter);
@@ -126,10 +133,10 @@
             this.Label1.AutoSize = true;
             this.Label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.Label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.Label1.Location = new System.Drawing.Point(35, 60);
+            this.Label1.Location = new System.Drawing.Point(35, 120);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(102, 20);
-            this.Label1.TabIndex = 1;
+            this.Label1.TabIndex = 3;
             this.Label1.Text = "👤 USUARIO";
             // 
             // Label2
@@ -137,20 +144,20 @@
             this.Label2.AutoSize = true;
             this.Label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.Label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.Label2.Location = new System.Drawing.Point(35, 135);
+            this.Label2.Location = new System.Drawing.Point(35, 183);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(136, 20);
-            this.Label2.TabIndex = 2;
+            this.Label2.TabIndex = 4;
             this.Label2.Text = "🔑 CONTRASEÑA";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(181)))));
-            this.label5.Location = new System.Drawing.Point(102, 20);
+            this.label5.Location = new System.Drawing.Point(53, 25);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(297, 41);
+            this.label5.Size = new System.Drawing.Size(333, 46);
             this.label5.TabIndex = 0;
             this.label5.Text = "🔐 INICIAR SESIÓN";
             this.label5.Click += new System.EventHandler(this.label5_Click);
@@ -163,7 +170,7 @@
             this.btnMostrarPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMostrarPass.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnMostrarPass.ForeColor = System.Drawing.Color.Gray;
-            this.btnMostrarPass.Location = new System.Drawing.Point(365, 0);
+            this.btnMostrarPass.Location = new System.Drawing.Point(372, 0);
             this.btnMostrarPass.Name = "btnMostrarPass";
             this.btnMostrarPass.Size = new System.Drawing.Size(35, 30);
             this.btnMostrarPass.TabIndex = 3;
@@ -173,21 +180,43 @@
             // 
             // panelPassword
             // 
+            this.panelPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.panelPassword.Controls.Add(this.ClaveSecreta);
             this.panelPassword.Controls.Add(this.btnMostrarPass);
-            this.panelPassword.Location = new System.Drawing.Point(35, 165);
+            this.panelPassword.Location = new System.Drawing.Point(35, 208);
             this.panelPassword.Name = "panelPassword";
-            this.panelPassword.Size = new System.Drawing.Size(400, 32);
-            this.panelPassword.TabIndex = 3;
+            this.panelPassword.Size = new System.Drawing.Size(410, 32);
+            this.panelPassword.TabIndex = 5;
+            // 
+            // lblSubtitulo
+            // 
+            this.lblSubtitulo.AutoSize = true;
+            this.lblSubtitulo.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblSubtitulo.ForeColor = System.Drawing.Color.Gray;
+            this.lblSubtitulo.Location = new System.Drawing.Point(79, 62);
+            this.lblSubtitulo.Name = "lblSubtitulo";
+            this.lblSubtitulo.Size = new System.Drawing.Size(309, 23);
+            this.lblSubtitulo.TabIndex = 1;
+            this.lblSubtitulo.Text = "Ingresa tus credenciales para continuar";
+            // 
+            // lineaDecorativa
+            // 
+            this.lineaDecorativa.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(181)))));
+            this.lineaDecorativa.Location = new System.Drawing.Point(35, 88);
+            this.lineaDecorativa.Name = "lineaDecorativa";
+            this.lineaDecorativa.Size = new System.Drawing.Size(421, 5);
+            this.lineaDecorativa.TabIndex = 2;
             // 
             // Acceso
             // 
             this.AcceptButton = this.BtnContinuar;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(242)))), ((int)(((byte)(245)))));
             this.CancelButton = this.btnSalir;
-            this.ClientSize = new System.Drawing.Size(520, 408);
+            this.ClientSize = new System.Drawing.Size(500, 449);
             this.ControlBox = false;
             this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblSubtitulo);
+            this.Controls.Add(this.lineaDecorativa);
             this.Controls.Add(this.Label1);
             this.Controls.Add(this.IdIngreso);
             this.Controls.Add(this.Label2);
@@ -203,6 +232,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Acceso";
+            this.Padding = new System.Windows.Forms.Padding(20);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "INGRESO AL SISTEMA";
             this.panelPassword.ResumeLayout(false);
@@ -213,7 +243,7 @@
         }
 
         // ============================================================
-        // DECLARACIÓN DE CONTROLES (SIN DUPLICADOS)
+        // DECLARACIÓN DE CONTROLES
         // ============================================================
         private System.Windows.Forms.Label Label3;
         private System.Windows.Forms.Button btnSalir;
@@ -226,8 +256,10 @@
         private System.Windows.Forms.Label Label2;
         private System.Windows.Forms.Label label5;
 
-        // Nuevos controles (SOLO DECLARADOS UNA VEZ)
+        // Nuevos controles
         private System.Windows.Forms.Button btnMostrarPass;
         private System.Windows.Forms.Panel panelPassword;
+        private Label lblSubtitulo;
+        private Panel lineaDecorativa;
     }
 }

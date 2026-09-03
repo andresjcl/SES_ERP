@@ -35,15 +35,12 @@ namespace leeDocXml
                                 break;
                             case "ruc":
                                 class_AdcDoc.Doc_CiRuc = mValor;
-
-                                // ✅ DETERMINAR TIPO DE IDENTIFICACIÓN DEL EMISOR
                                 if (mValor.Length == 13)
-                                    tipoIdentificacion = "04";  // RUC
+                                    tipoIdentificacion = "04";
                                 else if (mValor.Length == 10)
-                                    tipoIdentificacion = "05";  // Cédula
+                                    tipoIdentificacion = "05";
                                 else
-                                    tipoIdentificacion = "06";  // Pasaporte
-
+                                    tipoIdentificacion = "06";
                                 Console.WriteLine($"Emisor: ID={mValor}, Tipo={tipoIdentificacion}");
                                 break;
                             case "claveAcceso":
@@ -71,106 +68,63 @@ namespace leeDocXml
                     }
                     catch { break; }
                 }
-
                 class_AdcDoc.Doc_NroIdDoc = estab + "-" + ptoemi;
             }
         }
 
-        /// <summary>
-        /// Calcula los totales por tipo de producto (Artículo/Concepto) después de importar detalles
-        /// </summary>
         public static void CalcularTotalesPorTipo(AdcDoc class_AdcDoc, DataGridView mallaReferencia)
         {
             try
             {
-                decimal totArtCIva = 0;    // Artículos CON IVA
-                decimal totArtSIva = 0;    // Artículos SIN IVA
-                decimal totSerCIva = 0;    // Servicios/Conceptos CON IVA
-                decimal totSerSIva = 0;    // Servicios/Conceptos SIN IVA
+                decimal totArtCIva = 0;
+                decimal totArtSIva = 0;
+                decimal totSerCIva = 0;
+                decimal totSerSIva = 0;
 
                 foreach (DataGridViewRow row in mallaReferencia.Rows)
                 {
                     if (row.IsNewRow) continue;
+                    if (row.Cells["Cantidad"].Value == null || row.Cells["PvUni"].Value == null) continue;
 
-                    // Obtener valores de la fila
-                    object cantidadObj = row.Cells["Cantidad"].Value;
-                    object precioObj = row.Cells["PvUni"].Value;
-                    object ivaObj = row.Cells["iva"].Value;
-                    object conceptoObj = row.Cells["ConceptoProducto"].Value;
+                    decimal cantidad = Convert.ToDecimal(row.Cells["Cantidad"].Value);
+                    decimal precioUnitario = Convert.ToDecimal(row.Cells["PvUni"].Value);
 
-                    if (cantidadObj == null || precioObj == null) continue;
+                    decimal subtotal = Math.Round(cantidad * precioUnitario, 2);
 
-                    decimal cantidad = Convert.ToDecimal(cantidadObj);
-                    decimal precioUnitario = Convert.ToDecimal(precioObj);
                     bool tieneIva = false;
-                    string tipoProducto = "Producto";
-
-                    // Determinar si tiene IVA
-                    if (ivaObj != null)
+                    if (row.Cells["iva"].Value != null)
                     {
-                        if (ivaObj is bool)
-                            tieneIva = (bool)ivaObj;
-                        else if (ivaObj is string)
-                            tieneIva = (ivaObj.ToString().ToUpper() == "TRUE" || ivaObj.ToString() == "1" || ivaObj.ToString().ToUpper() == "S");
+                        if (row.Cells["iva"].Value is bool)
+                            tieneIva = (bool)row.Cells["iva"].Value;
                         else
-                            bool.TryParse(ivaObj.ToString(), out tieneIva);
+                            bool.TryParse(row.Cells["iva"].Value.ToString(), out tieneIva);
                     }
 
-                    // Determinar tipo de producto
-                    if (conceptoObj != null)
-                    {
-                        tipoProducto = conceptoObj.ToString();
-                    }
-
-                    // Determinar si es Artículo o Servicio/Concepto
+                    string tipoProducto = row.Cells["ConceptoProducto"]?.Value?.ToString() ?? "Producto";
                     bool esArticulo = (tipoProducto.ToUpper() == "PRODUCTO" || tipoProducto.ToUpper() == "A");
-
-                    decimal subtotal = cantidad * precioUnitario;
 
                     if (esArticulo)
                     {
-                        // ES ARTÍCULO
-                        if (tieneIva)
-                            totArtCIva += subtotal;
-                        else
-                            totArtSIva += subtotal;
+                        if (tieneIva) totArtCIva += subtotal;
+                        else totArtSIva += subtotal;
                     }
                     else
                     {
-                        // ES SERVICIO o CONCEPTO
-                        if (tieneIva)
-                            totSerCIva += subtotal;
-                        else
-                            totSerSIva += subtotal;
+                        if (tieneIva) totSerCIva += subtotal;
+                        else totSerSIva += subtotal;
                     }
                 }
 
-                // ✅ ASIGNAR VALORES A LA CLASE AdcDoc
-                class_AdcDoc.Doc_TotArtCIva = totArtCIva;
-                class_AdcDoc.Doc_TotArtSIva = totArtSIva;
-                class_AdcDoc.Doc_TotSerCIva = totSerCIva;
-                class_AdcDoc.Doc_TotSerSIva = totSerSIva;
+                class_AdcDoc.Doc_TotArtCIva = Math.Round(totArtCIva, 2);
+                class_AdcDoc.Doc_TotArtSIva = Math.Round(totArtSIva, 2);
+                class_AdcDoc.Doc_TotSerCIva = Math.Round(totSerCIva, 2);
+                class_AdcDoc.Doc_TotSerSIva = Math.Round(totSerSIva, 2);
 
-                // DEBUG: Mostrar en consola
                 Console.WriteLine("\n=== TOTALES POR TIPO DE PRODUCTO ===");
-                Console.WriteLine($"  Artículos CON IVA: {totArtCIva:F2}");
-                Console.WriteLine($"  Artículos SIN IVA: {totArtSIva:F2}");
-                Console.WriteLine($"  Servicios CON IVA: {totSerCIva:F2}");
-                Console.WriteLine($"  Servicios SIN IVA: {totSerSIva:F2}");
-
-                // Verificar consistencia con Doc_totciva y Doc_totsiva
-                decimal totalBases = class_AdcDoc.Doc_totciva + class_AdcDoc.Doc_totsiva;
-                decimal totalCalculado = totArtCIva + totArtSIva + totSerCIva + totSerSIva;
-
-                if (Math.Abs(totalBases - totalCalculado) > 0.01m)
-                {
-                    Console.WriteLine($"⚠️ ADVERTENCIA: Total bases ({totalBases:F2}) vs Total por tipo ({totalCalculado:F2})");
-                    Console.WriteLine($"   Diferencia: {Math.Abs(totalBases - totalCalculado):F2}");
-                }
-                else
-                {
-                    Console.WriteLine($"✅ Totales consistentes: {totalBases:F2} = {totalCalculado:F2}");
-                }
+                Console.WriteLine($"  Artículos CON IVA: {class_AdcDoc.Doc_TotArtCIva:F2}");
+                Console.WriteLine($"  Artículos SIN IVA: {class_AdcDoc.Doc_TotArtSIva:F2}");
+                Console.WriteLine($"  Servicios CON IVA: {class_AdcDoc.Doc_TotSerCIva:F2}");
+                Console.WriteLine($"  Servicios SIN IVA: {class_AdcDoc.Doc_TotSerSIva:F2}");
             }
             catch (Exception ex)
             {
@@ -178,7 +132,6 @@ namespace leeDocXml
             }
         }
 
-       
         public static void importaInfFactura(XmlDocument xmlDocFactura, AdcDoc class_AdcDoc, DataGridView mallaReferencia)
         {
             XmlNode child = xmlDocFactura.SelectSingleNode("/factura/infoFactura");
@@ -197,34 +150,27 @@ namespace leeDocXml
                                 class_AdcDoc.Doc_fecha = Convert.ToDateTime(mValor);
                                 break;
                             case "totalSinImpuestos":
-                                // ✅ Total sin impuestos (base imponible total)
-                                class_AdcDoc.Doc_totciva = Convert.ToDecimal(mValor);
-                                Console.WriteLine($"totalSinImpuestos (XML): {mValor}");
+                                class_AdcDoc.Doc_totciva = Math.Round(Convert.ToDecimal(mValor), 2);
+                                Console.WriteLine($"totalSinImpuestos (XML): {mValor} -> redondeado: {class_AdcDoc.Doc_totciva}");
                                 break;
                             case "importeTotal":
-                                // ✅ Importe total (con impuestos)
-                                class_AdcDoc.Doc_valor = Convert.ToDecimal(mValor);
-                                Console.WriteLine($"importeTotal (XML): {mValor}");
+                                class_AdcDoc.Doc_valor = Math.Round(Convert.ToDecimal(mValor), 2);
+                                Console.WriteLine($"importeTotal (XML): {mValor} -> redondeado: {class_AdcDoc.Doc_valor}");
                                 break;
                             case "moneda":
                                 class_AdcDoc.Moneda = mValor;
                                 break;
                             case "totalConImpuestos":
-                                // ✅ Procesar impuestos
                                 importarImpuestosDoc(child.ChildNodes.Item(i), class_AdcDoc);
                                 break;
                             case "identificacionComprador":
                                 class_AdcDoc.Doc_CiRuc = mValor;
-                                Console.WriteLine($"Comprador: Identificacion={mValor}");
                                 break;
                             case "razonSocialComprador":
-                                // ✅ Nombre en MAYÚSCULAS
                                 class_AdcDoc.Doc_NombreImp = mValor.ToUpper();
-                                Console.WriteLine($"Comprador: Nombre={class_AdcDoc.Doc_NombreImp}");
                                 break;
                             case "direccionComprador":
                                 class_AdcDoc.Doc_Direccion = mValor;
-                                Console.WriteLine($"Comprador: Direccion={mValor}");
                                 break;
                             case "obligadoContabilidad":
                                 class_AdcDoc.Doc_Contabilidad = (mValor.ToUpper() == "SI") ? 1 : 0;
@@ -236,112 +182,16 @@ namespace leeDocXml
                         Console.WriteLine($"Error en importaInfFactura: {ex.Message}");
                     }
                 }
+
+                class_AdcDoc.Doc_totciva = Math.Round(class_AdcDoc.Doc_totciva, 2);
+                class_AdcDoc.Doc_valor = Math.Round(class_AdcDoc.Doc_valor, 2);
+                class_AdcDoc.BaseImp1 = class_AdcDoc.Doc_totciva;
             }
         }
 
-        //private static void importarImpuestosDoc(XmlNode childPago, AdcDoc docDax)
-        //{
-        //    if (childPago == null)
-        //    {
-        //        Console.WriteLine("  No hay nodo totalConImpuestos");
-        //        return;
-        //    }
-
-        //    decimal totalConIva = 0;
-        //    decimal totalSinIva = 0;
-        //    decimal totalIva = 0;
-        //    decimal porcIvaPrincipal = 0;
-        //    decimal baseImponibleTotal = 0;
-
-        //    Console.WriteLine($"  Procesando {childPago.ChildNodes.Count} impuestos...");
-
-        //    foreach (XmlNode impuesto in childPago.ChildNodes)
-        //    {
-        //        if (impuesto.Name == "totalImpuesto")
-        //        {
-        //            string codigo = "";
-        //            string codigoPorcentaje = "";
-        //            decimal tarifa = 0;
-        //            decimal valor = 0;
-        //            decimal baseImponible = 0;
-
-        //            foreach (XmlNode campo in impuesto.ChildNodes)
-        //            {
-        //                switch (campo.Name)
-        //                {
-        //                    case "codigo":
-        //                        codigo = campo.InnerText.Trim();
-        //                        Console.WriteLine($"    Código: {codigo}");
-        //                        break;
-        //                    case "codigoPorcentaje":
-        //                        codigoPorcentaje = campo.InnerText.Trim();
-        //                        Console.WriteLine($"    Código Porcentaje: {codigoPorcentaje}");
-        //                        break;
-        //                    case "baseImponible":
-        //                        decimal.TryParse(campo.InnerText.Replace(",", "."), out baseImponible);
-        //                        baseImponibleTotal += baseImponible;
-        //                        Console.WriteLine($"    Base Imponible: {baseImponible}");
-        //                        break;
-        //                    case "tarifa":
-        //                        decimal.TryParse(campo.InnerText.Replace(",", "."), out tarifa);
-        //                        Console.WriteLine($"    Tarifa: {tarifa}");
-        //                        break;
-        //                    case "valor":
-        //                        decimal.TryParse(campo.InnerText.Replace(",", "."), out valor);
-        //                        totalIva += valor;
-        //                        Console.WriteLine($"    Valor: {valor}");
-        //                        break;
-        //                }
-        //            }
-
-        //            // SOLO IVA (código 2)
-        //            if (codigo == "2")
-        //            {
-        //                // Si tarifa viene como 0, obtenerla del códigoPorcentaje
-        //                if (tarifa == 0)
-        //                {
-        //                    tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
-        //                    Console.WriteLine($"    Tarifa desde código {codigoPorcentaje}: {tarifa}%");
-        //                }
-
-        //                // Si tiene tarifa > 0, es CON IVA
-        //                if (tarifa > 0)
-        //                {
-        //                    totalConIva += baseImponible;
-
-        //                    if (porcIvaPrincipal == 0 && tarifa > 0)
-        //                    {
-        //                        porcIvaPrincipal = tarifa;
-        //                    }
-        //                    Console.WriteLine($"    Base CON IVA ({tarifa}%): +{baseImponible}");
-        //                }
-        //                else
-        //                {
-        //                    // Tarifa = 0, es SIN IVA
-        //                    totalSinIva += baseImponible;
-        //                    Console.WriteLine($"    Base SIN IVA: +{baseImponible}");
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    // ✅ ASIGNAR VALORES CORRECTAMENTE
-        //    docDax.Doc_totciva = totalConIva;        // Base CON IVA (25.62)
-        //    docDax.Doc_totsiva = totalSinIva;        // Base SIN IVA (0)
-        //    docDax.Doc_valoriva = totalIva;          // Total IVA (3.84)
-        //    docDax.Doc_porceniva = porcIvaPrincipal; // Porcentaje IVA (15)
-        //    docDax.BaseImp1 = totalConIva;           // ✅ BaseImp1 = base CON IVA (25.62)
-
-        //    Console.WriteLine($"  ✅ Resultados: ConIVA={totalConIva}, SinIVA={totalSinIva}, IVA={totalIva}, %IVA={porcIvaPrincipal}, BaseImp1={totalConIva}");
-        //}
-
         private static void importarImpuestosDoc(XmlNode childPago, AdcDoc docDax)
         {
-            if (childPago == null)
-            {
-                Console.WriteLine("  No hay nodo totalConImpuestos");
-                return;
-            }
+            if (childPago == null) return;
 
             decimal totalIva = 0;
             decimal porcIvaPrincipal = 0;
@@ -373,7 +223,6 @@ namespace leeDocXml
                                 decimal.TryParse(campo.InnerText.Replace(",", "."), out tarifa);
                                 break;
                             case "valor":
-                                // ✅ USAR EL VALOR EXACTO DEL XML (3.84)
                                 decimal.TryParse(campo.InnerText.Replace(",", "."), out valor);
                                 totalIva += valor;
                                 break;
@@ -383,22 +232,18 @@ namespace leeDocXml
                     if (codigo == "2")
                     {
                         if (tarifa == 0)
-                        {
                             tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
-                        }
 
                         if (porcIvaPrincipal == 0 && tarifa > 0)
-                        {
                             porcIvaPrincipal = tarifa;
-                        }
                     }
                 }
             }
 
-            // ✅ ASIGNAR VALORES DEL XML (NO RECALCULAR)
-            docDax.Doc_valoriva = totalIva;        // 3.84
-            docDax.Doc_porceniva = porcIvaPrincipal; // 15
+            docDax.Doc_valoriva = Math.Round(totalIva, 2);
+            docDax.Doc_porceniva = porcIvaPrincipal;
         }
+
         public static string GenerarCodigoIdentificacion(string identificacion, string tipoId)
         {
             if (string.IsNullOrEmpty(identificacion))
@@ -407,30 +252,22 @@ namespace leeDocXml
             string prefijo = ObtenerPrefijoSegunTipo(tipoId);
             string codigoBase = identificacion.Trim();
 
-            // ✅ LIMPIAR CARACTERES NO NUMÉRICOS (para RUC y Cédula)
-            // Pero para Pasaporte puede tener letras, así que no limpiamos todo
-
-            // ✅ SI ES RUC (13 dígitos), tomar primeros 10 dígitos
             if (tipoId == "04" && codigoBase.Length >= 13)
             {
-                // Solo tomar números para RUC
                 string soloNumeros = new string(codigoBase.Where(char.IsDigit).ToArray());
                 if (soloNumeros.Length >= 10)
                     codigoBase = soloNumeros.Substring(0, 10);
                 else
                     codigoBase = soloNumeros.PadRight(10, '0');
             }
-            // ✅ SI ES CÉDULA (10 dígitos), usar todos
             else if (tipoId == "05")
             {
-                // Solo tomar números para Cédula
                 string soloNumeros = new string(codigoBase.Where(char.IsDigit).ToArray());
                 if (soloNumeros.Length >= 10)
                     codigoBase = soloNumeros.Substring(0, 10);
                 else
                     codigoBase = soloNumeros.PadRight(10, '0');
             }
-            // ✅ SI ES PASAPORTE, tomar máximo 10 caracteres
             else if (tipoId == "06")
             {
                 if (codigoBase.Length > 10)
@@ -440,32 +277,25 @@ namespace leeDocXml
             }
             else
             {
-                // Por defecto, tomar primeros 10 caracteres
                 if (codigoBase.Length > 10)
                     codigoBase = codigoBase.Substring(0, 10);
             }
 
-            // ✅ EL CÓDIGO COMPLETO: PREFIJO + BASE (máximo 11 caracteres)
             string codigoCompleto = prefijo + codigoBase;
-
-            // ✅ ASEGURAR QUE NO SUPERE 15 CARACTERES (varchar(15))
             if (codigoCompleto.Length > 15)
                 codigoCompleto = codigoCompleto.Substring(0, 15);
 
             return codigoCompleto;
         }
 
-        /// <summary>
-        /// Obtiene el prefijo según el tipo de identificación
-        /// </summary>
         public static string ObtenerPrefijoSegunTipo(string tipoId)
         {
             switch (tipoId)
             {
-                case "04": return "R";  // RUC
-                case "05": return "C";  // Cédula
-                case "06": return "P";  // Pasaporte
-                default: return "R";    // Por defecto RUC
+                case "04": return "R";
+                case "05": return "C";
+                case "06": return "P";
+                default: return "R";
             }
         }
 
@@ -495,6 +325,8 @@ namespace leeDocXml
                             decimal porcIva = 0;
                             decimal valorIva = 0;
                             bool tieneIva = false;
+                            decimal subtotalSinDescuento = 0;
+                            decimal valorDescuento = 0;
 
                             for (int j = 0; j < child.ChildNodes.Count; j++)
                             {
@@ -514,13 +346,9 @@ namespace leeDocXml
                                         case "codigoAuxiliar":
                                             int ind = mValor.ToUpper().IndexOf("LOTE");
                                             if (ind >= 0)
-                                            {
                                                 class_AdcTra.Tra_NroLote = mValor;
-                                            }
                                             else
-                                            {
                                                 class_AdcTra.tra_codigoalterno = mValor;
-                                            }
                                             break;
 
                                         case "descripcion":
@@ -537,13 +365,15 @@ namespace leeDocXml
                                             break;
 
                                         case "descuento":
-                                            class_AdcTra.Tra_valordes = Convert.ToDecimal(mValor);
+                                            valorDescuento = Convert.ToDecimal(mValor);
+                                            class_AdcTra.Tra_valordes = Math.Round(valorDescuento, 2);
                                             break;
 
                                         case "precioTotalSinImpuesto":
                                             precioTotalSinImpuesto = Convert.ToDecimal(mValor);
-                                            class_AdcTra.Tra_prectot = precioTotalSinImpuesto;
-                                            Console.WriteLine($"  ✅ Base sin IVA: {precioTotalSinImpuesto}");
+                                            // ✅ Tra_prectot = SUBTOTAL CON DESCUENTO (redondeado a 2 decimales)
+                                            class_AdcTra.Tra_prectot = Math.Round(precioTotalSinImpuesto, 2);
+                                            Console.WriteLine($"  ✅ Base sin IVA (con descuento): {class_AdcTra.Tra_prectot}");
                                             break;
 
                                         case "impuestos":
@@ -561,9 +391,11 @@ namespace leeDocXml
                                                 class_AdcTra.Tra_sniva = tieneIva;
                                                 class_AdcTra.Tra_porceniva = porcIva;
                                                 class_AdcTra.Tra_valoriva = valorIva;
-                                                class_AdcTra.Tra_valor = precioTotalSinImpuesto + valorIva;
 
-                                                Console.WriteLine($"  ✅ Total línea: {class_AdcTra.Tra_valor}");
+                                                // ✅ Tra_valor = subtotal + IVA (redondeado a 2 decimales)
+                                                class_AdcTra.Tra_valor = Math.Round(precioTotalSinImpuesto + valorIva, 2);
+
+                                                Console.WriteLine($"  ✅ Total línea (redondeado): {class_AdcTra.Tra_valor}");
                                             }
                                             else
                                             {
@@ -585,10 +417,23 @@ namespace leeDocXml
                                 }
                             }
 
+                            // ✅ CALCULAR PORCENTAJE DE DESCUENTO
+                            // subtotalSinDescuento = cantidad * precioUnitario
+                            subtotalSinDescuento = class_AdcTra.Tra_cantidad * class_AdcTra.Tra_precuni;
+                            decimal descuentoPorcentaje = 0;
+                            if (subtotalSinDescuento > 0 && valorDescuento > 0)
+                            {
+                                descuentoPorcentaje = Math.Round((valorDescuento / subtotalSinDescuento) * 100, 2);
+                            }
+                            // ✅ Tra_porcendes = PORCENTAJE DE DESCUENTO (10.00)
+                            class_AdcTra.Tra_porcendes = descuentoPorcentaje;
+
+                            Console.WriteLine($"  📊 Descuento: %={descuentoPorcentaje}%, Valor={valorDescuento}");
+
                             if (class_AdcTra.Tra_valor == 0)
                             {
                                 Console.WriteLine($"  ⚠️ Tra_valor es 0, asignando default: {precioTotalSinImpuesto}");
-                                class_AdcTra.Tra_valor = precioTotalSinImpuesto;
+                                class_AdcTra.Tra_valor = Math.Round(precioTotalSinImpuesto, 2);
                                 class_AdcTra.Tra_sniva = false;
                                 class_AdcTra.Tra_porceniva = 0;
                                 class_AdcTra.Tra_valoriva = 0;
@@ -599,6 +444,8 @@ namespace leeDocXml
                             Console.WriteLine($"    Tra_porceniva: {class_AdcTra.Tra_porceniva}");
                             Console.WriteLine($"    Tra_valoriva: {class_AdcTra.Tra_valoriva}");
                             Console.WriteLine($"    Tra_valor: {class_AdcTra.Tra_valor}");
+                            Console.WriteLine($"    Tra_porcendes: {class_AdcTra.Tra_porcendes}");
+                            Console.WriteLine($"    Tra_valordes: {class_AdcTra.Tra_valordes}");
 
                             CalcularCostosParaArticulo(ref class_AdcTra, class_AdcDoc);
                             guardaDetalle(class_AdcTra, class_AdcDoc, mallaReferencia);
@@ -618,7 +465,6 @@ namespace leeDocXml
 
             Console.WriteLine("=== FIN IMPORTACIÓN DE DETALLES ===\n");
         }
-
 
         private static void ObtenerDatosIVA(XmlNode nodeImpuestos, ref decimal porcentaje, ref decimal valor, ref decimal baseImponible)
         {
@@ -675,9 +521,7 @@ namespace leeDocXml
                     if (codigo == "2")
                     {
                         if (tarifa == 0 && !string.IsNullOrEmpty(codigoPorcentaje))
-                        {
                             tarifa = obtenerTarifaDesdeCodigo(codigoPorcentaje);
-                        }
 
                         porcentaje = tarifa;
                         valor = val;
@@ -696,46 +540,40 @@ namespace leeDocXml
         {
             switch (cod)
             {
-                case "0": return 0;    // 0%
-                case "2": return 12;   // 12%
-                case "3": return 14;   // 14%
-                case "4": return 15;   // 15%
-                case "5": return 13;   // 13%
-                case "6": return 8;    // 8%
-                case "7": return 5;    // 5%
-                case "8": return 10;   // 10%
-                case "9": return 0;    // 0% - Exento
+                case "0": return 0;
+                case "2": return 12;
+                case "3": return 14;
+                case "4": return 15;
+                case "5": return 13;
+                case "6": return 8;
+                case "7": return 5;
+                case "8": return 10;
+                case "9": return 0;
                 default: return 0;
             }
         }
 
         private static void CalcularCostosParaArticulo(ref AdcTra adcTra, AdcDoc adcDoc)
         {
-            // Determinar si es artículo o servicio (podrías tener otra lógica aquí)
-            // Por ahora asumimos que si tiene código, es artículo
             bool esArticulo = !string.IsNullOrEmpty(adcTra.Tra_Codigo);
+
+            if (adcTra.Tra_quetipo == "A")
+                esArticulo = true;
+            else if (adcTra.Tra_quetipo == "S")
+                esArticulo = false;
 
             if (esArticulo)
             {
-                // Si es artículo, necesitas determinar el costo
-                // Opciones:
-                // 1. Buscar en tabla de artículos por código
-                // 2. Usar el precio unitario como costo (compras)
-                // 3. Calcular costo basado en alguna fórmula
-
-                // Por ahora, usar precio unitario como costo (para compras)
                 adcTra.Tra_costuni = adcTra.Tra_precuni;
                 adcTra.Tra_costtot = adcTra.Tra_costuni * adcTra.Tra_cantidad;
             }
             else
             {
-                // Para servicios, generalmente no hay costo de inventario
                 adcTra.Tra_costuni = 0;
                 adcTra.Tra_costtot = 0;
             }
         }
 
-        // Método importarImpuestosTra actualizado para devolver porcentaje
         public static decimal importarImpuestosTra(XmlNode childDetalle)
         {
             if (childDetalle == null) return 0;
@@ -753,37 +591,33 @@ namespace leeDocXml
                         case "codigo":
                             codigo = campo.InnerText;
                             break;
-
                         case "codigoPorcentaje":
                             codigoPorcentaje = campo.InnerText;
                             break;
-
                         case "tarifa":
                             decimal.TryParse(campo.InnerText, out tarifa);
                             break;
                     }
                 }
 
-                // IVA (código 2)
                 if (codigo == "2")
                 {
-                    // Si no viene tarifa explícita, calcularla del códigoPorcentaje
                     if (tarifa == 0 && !string.IsNullOrEmpty(codigoPorcentaje))
                     {
                         switch (codigoPorcentaje)
                         {
-                            case "0": return 0;    // 0%
-                            case "2": return 12;   // 12%
-                            case "3": return 14;   // 14%
-                            case "4": return 15;   // 15%
-                            case "5": return 13;   // 13%
-                            case "6": return 8;    // 8%
-                            case "7": return 5;    // 5%
-                            case "8": return 10;   // 10%
+                            case "0": return 0;
+                            case "2": return 12;
+                            case "3": return 14;
+                            case "4": return 15;
+                            case "5": return 13;
+                            case "6": return 8;
+                            case "7": return 5;
+                            case "8": return 10;
                             default: return 0;
                         }
                     }
-                    return tarifa; // Devuelve el porcentaje: 15, 5, etc.
+                    return tarifa;
                 }
             }
 
@@ -816,37 +650,35 @@ namespace leeDocXml
             mallaReferencia.Rows[ind].Cells["Cantidad"].Value = adcTra.Tra_cantidad;
             mallaReferencia.Rows[ind].Cells["PvUni"].Value = adcTra.Tra_precuni;
 
-            // ✅ IVA - ASIGNAR CORRECTAMENTE
+            // ✅ IVA
             mallaReferencia.Rows[ind].Cells["iva"].Value = adcTra.Tra_sniva;
-            mallaReferencia.Rows[ind].Cells["PorcDes"].Value = adcTra.Tra_valordes;
 
-            // ✅ CAMPOS DE IVA (porcentaje y valor)
+            // ✅ DESCUENTO - CORRECCIÓN
+            // Tra_porcendes = PORCENTAJE de descuento (10.00%)
+            // Tra_valordes = VALOR del descuento (0.12)
+            mallaReferencia.Rows[ind].Cells["PorcDes"].Value = adcTra.Tra_porcendes;  // ✅ AHORA ES EL PORCENTAJE
+
+            // ✅ CAMPOS DE IVA
             if (mallaReferencia.Columns.Contains("Tra_porceniva"))
-            {
                 mallaReferencia.Rows[ind].Cells["Tra_porceniva"].Value = adcTra.Tra_porceniva;
-            }
 
             if (mallaReferencia.Columns.Contains("Tra_valoriva"))
-            {
                 mallaReferencia.Rows[ind].Cells["Tra_valoriva"].Value = adcTra.Tra_valoriva;
-            }
 
-            // ✅ CAMPO VALOR TOTAL (base + IVA)
+            // ✅ Tra_prectot = SUBTOTAL CON DESCUENTO
+            if (mallaReferencia.Columns.Contains("Tra_prectot"))
+                mallaReferencia.Rows[ind].Cells["Tra_prectot"].Value = adcTra.Tra_prectot;
+
+            // ✅ Tra_valor = TOTAL (subtotal + IVA)
             if (mallaReferencia.Columns.Contains("Tra_valor"))
-            {
                 mallaReferencia.Rows[ind].Cells["Tra_valor"].Value = adcTra.Tra_valor;
-            }
 
-            // CAMPOS DE COSTO
+            // ✅ COSTOS
             if (mallaReferencia.Columns.Contains("Tra_costuni"))
-            {
                 mallaReferencia.Rows[ind].Cells["Tra_costuni"].Value = adcTra.Tra_costuni;
-            }
 
             if (mallaReferencia.Columns.Contains("Tra_costtot"))
-            {
                 mallaReferencia.Rows[ind].Cells["Tra_costtot"].Value = adcTra.Tra_costtot;
-            }
 
             mallaReferencia.Rows[ind].Cells["Lote"].Value = adcTra.Tra_NroLote;
             mallaReferencia.Rows[ind].Cells["Vence"].Value = adcTra.AuxVar1;
@@ -859,14 +691,11 @@ namespace leeDocXml
                 valConcepto = "A";
 
             if (!string.IsNullOrEmpty(strAux))
-            {
                 mallaReferencia.Rows[ind].Cells["codProductoPropio"].Value = strAux;
-            }
 
             mallaReferencia.Rows[ind].Cells["ConceptoProducto"].Value = valConcepto;
 
-            // ✅ DEBUG
-            Console.WriteLine($"  Fila {ind}: {adcTra.Tra_Codigo}, IVA={adcTra.Tra_sniva}, %IVA={adcTra.Tra_porceniva}, ValorIVA={adcTra.Tra_valoriva}, Total={adcTra.Tra_valor}");
+            Console.WriteLine($"  Fila {ind}: {adcTra.Tra_Codigo}, IVA={adcTra.Tra_sniva}, %IVA={adcTra.Tra_porceniva}, ValorIVA={adcTra.Tra_valoriva}, Total={adcTra.Tra_valor}, Desc%={adcTra.Tra_porcendes}, DescVal={adcTra.Tra_valordes}");
         }
 
         private static string articuloAdcom(string prodProveedor, string codProveedor, ref Boolean esConcepto)
@@ -882,7 +711,6 @@ namespace leeDocXml
             }
         }
 
-
         public static Boolean importardetallesAdicionalesTra(XmlNode childDetalle, AdcTra classAdctra)
         {
             if (childDetalle == null) return false;
@@ -890,7 +718,6 @@ namespace leeDocXml
             XmlNode child;
             if (childDetalle != null)
             {
-                //      'Obtenemos el Elemento nombre y valor               
                 for (int i = 0; i < childDetalle.ChildNodes.Count; i++)
                 {
                     try
@@ -901,29 +728,24 @@ namespace leeDocXml
                             string mNombre = child.Attributes.Item(j).InnerText;
                             string mValor = child.Attributes.Item(j + 1).InnerText;
 
-                            if (mNombre.ToUpper().IndexOf("LOTE_VENCE") >= 0 )
+                            if (mNombre.ToUpper().IndexOf("LOTE_VENCE") >= 0)
                             {
                                 try
                                 {
                                     int ind = mValor.IndexOf("_");
-                                    classAdctra.Tra_NroLote = mValor.Substring(0,ind);
+                                    classAdctra.Tra_NroLote = mValor.Substring(0, ind);
                                     classAdctra.AuxVar1 = mValor.Substring(ind + 1);
-                                    //detAdicionalLote_Vence" valor="170352_31/03/2020                                    
                                 }
-                                catch
-                                {
-                                }
-                            }                            
-                            else if (mNombre.ToUpper().IndexOf("LOTE") >= 0) { classAdctra.Tra_NroLote = mValor; }
+                                catch { }
+                            }
+                            else if (mNombre.ToUpper().IndexOf("LOTE") >= 0)
+                            {
+                                classAdctra.Tra_NroLote = mValor;
+                            }
                             else if (mNombre.ToUpper().IndexOf("CADUCA") >= 0 || mNombre.ToUpper().IndexOf("CADUCIDAD") >= 0 || mNombre.ToUpper().IndexOf("VENCIMIENTO") >= 0 || mNombre.ToUpper().IndexOf("VENCE") >= 0)
                             {
-                                try
-                                {
-                                    classAdctra.AuxVar1 = mValor;
-                                }
-                                catch
-                                {
-                                }
+                                try { classAdctra.AuxVar1 = mValor; }
+                                catch { }
                             }
                         }
                     }
@@ -932,7 +754,6 @@ namespace leeDocXml
             }
             return false;
         }
-
 
         public static void ImportarEmailAdicional(XmlDocument xmlDocFactura, AdcDoc class_AdcDoc)
         {
@@ -959,6 +780,4 @@ namespace leeDocXml
             }
         }
     }
-
 }
-

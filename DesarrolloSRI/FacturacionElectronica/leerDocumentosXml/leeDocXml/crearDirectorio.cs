@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DattCom;
 using sesDocElectronicos;
+using utilBasDatos;
 
 namespace leeDocXml
 {
@@ -15,34 +17,28 @@ namespace leeDocXml
         {
             try
             {
-                Identificacion adc = new Identificacion(datosEmpresa.strConxAdcom);
+                // ✅ 1. VERIFICAR SI EL PROVEEDOR YA EXISTE POR RUC
+                string sqlBuscar = "SELECT Codigo FROM Identificacion WHERE CedulaIdentidadRuc = '" + Ruc + "'";
+                DataTable dtExistente = utilBasDatos.utilBasDatos.leerTablas(sqlBuscar, datosEmpresa.strConxAdcom);
 
-                // ✅ 1. TIPO IDENTIFICACION: R, C o P (según el tipoId)
-                adc.TipoIdentificacion = impFac.ObtenerPrefijoSegunTipo(tipoId);
+                if (dtExistente != null && dtExistente.Rows.Count > 0)
+                {
+                    string codigoExistente = dtExistente.Rows[0]["Codigo"].ToString();
+                    Console.WriteLine($"✅ El proveedor ya existe con código: {codigoExistente}");
 
-                // ✅ 2. CEDULA IDENTIDAD RUC: el número completo
-                adc.CedulaIdentidadRuc = Ruc;
+                    // ✅ ACTUALIZAR DATOS DEL PROVEEDOR EXISTENTE
+                    ActualizarProveedor(codigoExistente, Ruc, nombre, direccion, email);
 
-                // ✅ 3. NOMBRES Y NOMBRE IMPRESION: en MAYÚSCULAS
-                adc.Nombres = nombre.ToUpper();
-                adc.NombreImpresion = nombre.ToUpper();
+                    // ✅ SI EL CÓDIGO EN LA BD ES DIFERENTE, ACTUALIZAR txtCodDirectorioAdcom
+                    if (codigo != codigoExistente)
+                    {
+                        // El código se actualizará en el formulario después
+                        Console.WriteLine($"⚠️ Código en formulario ({codigo}) vs BD ({codigoExistente})");
+                    }
+                    return; // Salir, ya existe
+                }
 
-                // ✅ 4. DOMICILIO
-                adc.Domicilio = direccion;
-
-                // ✅ 5. CORREO ELECTRÓNICO
-                adc.CorreoElectrónico = email;
-
-                // ✅ 6. TIPO PERSONA: J (Jurídica) o N (Natural)
-                adc.TipoPersona = "J";
-
-                // ✅ 7. ES PROVEEDOR
-                adc.EsProveedor = true;
-
-                if (tipoDoc == 1)
-                    adc.EsCliente = true;
-
-                // ✅ 8. GENERAR EL CÓDIGO CORRECTO (máximo 11 caracteres)
+                // ✅ 2. GENERAR EL CÓDIGO CORRECTO
                 string codigoCorrecto = impFac.GenerarCodigoIdentificacion(Ruc, tipoId);
 
                 // ✅ SI EL CÓDIGO QUE VIENE ES INCORRECTO, CORREGIRLO
@@ -52,9 +48,21 @@ namespace leeDocXml
                     codigo = codigoCorrecto;
                 }
 
-                // ✅ VERIFICAR SI EL CÓDIGO YA EXISTE
+                // ✅ 3. VERIFICAR SI EL CÓDIGO YA EXISTE (por si acaso)
                 if (ExisteCodigoEnDirectorio(codigo))
                 {
+                    // Si el código ya existe, buscar el código existente por RUC
+                    string sqlBuscarPorRuc = "SELECT Codigo FROM Identificacion WHERE CedulaIdentidadRuc = '" + Ruc + "'";
+                    DataTable dtRuc = utilBasDatos.utilBasDatos.leerTablas(sqlBuscarPorRuc, datosEmpresa.strConxAdcom);
+                    if (dtRuc != null && dtRuc.Rows.Count > 0)
+                    {
+                        string codigoExistente = dtRuc.Rows[0]["Codigo"].ToString();
+                        Console.WriteLine($"✅ El proveedor ya existe con código: {codigoExistente}");
+                        ActualizarProveedor(codigoExistente, Ruc, nombre, direccion, email);
+                        return;
+                    }
+
+                    // Si no existe por RUC pero sí por código, generar código único
                     int contador = 1;
                     string codigoUnico = codigo;
                     while (ExisteCodigoEnDirectorio(codigoUnico))
@@ -67,22 +75,55 @@ namespace leeDocXml
                     Console.WriteLine($"Código duplicado, usando: {codigo}");
                 }
 
-                adc.Codigo = codigo;
+                // ✅ 4. CREAR NUEVO REGISTRO
+                Identificacion adc = new Identificacion(datosEmpresa.strConxAdcom);
 
-                // ✅ 9. COD GRABO: usuario "impXML"
+                adc.TipoIdentificacion = impFac.ObtenerPrefijoSegunTipo(tipoId);
+                adc.CedulaIdentidadRuc = Ruc;
+                adc.Nombres = nombre.ToUpper();
+                adc.NombreImpresion = nombre.ToUpper();
+                adc.Domicilio = direccion;
+                adc.CorreoElectrónico = email;
+                adc.TipoPersona = "J";
+                adc.EsProveedor = true;
+                if (tipoDoc == 1)
+                    adc.EsCliente = true;
+                adc.Codigo = codigo;
                 adc.CodGrabo = "impXML";
 
-                // ✅ 10. CREAR EL REGISTRO
                 adc.Crear();
 
-                // ✅ CREAR REGISTRO EN DaxDocProov
+                // ✅ 5. CREAR REGISTRO EN DaxDocProov
                 CrearDaxDocProov(codigo);
 
-                Console.WriteLine($"Proveedor creado: {codigo} para ID: {Ruc}, Tipo: {tipoId}");
+                Console.WriteLine($"✅ Proveedor creado: {codigo} para ID: {Ruc}, Tipo: {tipoId}");
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error al grabar registro en directorio: {ex.Message}", ex);
+            }
+        }
+        /// <summary>
+        /// Actualiza los datos de un proveedor existente
+        /// </summary>
+        private static void ActualizarProveedor(string codigo, string Ruc, string nombre, string direccion, string email)
+        {
+            try
+            {
+                string sqlUpdate = $@"
+                    UPDATE Identificacion SET 
+                        Nombres = '{nombre.ToUpper()}',
+                        NombreImpresion = '{nombre.ToUpper()}',
+                        Domicilio = '{direccion}',
+                        CorreoElectrónico = '{email}'
+                    WHERE Codigo = '{codigo}'";
+
+                utilBasDatos.utilBasDatos.ejecutarComandoSql(sqlUpdate, datosEmpresa.strConxAdcom);
+                Console.WriteLine($"✅ Proveedor actualizado: {codigo}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"⚠️ Error al actualizar proveedor: {ex.Message}");
             }
         }
 
@@ -91,10 +132,14 @@ namespace leeDocXml
             try
             {
                 string ssql = "SELECT COUNT(*) FROM Identificacion WHERE Codigo = '" + codigo + "'";
-                using (SqlCommand cmd = new SqlCommand(ssql, new SqlConnection(datosEmpresa.strConxAdcom)))
+                using (SqlConnection conn = new SqlConnection(datosEmpresa.strConxAdcom))
                 {
-                    int count = (int)cmd.ExecuteScalar();
-                    return count > 0;
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(ssql, conn))
+                    {
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        return count > 0;
+                    }
                 }
             }
             catch
@@ -107,6 +152,16 @@ namespace leeDocXml
         {
             try
             {
+                // Verificar si ya existe en DaxDocProov
+                string sqlVerificar = "SELECT COUNT(*) FROM DaxDocProov WHERE idProveedor = '" + idProveedor + "'";
+                DataTable dt = utilBasDatos.utilBasDatos.leerTablas(sqlVerificar, datosEmpresa.strConxAdcom);
+
+                if (dt != null && dt.Rows.Count > 0 && Convert.ToInt32(dt.Rows[0][0]) > 0)
+                {
+                    Console.WriteLine($"✅ DaxDocProov ya existe para: {idProveedor}");
+                    return;
+                }
+
                 DaxDocProov docProov = new DaxDocProov(datosEmpresa.strConxAdcom);
                 docProov.idProveedor = idProveedor;
                 docProov.idDocProveedor = "01";
@@ -115,11 +170,11 @@ namespace leeDocXml
                 docProov.unCodigo = "N";
                 docProov.Crear();
 
-                Console.WriteLine($"DaxDocProov creado para: {idProveedor}");
+                Console.WriteLine($"✅ DaxDocProov creado para: {idProveedor}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error creando DaxDocProov: {ex.Message}");
+                Console.WriteLine($"⚠️ Error creando DaxDocProov: {ex.Message}");
             }
         }
     }

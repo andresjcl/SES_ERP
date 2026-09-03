@@ -1340,118 +1340,7 @@ namespace DctosEmi
 			return true;
 		}
 
-		//    private Boolean grabarDocumento()
-		//    {
-		//        malla.EndEdit();
-		//        Boolean RESP = true;
-
-		//        string res = "";
-		//        if (debeActualizarContacto)
-		//        {
-		//            if (MessageBox.Show("Se han cambiado datos del cliente, confirma Actualizar el registro ?", "Actualizar datos de Cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-		//            {
-		//                debeActualizarContacto = false;
-		//                ActualizarDatosCliente();
-		//            }
-		//        }
-		//        try
-		//        {
-		//            if (idDocumentoActual.idClave == 0)
-		//            {
-		//                res = datADCDOC.Crear();
-
-		//                idDocumentoActual.idClave = Convert.ToDouble(datADCDOC.IdClaveDoc);
-		//                idDocumentoActual.numero = Convert.ToDouble(datADCDOC.Doc_numero);
-		//                idDocumentoActual.Sucursal = datADCDOC.Doc_sucursal;
-		//                idDocumentoActual.Tipo = datADCDOC.Opc_documento;
-		//                txtnumero.Text = datADCDOC.Doc_numero.ToString();
-
-		//                actualizaDatosPagos();
-		//                if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
-		//                string tipDoc = cmbDocumento.SelectedValue.ToString();
-
-		//                clasePagos.guardarPagosDocumento("ADCPAG");
-		//                AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntCrear, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
-
-		//}
-		//            else
-		//            {
-		//                res = datADCDOC.Actualizar();
-		//                if (res.Substring(0, 3) != "ERR") { grabarAdctra(); }
-		//                actualizaDatosPagos();
-		//                clasePagos.guardarPagosDocumento("ADCPAG");
-		//                AuditSis.registrar.registraEventoDoc(datosEmpresa.strConxAdcom, datosEmpresa.codEmpresa.ToString(), datosEmpresa.usr, datosEmpresa.sistema, Environment.MachineName, AuditSis.registrar.EvntModifica, idDocumentoActual.Sucursal, idDocumentoActual.Tipo, idDocumentoActual.numero.ToString(), datADCDOC.Doc_valor.ToString());
-		//            }
-		//        }
-		//        catch (Exception ee)
-		//        {
-		//            res = "ERR " + ee.Message;
-		//        }
-		//        if (res.Substring(0, 3) == "ERR")
-		//        {
-		//            MessageBox.Show("EL DOCUMENTO NO FUE GRABADO CORRECTAMENTE \n" + res);
-		//            RESP = false;
-		//        }
-		//        else
-		//        {
-		//            if (txtCodigoRet.Text != "332" && txtCodigoRet.TextLength == 0)
-		//            {
-		//                if (MessageBox.Show("Desea registrar la retención al proveedor ? ", "Registrar retención por factura", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-		//                {
-		//                    //IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocumentoActual, false);
-		//                    //prog.ShowDialog();
-		//                    //prog.Dispose();
-
-		//                    ClassDoc.idDocumento idDocRetencion = new ClassDoc.idDocumento();
-		//                    idDocRetencion.idClave = idDocumentoActual.idClave;
-		//                    idDocRetencion.numero = idDocumentoActual.numero;
-		//                    idDocRetencion.Sucursal = idDocumentoActual.Sucursal;
-		//                    idDocRetencion.Tipo = idDocumentoActual.Tipo;
-		//                    idDocRetencion.familia = idDocumentoActual.familia;
-		//                    idDocRetencion.fecha = idDocumentoActual.fecha;
-		//                    idDocRetencion.Serie = idDocumentoActual.Serie;
-
-		//                    IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocRetencion, false);
-		//                    prog.ShowDialog();
-		//                    prog.Dispose();
-		//                }
-		//            }
-		//            if (txtCodigoRet.Text == "332" && txtCodigoRet.TextLength > 1)
-		//            {
-		//                if (MessageBox.Show("El código ingresado en el codigo de retencion no es el 332 desea continuar y registrar la retención al proveedor?", "Registrar retención por factura", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-		//                {
-		//                    //IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP","RTP",1, idDocumentoActual, false);
-		//                    //prog.ShowDialog();
-		//                    //prog.Dispose();
-
-		//                    // Crear una copia del idDocumentoActual para pasarlo a la retención
-		//                    ClassDoc.idDocumento idDocRetencion = new ClassDoc.idDocumento();
-		//                    idDocRetencion.idClave = idDocumentoActual.idClave;
-		//                    idDocRetencion.numero = idDocumentoActual.numero;
-		//                    idDocRetencion.Sucursal = idDocumentoActual.Sucursal;
-		//                    idDocRetencion.Tipo = idDocumentoActual.Tipo;
-		//                    idDocRetencion.familia = idDocumentoActual.familia;
-		//                    idDocRetencion.fecha = idDocumentoActual.fecha;
-		//                    idDocRetencion.Serie = idDocumentoActual.Serie;
-
-		//                    IvaRett.MantRetencion prog = new IvaRett.MantRetencion("RTP", "RTP", 1, idDocRetencion, false);
-		//                    prog.ShowDialog();
-		//                    prog.Dispose();
-		//                }
-
-		//            }
-
-
-		//        }
-		//        return RESP;
-		//    }
-
-
-
-		// ========================================================
-		// MÉTODO PARA ABRIR RETENCIÓN
-		// ========================================================
-
+		
 
 		private Boolean grabarDocumento()
 		{
@@ -1696,15 +1585,10 @@ namespace DctosEmi
 			grabMallTra.grabarMallaAdctra(malla, datADCDOC,datosEmpresa.strConxAdcom);
 		}
 
-		//private void totalizar()
-		//{
-		//	if (malla.Rows.Count < 1) return;		
-		//	totalesDocumento = new DctosEmi.docTotals();			
-		//	edTotal.Text = Convert.ToString(totalesDocumento.totalizar(malla, ivaM, claseDescuentos, clasePagos, propiedadesDoc, valoresPredefinidosEmpresa.nroDigitosEnPrecios, valoresPredefinidosEmpresa.nroDigitosEnCostos));
-		//	presentarTotales();		
-		//	btnPagos.Enabled = (totalesDocumento.TotVta > 0) ;
 
-		//}
+
+
+
 
 		//private void totalizar()
 		//{
@@ -1712,58 +1596,137 @@ namespace DctosEmi
 
 		//	totalesDocumento = new DctosEmi.docTotals();
 
-		//	edTotal.Text = Convert.ToString(
-		//		totalesDocumento.totalizar(
-		//			malla,
-		//			ivaM,
-		//			claseDescuentos,
-		//			clasePagos,
-		//			propiedadesDoc,
-		//			valoresPredefinidosEmpresa.nroDigitosEnPrecios,
-		//			valoresPredefinidosEmpresa.nroDigitosEnCostos
-		//		)
-		//	);
-
 		//	decimal base0 = 0;
 		//	decimal base5 = 0;
 		//	decimal base8 = 0;
 		//	decimal base15 = 0;
 
+		//	// ✅ Variables para totales por tipo (Artículo/Servicio)
+		//	decimal totArtCIva = 0;
+		//	decimal totArtSIva = 0;
+		//	decimal totSerCIva = 0;
+		//	decimal totSerSIva = 0;
+
 		//	foreach (DataGridViewRow row in malla.Rows)
 		//	{
-		//		if (row.Cells["Tra_PorcenIva"].Value == null) continue;
+		//		if (row.IsNewRow) continue;
 
-		//		decimal baseLinea = Convert.ToDecimal(row.Cells["Tra_PrecTot"].Value);
-		//		decimal porcIva = Convert.ToDecimal(row.Cells["Tra_PorcenIva"].Value);
+		//		if (row.Cells["Tra_PorcenIva"].Value == null ||
+		//			row.Cells["Tra_PorcenIva"].Value == DBNull.Value)
+		//			continue;
 
+		//		if (row.Cells["Tra_PrecTot"].Value == null ||
+		//			row.Cells["Tra_PrecTot"].Value == DBNull.Value)
+		//			continue;
+
+		//		if (row.Cells["Tra_quetipo"].Value == null ||
+		//			row.Cells["Tra_quetipo"].Value == DBNull.Value)
+		//			continue;
+
+		//		decimal baseLinea;
+		//		decimal porcIva;
+
+		//		if (!decimal.TryParse(row.Cells["Tra_PrecTot"].Value.ToString(), out baseLinea))
+		//			continue;
+
+		//		if (!decimal.TryParse(row.Cells["Tra_PorcenIva"].Value.ToString(), out porcIva))
+		//			continue;
+
+		//		// ✅ REDONDEAR BASE LINEA A 2 DECIMALES
+		//		baseLinea = Math.Round(baseLinea, 2);
+
+		//		// ✅ Determinar si es Artículo o Servicio
+		//		bool esArticulo = row.Cells["Tra_quetipo"].Value.ToString().ToUpper() == "A";
+		//		bool tieneIva = (porcIva > 0);
+
+		//		// ✅ Acumular por tipo
+		//		if (esArticulo)
+		//		{
+		//			if (tieneIva)
+		//				totArtCIva += baseLinea;
+		//			else
+		//				totArtSIva += baseLinea;
+		//		}
+		//		else
+		//		{
+		//			if (tieneIva)
+		//				totSerCIva += baseLinea;
+		//			else
+		//				totSerSIva += baseLinea;
+		//		}
+
+		//		// ✅ Acumular por porcentaje de IVA
 		//		if (porcIva == 0)
 		//			base0 += baseLinea;
-
 		//		else if (porcIva == 5)
 		//			base5 += baseLinea;
-
 		//		else if (porcIva == 8)
 		//			base8 += baseLinea;
-
 		//		else if (porcIva == 15)
 		//			base15 += baseLinea;
 		//	}
 
+		//	// ✅ REDONDEAR BASES A 2 DECIMALES
+		//	base0 = Math.Round(base0, 2);
+		//	base5 = Math.Round(base5, 2);
+		//	base8 = Math.Round(base8, 2);
+		//	base15 = Math.Round(base15, 2);
+
+		//	// ✅ REDONDEAR TOTALES POR TIPO
+		//	totArtCIva = Math.Round(totArtCIva, 2);
+		//	totArtSIva = Math.Round(totArtSIva, 2);
+		//	totSerCIva = Math.Round(totSerCIva, 2);
+		//	totSerSIva = Math.Round(totSerSIva, 2);
+
+		//	// ✅ CALCULAR IVAS REDONDEADOS A 2 DECIMALES
 		//	decimal iva5 = Math.Round(base5 * 0.05m, 2);
 		//	decimal iva8 = Math.Round(base8 * 0.08m, 2);
 		//	decimal iva15 = Math.Round(base15 * 0.15m, 2);
 
+		//	// ✅ TOTALES REDONDEADOS A 2 DECIMALES
+		//	decimal subtotalConIva = Math.Round(base5 + base8 + base15, 2);
+		//	decimal totalIva = Math.Round(iva5 + iva8 + iva15, 2);
+		//	decimal totalConIva = Math.Round(subtotalConIva + totalIva, 2);
+		//	decimal totalGeneral = Math.Round(totalConIva + base0, 2);
+
+		//	// ✅ ASIGNAR A totalesDocumento
 		//	totalesDocumento.SubTotalSIva = base0;
 		//	totalesDocumento.TotVta5 = base5;
 		//	totalesDocumento.TotVta8 = base8;
 		//	totalesDocumento.TotVta15 = base15;
-
 		//	totalesDocumento.TotIva5 = iva5;
 		//	totalesDocumento.TotIva8 = iva8;
 		//	totalesDocumento.TotIva15 = iva15;
+		//	totalesDocumento.Subtotalciva = subtotalConIva;
+		//	totalesDocumento.TotIva = totalIva;
+		//	totalesDocumento.TotCiva = totalConIva;
+		//	totalesDocumento.TotVta = totalGeneral;
+
+		//	// ✅ ASIGNAR TOTALES POR TIPO
+		//	totalesDocumento.TotArtCIva = totArtCIva;
+		//	totalesDocumento.TotArtSIva = totArtSIva;
+		//	totalesDocumento.TotSerCIva = totSerCIva;
+		//	totalesDocumento.TotSerSIva = totSerSIva;
+
+		//	// ✅ ACTUALIZAR DATADCDOC CON VALORES REDONDEADOS
+		//	if (datADCDOC != null)
+		//	{
+		//		datADCDOC.Doc_totciva = subtotalConIva;        // 25.62
+		//		datADCDOC.Doc_totsiva = base0;                 // 0.00
+		//		datADCDOC.Doc_valoriva = totalIva;             // 3.84
+		//		datADCDOC.Doc_valor = totalGeneral;            // 29.46
+		//		datADCDOC.Doc_valorabon = totalGeneral;        // 29.46
+		//		datADCDOC.Doc_TotArtCIva = totArtCIva;         // 19.98
+		//		datADCDOC.Doc_TotArtSIva = totArtSIva;         // 0.00
+		//		datADCDOC.Doc_TotSerCIva = totSerCIva;         // 5.64
+		//		datADCDOC.Doc_TotSerSIva = totSerSIva;         // 0.00
+		//		datADCDOC.BaseImp1 = subtotalConIva;            // 25.62
+		//	}
+
+		//	// ✅ Actualizar edTotal con el valor redondeado
+		//	edTotal.Text = totalGeneral.ToString("#,0.00");
 
 		//	presentarTotales();
-
 		//	btnPagos.Enabled = (totalesDocumento.TotVta > 0);
 		//}
 
@@ -1774,48 +1737,66 @@ namespace DctosEmi
 
 			totalesDocumento = new DctosEmi.docTotals();
 
-			edTotal.Text = Convert.ToString(
-				totalesDocumento.totalizar(
-					malla,
-					ivaM,
-					claseDescuentos,
-					clasePagos,
-					propiedadesDoc,
-					valoresPredefinidosEmpresa.nroDigitosEnPrecios,
-					valoresPredefinidosEmpresa.nroDigitosEnCostos
-				)
-			);
-
 			decimal base0 = 0;
 			decimal base5 = 0;
 			decimal base8 = 0;
 			decimal base15 = 0;
 
+			// ✅ Variables para totales por tipo (Artículo/Servicio)
+			decimal totArtCIva = 0;
+			decimal totArtSIva = 0;
+			decimal totSerCIva = 0;
+			decimal totSerSIva = 0;
+
 			foreach (DataGridViewRow row in malla.Rows)
 			{
-				// Verificar si la fila es nueva o está vacía
 				if (row.IsNewRow) continue;
 
-				// Verificar que la celda Tra_PorcenIva no sea null
 				if (row.Cells["Tra_PorcenIva"].Value == null ||
 					row.Cells["Tra_PorcenIva"].Value == DBNull.Value)
 					continue;
 
-				// Verificar que la celda Tra_PrecTot no sea null o DBNull
 				if (row.Cells["Tra_PrecTot"].Value == null ||
 					row.Cells["Tra_PrecTot"].Value == DBNull.Value)
+					continue;
+
+				if (row.Cells["Tra_quetipo"].Value == null ||
+					row.Cells["Tra_quetipo"].Value == DBNull.Value)
 					continue;
 
 				decimal baseLinea;
 				decimal porcIva;
 
-				// Intentar convertir con TryParse para mayor seguridad
 				if (!decimal.TryParse(row.Cells["Tra_PrecTot"].Value.ToString(), out baseLinea))
 					continue;
 
 				if (!decimal.TryParse(row.Cells["Tra_PorcenIva"].Value.ToString(), out porcIva))
 					continue;
 
+				// ✅ REDONDEAR BASE LINEA A 2 DECIMALES
+				baseLinea = Math.Round(baseLinea, 2);
+
+				// ✅ Determinar si es Artículo o Servicio
+				bool esArticulo = row.Cells["Tra_quetipo"].Value.ToString().ToUpper() == "A";
+				bool tieneIva = (porcIva > 0);
+
+				// ✅ Acumular por tipo
+				if (esArticulo)
+				{
+					if (tieneIva)
+						totArtCIva += baseLinea;
+					else
+						totArtSIva += baseLinea;
+				}
+				else
+				{
+					if (tieneIva)
+						totSerCIva += baseLinea;
+					else
+						totSerSIva += baseLinea;
+				}
+
+				// ✅ Acumular por porcentaje de IVA
 				if (porcIva == 0)
 					base0 += baseLinea;
 				else if (porcIva == 5)
@@ -1826,24 +1807,69 @@ namespace DctosEmi
 					base15 += baseLinea;
 			}
 
+			// ✅ REDONDEAR BASES A 2 DECIMALES
+			base0 = Math.Round(base0, 2);
+			base5 = Math.Round(base5, 2);
+			base8 = Math.Round(base8, 2);
+			base15 = Math.Round(base15, 2);
+
+			// ✅ REDONDEAR TOTALES POR TIPO
+			totArtCIva = Math.Round(totArtCIva, 2);
+			totArtSIva = Math.Round(totArtSIva, 2);
+			totSerCIva = Math.Round(totSerCIva, 2);
+			totSerSIva = Math.Round(totSerSIva, 2);
+
+			// ✅ CALCULAR IVAS REDONDEADOS A 2 DECIMALES
 			decimal iva5 = Math.Round(base5 * 0.05m, 2);
 			decimal iva8 = Math.Round(base8 * 0.08m, 2);
 			decimal iva15 = Math.Round(base15 * 0.15m, 2);
 
+			// ✅ TOTALES REDONDEADOS A 2 DECIMALES
+			decimal subtotalConIva = Math.Round(base5 + base8 + base15, 2);
+			decimal totalIva = Math.Round(iva5 + iva8 + iva15, 2);
+			decimal totalConIva = Math.Round(subtotalConIva + totalIva, 2);
+			decimal totalGeneral = Math.Round(totalConIva + base0, 2);
+
+			// ✅ ASIGNAR A totalesDocumento
 			totalesDocumento.SubTotalSIva = base0;
 			totalesDocumento.TotVta5 = base5;
 			totalesDocumento.TotVta8 = base8;
 			totalesDocumento.TotVta15 = base15;
-
 			totalesDocumento.TotIva5 = iva5;
 			totalesDocumento.TotIva8 = iva8;
 			totalesDocumento.TotIva15 = iva15;
+			totalesDocumento.Subtotalciva = subtotalConIva;
+			totalesDocumento.TotIva = totalIva;
+			totalesDocumento.TotCiva = totalConIva;
+			totalesDocumento.TotVta = totalGeneral;
+
+			// ✅ ASIGNAR TOTALES POR TIPO
+			totalesDocumento.TotArtCIva = totArtCIva;
+			totalesDocumento.TotArtSIva = totArtSIva;
+			totalesDocumento.TotSerCIva = totSerCIva;
+			totalesDocumento.TotSerSIva = totSerSIva;
+
+			// ✅ ACTUALIZAR DATADCDOC CON VALORES REDONDEADOS
+			if (datADCDOC != null)
+			{
+				datADCDOC.Doc_totciva = subtotalConIva;
+				datADCDOC.Doc_totsiva = base0;
+				datADCDOC.Doc_valoriva = totalIva;
+				datADCDOC.Doc_valor = totalGeneral;
+				datADCDOC.Doc_valorabon = totalGeneral;
+				datADCDOC.Doc_TotArtCIva = totArtCIva;
+				datADCDOC.Doc_TotArtSIva = totArtSIva;
+				datADCDOC.Doc_TotSerCIva = totSerCIva;
+				datADCDOC.Doc_TotSerSIva = totSerSIva;
+				datADCDOC.BaseImp1 = subtotalConIva;
+			}
+
+			// ✅ Actualizar edTotal con el valor redondeado
+			edTotal.Text = totalGeneral.ToString("#,0.00");
 
 			presentarTotales();
-
 			btnPagos.Enabled = (totalesDocumento.TotVta > 0);
 		}
-
 
 		private void presentarTotales()
 		{

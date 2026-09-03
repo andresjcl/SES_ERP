@@ -1201,22 +1201,149 @@ namespace DctosEmi
             datADCDOC.ProductoProduccion = "";            // ProductoProduccion.Text
             datADCDOC.BaseImp1 = formulario.totalesDocumento.Subtotalciva;
             datADCDOC.ValorImp1 = formulario.totalesDocumento.TotImp1;
-            //datADCDOC.PorcImp1 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje1);
-
-            //datADCDOC.BaseImp2 = totalesDocumento.Subtotalciva2;
-            //datADCDOC.ValorImp2 = formulario.totalesDocumento.TotImp2;
-            //datADCDOC.PorcImp2 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje2);
-
-            //datADCDOC.BaseImp3 = totalesDocumento.Subtotalciva3;
-            //datADCDOC.ValorImp3 = formulario.totalesDocumento.TotImp2;
-            //datADCDOC.PorcImp3 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje2);
-
-            //datADCDOC.FacDesde = FDesde.Value;
-            //datADCDOC.FacDesde = FDesde.Value;
-            //datADCDOC.FacDesde = FDesde.Value;
-            //datADCDOC.FacHasta = FHasta.Value;
-            //datADCDOC.TipoPeriodo = "";
+            
         }
+        //internal void moverDatosAclase(FormFactProveedor formulario, ClassDoc.AdcDoc datADCDOC)
+        //{
+        //    if (datADCDOC == null) return;
+        //    datADCDOC.Doc_sucursal = datosEmpresa.suc;
+        //    datADCDOC.Doc_Bodega = formulario.cmbBodega.SelectedValue.ToString();
+        //    datADCDOC.Opc_documento = formulario.cmbDocumento.SelectedValue.ToString();
+        //    datADCDOC.Doc_docnombre = formulario.cmbDocumento.Text;
+        //    datADCDOC.Doc_numero = Convert.ToDecimal(formulario.txtnumero.Text);
+        //    datADCDOC.Doc_fecha = Convert.ToDateTime(formulario.txtfecha.Text);
+        //    datADCDOC.Doc_codper = formulario.codProveedor;
+        //    datADCDOC.Doc_CiRuc = formulario.txtcedula.Text;
+        //    datADCDOC.Doc_NombreImp = formulario.txtnombrecliente.Text;
+        //    datADCDOC.Doc_Direccion = formulario.txtdireccion.Text;
+        //    datADCDOC.Doc_Telefono1 = formulario.txttelefono.Text;
+        //    datADCDOC.Doc_detalle = formulario.txtDetalle.Text;
+
+        //    //(formulario.cmbVendedor.SelectedValue != null) datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
+        //    if (formulario.cmbVendedor.SelectedValue != null) datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
+
+        //    //if (formulario.cmbVendedor.SelectedValue != null && !string.IsNullOrEmpty(formulario.cmbVendedor.SelectedValue.ToString()))
+        //    //{
+        //    //    datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
+        //    //}
+        //    //else
+        //    //{
+        //    //    // Asignar un valor por defecto o manejar el caso nulo
+        //    //    datADCDOC.Doc_venabre = string.Empty; // o el valor por defecto que necesites
+        //    //}
+
+        //    datADCDOC.Doc_DocSop = "";
+        //    datADCDOC.Doc_NumSop = 0;
+        //    datADCDOC.Doc_valor = Convert.ToDecimal(formulario.edTotal.Text);
+        //    datADCDOC.AuxVar9 = formulario.txtCorreElectronico.Text;
+
+        //    if (formulario.operacionEnCurso == 1)
+        //    {
+        //        datADCDOC.PuntoVta = valoresPredefinidosSucursal.nomPuntoVta;
+        //        datADCDOC.Doc_Hora = docUtils.DaxNow();
+        //        datADCDOC.Doc_Estado = 1;
+        //    }
+
+        //    datADCDOC.Doc_nombredes1 = formulario.claseDescuentos.nombreDes[0];
+        //    datADCDOC.Doc_nombredes2 = formulario.claseDescuentos.nombreDes[1];
+        //    datADCDOC.Doc_nombredes3 = formulario.claseDescuentos.nombreDes[2];
+
+        //    datADCDOC.Doc_porcendes1 = Convert.ToDecimal(formulario.claseDescuentos.porcentajeDes[0]);
+        //    datADCDOC.Doc_porcendes2 = Convert.ToDecimal(formulario.claseDescuentos.porcentajeDes[1]);
+        //    datADCDOC.Doc_porcendes3 = Convert.ToDecimal(formulario.claseDescuentos.porcentajeDes[2]);
+
+        //    datADCDOC.Doc_valordes1 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[0]); ;
+        //    datADCDOC.Doc_valordes2 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[1]);
+        //    datADCDOC.Doc_valordes3 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[2]);
+
+        //    datADCDOC.Doc_porceniva = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje1);
+
+        //    datADCDOC.Doc_NroLoteDoc = formulario.txtNroLote.Text;
+        //    datADCDOC.Doc_NroIdDoc = formulario.txtNroID.Text;
+        //    datADCDOC.Adi_TipoDocSri = formulario.propiedadesDoc.TipoSri;
+        //    datADCDOC.Adi_FechContab = formulario.dtFechaContabiliza.Value;
+        //    if (formulario.dtFechaContabiliza.Value < formulario.txtfecha.Value)
+        //            datADCDOC.Adi_FechContab = formulario.txtfecha.Value;
+        //    //datADCDOC.Adi_CodigoNSR = TexCodigoExoneraRetencion.Text
+
+        //    datADCDOC.Adi_CodigoNSR = formulario.txtCodigoRet.Text;
+        //    //try
+        //    //{
+        //    //    //datADCDOC.Adi_SustTrib = formulario.cmbSustentoTributario.SelectedValue.ToString();
+        //    //    datADCDOC.Adi_SustTrib = FormatearSustentoTributario(formulario.cmbSustentoTributario.SelectedValue.ToString());
+        //    //}
+        //    //catch { }
+
+        //    if (formulario.cmbSustentoTributario.SelectedValue != null)
+        //    {
+        //        datADCDOC.Adi_SustTrib = FormatearSustentoTributario(
+        //            formulario.cmbSustentoTributario.SelectedValue.ToString()
+        //        );
+        //    }
+        //    else
+        //    {
+        //        datADCDOC.Adi_SustTrib = "";
+        //    }
+        //    datADCDOC.Adi_NroAutSri = formulario.TextNroAutSri.Text;                   //TextNroAutSri
+        //    datADCDOC.NroAutorizacionSri = formulario.TextNroAutSri.Text;
+
+        //    //datADCDOC'.Adi_SNDevIva = IIf(DerechoIva.Value = 1, "S", "N")
+
+        //    datADCDOC.IdClaveDoc = Convert.ToDecimal(formulario.idDocumentoActual.idClave);
+        //    datADCDOC.IdClaveDocSop = 0;
+        //    datADCDOC.Doc_docnombre = formulario.cmbDocumento.Text;
+        //    datADCDOC.Doc_TipoDoc = formulario.propiedadesDoc.TipoDoc;
+        //    datADCDOC.Doc_FechaEfe = Convert.ToDateTime(formulario.txtfecha.Text);     //FechaVence.Value
+        //    datADCDOC.Doc_extension = "";
+        //    datADCDOC.Doc_codusu = datosEmpresa.usr;
+        //    datADCDOC.Doc_valoriva = formulario.totalesDocumento.TotIva;
+        //    datADCDOC.Doc_totciva = formulario.totalesDocumento.Subtotalciva; 
+        //    datADCDOC.Doc_totsiva = formulario.totalesDocumento.SubTotalSIva;
+        //    datADCDOC.Doc_valorabon = Convert.ToDecimal(formulario.clasePagos.totalContado);
+        //    datADCDOC.Doc_DepDes = "";
+        //    datADCDOC.Doc_TotDesArt = formulario.totalesDocumento.TotDesArt;
+        //    datADCDOC.Doc_TotDesSer = formulario.totalesDocumento.TotDesSer;
+        //    datADCDOC.Doc_TotArtCIva = formulario.totalesDocumento.TotArtCIva;
+        //    datADCDOC.Doc_TotArtSIva = formulario.totalesDocumento.TotArtSIva;
+        //    datADCDOC.Doc_TotSerCIva = formulario.totalesDocumento.TotSerCIva;
+        //    datADCDOC.Doc_TotSerSIva = formulario.totalesDocumento.TotSerSIva;
+        //    datADCDOC.Doc_TotAcf = formulario.totalesDocumento.TotAcf;
+        //    datADCDOC.Doc_Contado = formulario.totalesDocumento.ValorEfec;
+        //    datADCDOC.Doc_Oculto = formulario.propiedadesDoc.ClaveOculto;
+        //    datADCDOC.Doc_Contabilidad = formulario.propiedadesDoc.ClaveContable;
+        //    datADCDOC.Doc_Banco = Convert.ToInt16(formulario.propiedadesDoc.ClaveBanco);
+        //    datADCDOC.Doc_Inventario = Convert.ToInt16(formulario.propiedadesDoc.ClaveInventario);
+        //    datADCDOC.Doc_Ventas = Convert.ToInt16(formulario.propiedadesDoc.ClaveVentas);
+        //    datADCDOC.Doc_Compras = Convert.ToInt16(formulario.propiedadesDoc.ClaveCompras);
+        //    datADCDOC.Doc_Activo = Convert.ToInt16(formulario.propiedadesDoc.ClaveActivo);
+        //    datADCDOC.Doc_Adicional2 = 0;
+        //    datADCDOC.Doc_NumeroExterno = 0;
+        //    datADCDOC.IdClaveDocSop = Convert.ToDecimal(formulario.idDocumentoSoporte.idClave);
+        //    datADCDOC.Doc_FechaModifica = docUtils.DaxNow();
+        //    datADCDOC.doc_TotDesSiva = formulario.totalesDocumento.totdessiva;
+        //    datADCDOC.doc_TotDesCIva = formulario.totalesDocumento.totdesciva;
+
+        //    datADCDOC.ProductoProduccion = "";            // ProductoProduccion.Text
+        //    datADCDOC.BaseImp1 = formulario.totalesDocumento.Subtotalciva;
+        //    datADCDOC.ValorImp1 = formulario.totalesDocumento.TotImp1;
+        //    datADCDOC.PorcImp1 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje1);
+
+        //    //datADCDOC.BaseImp2 = totalesDocumento.Subtotalciva2;
+        //    datADCDOC.ValorImp2 = formulario.totalesDocumento.TotImp2;
+        //    datADCDOC.PorcImp2 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje2);
+
+        //    //datADCDOC.BaseImp3 = totalesDocumento.Subtotalciva3;
+        //    datADCDOC.ValorImp3 = formulario.totalesDocumento.TotImp2;
+        //    datADCDOC.PorcImp3 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje2);
+        //    datADCDOC.Doc_Contado = Convert.ToDecimal(formulario.clasePagos.totalContado);
+
+        //    //datADCDOC.FacDesde = FDesde.Value;
+        //    //datADCDOC.FacDesde = FDesde.Value;
+        //    //datADCDOC.FacDesde = FDesde.Value;
+        //    //datADCDOC.FacHasta = FHasta.Value;
+        //    //datADCDOC.TipoPeriodo = "";
+        //}
+
         internal void moverDatosAclase(FormFactProveedor formulario, ClassDoc.AdcDoc datADCDOC)
         {
             if (datADCDOC == null) return;
@@ -1233,18 +1360,8 @@ namespace DctosEmi
             datADCDOC.Doc_Telefono1 = formulario.txttelefono.Text;
             datADCDOC.Doc_detalle = formulario.txtDetalle.Text;
 
-            //(formulario.cmbVendedor.SelectedValue != null) datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
-            if (formulario.cmbVendedor.SelectedValue != null) datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
-
-            //if (formulario.cmbVendedor.SelectedValue != null && !string.IsNullOrEmpty(formulario.cmbVendedor.SelectedValue.ToString()))
-            //{
-            //    datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
-            //}
-            //else
-            //{
-            //    // Asignar un valor por defecto o manejar el caso nulo
-            //    datADCDOC.Doc_venabre = string.Empty; // o el valor por defecto que necesites
-            //}
+            if (formulario.cmbVendedor.SelectedValue != null)
+                datADCDOC.Doc_venabre = formulario.cmbVendedor.SelectedValue.ToString();
 
             datADCDOC.Doc_DocSop = "";
             datADCDOC.Doc_NumSop = 0;
@@ -1266,7 +1383,7 @@ namespace DctosEmi
             datADCDOC.Doc_porcendes2 = Convert.ToDecimal(formulario.claseDescuentos.porcentajeDes[1]);
             datADCDOC.Doc_porcendes3 = Convert.ToDecimal(formulario.claseDescuentos.porcentajeDes[2]);
 
-            datADCDOC.Doc_valordes1 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[0]); ;
+            datADCDOC.Doc_valordes1 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[0]);
             datADCDOC.Doc_valordes2 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[1]);
             datADCDOC.Doc_valordes3 = Convert.ToDecimal(formulario.claseDescuentos.valorDes[2]);
 
@@ -1277,16 +1394,9 @@ namespace DctosEmi
             datADCDOC.Adi_TipoDocSri = formulario.propiedadesDoc.TipoSri;
             datADCDOC.Adi_FechContab = formulario.dtFechaContabiliza.Value;
             if (formulario.dtFechaContabiliza.Value < formulario.txtfecha.Value)
-                    datADCDOC.Adi_FechContab = formulario.txtfecha.Value;
-            //datADCDOC.Adi_CodigoNSR = TexCodigoExoneraRetencion.Text
+                datADCDOC.Adi_FechContab = formulario.txtfecha.Value;
 
             datADCDOC.Adi_CodigoNSR = formulario.txtCodigoRet.Text;
-            //try
-            //{
-            //    //datADCDOC.Adi_SustTrib = formulario.cmbSustentoTributario.SelectedValue.ToString();
-            //    datADCDOC.Adi_SustTrib = FormatearSustentoTributario(formulario.cmbSustentoTributario.SelectedValue.ToString());
-            //}
-            //catch { }
 
             if (formulario.cmbSustentoTributario.SelectedValue != null)
             {
@@ -1298,29 +1408,36 @@ namespace DctosEmi
             {
                 datADCDOC.Adi_SustTrib = "";
             }
-            datADCDOC.Adi_NroAutSri = formulario.TextNroAutSri.Text;                   //TextNroAutSri
-            datADCDOC.NroAutorizacionSri = formulario.TextNroAutSri.Text;
 
-            //datADCDOC'.Adi_SNDevIva = IIf(DerechoIva.Value = 1, "S", "N")
+            datADCDOC.Adi_NroAutSri = formulario.TextNroAutSri.Text;
+            datADCDOC.NroAutorizacionSri = formulario.TextNroAutSri.Text;
 
             datADCDOC.IdClaveDoc = Convert.ToDecimal(formulario.idDocumentoActual.idClave);
             datADCDOC.IdClaveDocSop = 0;
             datADCDOC.Doc_docnombre = formulario.cmbDocumento.Text;
             datADCDOC.Doc_TipoDoc = formulario.propiedadesDoc.TipoDoc;
-            datADCDOC.Doc_FechaEfe = Convert.ToDateTime(formulario.txtfecha.Text);     //FechaVence.Value
+            datADCDOC.Doc_FechaEfe = Convert.ToDateTime(formulario.txtfecha.Text);
             datADCDOC.Doc_extension = "";
             datADCDOC.Doc_codusu = datosEmpresa.usr;
-            datADCDOC.Doc_valoriva = formulario.totalesDocumento.TotIva;
-            datADCDOC.Doc_totciva = formulario.totalesDocumento.TotCiva;
-            datADCDOC.Doc_totsiva = formulario.totalesDocumento.TotSiva;
-            datADCDOC.Doc_valorabon = Convert.ToDecimal(formulario.clasePagos.totalContado);
+
+            // ============================================
+            // ✅ CORRECCIÓN: ASIGNAR VALORES REDONDEADOS
+            // ============================================
+            datADCDOC.Doc_valoriva = Math.Round(formulario.totalesDocumento.TotIva, 2);
+            datADCDOC.Doc_totciva = Math.Round(formulario.totalesDocumento.Subtotalciva, 2);
+            datADCDOC.Doc_totsiva = Math.Round(formulario.totalesDocumento.SubTotalSIva, 2);
+            datADCDOC.Doc_valor = Math.Round(formulario.totalesDocumento.TotVta, 2);
+            datADCDOC.Doc_valorabon = Math.Round(Convert.ToDecimal(formulario.clasePagos.totalContado), 2);
+            datADCDOC.BaseImp1 = Math.Round(formulario.totalesDocumento.Subtotalciva, 2);
+
+            datADCDOC.Doc_TotArtCIva = Math.Round(formulario.totalesDocumento.TotArtCIva, 2);
+            datADCDOC.Doc_TotArtSIva = Math.Round(formulario.totalesDocumento.TotArtSIva, 2);
+            datADCDOC.Doc_TotSerCIva = Math.Round(formulario.totalesDocumento.TotSerCIva, 2);
+            datADCDOC.Doc_TotSerSIva = Math.Round(formulario.totalesDocumento.TotSerSIva, 2);
+
             datADCDOC.Doc_DepDes = "";
             datADCDOC.Doc_TotDesArt = formulario.totalesDocumento.TotDesArt;
             datADCDOC.Doc_TotDesSer = formulario.totalesDocumento.TotDesSer;
-            datADCDOC.Doc_TotArtCIva = formulario.totalesDocumento.TotArtCIva;
-            datADCDOC.Doc_TotArtSIva = formulario.totalesDocumento.TotArtSIva;
-            datADCDOC.Doc_TotSerCIva = formulario.totalesDocumento.TotSerCIva;
-            datADCDOC.Doc_TotSerSIva = formulario.totalesDocumento.TotSerSIva;
             datADCDOC.Doc_TotAcf = formulario.totalesDocumento.TotAcf;
             datADCDOC.Doc_Contado = formulario.totalesDocumento.ValorEfec;
             datADCDOC.Doc_Oculto = formulario.propiedadesDoc.ClaveOculto;
@@ -1337,24 +1454,16 @@ namespace DctosEmi
             datADCDOC.doc_TotDesSiva = formulario.totalesDocumento.totdessiva;
             datADCDOC.doc_TotDesCIva = formulario.totalesDocumento.totdesciva;
 
-            datADCDOC.ProductoProduccion = "";            // ProductoProduccion.Text
-            datADCDOC.BaseImp1 = formulario.totalesDocumento.Subtotalciva;
+            datADCDOC.ProductoProduccion = "";
             datADCDOC.ValorImp1 = formulario.totalesDocumento.TotImp1;
             datADCDOC.PorcImp1 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje1);
 
-            //datADCDOC.BaseImp2 = totalesDocumento.Subtotalciva2;
             datADCDOC.ValorImp2 = formulario.totalesDocumento.TotImp2;
             datADCDOC.PorcImp2 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje2);
 
-            //datADCDOC.BaseImp3 = totalesDocumento.Subtotalciva3;
             datADCDOC.ValorImp3 = formulario.totalesDocumento.TotImp2;
             datADCDOC.PorcImp3 = Convert.ToDecimal(formulario.claseImpuestos.impstoPorcentaje2);
-
-            //datADCDOC.FacDesde = FDesde.Value;
-            //datADCDOC.FacDesde = FDesde.Value;
-            //datADCDOC.FacDesde = FDesde.Value;
-            //datADCDOC.FacHasta = FHasta.Value;
-            //datADCDOC.TipoPeriodo = "";
+            datADCDOC.Doc_Contado = Convert.ToDecimal(formulario.clasePagos.totalContado);
         }
 
         private string FormatearSustentoTributario(string valor)
@@ -1454,10 +1563,17 @@ namespace DctosEmi
             datADCDOC.Doc_DepDes = "";
             datADCDOC.Doc_TotDesArt = formulario.totalesDocumento.TotDesArt;
             datADCDOC.Doc_TotDesSer = formulario.totalesDocumento.TotDesSer;
-            datADCDOC.Doc_TotArtCIva = formulario.totalesDocumento.TotArtCIva;
-            datADCDOC.Doc_TotArtSIva = formulario.totalesDocumento.TotArtSIva;
-            datADCDOC.Doc_TotSerCIva = formulario.totalesDocumento.TotSerCIva;
-            datADCDOC.Doc_TotSerSIva = formulario.totalesDocumento.TotSerSIva;
+
+            //datADCDOC.Doc_TotArtCIva = formulario.totalesDocumento.TotArtCIva;
+            //datADCDOC.Doc_TotArtSIva = formulario.totalesDocumento.TotArtSIva;
+            //datADCDOC.Doc_TotSerCIva = formulario.totalesDocumento.TotSerCIva;
+            //datADCDOC.Doc_TotSerSIva = formulario.totalesDocumento.TotSerSIva;
+
+            datADCDOC.Doc_TotArtCIva = Math.Round(formulario.totalesDocumento.TotArtCIva, 2);
+            datADCDOC.Doc_TotArtSIva = Math.Round(formulario.totalesDocumento.TotArtSIva, 2);
+            datADCDOC.Doc_TotSerCIva = Math.Round(formulario.totalesDocumento.TotSerCIva, 2);
+            datADCDOC.Doc_TotSerSIva = Math.Round(formulario.totalesDocumento.TotSerSIva, 2);
+
             datADCDOC.Doc_TotAcf = formulario.totalesDocumento.TotAcf;
             datADCDOC.Doc_Contado = formulario.totalesDocumento.ValorEfec;
             datADCDOC.Doc_Oculto = formulario.propiedadesDoc.ClaveOculto;

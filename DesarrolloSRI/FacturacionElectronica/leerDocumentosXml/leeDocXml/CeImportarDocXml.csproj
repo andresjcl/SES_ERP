@@ -147,6 +147,12 @@
   <ItemGroup>
     <Folder Include="Fakes\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\utilBasDatos\utilBasDatos.csproj">
+      <Project>{B59101CE-A306-4820-8F1E-A057012048C7}</Project>
+      <Name>utilBasDatos</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
